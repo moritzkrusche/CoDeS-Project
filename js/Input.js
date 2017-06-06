@@ -1,5 +1,3 @@
-const RUN_SPEED = 100;
-
 var camPanX = 0.0;
 var camPanY = 0.0;
 var shiftedLeft = 0;
@@ -21,22 +19,21 @@ function initInput() {
 }
 
 function setKeyHoldState(thisKey, setTo) {
-	if(thisKey == KEY_LEFT_ARROW) {
+	if(thisKey === KEY_LEFT_ARROW) {
 		holdLeft = setTo;
 	}
-	if(thisKey == KEY_RIGHT_ARROW) {
+	else if(thisKey === KEY_RIGHT_ARROW) {
 		holdRight = setTo;
 	}
-	if(thisKey == KEY_UP_ARROW) {
+	else if(thisKey === KEY_UP_ARROW) {
 		holdUp = setTo;
 	}
-	if(thisKey == KEY_DOWN_ARROW) {
+	else if(thisKey === KEY_DOWN_ARROW) {
 		holdDown = setTo;
 	}
 }
 
 function keyPressed(evt) {
-    sleep(50);
 	setKeyHoldState(evt.keyCode, true);
 	evt.preventDefault(); // without this, arrow keys scroll the browser!
 }

@@ -26,10 +26,8 @@ function setToDefault(level) {
             level[i][j][2] = 3;
             level[i][j][3] = 3;
             // level[i][j].push(1)
-
         }
     }
-
 }
 
 
@@ -59,14 +57,11 @@ function createRow(rowLength) {
 }
 
 
-
-columnParameters = [];
 rowParameters = [];
+columnParameters = [];
 
-plantColumn = [];
-soilRow = [];
-
-
+plantRow = [];
+soilColumn = [];
 
 
 function instantCamFollow() {
@@ -77,30 +72,30 @@ function instantCamFollow() {
     var newRow = tileGrid[0].slice();
     var newCol = tileGrid[0][0].slice();
 
-    var newColumnParameter = jStat.beta.sample(1,2);
     var newRowParameter = jStat.beta.sample(2,1);
-    var newSoilSeed = Math.floor(newRowParameter * 5);
-    var newPlantSeed = Math.floor(newColumnParameter * 5);
+    var newColumnParameter = jStat.beta.sample(1,2);
+    var newPlantSeed = Math.floor(newRowParameter * 5);
+    var newSoilSeed = Math.floor(newColumnParameter * 5);
 
     if(camPanX <= TILE_W) {
         shiftedLeft += TILE_W;
-        // console.log("ADD LEFT");
+        console.log("ADD LEFT");
         for (var eachRow=0; eachRow < numRows; eachRow++) {
             if (tileGrid[eachRow] !== undefined) {
                 // tileGrid[eachRow].unshift(createColumn());
-                unshiftArray(tileGrid[eachRow], createColumn());
+                unshiftArray(tileGrid[eachRow], newCol);
             }
         }
         unshiftArray(columnParameters, newColumnParameter);
-        unshiftArray(plantColumn, newPlantSeed);
+        unshiftArray(soilColumn, newSoilSeed);
     }
     if(camPanY <= TILE_H) {
         shiftedUp += TILE_H;
-        // console.log("ADD TOP");
+        console.log("ADD TOP");
         //tileGrid.unshift(createRow(numCols));
-        unshiftArray(tileGrid, createRow(numCols));
+        unshiftArray(tileGrid, newRow);
         unshiftArray(rowParameters, newRowParameter);
-        unshiftArray(soilRow, newSoilSeed);
+        unshiftArray(plantRow, newPlantSeed);
     }
     var maxPanRight = numCols * TILE_W - canvas.width;
     // console.log("MAX PAN RIGHT : ", maxPanRight);
@@ -109,22 +104,22 @@ function instantCamFollow() {
     // console.log("MAX PAN TOP : ", maxPanTop);
 
     if(camPanX >= maxPanRight) {
-    	// console.log("ADD RIGHT");
+    	console.log("ADD RIGHT");
 		for (var eachRow=0; eachRow < numRows; eachRow++) {
     		if (tileGrid[eachRow] !== undefined) {
-                tileGrid[eachRow].push(createColumn());
+                tileGrid[eachRow].push(newCol);
                 // tileGrid[eachRow][tileGrid[eachRow].length] = createColumn();
             }
 		}
         columnParameters.push(newColumnParameter);
-        plantColumn.push(newPlantSeed);
+        soilColumn.push(newSoilSeed);
     }
     if(camPanY >= maxPanTop) {
-        // console.log("ADD BOTTOM");
+        console.log("ADD BOTTOM");
         // tileGrid.push(createRow(numCols));
-        tileGrid[tileGrid.length] = createRow(numCols);
+        tileGrid[tileGrid.length] = newRow;
         rowParameters.push(newRowParameter);
-        soilRow.push(newSoilSeed);
+        plantRow.push(newPlantSeed);
     }
 }
 

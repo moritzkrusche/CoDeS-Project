@@ -1,12 +1,15 @@
 var canvas, canvasContext;
 
-var moving = true;
+var moving = false;
+var animating = false;
 var maxSteps = 70;
 
 var startX = 0;
 var startY = 0;
 
-var rotate = 0;
+const CHAR_W = 70;
+const CHAR_H = 100;
+
 var potatoeCount = 0;
 var potatoePrice = 100;
 var payoffCount = 0;
@@ -21,21 +24,26 @@ function getStart() {
 }
 
 function stepCounter() {
-    // sleep(500);
 	if (maxSteps > 0) {
         maxSteps -=1;
         potatoePrice *= discountFactor;
 	}
+    animating = false;
+    moving = false;
+}
+
+function stopAnimating () {
+    animating = false;
+    moving = false;
 }
 
 
-/*
 function myMove() {
     var elem = document.getElementById("animate");
     var pos = 0;
     var id = setInterval(frame, 5);
     function frame() {
-        if (pos == 350) {
+        if (pos === 350) {
             clearInterval(id);
         } else {
             pos++;
@@ -45,7 +53,21 @@ function myMove() {
     }
 }
 
-*/
+function elementMove() {
+    var elem = document.getElementById("animate");
+    var pos = 0;
+    var id = setInterval(frame, 5);
+    function frame() {
+        if (pos === 350) {
+            clearInterval(id);
+        } else {
+            pos++;
+            elem.style.top = pos + 'px';
+            elem.style.left = pos + 'px';
+        }
+    }
+}
+
 
 movementTracker = [];
 payoffTracker = [];
@@ -53,54 +75,69 @@ payoffTracker = [];
 function trackerMove() {
 	var nextX = trackerX;
 	var nextY = trackerY;
+    var directionX = 0;
+    var directionY = 0;
 
-	if(holdLeft) {
-        stepCounter();
-        rotate = 90 * Math.PI / 180;
-        //animateMove(left)
-        nextX += - RUN_SPEED;
-		holdLeft = false;
-        moving = true;
-        // moveLeft()
-        movementTracker.push("left")
-	}
-	else if(holdRight) {
-        stepCounter();
-        rotate = 270 * Math.PI / 180;
-        //animateMove(right)
-        nextX += RUN_SPEED;
-		holdRight = false;
-        moving = true;
-        // moveRight()
-        movementTracker.push("right")
-	}
-	else if(holdUp) {
-        stepCounter();
-        rotate = 180 * Math.PI / 180;
-        //animateMove(up)
-        nextY += -RUN_SPEED;
-		holdUp = false;
-        moving = true;
-        // moveUp()
-        movementTracker.push("up")
-	}
-	else if(holdDown) {
-        stepCounter();
-        rotate = 0;
-        //animateMove(down)
-        nextY += RUN_SPEED;
-		holdDown = false;
-        moving = true;
-        // moveDown()
-        movementTracker.push("down")
-	}
+    if (!moving && maxSteps > 0) {
 
-	if(moving && maxSteps > 0) {
-		trackerX = nextX;
-		trackerY = nextY;
-        console.log("TRACKER X, Y : ", trackerX, trackerY);
-        updateInfo();
-        moving = false;
+        if (holdLeft) {
+            directionX = -1;
+            holdLeft = false;
+            moving = true;
+            currentDirection = "left";
+
+            movementTracker.push("left");
+
+        }
+        else if (holdRight) {
+            directionX = 1;
+
+            holdRight = false;
+            moving = true;
+            currentDirection = "right";
+
+            movementTracker.push("right");
+
+        }
+        else if (holdUp) {
+            directionY = -1;
+
+            holdUp = false;
+            moving = true;
+            currentDirection = "up";
+
+            movementTracker.push("up");
+
+
+        }
+        else if (holdDown) {
+            directionY = 1;
+            holdDown = false;
+            moving = true;
+            currentDirection = "down";
+
+            movementTracker.push("down");
+
+        }
+    }
+	if(moving && !animating) {
+
+        animating = true;
+        var pos = 0;
+        var id = setInterval(frame, 3);
+        function frame() {
+            if (pos === 100) {
+                clearInterval(id);
+                updateInfo(stepCounter())
+
+            } else {
+                nextX += directionX;
+                nextY += directionY;
+                trackerX = nextX;
+                trackerY = nextY;
+                pos++;
+            }
+        }
 	}
 }
 
@@ -113,7 +150,6 @@ window.onload = function() {
     // loadLevel(levelX);
     loadLevel(levelThree);
 	loadImages();
-
 };
 
 function trackerReset() {
@@ -168,7 +204,8 @@ function drawEverything() {
     var centreX = camPanX + canvas.height/2;
     var centreY = camPanY + canvas.width/2;
 
-    drawBitmapCenteredWithRotation(farmerPic, centreX, centreY, rotate, TILE_W * 0.7, TILE_H);
+    drawSprite(centreX - 35, centreY - 40, CHAR_W, CHAR_H);
+    // drawBitmapCenteredWithRotation(farmerPic, centreX, centreY, rotate, TILE_W * 0.7, TILE_H);
 
 	// console.log("TRACKER X: ", trackerX, "TRACKER Y : ", trackerY);
     // console.log("CAM PAN X: ", camPanX, "CAM PAN Y : ", camPanY);
@@ -189,3 +226,4 @@ function drawEverything() {
 
     colorText("$ : " + Math.floor(payoffCount), 10,50, "white");
 }
+

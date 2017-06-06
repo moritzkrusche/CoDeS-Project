@@ -6,7 +6,7 @@ var picsToLoad = 0; // set automatically based on imageList in loadImages()
 function countLoadedImagesAndLaunchIfReady() {
 	picsToLoad--;
 	console.log(picsToLoad);
-	if(picsToLoad == 0) {
+	if(picsToLoad === 0) {
 		imageLoadingDoneSoStartGame();
 	}
 }
@@ -70,7 +70,7 @@ function loadImages() {
 	picsToLoad = imageList.length;
 
 	for(var i=0;i<imageList.length;i++) {
-		if(imageList[i].varName != undefined) {
+		if(imageList[i].varName !== undefined) {
 			beginLoadingImage(imageList[i].varName, imageList[i].theFile);
 		} else {
 			loadImageForWorldCode(imageList[i].tileType, imageList[i].theFile);

@@ -1,106 +1,63 @@
-//var canvasWidth = 700;
-//var canvasHeight = 700;
+var spriteSheetWidth = 512;
+var spriteSheetHeight = 768;
 
-var spriteWidth = 512;
-var spriteHeight = 768;
+var spriteRows = 4;
+var spriteCols = 4;
 
-var rows = 4;
-var cols = 4;
+var spriteTrackRight = 2;
+var spriteTrackLeft = 1;
+var spriteTrackUp = 3;
+var spriteTrackDown = 0;
 
-var trackRight = 2;
-var trackLeft = 1;
-var trackUp = 3;
-var trackDown = 0;
-
-var width = spriteWidth/cols;
-var height = spriteHeight/rows;
+var spriteWidth = spriteSheetWidth/spriteCols;
+var spriteHeight = spriteSheetHeight/spriteRows;
 
 var curFrame = 0;
 var frameCount = 4;
 
-var centreX = canvas.height/4;
-var centreY = canvas.width/4;
-
 var srcX;
 var srcY;
 
-var left = false;
-var right = true;
-var up = false;
-var down = false;
-
-
-//var canvas = document.getElementById('canvas');
-//canvas.width = canvasWidth;
-//canvas.height = canvasHeight;
-
-//var ctx = canvas.getContext("2d");
+var currentDirection = "down";
 
 var character = new Image();
 character.src = "images/farmerSprite.png";
 
-
-function updateFrame(){
+function moveFrames() {
     curFrame = ++curFrame % frameCount;
-    srcX = curFrame * width;
-    // canvasContext.clearRect(centreX,centreY,width,height);
+}
 
-    if(left){
-        srcY = trackLeft * height;
-    }
-    if(right){
-        srcY = trackRight * height;
-    }
-    if(up){
-        srcY = trackUp * height;
-    }
-    if(down ){
-        srcY = trackDown * height;
+
+function updateFrame(someDirection, someDelay){
+    srcX = curFrame * spriteWidth;
+
+    if (moving) {
+        setTimeout(moveFrames, someDelay);
     }
 
+    if(someDirection === "left"){
+        srcY = spriteTrackLeft * spriteHeight;
+    }
+    else if(someDirection === "right"){
+        srcY = spriteTrackRight * spriteHeight;
+    }
+    else if(someDirection === "up"){
+        srcY = spriteTrackUp * spriteHeight;
+    }
+    else if(someDirection === "down" ){
+        srcY = spriteTrackDown * spriteHeight;
+    }
 }
 
-function draw(){
-    updateFrame();
-
-    var centreX = camPanX + canvas.height/4;
-    var centreY = camPanY + canvas.width/4;
-    canvasContext.drawImage(character,srcX,srcY,width*1,height*1,centreX,centreY,TILE_W*0.7,TILE_H);
-
+function drawSprite(x,y,width,height){
+    updateFrame(currentDirection, 50);
+    if (!moving) {
+        curFrame = 0;
+    }
+    canvasContext.drawImage(character,srcX,srcY,spriteWidth,spriteHeight,x,y,width,height);
 }
 
-
-function moveLeft(){
-    left = true;
-    right = up = down = false;
-    animate()
-}
-
-function moveRight(){
-    right = true;
-    left = up = down = false;
-    animate()
-}
-
-function moveUp(){
-    up = true;
-    right = left = down = false;
-    animate()
-}
-
-function moveDown(){
-    down = true;
-    right = up = left = false;
-    animate()
-}
-
-function start() {
-    var refreshIntervalId = setInterval(draw, 150);
-    setTimeout(clearInterval(refreshIntervalId), 3000);
-}
-
-
-function interval(func, wait, times){
+function intervalTimer(func, wait, times){
     var interv = function(w, t){
         return function(){
             if(typeof t === "undefined" || t-- > 0){
@@ -119,8 +76,3 @@ function interval(func, wait, times){
     setTimeout(interv, wait);
 }
 
-function animate() {
-    interval(function(){
-        draw()
-    }, 150, 6);
-}

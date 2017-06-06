@@ -474,7 +474,6 @@ levelX = [ [ [ 1, 2, 3, 3, 0 ],
         [ 2, 2, 3, 3, 0 ] ] ];
 
 
-
 function getRandomIntInclusive(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -501,12 +500,17 @@ function setToDefault(level) {
 //setToDefault(levelX);
 //console.log(levelX);
 
-columnParameters = [];
 rowParameters = [];
+columnParameters = [];
 
-plantColumn = [];
-soilRow = [];
+plantRow = [];
+soilColumn = [];
 
+infoRow = [];
+infoColumn = [];
+
+payoffRow = [];
+payoffColumn = [];
 
 function generateParameters() {
     for (var i=0; i<100; i++) {
@@ -517,26 +521,24 @@ function generateParameters() {
 
 generateParameters();
 
-//console.log(columnParameters);
-
-//console.log(rowParameters);
-
+console.log("rowParameters", rowParameters);
+console.log("columnParameters", columnParameters);
 
 function generateWorld() {
     for (var i=0; i<100; i++) {
-        var soilSeed = rowParameters[i] * 5;
-        var plantSeed = columnParameters[i] * 5;
+        var soilSeed = columnParameters[i] * 5;
+        var plantSeed = rowParameters[i] * 5;
         var plant = Math.floor(plantSeed);
         var soil = Math.floor(soilSeed);
-        plantColumn.push(plant);
-        soilRow.push(soil);
+        plantRow.push(plant);
+        soilColumn.push(soil);
     }
 }
 
 generateWorld();
 
-//console.log(plantColumn);
-//console.log(soilRow);
+console.log("plantRow", plantRow);
+console.log("soilColumn", soilColumn);
 
 function getParameters() {
     var posX = Math.floor((trackerX + shiftedLeft)/TILE_W);
@@ -558,7 +560,7 @@ function checkPayoff(rowPar, colPar) {
 
 
 
-function updateInfo() {
+function updateInfo(callback) {
 
 	posX = Math.floor((trackerX + shiftedLeft)/TILE_W);
 	posY = Math.floor((trackerY + shiftedUp)/TILE_H);
@@ -586,17 +588,21 @@ function updateInfo() {
 
     for (var i = posX -3; i <= posX + 3; i++ ) {
         tileGrid[posY][i][3] = 1;
+
 	}
     for (var j = posY -3; j <= posY + 3; j++ ) {
         tileGrid[j][posX][2] = 1;
     }
-
+/*
     for (var i = posX -3; i <= posX + 3; i++ ) {
         for (var j = posY -3; j <= posY + 3; j++ ) {
             tileGrid[j][i][4] += 1;
 
         }
     }
+
+    */
+    return callback
 }
 
 
@@ -643,7 +649,7 @@ const TILE_EXPLOITED = "SXX";
 
 var Tile_Types = [TILE_PLANT1a, TILE_PLANT1b, TILE_PLANT1c, TILE_PLANT1d, TILE_PLANT1e, TILE_SOIL1a, TILE_SOIL1b, TILE_SOIL1c, TILE_SOIL1d, TILE_SOIL1e];
 
-function isTileAtCoord(TileCol, TileRow) {
+function isTileAtCoord(TileRow, TileCol) {
     if (tileGrid[TileRow] !== undefined) {
         if (tileGrid[TileRow][TileCol] !== undefined) {
             return true;
@@ -665,15 +671,24 @@ function drawOnlyTilesOnScreen() {
     var cameraRightMostCol = cameraLeftMostCol + colsThatFitOnScreen + 1;
     var cameraBottomMostRow = cameraTopMostRow + rowsThatFitOnScreen + 1;
 
+    if (moving) {
+        console.log("cameraLeftMostCol: " , cameraLeftMostCol);
+        console.log("cameraTopMostRow: " ,cameraTopMostRow);
+        console.log("cameraRightMostCol: " ,cameraRightMostCol);
+        console.log("cameraBottomMostRow: ", cameraBottomMostRow);
+    }
+
+
     for(var eachRow=cameraTopMostRow; eachRow<cameraBottomMostRow; eachRow++) {
+
         for(var eachCol=cameraLeftMostCol; eachCol<cameraRightMostCol; eachCol++) {
 
-			if (isTileAtCoord(eachCol, eachRow)) {
+			if (isTileAtCoord(eachRow, eachCol)) {
                 var arrayIndex = tileGrid[eachRow][eachCol];
 
-                var plantParameter = plantColumn[eachRow];
+                var plantParameter = plantRow[eachRow];
                 // console.log("COL", eachCol);
-                var soilParameter = soilRow[eachCol];
+                var soilParameter = soilColumn[eachCol];
                 // console.log("ROW", eachRow);
 
                 var drawX = eachCol * TILE_W;
@@ -694,7 +709,7 @@ function drawOnlyTilesOnScreen() {
                     //var plantImg = tilePics[arrayIndex[1]];
 
                     canvasContext.drawImage(soilImg, drawX, drawY, TILE_W, TILE_H);
-                    canvasContext.drawImage(plantImg, drawX, drawY, TILE_W, TILE_H);
+                    canvasContext.drawImage(plantImg, drawX + 20, drawY + 20, TILE_W*0.6, TILE_H*0.6);
 
                 }
                 else {
