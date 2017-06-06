@@ -4,102 +4,476 @@ const TILE_COLS = 20;
 const TILE_ROWS = 20;
 
 var levelThree;
-levelThree = [[["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1]],
-    [["S1A", "P1D", 1, 1], ["S1A", "P1D", 1, 1], ["S1A", "P1D", 1, 1], ["S1A", "P1D", 1, 1], ["S1A", "P1D", 1, 1], ["S1A", "P1D", 1, 1], ["S1A", "P1D", 1, 1], ["S1A", "P1D", 1, 1], ["S1A", "P1D", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1D", 1, 1], ["S1A", "P1D", 1, 1], ["S1A", "P1D", 1, 1], ["S1A", "P1D", 1, 1], ["S1A", "P1D", 1, 1], ["S1A", "P1D", 1, 1], ["S1A", "P1D", 1, 1], ["S1A", "P1D", 1, 1], ["S1A", "P1D", 1, 1], ["S1A", "P1D", 1, 1]],
-    [["S1B", "P1A", 1, 1], ["S1B", "P1A", 1, 1], ["S1B", "P1A", 1, 1], ["S1B", "P1A", 1, 1], ["S1B", "P1A", 1, 1], ["S1B", "P1A", 1, 1], ["S1B", "P1A", 1, 1], ["S1B", "P1A", 1, 1], ["S1B", "P1A", 1, 1], ["S1B", "P1A", 1, 1], ["S1B", "P1A", 1, 1], ["S1B", "P1A", 1, 1], ["S1B", "P1A", 1, 1], ["S1B", "P1A", 1, 1], ["S1B", "P1A", 1, 1], ["S1B", "P1A", 1, 1], ["S1B", "P1A", 1, 1], ["S1B", "P1A", 1, 1], ["S1B", "P1A", 1, 1], ["S1B", "P1A", 1, 1]],
-    [["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1]],
-    [["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1]],
-    [["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1]],
-    [["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1]],
-    [["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1]],
-    [["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1]],
-    [["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1]],
-    [["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1]],
-    [["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1]],
-    [["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1]],
-    [["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1]],
-    [["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1]],
-    [["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1], ["S1C", "P1A", 1, 1]],
-    [["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1]],
-    [["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 2, 1], ["S1A", "P1A", 3, 1], ["S1A", "P1A", 3, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1]],
-    [["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1]],
-    [["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1]]];
+levelThree =
+    [ [ [ 0, 2, 3, 3 ],
+    [ 1, 4, 3, 3 ],
+    [ 3, 1, 3, 3 ],
+    [ 3, 4, 3, 3 ],
+    [ 2, 1, 3, 3 ],
+    [ 1, 3, 3, 3 ],
+    [ 4, 2, 3, 3 ],
+    [ 0, 2, 3, 3 ],
+    [ 4, 0, 3, 3 ],
+    [ 3, 4, 3, 3 ],
+    [ 2, 1, 3, 3 ],
+    [ 0, 0, 3, 3 ],
+    [ 1, 3, 3, 3 ],
+    [ 1, 2, 3, 3 ],
+    [ 0, 1, 3, 3 ],
+    [ 4, 2, 3, 3 ],
+    [ 0, 1, 3, 3 ],
+    [ 4, 0, 3, 3 ],
+    [ 0, 4, 3, 3 ],
+    [ 4, 4, 3, 3 ] ],
+    [ [ 4, 4, 3, 3 ],
+        [ 2, 2, 3, 3 ],
+        [ 3, 2, 3, 3 ],
+        [ 1, 0, 3, 3 ],
+        [ 4, 4, 3, 3 ],
+        [ 2, 2, 3, 3 ],
+        [ 2, 2, 3, 3 ],
+        [ 4, 2, 3, 3 ],
+        [ 2, 0, 3, 3 ],
+        [ 1, 3, 3, 3 ],
+        [ 2, 3, 3, 3 ],
+        [ 0, 4, 3, 3 ],
+        [ 1, 2, 3, 3 ],
+        [ 3, 2, 3, 3 ],
+        [ 1, 0, 3, 3 ],
+        [ 4, 4, 3, 3 ],
+        [ 3, 1, 3, 3 ],
+        [ 0, 2, 3, 3 ],
+        [ 2, 2, 3, 3 ],
+        [ 0, 1, 3, 3 ] ],
+    [ [ 3, 1, 3, 3 ],
+        [ 1, 0, 3, 3 ],
+        [ 3, 4, 3, 3 ],
+        [ 2, 3, 3, 3 ],
+        [ 4, 4, 3, 3 ],
+        [ 3, 4, 3, 3 ],
+        [ 3, 1, 3, 3 ],
+        [ 0, 0, 3, 3 ],
+        [ 1, 3, 3, 3 ],
+        [ 3, 2, 3, 3 ],
+        [ 3, 0, 3, 3 ],
+        [ 3, 1, 3, 3 ],
+        [ 4, 0, 3, 3 ],
+        [ 4, 1, 3, 3 ],
+        [ 0, 1, 3, 3 ],
+        [ 1, 2, 3, 3 ],
+        [ 2, 1, 3, 3 ],
+        [ 4, 1, 3, 3 ],
+        [ 3, 2, 3, 3 ],
+        [ 4, 2, 3, 3 ] ],
+    [ [ 3, 1, 3, 3 ],
+        [ 4, 2, 3, 3 ],
+        [ 4, 1, 3, 3 ],
+        [ 2, 3, 3, 3 ],
+        [ 0, 2, 3, 3 ],
+        [ 2, 4, 3, 3 ],
+        [ 2, 0, 3, 3 ],
+        [ 2, 4, 3, 3 ],
+        [ 3, 1, 3, 3 ],
+        [ 4, 3, 3, 3 ],
+        [ 3, 3, 3, 3 ],
+        [ 2, 0, 3, 3 ],
+        [ 3, 3, 3, 3 ],
+        [ 2, 1, 3, 3 ],
+        [ 0, 1, 3, 3 ],
+        [ 0, 3, 3, 3 ],
+        [ 3, 3, 3, 3 ],
+        [ 4, 4, 3, 3 ],
+        [ 1, 4, 3, 3 ],
+        [ 2, 2, 3, 3 ] ],
+    [ [ 4, 4, 3, 3 ],
+        [ 2, 1, 3, 3 ],
+        [ 1, 2, 3, 3 ],
+        [ 0, 3, 3, 3 ],
+        [ 4, 2, 3, 3 ],
+        [ 4, 3, 3, 3 ],
+        [ 2, 2, 3, 3 ],
+        [ 3, 2, 3, 3 ],
+        [ 2, 2, 3, 3 ],
+        [ 2, 0, 3, 3 ],
+        [ 3, 2, 3, 3 ],
+        [ 0, 3, 3, 3 ],
+        [ 0, 1, 3, 3 ],
+        [ 1, 3, 3, 3 ],
+        [ 2, 0, 3, 3 ],
+        [ 3, 0, 3, 3 ],
+        [ 4, 3, 3, 3 ],
+        [ 3, 4, 3, 3 ],
+        [ 2, 3, 3, 3 ],
+        [ 0, 3, 3, 3 ] ],
+    [ [ 0, 4, 3, 3 ],
+        [ 1, 0, 3, 3 ],
+        [ 1, 4, 3, 3 ],
+        [ 3, 2, 3, 3 ],
+        [ 1, 0, 3, 3 ],
+        [ 0, 3, 3, 3 ],
+        [ 3, 0, 3, 3 ],
+        [ 1, 3, 3, 3 ],
+        [ 2, 4, 3, 3 ],
+        [ 4, 0, 3, 3 ],
+        [ 1, 4, 3, 3 ],
+        [ 0, 2, 3, 3 ],
+        [ 3, 4, 3, 3 ],
+        [ 4, 3, 3, 3 ],
+        [ 0, 4, 3, 3 ],
+        [ 4, 1, 3, 3 ],
+        [ 0, 4, 3, 3 ],
+        [ 0, 0, 3, 3 ],
+        [ 0, 4, 3, 3 ],
+        [ 3, 3, 3, 3 ] ],
+    [ [ 1, 4, 3, 3 ],
+        [ 2, 0, 3, 3 ],
+        [ 2, 4, 3, 3 ],
+        [ 4, 2, 3, 3 ],
+        [ 3, 1, 3, 3 ],
+        [ 3, 3, 3, 3 ],
+        [ 1, 3, 3, 3 ],
+        [ 4, 4, 3, 3 ],
+        [ 2, 3, 3, 3 ],
+        [ 3, 1, 3, 3 ],
+        [ 1, 1, 3, 3 ],
+        [ 3, 1, 3, 3 ],
+        [ 4, 3, 3, 3 ],
+        [ 4, 1, 3, 3 ],
+        [ 3, 2, 3, 3 ],
+        [ 0, 3, 3, 3 ],
+        [ 3, 1, 3, 3 ],
+        [ 4, 3, 3, 3 ],
+        [ 2, 1, 3, 3 ],
+        [ 4, 2, 3, 3 ] ],
+    [ [ 1, 4, 3, 3 ],
+        [ 4, 3, 3, 3 ],
+        [ 3, 4, 3, 3 ],
+        [ 0, 4, 3, 3 ],
+        [ 3, 2, 3, 3 ],
+        [ 1, 1, 3, 3 ],
+        [ 0, 2, 3, 3 ],
+        [ 3, 3, 3, 3 ],
+        [ 3, 2, 3, 3 ],
+        [ 3, 4, 3, 3 ],
+        [ 3, 3, 3, 3 ],
+        [ 0, 0, 3, 3 ],
+        [ 3, 1, 3, 3 ],
+        [ 1, 4, 3, 3 ],
+        [ 1, 3, 3, 3 ],
+        [ 3, 3, 3, 3 ],
+        [ 1, 3, 3, 3 ],
+        [ 4, 1, 3, 3 ],
+        [ 4, 0, 3, 3 ],
+        [ 2, 1, 3, 3 ] ],
+    [ [ 2, 4, 3, 3 ],
+        [ 1, 1, 3, 3 ],
+        [ 3, 2, 3, 3 ],
+        [ 4, 4, 3, 3 ],
+        [ 3, 3, 3, 3 ],
+        [ 0, 4, 3, 3 ],
+        [ 4, 4, 3, 3 ],
+        [ 0, 3, 3, 3 ],
+        [ 4, 1, 3, 3 ],
+        [ 1, 3, 3, 3 ],
+        [ 2, 4, 3, 3 ],
+        [ 4, 2, 3, 3 ],
+        [ 3, 1, 3, 3 ],
+        [ 3, 4, 3, 3 ],
+        [ 4, 1, 3, 3 ],
+        [ 1, 2, 3, 3 ],
+        [ 1, 3, 3, 3 ],
+        [ 3, 4, 3, 3 ],
+        [ 3, 1, 3, 3 ],
+        [ 1, 1, 3, 3 ] ],
+    [ [ 0, 3, 3, 3 ],
+        [ 3, 1, 3, 3 ],
+        [ 0, 1, 3, 3 ],
+        [ 0, 4, 3, 3 ],
+        [ 3, 2, 3, 3 ],
+        [ 1, 2, 3, 3 ],
+        [ 4, 2, 3, 3 ],
+        [ 0, 4, 3, 3 ],
+        [ 4, 4, 3, 3 ],
+        [ 4, 0, 3, 3 ],
+        [ 3, 1, 3, 3 ],
+        [ 3, 4, 3, 3 ],
+        [ 0, 4, 3, 3 ],
+        [ 1, 1, 3, 3 ],
+        [ 3, 1, 3, 3 ],
+        [ 2, 2, 3, 3 ],
+        [ 2, 2, 3, 3 ],
+        [ 0, 2, 3, 3 ],
+        [ 0, 3, 3, 3 ],
+        [ 0, 1, 3, 3 ] ],
+    [ [ 2, 0, 3, 3 ],
+        [ 4, 3, 3, 3 ],
+        [ 2, 4, 3, 3 ],
+        [ 2, 0, 3, 3 ],
+        [ 4, 0, 3, 3 ],
+        [ 0, 0, 3, 3 ],
+        [ 3, 1, 3, 3 ],
+        [ 2, 0, 3, 3 ],
+        [ 4, 3, 3, 3 ],
+        [ 2, 0, 3, 3 ],
+        [ 2, 3, 3, 3 ],
+        [ 3, 3, 3, 3 ],
+        [ 4, 1, 3, 3 ],
+        [ 1, 1, 3, 3 ],
+        [ 4, 0, 3, 3 ],
+        [ 0, 0, 3, 3 ],
+        [ 2, 4, 3, 3 ],
+        [ 1, 0, 3, 3 ],
+        [ 4, 2, 3, 3 ],
+        [ 0, 3, 3, 3 ] ],
+    [ [ 1, 3, 3, 3 ],
+        [ 2, 0, 3, 3 ],
+        [ 3, 0, 3, 3 ],
+        [ 0, 0, 3, 3 ],
+        [ 1, 2, 3, 3 ],
+        [ 3, 1, 3, 3 ],
+        [ 1, 1, 3, 3 ],
+        [ 2, 1, 3, 3 ],
+        [ 1, 4, 3, 3 ],
+        [ 4, 4, 3, 3 ],
+        [ 0, 3, 3, 3 ],
+        [ 1, 0, 3, 3 ],
+        [ 0, 1, 3, 3 ],
+        [ 1, 3, 3, 3 ],
+        [ 4, 0, 3, 3 ],
+        [ 2, 2, 3, 3 ],
+        [ 3, 3, 3, 3 ],
+        [ 3, 3, 3, 3 ],
+        [ 1, 4, 3, 3 ],
+        [ 1, 1, 3, 3 ] ],
+    [ [ 4, 1, 3, 3 ],
+        [ 0, 3, 3, 3 ],
+        [ 0, 1, 3, 3 ],
+        [ 3, 4, 3, 3 ],
+        [ 1, 1, 3, 3 ],
+        [ 1, 0, 3, 3 ],
+        [ 2, 2, 3, 3 ],
+        [ 3, 4, 3, 3 ],
+        [ 4, 1, 3, 3 ],
+        [ 0, 4, 3, 3 ],
+        [ 1, 0, 3, 3 ],
+        [ 2, 2, 3, 3 ],
+        [ 2, 4, 3, 3 ],
+        [ 0, 3, 3, 3 ],
+        [ 0, 3, 3, 3 ],
+        [ 0, 1, 3, 3 ],
+        [ 1, 1, 3, 3 ],
+        [ 2, 4, 3, 3 ],
+        [ 4, 4, 3, 3 ],
+        [ 4, 4, 3, 3 ] ],
+    [ [ 0, 3, 3, 3 ],
+        [ 1, 1, 3, 3 ],
+        [ 3, 2, 3, 3 ],
+        [ 4, 2, 3, 3 ],
+        [ 1, 4, 3, 3 ],
+        [ 1, 4, 3, 3 ],
+        [ 1, 4, 3, 3 ],
+        [ 2, 3, 3, 3 ],
+        [ 3, 4, 3, 3 ],
+        [ 2, 2, 3, 3 ],
+        [ 3, 4, 3, 3 ],
+        [ 4, 2, 3, 3 ],
+        [ 4, 1, 3, 3 ],
+        [ 1, 3, 3, 3 ],
+        [ 3, 2, 3, 3 ],
+        [ 0, 4, 3, 3 ],
+        [ 3, 2, 3, 3 ],
+        [ 1, 4, 3, 3 ],
+        [ 2, 4, 3, 3 ],
+        [ 1, 4, 3, 3 ] ],
+    [ [ 3, 1, 3, 3 ],
+        [ 3, 1, 3, 3 ],
+        [ 0, 0, 3, 3 ],
+        [ 1, 1, 3, 3 ],
+        [ 2, 0, 3, 3 ],
+        [ 3, 1, 3, 3 ],
+        [ 1, 3, 3, 3 ],
+        [ 0, 2, 3, 3 ],
+        [ 2, 1, 3, 3 ],
+        [ 3, 3, 3, 3 ],
+        [ 3, 0, 3, 3 ],
+        [ 2, 3, 3, 3 ],
+        [ 3, 4, 3, 3 ],
+        [ 4, 2, 3, 3 ],
+        [ 3, 2, 3, 3 ],
+        [ 1, 2, 3, 3 ],
+        [ 2, 0, 3, 3 ],
+        [ 3, 2, 3, 3 ],
+        [ 0, 0, 3, 3 ],
+        [ 1, 3, 3, 3 ] ],
+    [ [ 0, 0, 3, 3 ],
+        [ 4, 1, 3, 3 ],
+        [ 4, 1, 3, 3 ],
+        [ 1, 4, 3, 3 ],
+        [ 4, 1, 3, 3 ],
+        [ 1, 3, 3, 3 ],
+        [ 2, 2, 3, 3 ],
+        [ 3, 3, 3, 3 ],
+        [ 1, 1, 3, 3 ],
+        [ 0, 4, 3, 3 ],
+        [ 2, 1, 3, 3 ],
+        [ 0, 0, 3, 3 ],
+        [ 4, 0, 3, 3 ],
+        [ 3, 4, 3, 3 ],
+        [ 4, 0, 3, 3 ],
+        [ 2, 3, 3, 3 ],
+        [ 2, 1, 3, 3 ],
+        [ 1, 0, 3, 3 ],
+        [ 0, 2, 3, 3 ],
+        [ 3, 1, 3, 3 ] ],
+    [ [ 0, 1, 3, 3 ],
+        [ 4, 3, 3, 3 ],
+        [ 3, 3, 3, 3 ],
+        [ 3, 1, 3, 3 ],
+        [ 1, 1, 3, 3 ],
+        [ 1, 0, 3, 3 ],
+        [ 1, 3, 3, 3 ],
+        [ 4, 4, 3, 3 ],
+        [ 3, 1, 3, 3 ],
+        [ 0, 4, 3, 3 ],
+        [ 1, 0, 3, 3 ],
+        [ 4, 3, 3, 3 ],
+        [ 0, 4, 3, 3 ],
+        [ 1, 4, 3, 3 ],
+        [ 0, 0, 3, 3 ],
+        [ 1, 4, 3, 3 ],
+        [ 2, 3, 3, 3 ],
+        [ 1, 3, 3, 3 ],
+        [ 2, 4, 3, 3 ],
+        [ 4, 3, 3, 3 ] ],
+    [ [ 1, 0, 3, 3 ],
+        [ 0, 2, 3, 3 ],
+        [ 2, 3, 3, 3 ],
+        [ 0, 2, 3, 3 ],
+        [ 4, 3, 3, 3 ],
+        [ 4, 3, 3, 3 ],
+        [ 4, 3, 3, 3 ],
+        [ 3, 2, 3, 3 ],
+        [ 3, 2, 3, 3 ],
+        [ 3, 4, 3, 3 ],
+        [ 0, 3, 3, 3 ],
+        [ 3, 0, 3, 3 ],
+        [ 0, 0, 3, 3 ],
+        [ 4, 0, 3, 3 ],
+        [ 4, 0, 3, 3 ],
+        [ 4, 0, 3, 3 ],
+        [ 3, 2, 3, 3 ],
+        [ 0, 4, 3, 3 ],
+        [ 3, 0, 3, 3 ],
+        [ 2, 4, 3, 3 ] ],
+    [ [ 4, 0, 3, 3 ],
+        [ 0, 3, 3, 3 ],
+        [ 1, 3, 3, 3 ],
+        [ 2, 0, 3, 3 ],
+        [ 1, 1, 3, 3 ],
+        [ 0, 3, 3, 3 ],
+        [ 1, 4, 3, 3 ],
+        [ 2, 4, 3, 3 ],
+        [ 3, 3, 3, 3 ],
+        [ 0, 2, 3, 3 ],
+        [ 4, 3, 3, 3 ],
+        [ 3, 3, 3, 3 ],
+        [ 4, 0, 3, 3 ],
+        [ 1, 0, 3, 3 ],
+        [ 3, 2, 3, 3 ],
+        [ 4, 3, 3, 3 ],
+        [ 4, 4, 3, 3 ],
+        [ 4, 0, 3, 3 ],
+        [ 1, 0, 3, 3 ],
+        [ 1, 4, 3, 3 ] ],
+    [ [ 4, 1, 3, 3 ],
+        [ 0, 0, 3, 3 ],
+        [ 3, 2, 3, 3 ],
+        [ 2, 3, 3, 3 ],
+        [ 1, 4, 3, 3 ],
+        [ 2, 0, 3, 3 ],
+        [ 3, 2, 3, 3 ],
+        [ 1, 1, 3, 3 ],
+        [ 3, 1, 3, 3 ],
+        [ 3, 3, 3, 3 ],
+        [ 1, 2, 3, 3 ],
+        [ 3, 2, 3, 3 ],
+        [ 3, 4, 3, 3 ],
+        [ 1, 3, 3, 3 ],
+        [ 1, 2, 3, 3 ],
+        [ 2, 3, 3, 3 ],
+        [ 2, 4, 3, 3 ],
+        [ 1, 0, 3, 3 ],
+        [ 4, 1, 3, 3 ],
+        [ 2, 2, 3, 3 ] ] ];
 
-levelX_OLD = [[["S1A", "P1A", 3, 3], ["S1A", "P1A", 3, 3], ["S1A", "P1A", 3, 3], ["S1A", "P1A", 3, 3], ["S1A", "P1A", 3, 3], ["S1A", "P1A", 3, 3], ["S1A", "P1A", 3, 3], ["S1A", "P1A", 3, 3]],
-    [["S1A", "P1D", 1, 1], ["S1A", "P1D", 1, 1], ["S1A", "P1D", 1, 1], ["S1A", "P1D", 1, 1], ["S1A", "P1D", 1, 1], ["S1A", "P1D", 1, 1], ["S1A", "P1D", 1, 1], ["S1A", "P1D", 3, 3]],
-    [["S1B", "P1A", 1, 1], ["S1B", "P1A", 1, 1], ["S1B", "P1A", 1, 1], ["S1B", "P1A", 1, 1], ["S1B", "P1A", 1, 1], ["S1B", "P1A", 1, 1], ["S1B", "P1A", 1, 1], ["S1B", "P1A", 3, 3]],
-    [["S1C", "P1A", 3, 1], ["S1C", "P1A", 3, 1], ["S1C", "P1A", 3, 1], ["S1C", "P1A", 3, 1], ["S1C", "P1A", 3, 1], ["S1C", "P1A", 3, 1], ["S1C", "P1A", 3, 1], ["S1C", "P1A", 3, 3]],
-    [["S1A", "P1A", 3, 1], ["S1A", "P1A", 3, 1], ["S1A", "P1A", 3, 1], ["S1A", "P1A", 3, 1], ["S1A", "P1A", 3, 1], ["S1A", "P1A", 3, 1], ["S1A", "P1A", 3, 1], ["S1A", "P1A", 3, 3]],
-    [["S1A", "P1A", 3, 1], ["S1A", "P1A", 3, 1], ["S1A", "P1A", 3, 1], ["S1A", "P1A", 3, 1], ["S1A", "P1A", 3, 1], ["S1A", "P1A", 3, 1], ["S1A", "P1A", 3, 1], ["S1A", "P1A", 3, 3]],
-    [["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 3, 3]],
-    [["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 1, 1], ["S1A", "P1A", 3, 3]]];
 
-levelX = [ [ [ 'B', 'D', 3, 3, 1 ],
-    [ 'C', 'A', 3, 3, 1 ],
-    [ 'A', 'A', 3, 3, 1 ],
-    [ 'A', 'A', 3, 3, 1 ],
-    [ 'B', 'A', 3, 3, 1 ],
-    [ 'A', 'C', 3, 3, 1 ],
-    [ 'D', 'C', 3, 3, 1 ],
-    [ 'B', 'A', 3, 3, 1 ] ],
-    [ [ 'C', 'A', 3, 3, 1 ],
-        [ 'A', 'A', 3, 3, 1 ],
-        [ 'D', 'A', 3, 3, 1 ],
-        [ 'C', 'A', 3, 3, 1 ],
-        [ 'D', 'D', 3, 3, 1 ],
-        [ 'B', 'B', 3, 3, 1 ],
-        [ 'D', 'C', 3, 3, 1 ],
-        [ 'C', 'C', 3, 3, 1 ] ],
-    [ [ 'A', 'B', 3, 3, 1 ],
-        [ 'B', 'A', 3, 3, 1 ],
-        [ 'C', 'B', 3, 3, 1 ],
-        [ 'D', 'A', 3, 3, 1 ],
-        [ 'C', 'D', 3, 3, 1 ],
-        [ 'C', 'D', 3, 3, 1 ],
-        [ 'B', 'B', 3, 3, 1 ],
-        [ 'D', 'C', 3, 3, 1 ] ],
-    [ [ 'C', 'D', 3, 3, 1 ],
-        [ 'C', 'D', 3, 3, 1 ],
-        [ 'A', 'D', 3, 3, 1 ],
-        [ 'B', 'A', 3, 3, 1 ],
-        [ 'C', 'C', 3, 3, 1 ],
-        [ 'D', 'A', 3, 3, 1 ],
-        [ 'C', 'A', 3, 3, 1 ],
-        [ 'B', 'A', 3, 3, 1 ] ],
-    [ [ 'D', 'C', 3, 3, 1 ],
-        [ 'C', 'D', 3, 3, 1 ],
-        [ 'A', 'A', 3, 3, 1 ],
-        [ 'B', 'C', 3, 3, 1 ],
-        [ 'C', 'C', 3, 3, 1 ],
-        [ 'A', 'A', 3, 3, 1 ],
-        [ 'D', 'C', 3, 3, 1 ],
-        [ 'D', 'B', 3, 3, 1 ] ],
-    [ [ 'A', 'A', 3, 3, 1 ],
-        [ 'D', 'D', 3, 3, 1 ],
-        [ 'B', 'D', 3, 3, 1 ],
-        [ 'A', 'D', 3, 3, 1 ],
-        [ 'D', 'C', 3, 3, 1 ],
-        [ 'D', 'A', 3, 3, 1 ],
-        [ 'C', 'D', 3, 3, 1 ],
-        [ 'A', 'A', 3, 3, 1 ] ],
-    [ [ 'B', 'B', 3, 3, 1 ],
-        [ 'C', 'C', 3, 3, 1 ],
-        [ 'D', 'A', 3, 3, 1 ],
-        [ 'B', 'A', 3, 3, 1 ],
-        [ 'A', 'A', 3, 3, 1 ],
-        [ 'A', 'A', 3, 3, 1 ],
-        [ 'A', 'C', 3, 3, 1 ],
-        [ 'B', 'D', 3, 3, 1 ] ],
-    [ [ 'B', 'D', 3, 3, 1 ],
-        [ 'A', 'C', 3, 3, 1 ],
-        [ 'A', 'D', 3, 3, 1 ],
-        [ 'D', 'A', 3, 3, 1 ],
-        [ 'A', 'A', 3, 3, 1 ],
-        [ 'D', 'A', 3, 3, 1 ],
-        [ 'C', 'C', 3, 3, 1 ],
-        [ 'D', 'A', 3, 3, 1 ] ] ];
 
-/*
+levelX = [ [ [ 2, 4, 3, 3, 1 ],
+    [ 0, 0, 3, 3, 1 ],
+    [ 4, 3, 3, 3, 1 ],
+    [ 1, 4, 3, 3, 1 ],
+    [ 0, 0, 3, 3, 1 ],
+    [ 0, 1, 3, 3, 1 ],
+    [ 0, 0, 3, 3, 1 ],
+    [ 0, 2, 3, 3, 1 ] ],
+    [ [ 1, 4, 3, 3, 1 ],
+        [ 0, 2, 3, 3, 1 ],
+        [ 3, 0, 3, 3, 1 ],
+        [ 3, 4, 3, 3, 1 ],
+        [ 2, 4, 3, 3, 1 ],
+        [ 3, 0, 3, 3, 1 ],
+        [ 1, 0, 3, 3, 1 ],
+        [ 3, 1, 3, 3, 1 ] ],
+    [ [ 2, 2, 3, 3, 1 ],
+        [ 3, 4, 3, 3, 1 ],
+        [ 0, 2, 3, 3, 1 ],
+        [ 2, 0, 3, 3, 1 ],
+        [ 3, 3, 3, 3, 1 ],
+        [ 1, 0, 3, 3, 1 ],
+        [ 0, 1, 3, 3, 1 ],
+        [ 4, 3, 3, 3, 1 ] ],
+    [ [ 4, 0, 3, 3, 1 ],
+        [ 2, 3, 3, 3, 1 ],
+        [ 2, 4, 3, 3, 1 ],
+        [ 2, 3, 3, 3, 1 ],
+        [ 3, 1, 3, 3, 1 ],
+        [ 1, 3, 3, 3, 1 ],
+        [ 0, 2, 3, 3, 1 ],
+        [ 2, 1, 3, 3, 1 ] ],
+    [ [ 4, 1, 3, 3, 1 ],
+        [ 0, 2, 3, 3, 1 ],
+        [ 0, 2, 3, 3, 1 ],
+        [ 3, 4, 3, 3, 1 ],
+        [ 1, 1, 3, 3, 1 ],
+        [ 2, 2, 3, 3, 1 ],
+        [ 4, 3, 3, 3, 1 ],
+        [ 0, 4, 3, 3, 1 ] ],
+    [ [ 3, 2, 3, 3, 1 ],
+        [ 3, 1, 3, 3, 1 ],
+        [ 0, 3, 3, 3, 1 ],
+        [ 3, 2, 3, 3, 1 ],
+        [ 0, 0, 3, 3, 1 ],
+        [ 3, 1, 3, 3, 1 ],
+        [ 0, 0, 3, 3, 1 ],
+        [ 2, 3, 3, 3, 1 ] ],
+    [ [ 1, 1, 3, 3, 1 ],
+        [ 4, 3, 3, 3, 1 ],
+        [ 2, 3, 3, 3, 1 ],
+        [ 4, 4, 3, 3, 1 ],
+        [ 2, 1, 3, 3, 1 ],
+        [ 4, 3, 3, 3, 1 ],
+        [ 1, 4, 3, 3, 1 ],
+        [ 1, 3, 3, 3, 1 ] ],
+    [ [ 1, 4, 3, 3, 1 ],
+        [ 4, 4, 3, 3, 1 ],
+        [ 3, 1, 3, 3, 1 ],
+        [ 1, 4, 3, 3, 1 ],
+        [ 0, 3, 3, 3, 1 ],
+        [ 1, 1, 3, 3, 1 ],
+        [ 3, 0, 3, 3, 1 ],
+        [ 2, 1, 3, 3, 1 ] ] ];
+
+
 
 function getRandomIntInclusive(min, max) {
     min = Math.ceil(min);
@@ -107,14 +481,13 @@ function getRandomIntInclusive(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-var soilTypes = ['A', 'B', 'C', 'D', 'E'];
-var plantTypes = ['A', 'B', 'C', 'D', 'E'];
+/*
 
 function setToDefault(level) {
 	for(var i = 0; i < level.length; i++) {
         for(var j = 0; j < level[i].length; j++) {
-            level[i][j][0] = soilTypes[getRandomIntInclusive(0, 4)];
-            level[i][j][1] = plantTypes[getRandomIntInclusive(0, 4)];
+            level[i][j][0] = getRandomIntInclusive(0, 4);
+            level[i][j][1] = getRandomIntInclusive(0, 4);
             level[i][j][2] = 3;
             level[i][j][3] = 3;
             // level[i][j].push(1)
@@ -125,10 +498,67 @@ function setToDefault(level) {
 }
 
 
-setToDefault(levelX);
-console.log(levelX);
+setToDefault(levelThree);
+console.log(levelThree);
 
 */
+
+columnParameters = [];
+rowParameters = [];
+
+plantColumn = [];
+soilRow = [];
+
+
+function generateParameters() {
+    for (var i=0; i<100; i++) {
+        columnParameters.push(jStat.beta.sample(1,2));
+        rowParameters.push(jStat.beta.sample(2,1));
+    }
+}
+
+generateParameters();
+
+console.log(columnParameters);
+
+console.log(rowParameters);
+
+
+function generateWorld() {
+    for (var i=0; i<100; i++) {
+        var soilSeed = rowParameters[i] * 5;
+        var plantSeed = columnParameters[i] * 5;
+        var plant = Math.floor(plantSeed);
+        var soil = Math.floor(soilSeed);
+        plantColumn.push(plant);
+        soilRow.push(soil);
+    }
+}
+
+generateWorld();
+
+console.log(plantColumn);
+console.log(soilRow);
+
+function getParameters() {
+    var posX = Math.floor((trackerX + shiftedLeft)/TILE_W);
+    var posY = Math.floor((trackerY + shiftedUp)/TILE_H);
+}
+
+
+function checkPayoff(rowPar, colPar) {
+    var draw = Math.random();
+    var check = rowPar * colPar;
+    console.log("CHECK", check, "DRAW", draw);
+    if (check < draw) {
+        return 0
+    }
+    else {
+        return 1
+    }
+}
+
+
 
 function updateInfo() {
 
@@ -137,20 +567,47 @@ function updateInfo() {
 
 	console.log("POS X, Y: ", posX, posY);
     // console.log("TILEGRID Y, X: ", tileGrid[posY][posX]);
-
-
     tileGrid[posY][posX] = tileGrid[posY][posX].slice();
 
-    // tileGrid[posY][posX][2] = 1;
+    var getPayoff = checkPayoff(columnParameters[posX], rowParameters[posY]);
 
-    for (i = posX -3; i <= posX + 3; i++ ) {
+    if (getPayoff === 0) {
+        tileGrid[posY][posX][0] = 5;
+        console.log("NONE");
+        payoffTracker.push(1);
+    }
+    else if (getPayoff === 1) {
+        tileGrid[posY][posX][0] = 6;
+        console.log("POTATOE");
+        payoffTracker.push(0);
+        potatoeCount += 1;
+        payoffCount += (potatoeCount * potatoePrice);
+    }
+
+    // tileGrid[posY][posX][0] = 5;
+
+    for (var i = posX -3; i <= posX + 3; i++ ) {
+        if (tileGrid[posY][i] !== undefined) {
+            // console.log("tileGrid[", posY, "][", i, "][3]", tileGrid[posY][i][3]);
+        }
+        else {
+            // console.log("UNDEFINED i Y, X: ", posY, posX);
+        }
         tileGrid[posY][i][3] = 1;
 	}
-    for (j = posY -3; j <= posY + 3; j++ ) {
+    for (var j = posY -3; j <= posY + 3; j++ ) {
+        if (tileGrid[j][posX] !== undefined) {
+            // console.log("tileGrid[", j, "][", posX, "][2]", tileGrid[j][posX][2]);
+        }
+        else {
+            // console.log("UNDEFINED j Y, X: ", posY, posX);
+        }
         tileGrid[j][posX][2] = 1;
     }
 
+
 }
+
 
 var tileGrid = [];
 
@@ -193,26 +650,11 @@ const TILE_SOIL3e = "S3E";
 const TILE_EMPTY = "S00";
 const TILE_EXPLOITED = "SXX";
 
-var Tile_Types = [TILE_PLANT1a, TILE_PLANT1b, TILE_PLANT1c, TILE_PLANT1d, TILE_PLANT1e, TILE_SOIL1a, TILE_SOIL1b, TILE_SOIL1c, TILE_SOIL1d, TILE_SOIL1e]
-
-//************************************************
-function getTileIndexAtPixelCoord(atX, atY) {
-	var warriorWorldCol = Math.floor(atX / TILE_W);
-	var warriorWorldRow = Math.floor(atY / TILE_H);
-	var tileIndexUnderWarrior = rowColToArrayIndex(warriorWorldCol, warriorWorldRow);
-
-	if(warriorWorldCol >= 0 && warriorWorldCol < TILE_COLS &&
-		warriorWorldRow >= 0 && warriorWorldRow < TILE_ROWS) {
-		return tileIndexUnderWarrior;
-	} // end of valid col and row
-
-	return undefined;
-} // end of warriorWorldHandling func
-//************************************************
+var Tile_Types = [TILE_PLANT1a, TILE_PLANT1b, TILE_PLANT1c, TILE_PLANT1d, TILE_PLANT1e, TILE_SOIL1a, TILE_SOIL1b, TILE_SOIL1c, TILE_SOIL1d, TILE_SOIL1e];
 
 function isTileAtCoord(TileCol, TileRow) {
-    if (tileGrid[TileRow] != undefined) {
-        if (tileGrid[TileRow][TileCol] != undefined) {
+    if (tileGrid[TileRow] !== undefined) {
+        if (tileGrid[TileRow][TileCol] !== undefined) {
             return true;
         }
     }
@@ -224,15 +666,13 @@ function drawOnlyTilesOnScreen() {
     var cameraLeftMostCol = Math.floor(camPanX / TILE_W);
     var cameraTopMostRow = Math.floor(camPanY / TILE_H);
     // how many columns and rows of tiles fit on one screenful of area?
-    var colsThatFitOnScreen = Math.floor(canvas.width/2 / TILE_W);
-    var rowsThatFitOnScreen = Math.floor(canvas.height/2 / TILE_H);
+    var colsThatFitOnScreen = Math.floor(canvas.width / TILE_W);
+    var rowsThatFitOnScreen = Math.floor(canvas.height / TILE_H);
 
     // finding the rightmost and bottommost tiles to draw.
     // the +1 on each pushes the new tile popping in off visible area
     var cameraRightMostCol = cameraLeftMostCol + colsThatFitOnScreen + 1;
     var cameraBottomMostRow = cameraTopMostRow + rowsThatFitOnScreen + 1;
-
-    // var arrayIndex = 0;
 
     for(var eachRow=cameraTopMostRow; eachRow<cameraBottomMostRow; eachRow++) {
         for(var eachCol=cameraLeftMostCol; eachCol<cameraRightMostCol; eachCol++) {
@@ -240,20 +680,41 @@ function drawOnlyTilesOnScreen() {
 			if (isTileAtCoord(eachCol, eachRow)) {
                 var arrayIndex = tileGrid[eachRow][eachCol];
 
+                var plantParameter = plantColumn[eachRow];
+                // console.log("COL", eachCol);
+                var soilParameter = soilRow[eachCol];
+                // console.log("ROW", eachRow);
 
-				var soilType = "S" + arrayIndex[2] + arrayIndex[0];
-				//console.log("SOIL TYPE", soilType);
-                var plantType = "P" + arrayIndex[3] + arrayIndex[1];
+                var drawX = eachCol * TILE_W;
+                var drawY = eachRow * TILE_H;
 
-                var soilImg = tilePics[soilType];
-                var plantImg = tilePics[plantType];
-                //var soilImg = tilePics[arrayIndex[0]];
-                //var plantImg = tilePics[arrayIndex[1]];
+                if (arrayIndex[0] < 5) {
+                    //var soilType = "S" + arrayIndex[2] + tileTypes[arrayIndex[0]];
+                    var soilType = "S" + arrayIndex[2] + tileTypes[soilParameter];
 
-				var drawX = eachCol * TILE_W;
-				var drawY = eachRow * TILE_H;
-                canvasContext.drawImage(soilImg, drawX, drawY, TILE_W, TILE_H);
-                canvasContext.drawImage(plantImg, drawX, drawY, TILE_W, TILE_H);
+                    //console.log("SOIL TYPE", soilType);
+                    // var plantType = "P" + arrayIndex[3] + tileTypes[arrayIndex[1]];
+
+                    var plantType = "P" + arrayIndex[3] + tileTypes[plantParameter];
+
+                    var soilImg = tilePics[soilType];
+                    var plantImg = tilePics[plantType];
+                    //var soilImg = tilePics[arrayIndex[0]];
+                    //var plantImg = tilePics[arrayIndex[1]];
+
+                    canvasContext.drawImage(soilImg, drawX, drawY, TILE_W, TILE_H);
+                    canvasContext.drawImage(plantImg, drawX, drawY, TILE_W, TILE_H);
+
+                }
+                else {
+                    if (arrayIndex[0] === 5) {
+                        canvasContext.drawImage(tilePics["S00"], drawX, drawY, TILE_W, TILE_H);
+                    }
+                    else if (arrayIndex[0] === 6) {
+                        canvasContext.drawImage(tilePics["SXX"], drawX, drawY, TILE_W, TILE_H);
+                    }
+
+                }
             }
         } // end of for each col
     } // end of for each row

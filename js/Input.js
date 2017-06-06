@@ -36,6 +36,7 @@ function setKeyHoldState(thisKey, setTo) {
 }
 
 function keyPressed(evt) {
+    sleep(50);
 	setKeyHoldState(evt.keyCode, true);
 	evt.preventDefault(); // without this, arrow keys scroll the browser!
 }
