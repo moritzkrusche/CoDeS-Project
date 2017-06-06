@@ -7,13 +7,9 @@ var startX = 0;
 var startY = 0;
 
 var rotate = 0;
-
 var potatoeCount = 0;
-
 var potatoePrice = 100;
-
 var payoffCount = 0;
-
 const discountFactor = 0.97;
 
 
@@ -68,7 +64,7 @@ function trackerMove() {
         // moveLeft()
         movementTracker.push("left")
 	}
-	if(holdRight) {
+	else if(holdRight) {
         stepCounter();
         rotate = 270 * Math.PI / 180;
         //animateMove(right)
@@ -78,7 +74,7 @@ function trackerMove() {
         // moveRight()
         movementTracker.push("right")
 	}
-	if(holdUp) {
+	else if(holdUp) {
         stepCounter();
         rotate = 180 * Math.PI / 180;
         //animateMove(up)
@@ -88,7 +84,7 @@ function trackerMove() {
         // moveUp()
         movementTracker.push("up")
 	}
-	if(holdDown) {
+	else if(holdDown) {
         stepCounter();
         rotate = 0;
         //animateMove(down)
@@ -176,8 +172,6 @@ function drawEverything() {
 
 	// console.log("TRACKER X: ", trackerX, "TRACKER Y : ", trackerY);
     // console.log("CAM PAN X: ", camPanX, "CAM PAN Y : ", camPanY);
-
-	// console.log(jStat.beta.sample(1,2));
 
 	canvasContext.restore(); // undoes the .translate() used for cam scroll
 

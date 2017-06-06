@@ -40,7 +40,7 @@ function createColumn() {
     column[column.length] = getRandomIntInclusive(0, 4);
     // column.push(getRandomIntInclusive(0, 4));
     // column.push(getRandomIntInclusive(0, 4));
-    column.push(3, 3, 1);
+    column.push(3, 3, 0);
     //column.push(3);
 	return column
 
@@ -49,13 +49,10 @@ function createColumn() {
 function createRow(rowLength) {
 
 	row = [];
-
     for(var i = 0; i < rowLength; i++) {
     	column = createColumn();
 		// row.push(column);
         row[row.length] = column;
-
-
     }
     return row
 
