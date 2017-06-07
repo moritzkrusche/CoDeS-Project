@@ -603,34 +603,36 @@ function updateInfo(callback) {
     // console.log("TILEGRID Y, X: ", tileGrid[posY][posX]);
     tileGrid[posX][posY] = tileGrid[posX][posY].slice();
 
-    var getPayoff = checkPayoff(columnParameters[posX], rowParameters[posY]);
 
-    if (getPayoff === 0) {
-        // thisGrid[0] = 5;
-        console.log("NONE");
-        payoffTracker.push(0);
+    if (tileGrid[posX][posY][0] === 0) {
+        var getPayoff = checkPayoff(columnParameters[posX], rowParameters[posY]);
 
-        tileGrid[posX][posY][0] = 1;
+        if (getPayoff === 0) {
+            // thisGrid[0] = 5;
+            console.log("NONE");
+            payoffTracker.push(0);
 
-        //console.log("PAYOFFROW ", payoffRow);
-        //console.log("PAYOFFCOLUMN ", payoffColumn);
+            tileGrid[posX][posY][0] = 1;
+
+            //console.log("PAYOFFROW ", payoffRow);
+            //console.log("PAYOFFCOLUMN ", payoffColumn);
+        }
+        else if (getPayoff === 1) {
+            // thisGrid[0] = 6;
+            console.log("POTATOE");
+            payoffTracker.push(1);
+            potatoeCount += 1;
+            payoffCount += (potatoeCount * potatoePrice);
+
+            tileGrid[posX][posY][0] = 3;
+
+            payoffRow[posY] += 1;
+            payoffColumn[posX] += 1;
+
+            //console.log("PAYOFFROW ", payoffRow);
+            //console.log("PAYOFFCOLUMN ", payoffColumn);
+        }
     }
-    else if (getPayoff === 1) {
-        // thisGrid[0] = 6;
-        console.log("POTATOE");
-        payoffTracker.push(1);
-        potatoeCount += 1;
-        payoffCount += (potatoeCount * potatoePrice);
-
-        tileGrid[posX][posY][0] = 3;
-
-        payoffRow[posY] += 1;
-        payoffColumn[posX] += 1;
-
-        //console.log("PAYOFFROW ", payoffRow);
-        //console.log("PAYOFFCOLUMN ", payoffColumn);
-    }
-
     exploredRow[posY] += 1;
     exploredColumn[posX] += 1;
 
