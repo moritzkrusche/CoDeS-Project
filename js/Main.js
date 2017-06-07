@@ -2,7 +2,8 @@ var canvas, canvasContext;
 
 var moving = false;
 var animating = false;
-var maxSteps = 70;
+var maxSteps = 100;
+// var moved = false;
 
 var startX = 0;
 var startY = 0;
@@ -17,10 +18,10 @@ const discountFactor = 0.97;
 
 
 function getStart() {
-    var mapWidth = tileGrid[0].length * TILE_W;
-    var mapHeight = tileGrid.length * TILE_H;
-    console.log("MAP WIDTH; HEIGHT : ", mapWidth, mapHeight);
-	return [mapWidth, mapHeight];
+    var mapCols = tileGrid[0].length;
+    var mapRows = tileGrid.length;
+    console.log("MAP COL; ROWS : ", mapCols, mapRows);
+	return [mapCols, mapRows];
 }
 
 function stepCounter() {
@@ -30,6 +31,7 @@ function stepCounter() {
 	}
     animating = false;
     moving = false;
+    //moved = true;
 }
 
 function stopAnimating () {
@@ -148,20 +150,23 @@ window.onload = function() {
 	colorRect(0,0, canvas.width,canvas.height, 'black');
 	colorText("LOADING IMAGES", canvas.width/2-100, canvas.height/2-10, 'white');
     // loadLevel(levelX);
-    loadLevel(levelThree);
+
+    loadLevel(newGrid);
 	loadImages();
 };
 
 function trackerReset() {
 	// center tracker on screen
-	startX = getStart()[0] - canvas.width/2;
+	startX = (getStart()[0] * TILE_W - canvas.width)/2;
 	trackerX = startX;
-	startY = getStart()[1] - canvas.height/2;
+	startY = (getStart()[1] * TILE_H - canvas.height)/2;
 	trackerY = startY;
 	console.log("TRACKER X, Y : ", trackerX, trackerY);
     updateInfo();
-    potatoeCount = 0;
-    payoffCount = 0;
+    //potatoeCount = 0;
+    //payoffCount = 0;
+
+    measureWorld();
 }
 
 

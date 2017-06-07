@@ -20,8 +20,10 @@ var srcY;
 
 var currentDirection = "down";
 
+/*
 var character = new Image();
 character.src = "images/farmerSprite.png";
+*/
 
 function moveFrames() {
     curFrame = ++curFrame % frameCount;
@@ -54,8 +56,9 @@ function drawSprite(x,y,width,height){
     if (!moving) {
         curFrame = 0;
     }
-    canvasContext.drawImage(character,srcX,srcY,spriteWidth,spriteHeight,x,y,width,height);
+    canvasContext.drawImage(charSprite,srcX,srcY,spriteWidth,spriteHeight,x,y,width,height);
 }
+
 
 function intervalTimer(func, wait, times){
     var interv = function(w, t){

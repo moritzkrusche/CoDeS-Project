@@ -1,11 +1,11 @@
-var farmerPic = document.createElement("img");
+var charSprite = document.createElement("img");
 var tilePics = [];
 
 var picsToLoad = 0; // set automatically based on imageList in loadImages()
 
 function countLoadedImagesAndLaunchIfReady() {
 	picsToLoad--;
-	console.log(picsToLoad);
+	// console.log(picsToLoad);
 	if(picsToLoad === 0) {
 		imageLoadingDoneSoStartGame();
 	}
@@ -25,7 +25,7 @@ function loadImageForWorldCode(tileCode, fileName) {
 
 function loadImages() {
 	var imageList = [
-		{varName: farmerPic, theFile: "farmer.png"},
+		{varName: charSprite, theFile: "farmerSprite.png"},
 
 		{tileType: TILE_PLANT1a, theFile: "plant1a.png"},
 		{tileType: TILE_PLANT1b, theFile: "plant1b.png"},
