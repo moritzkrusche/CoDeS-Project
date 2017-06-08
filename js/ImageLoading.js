@@ -1,4 +1,9 @@
 var charSprite = document.createElement("img");
+var potato1 = document.createElement("img");
+var potato2 = document.createElement("img");
+var potato3 = document.createElement("img");
+var uiPic = document.createElement("img");
+
 var tilePics = [];
 
 var picsToLoad = 0; // set automatically based on imageList in loadImages()
@@ -26,6 +31,10 @@ function loadImageForWorldCode(tileCode, fileName) {
 function loadImages() {
 	var imageList = [
 		{varName: charSprite, theFile: "farmerSprite.png"},
+        {varName: potato1, theFile: "potato.png"},
+        {varName: potato2, theFile: "potato.png"},
+        {varName: potato3, theFile: "potato.png"},
+        {varName: uiPic, theFile: "woodPattern.png"},
 
 		{tileType: TILE_PLANT1a, theFile: "plant1a.png"},
 		{tileType: TILE_PLANT1b, theFile: "plant1b.png"},

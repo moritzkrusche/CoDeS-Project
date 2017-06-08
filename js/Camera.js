@@ -65,8 +65,8 @@ soilColumn = [];
 
 
 function instantCamFollow() {
-	camPanX = trackerX - canvas.width/2 + shiftedLeft;
-	camPanY = trackerY - canvas.height/2 + shiftedUp;
+	camPanX = trackerX - CANVAS_W/2 + shiftedLeft;
+	camPanY = trackerY - CANVAS_H/2 + shiftedUp;
     var numRows = tileGrid.length;
     var numCols = tileGrid[0].length;
     var newRow = tileGrid[0].slice();
@@ -76,6 +76,12 @@ function instantCamFollow() {
     var newColumnParameter = jStat.beta.sample(1,2);
     var newPlantSeed = Math.floor(newRowParameter * 5);
     var newSoilSeed = Math.floor(newColumnParameter * 5);
+
+    var maxPanRight = numCols * TILE_W - CANVAS_W;
+    // console.log("MAX PAN RIGHT : ", maxPanRight);
+
+    var maxPanTop = numRows * TILE_H - CANVAS_H;
+    // console.log("MAX PAN TOP : ", maxPanTop);
 
     if(camPanX <= TILE_W) {
         shiftedLeft += TILE_W;
@@ -89,7 +95,7 @@ function instantCamFollow() {
         unshiftArray(columnParameters, newColumnParameter);
         unshiftArray(soilColumn, newSoilSeed);
     }
-    if(camPanY <= TILE_H) {
+    else if(camPanY <= TILE_H) {
         shiftedUp += TILE_H;
         console.log("ADD TOP");
         //tileGrid.unshift(createRow(numCols));
@@ -97,24 +103,19 @@ function instantCamFollow() {
         unshiftArray(rowParameters, newRowParameter);
         unshiftArray(plantRow, newPlantSeed);
     }
-    var maxPanRight = numCols * TILE_W - canvas.width;
-    // console.log("MAX PAN RIGHT : ", maxPanRight);
 
-    var maxPanTop = numRows * TILE_H - canvas.height;
-    // console.log("MAX PAN TOP : ", maxPanTop);
-
-    if(camPanX >= maxPanRight) {
+    else if(camPanX >= maxPanRight) {
     	console.log("ADD RIGHT");
-		for (var eachRow=0; eachRow < numRows; eachRow++) {
-    		if (tileGrid[eachRow] !== undefined) {
-                tileGrid[eachRow].push(newCol);
+		for (var everyRow=0; everyRow < numRows; everyRow++) {
+    		if (tileGrid[everyRow] !== undefined) {
+                tileGrid[everyRow].push(newCol);
                 // tileGrid[eachRow][tileGrid[eachRow].length] = createColumn();
             }
 		}
         columnParameters.push(newColumnParameter);
         soilColumn.push(newSoilSeed);
     }
-    if(camPanY >= maxPanTop) {
+    else if(camPanY >= maxPanTop) {
         console.log("ADD BOTTOM");
         // tileGrid.push(createRow(numCols));
         tileGrid[tileGrid.length] = newRow;

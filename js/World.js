@@ -629,7 +629,7 @@ function updateInfo(callback) {
             console.log("POTATOE");
             payoffTracker.push(1);
             potatoeCount += 1;
-            payoffCount += (potatoeCount * potatoePrice);
+            payoffCount += potatoePrice;
 
             tileGrid[posX][posY][0] = 3;
 
@@ -767,10 +767,10 @@ function getInfoLevel(rowOrCol) {
 }
 
 
-function getQuality(payoffCount, exploredCount) {
-    var fraction = payoffCount / exploredCount;
+function getQuality(timesPotato, timesExplored) {
+    var fraction = timesPotato / timesExplored;
 
-    if (exploredCount === 0){
+    if (timesExplored === 0){
         return 2;
     }
     else if (fraction <= 0.2) {
@@ -798,8 +798,8 @@ function drawOnlyTilesOnScreen() {
     var cameraLeftMostCol = Math.floor(camPanX / TILE_W);
     var cameraTopMostRow = Math.floor(camPanY / TILE_H);
     // how many rows and columns of tiles fit on one screenful of area?
-    var colsThatFitOnScreen = Math.floor(canvas.width / TILE_W);
-    var rowsThatFitOnScreen = Math.floor(canvas.height / TILE_H);
+    var colsThatFitOnScreen = Math.floor(CANVAS_W / TILE_W);
+    var rowsThatFitOnScreen = Math.floor(CANVAS_H / TILE_H);
 
     // finding the rightmost and bottommost tiles to draw.
     // the +1 on each pushes the new tile popping in off visible area
@@ -865,7 +865,7 @@ function drawOnlyTilesOnScreen() {
             }
         } // end of for each col
     } // end of for each row
-} // end of drawBricks()
+} // end of drawTiles()
 
 
 function updatePos(posX, posY) {

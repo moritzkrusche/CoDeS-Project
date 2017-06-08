@@ -5,19 +5,22 @@ var animMove = false;
 var maxSteps = 100;
 // var moved = false;
 
+const CANVAS_H = 700;
+const CANVAS_W = 700;
+
 var startX = 0;
 var startY = 0;
 
-const CHAR_W = 70;
-const CHAR_H = 100;
+const CHAR_W = 60;
+const CHAR_H = 90;
 
 var potatoeCount = 0;
-var potatoePrice = 100;
+var potatoePrice = 0.1;
 var payoffCount = 0;
 const discountFactor = 0.97;
 
-const POTATO_W = 70;
-const POTATO_H = 45;
+const POTATO_W = 60;
+const POTATO_H = 30;
 
 function getStart() {
     var mapCols = tileGrid[0].length;
@@ -135,8 +138,8 @@ function trackerMove() {
 window.onload = function() {
 	canvas = document.getElementById('gameCanvas');
 	canvasContext = canvas.getContext('2d');
-	colorRect(0,0, canvas.width,canvas.height, 'black');
-	colorText("LOADING IMAGES", canvas.width/2-100, canvas.height/2-10, 'white');
+	colorRect(0,0, CANVAS_W,CANVAS_H, 'black');
+	colorText("LOADING IMAGES", CANVAS_W/2-50, CANVAS_H/2-10, 'white');
     // loadLevel(levelX);
 
     loadLevel(newGrid);
@@ -145,16 +148,16 @@ window.onload = function() {
 
 function trackerReset() {
 	// center tracker on screen
-	startX = (getStart()[0] * TILE_W - canvas.width)/2;
+	startX = (getStart()[0] * TILE_W - CANVAS_W)/2;
 	trackerX = startX;
-	startY = (getStart()[1] * TILE_H - canvas.height)/2;
+	startY = (getStart()[1] * TILE_H - CANVAS_H)/2;
 	trackerY = startY;
 
     potatoX1= startX;
     potatoY1 = startY;
     animY1 = startY;
 
-	console.log("TRACKER X, Y : ", trackerX, trackerY);
+	//console.log("TRACKER X, Y : ", trackerX, trackerY);
     updateInfo();
     //potatoeCount = 0;
     //payoffCount = 0;
@@ -279,7 +282,7 @@ function animatePayoff() {
                 if (animPos1 === 280) {
                     clearInterval(animId1);
                     animPotato1 = false;
-                    console.log("INTERVAL POTATO ONE CLEARED");
+                    //console.log("INTERVAL POTATO ONE CLEARED");
 
                 } else {
                     animY1 -= 10;
@@ -300,7 +303,7 @@ function animatePayoff() {
                 if (animPos2 === 280) {
                     clearInterval(animId2);
                     animPotato2 = false;
-                    console.log("INTERVAL POTATO TWO CLEARED");
+                    //console.log("INTERVAL POTATO TWO CLEARED");
 
                 } else {
                     animY2 -= 10;
@@ -321,7 +324,7 @@ function animatePayoff() {
                 if (animPos3 === 280) {
                     clearInterval(animId3);
                     animPotato3 = false;
-                    console.log("INTERVAL POTATO THREE CLEARED");
+                    //console.log("INTERVAL POTATO THREE CLEARED");
 
                 } else {
                     animY3 -= 10;
@@ -336,20 +339,20 @@ function animatePayoff() {
 function drawEverything() {
 	// drawing black to erase previous frame, doing before .translate() since
 	// its coordinates are not supposed to scroll when the camera view does
-	colorRect(0, 0, canvas.width, canvas.height, 'black');
+	colorRect(0, 0, CANVAS_W, CANVAS_H, 'black');
 
 	canvasContext.save(); // needed to undo this .translate() used for scroll
 
 	// this next line is like subtracting camPanX and camPanY from every
 	// canvasContext draw operation up until we call canvasContext.restore
 	// this way we can just draw them at their "actual" position coordinates
-	canvasContext.translate(-camPanX,-camPanY);
+	canvasContext.translate(-camPanX,-camPanY+100);
 
 	drawOnlyTilesOnScreen();
-    var centreX = camPanX + canvas.height/2;
-    var centreY = camPanY + canvas.width/2;
+    var centreX = camPanX + CANVAS_H/2;
+    var centreY = camPanY + CANVAS_W/2;
 
-    drawSprite(centreX - 35, centreY - 40, CHAR_W, CHAR_H);
+    drawSprite(centreX - 30, centreY - 35, CHAR_W, CHAR_H);
     //drawBitmapCenteredWithRotation(potatoAnim, centreX, centreY - 150, 0, TILE_W*0.7, TILE_H * 0.46);
 
     placePayoff(centreX, centreY);
@@ -360,18 +363,22 @@ function drawEverything() {
 
 	canvasContext.restore(); // undoes the .translate() used for cam scroll
 
+    canvasContext.drawImage(uiPic,0,0,CANVAS_W,100);
+    //colorRect(0,0, CANVAS_W,100, '#ff00ff');
 	// doing this after .restore() so it won't scroll with the camera pan
-    colorText("POTATOES COLLECTED : " + potatoeCount,10,20, "white");
 
-    var currentX = ((trackerX - startX)/TILE_W);
-    var currentY = ((trackerY - startY)/TILE_H);
 
-    colorText("X : " + currentX, 250,20, "white");
-    colorText("Y : " + currentY, 300,20, "white");
-    colorText("STEPS LEFT: " + maxSteps, 400,20, "white");
+    var currentX = round((trackerX - startX)/TILE_W, 0);
+    var currentY = round((trackerY - startY)/TILE_H, 0) * -1;
 
-    colorText("POTATOE PRICE : " + Math.floor(potatoePrice), 500,20, "white");
+    canvasContext.font = 'italic 12pt Calibri';
+    colorText("POTATOES COLLECTED : " + potatoeCount,100,20, "white");
+    colorText("X : " + currentX, 10,20, "white");
+    colorText("Y : " + currentY, 60,20, "white");
+    colorText("STEPS LEFT: " + maxSteps, 550,20, "white");
 
-    colorText("$ : " + Math.floor(payoffCount), 10,50, "white");
+    colorText("POTATOE PRICE : " + round(potatoePrice, 2) + "$", 330,20, "white");
+    canvasContext.font = 'italic 20pt Calibri';
+    colorText("$ : " + round(payoffCount, 2), 300,60, "white");
 }
 
