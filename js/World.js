@@ -6,6 +6,8 @@ const TILE_ROWS = 220;
 var posX = 0;
 var posY = 0;
 
+var potato = false;
+
 var levelThree;
 levelThree =
     [ [ [ 4, 2, 3, 3, 0 ],
@@ -570,7 +572,6 @@ function measureWorld() {
 generateWorld();
 
 
-
 //console.log("plantRow", plantRow);
 //console.log("soilColumn", soilColumn);
 
@@ -605,6 +606,10 @@ function updateInfo(callback) {
 
 
     if (tileGrid[posX][posY][0] === 0) {
+
+        exploredRow[posY] += 1;
+        exploredColumn[posX] += 1;
+
         var getPayoff = checkPayoff(columnParameters[posX], rowParameters[posY]);
 
         if (getPayoff === 0) {
@@ -619,6 +624,8 @@ function updateInfo(callback) {
         }
         else if (getPayoff === 1) {
             // thisGrid[0] = 6;
+            potato = true;
+
             console.log("POTATOE");
             payoffTracker.push(1);
             potatoeCount += 1;
@@ -633,9 +640,6 @@ function updateInfo(callback) {
             //console.log("PAYOFFCOLUMN ", payoffColumn);
         }
     }
-    exploredRow[posY] += 1;
-    exploredColumn[posX] += 1;
-
 
     /*
     for (var i = posX -3; i <= posX + 3; i++ ) {

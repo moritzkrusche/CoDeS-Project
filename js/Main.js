@@ -1,7 +1,7 @@
 var canvas, canvasContext;
 
 var moving = false;
-var animating = false;
+var animMove = false;
 var maxSteps = 100;
 // var moved = false;
 
@@ -16,6 +16,8 @@ var potatoePrice = 100;
 var payoffCount = 0;
 const discountFactor = 0.97;
 
+const POTATO_W = 70;
+const POTATO_H = 45;
 
 function getStart() {
     var mapCols = tileGrid[0].length;
@@ -29,31 +31,17 @@ function stepCounter() {
         maxSteps -=1;
         potatoePrice *= discountFactor;
 	}
-    animating = false;
+    animMove = false;
     moving = false;
     //moved = true;
 }
 
 function stopAnimating () {
-    animating = false;
+    animMove = false;
     moving = false;
 }
 
 
-function myMove() {
-    var elem = document.getElementById("animate");
-    var pos = 0;
-    var id = setInterval(frame, 5);
-    function frame() {
-        if (pos === 350) {
-            clearInterval(id);
-        } else {
-            pos++;
-            elem.style.top = pos + 'px';
-            elem.style.left = pos + 'px';
-        }
-    }
-}
 
 function elementMove() {
     var elem = document.getElementById("animate");
@@ -83,7 +71,7 @@ function trackerMove() {
     if (!moving && maxSteps > 0) {
 
         if (holdLeft) {
-            directionX = -1;
+            directionX = -5;
             holdLeft = false;
             moving = true;
             currentDirection = "left";
@@ -92,7 +80,7 @@ function trackerMove() {
 
         }
         else if (holdRight) {
-            directionX = 1;
+            directionX = 5;
 
             holdRight = false;
             moving = true;
@@ -102,7 +90,7 @@ function trackerMove() {
 
         }
         else if (holdUp) {
-            directionY = -1;
+            directionY = -5;
 
             holdUp = false;
             moving = true;
@@ -113,7 +101,7 @@ function trackerMove() {
 
         }
         else if (holdDown) {
-            directionY = 1;
+            directionY = 5;
             holdDown = false;
             moving = true;
             currentDirection = "down";
@@ -122,14 +110,14 @@ function trackerMove() {
 
         }
     }
-	if(moving && !animating) {
+	if(moving && !animMove) {
 
-        animating = true;
-        var pos = 0;
-        var id = setInterval(frame, 3);
-        function frame() {
-            if (pos === 100) {
-                clearInterval(id);
+        animMove = true;
+        var stepsMoved = 0;
+        var moveId = setInterval(frameMove, 30);
+        function frameMove() {
+            if (stepsMoved === 100) {
+                clearInterval(moveId);
                 updateInfo(stepCounter())
 
             } else {
@@ -137,7 +125,7 @@ function trackerMove() {
                 nextY += directionY;
                 trackerX = nextX;
                 trackerY = nextY;
-                pos++;
+                stepsMoved+=5;
             }
         }
 	}
@@ -161,6 +149,11 @@ function trackerReset() {
 	trackerX = startX;
 	startY = (getStart()[1] * TILE_H - canvas.height)/2;
 	trackerY = startY;
+
+    potatoX1= startX;
+    potatoY1 = startY;
+    animY1 = startY;
+
 	console.log("TRACKER X, Y : ", trackerX, trackerY);
     updateInfo();
     //potatoeCount = 0;
@@ -193,6 +186,153 @@ function moveEverything() {
 }
 
 
+
+function intervalTimer(func, wait, times){
+    var interv = function(w, t){
+        return function(){
+            if(typeof t === "undefined" || t-- > 0){
+                setTimeout(interv, w);
+                try{
+                    func.call(null);
+                }
+                catch(e){
+                    t = 0;
+                    throw e.toString();
+                }
+            }
+        };
+    }(wait, times);
+
+    setTimeout(interv, wait);
+}
+
+var potatoX1 = 0;
+var potatoY1 = 0;
+var animY1 = 0;
+
+var potatoX2 = 0;
+var potatoY2 = 0;
+var animY2 = 0;
+
+var potatoX3 = 0;
+var potatoY3 = 0;
+var animY3 = 0;
+
+var payoffAnimCount = 0;
+
+var animPotato1 = false;
+var animPotato2 = false;
+var animPotato3 = false;
+
+function drawPayoff() {
+
+    if (animPotato1) {
+        drawBitmapCenteredWithRotation(potato1, potatoX1, potatoY1, 0, POTATO_W, POTATO_H);
+    }
+
+    if (animPotato2) {
+        drawBitmapCenteredWithRotation(potato2, potatoX2, potatoY2, 0, POTATO_W, POTATO_H);
+    }
+
+    if (animPotato3) {
+        drawBitmapCenteredWithRotation(potato3, potatoX3, potatoY3, 0, POTATO_W, POTATO_H);
+    }
+
+}
+
+function placePayoff(atX, atY) {
+
+    if (!potato) {
+
+        if (!animPotato1) {
+            potatoX1 = atX;
+            potatoY1 = atY - POTATO_H;
+            animY1 = potatoY1
+        }
+
+        if (!animPotato2) {
+            potatoX2 = atX;
+            potatoY2 = atY - POTATO_H;
+            animY2 = potatoY2
+        }
+
+        if (!animPotato3) {
+            potatoX3 = atX;
+            potatoY3 = atY - POTATO_H;
+            animY3 = potatoY3
+        }
+    }
+
+}
+
+function animatePayoff() {
+
+    if (potato) {
+        if (!animPotato1) {
+            potato = false;
+            animPotato1 = true;
+            payoffAnimCount += 1;
+            var animPos1 = 0;
+            var animId1 = setInterval(frameAnim1, 37);
+
+            function frameAnim1() {
+                if (animPos1 === 280) {
+                    clearInterval(animId1);
+                    animPotato1 = false;
+                    console.log("INTERVAL POTATO ONE CLEARED");
+
+                } else {
+                    animY1 -= 10;
+                    potatoY1 = animY1;
+                    animPos1+=10;
+                }
+            }
+        }
+
+        else if (!animPotato2) {
+            potato = false;
+            animPotato2 = true;
+            payoffAnimCount += 1;
+            var animPos2 = 0;
+            var animId2 = setInterval(frameAnim2, 39);
+
+            function frameAnim2() {
+                if (animPos2 === 280) {
+                    clearInterval(animId2);
+                    animPotato2 = false;
+                    console.log("INTERVAL POTATO TWO CLEARED");
+
+                } else {
+                    animY2 -= 10;
+                    potatoY2 = animY2;
+                    animPos2+=10;
+                }
+            }
+        }
+
+        else if (!animPotato3) {
+            potato = false;
+            animPotato3 = true;
+            payoffAnimCount += 1;
+            var animPos3 = 0;
+            var animId3 = setInterval(frameAnim3, 38);
+
+            function frameAnim3() {
+                if (animPos3 === 280) {
+                    clearInterval(animId3);
+                    animPotato3 = false;
+                    console.log("INTERVAL POTATO THREE CLEARED");
+
+                } else {
+                    animY3 -= 10;
+                    potatoY3 = animY3;
+                    animPos3+=10;
+                }
+            }
+        }
+    }
+}
+
 function drawEverything() {
 	// drawing black to erase previous frame, doing before .translate() since
 	// its coordinates are not supposed to scroll when the camera view does
@@ -210,8 +350,11 @@ function drawEverything() {
     var centreY = camPanY + canvas.width/2;
 
     drawSprite(centreX - 35, centreY - 40, CHAR_W, CHAR_H);
-    // drawBitmapCenteredWithRotation(farmerPic, centreX, centreY, rotate, TILE_W * 0.7, TILE_H);
+    //drawBitmapCenteredWithRotation(potatoAnim, centreX, centreY - 150, 0, TILE_W*0.7, TILE_H * 0.46);
 
+    placePayoff(centreX, centreY);
+    drawPayoff();
+    animatePayoff();
 	// console.log("TRACKER X: ", trackerX, "TRACKER Y : ", trackerY);
     // console.log("CAM PAN X: ", camPanX, "CAM PAN Y : ", camPanY);
 
