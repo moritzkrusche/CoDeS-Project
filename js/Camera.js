@@ -7,27 +7,11 @@ function getRandomIntInclusive(min, max) {
 }
 
 
-var tileTypes = ['A', 'B', 'C', 'D', "E", "0", "X"];
-
 
 function unshiftArray (array, item) {
     var len=array.length;
     while (len) { array[len] = array[len-1]; len--}
     array[0] = item;
-}
-
-
-
-function setToDefault(level) {
-    for(var i = 0; i < level.length; i++) {
-        for(var j = 0; j < level[i].length; j++) {
-            level[i][j][0] = getRandomIntInclusive(0, 4);
-            level[i][j][1] = getRandomIntInclusive(0, 4);
-            level[i][j][2] = 3;
-            level[i][j][3] = 3;
-            // level[i][j].push(1)
-        }
-    }
 }
 
 
@@ -56,12 +40,6 @@ function createRow(rowLength) {
 
 }
 
-
-rowParameters = [];
-columnParameters = [];
-
-plantRow = [];
-soilColumn = [];
 
 
 function instantCamFollow() {

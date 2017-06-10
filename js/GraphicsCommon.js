@@ -36,4 +36,36 @@ function round(value, decimals) {
     return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
 }
 
-round(1.005, 2); // 1.01
+function elementMove() {
+    var elem = document.getElementById("animate");
+    var pos = 0;
+    var id = setInterval(frame, 5);
+    function frame() {
+        if (pos === 350) {
+            clearInterval(id);
+        } else {
+            pos++;
+            elem.style.top = pos + 'px';
+            elem.style.left = pos + 'px';
+        }
+    }
+}
+
+function intervalTimer(func, wait, times){
+    var interv = function(w, t){
+        return function(){
+            if(typeof t === "undefined" || t-- > 0){
+                setTimeout(interv, w);
+                try{
+                    func.call(null);
+                }
+                catch(e){
+                    t = 0;
+                    throw e.toString();
+                }
+            }
+        };
+    }(wait, times);
+
+    setTimeout(interv, wait);
+}
