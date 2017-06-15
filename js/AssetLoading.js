@@ -185,7 +185,7 @@ function loadSounds() {
     backgroundSound = new Howl({volume: 0.4, preload: true, src: ["audio/background" + audioFormat], loop: true});
 
     if (isMobile) {
-    	potatoSound.html5 = true; walkingSound.html5 = true; errorSound.html5 = true; backgroundSound.html5 = true;
+    	backgroundSound.html5 = true;
 	}
 
     var audioId = setInterval(frameAudio, 30);
