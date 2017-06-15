@@ -1,32 +1,71 @@
 <!DOCTYPE html>
+
 <html lang="en">
-<head>
-	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-	<meta content="utf-8" http-equiv="encoding">
-</head>
 
-<body>
-<canvas id="gameCanvas" width="700" height="750"></canvas>
-<p id="debugText">Move using the arrow keys on your keyboard. </p>
+	<head>
+
+		<!-- Meta / style / title-->
+		<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+		<meta content="utf-8" http-equiv="encoding">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="Moritz Krusche">
+
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<title>Decision game</title>
+	</head>
+
+	<body>
+		<!-- -->
+		<canvas id="gameCanvas" width="700" height="750"></canvas>
+		<!-- <canvas id="weatherCanvas" width="700" height="750"></canvas> -->
+		<!-- <canvas id="uiCanvas" width="700" height="200"></canvas> -->
+
+		<p id="debugText" style="font-size:20px; margin: auto">
+			Move using the arrow keys on your keyboard.
+		</p>
+
+		<button onclick='buttonLeft()'>Left</button>
+		<button onclick='buttonRight()'>Right</button>
+		<button onclick='buttonUp()'>Up</button>
+		<button onclick='buttonDown()'>Down</button>
+
+		<!-- Initialising firebase to store data  -->
+		<!--
+		<script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
+		<script>
+	  	// Initialize Firebase
+	  	var config = {
+	    	apiKey: "AIzaSyDp7KeZVXhpaaryW-sPQZmXZYobouqecO0",
+	    	authDomain: "pilot-farming-task.firebaseapp.com",
+	    	databaseURL: "https://pilot-farming-task.firebaseio.com",
+	    	projectId: "pilot-farming-task",
+	    	storageBucket: "pilot-farming-task.appspot.com",
+	    	messagingSenderId: "768805606623"
+	  	};
+	  	firebase.initializeApp(config);
+		</script>
+		-->
+
+		<!-- Libaries-->
+		<script src="js/jstat.js"></script>
 
 
-<script src="js/jstat.js"></script>
+		<script src="js/howler.core.min.js"></script>
 
-<!--
-<script src="js/jquery-3.2.1.slim.js"></script>
--->
+		<!-- <script src="js/jquery-3.2.1.slim.js"></script> -->
 
-<script src="js/GraphicsCommon.js"></script>
-<script src="js/ImageLoading.js"></script>
-<script src="js/Camera.js"></script>
-<script src="js/World.js"></script>
-<script src="js/Maps.js"></script>
-<script src="js/Input.js"></script>
-<script src="js/Movement.js"></script>
 
-<script src="js/Animation.js"></script>
+		<!-- Main Experiment JS files-->
+		<script src="js/GraphicsCommon.js"></script>
+		<script src="js/AssetLoading.js"></script>
+		<script src="js/Camera.js"></script>
+		<script src="js/World.js"></script>
+		<script src="js/Maps.js"></script>
+		<script src="js/Input.js"></script>
+		<script src="js/Movement.js"></script>
+		<script src="js/Animation.js"></script>
+		<script src="js/Main.js"></script>
 
-<script src="js/Main.js"></script>
-
-</body>
+	</body>
 </html>
