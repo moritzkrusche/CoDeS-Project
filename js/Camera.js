@@ -1,4 +1,7 @@
-
+var camPanX = 0.0;
+var camPanY = 0.0;
+var shiftedLeft = 0;
+var shiftedUp = 0;
 
 function getRandomIntInclusive(min, max) {
     min = Math.ceil(min);

@@ -14,6 +14,12 @@ function checkPayoff(colPar, rowPar) {
     }
 }
 
+function getGridPos() {
+    var gridX = Math.floor((trackerX + shiftedLeft)/TILE_W);
+    var gridY = Math.floor((trackerY + shiftedUp)/TILE_H);
+    return [gridX, gridY]
+}
+
 function updateInfo(callback) {
     var posX = Math.floor((trackerX + shiftedLeft)/TILE_W);
     var posY = Math.floor((trackerY + shiftedUp)/TILE_H);
@@ -40,6 +46,8 @@ function updateInfo(callback) {
         }
         else if (getPayoff === 1) {
             potatoShow.animate();
+            //document.getElementById("potato").play();
+            potatoSound.play();
 
             console.log("POTATOE");
             payoffTracker.push(1);
@@ -66,7 +74,30 @@ function stepCounter(whichSprite) {
     }
     whichSprite.animMove = false;
     whichSprite.moving = false;
+
+
 }
+
+function checkCollision(atTrackerX, atTrackerY) {
+    var someX = Math.floor(atTrackerX/TILE_W);
+    var someY = Math.floor(atTrackerY/TILE_H);
+    var nextPos = tileGrid[someX][someY].slice();
+
+    if (nextPos[0] === 5 || nextPos >= 7) {
+        console.log("STOP MOVING");
+        errorSound.play();
+        //document.getElementById("error").play();
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+
+
+var pauseID;
+
 
 function trackerMove(someSprite) {
     var nextX = trackerX;
@@ -77,47 +108,62 @@ function trackerMove(someSprite) {
     if (!someSprite.moving && someSprite.maxSteps > 0) {
 
         if (holdLeft) {
-            directionX = -5;
-            holdLeft = false;
-            someSprite.moving = true;
-            someSprite.currentDirection = "left";
+            if (checkCollision(nextX-TILE_W, nextY) !== true) {
+                holdLeft = false;
+                directionX = -5;
+                someSprite.moving = true;
+                someSprite.currentDirection = "left";
 
-            movementTracker.push("left");
+                movementTracker.push("left");
+            }
         }
         else if (holdRight) {
-            directionX = 5;
-            holdRight = false;
-            someSprite.moving = true;
-            someSprite.currentDirection = "right";
+            if (checkCollision(nextX+TILE_W, nextY) !== true) {
+                holdRight = false;
+                directionX = 5;
+                someSprite.moving = true;
+                someSprite.currentDirection = "right";
 
-            movementTracker.push("right");
+                movementTracker.push("right");
+            }
         }
         else if (holdUp) {
-            directionY = -5;
-            holdUp = false;
-            someSprite.moving = true;
-            someSprite.currentDirection = "up";
+            if (checkCollision(nextX, nextY-TILE_H) !== true) {
+                holdUp = false;
+                directionY = -5;
+                someSprite.moving = true;
+                someSprite.currentDirection = "up";
 
-            movementTracker.push("up");
+                movementTracker.push("up");
+            }
         }
         else if (holdDown) {
-            directionY = 5;
-            holdDown = false;
-            someSprite.moving = true;
-            someSprite.currentDirection = "down";
+            if (checkCollision(nextX, nextY+TILE_H) !== true) {
+                holdDown = false;
+                directionY = 5;
+                someSprite.moving = true;
+                someSprite.currentDirection = "down";
 
-            movementTracker.push("down");
+                movementTracker.push("down");
+            }
         }
     }
     if(someSprite.moving && !someSprite.animMove) {
-
+        clearTimeout(pauseID);
+        if (walkingSound.pause()){
+            walkingSound.play();
+        }
+        //document.getElementById("walking").play();
         someSprite.animMove = true;
         var stepsMoved = 0;
+
         var moveId = setInterval(frameMove, 30);
         function frameMove() {
             if (stepsMoved === 100) {
                 clearInterval(moveId);
-                updateInfo(stepCounter(someSprite))
+                updateInfo(stepCounter(someSprite));
+
+                pauseID = setTimeout(function(){walkingSound.pause()}, 250);
 
             } else {
                 nextX += directionX;

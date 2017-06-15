@@ -192,45 +192,35 @@ function drawOnlyTilesOnScreen() {
     var cameraRightMostCol = cameraLeftMostCol + colsThatFitOnScreen + 1;
     var cameraBottomMostRow = cameraTopMostRow + rowsThatFitOnScreen + 1;
 
-    for(var eachRow=cameraTopMostRow; eachRow<cameraBottomMostRow; eachRow++) {
+    for(var eachCol=cameraLeftMostCol; eachCol<cameraRightMostCol; eachCol++) {
 
-        for(var eachCol=cameraLeftMostCol; eachCol<cameraRightMostCol; eachCol++) {
+        for(var eachRow=cameraTopMostRow; eachRow<cameraBottomMostRow; eachRow++) {
 
 			//if (isTileAtCoord(eachRow, eachCol)) {
             if (trainingPhase) {
                 var arrayIndex = tileGrid[eachCol][eachRow];
 
-                // console.log("COL", eachCol);
-                // console.log("ROW", eachRow);
-
                 var drawX = eachCol * TILE_W;
                 var drawY = eachRow * TILE_H;
 
-                //var visitedTile = tileGrid[eachCol][eachRow];
+                var infoType = getInfo(eachRow, eachCol);
+                var soilParameter = infoType[2];
+                var plantParameter = infoType[3];
 
-                if (arrayIndex[0] < 1) {
+                //var soilType = "S" + arrayIndex[2] + tileTypes[arrayIndex[0]];
+                var soilType = "S"+ infoType[0] + tileTypes[soilParameter];
 
-                    var infoType = getInfo(eachRow, eachCol);
+                //console.log("SOIL TYPE", soilType);
+                // var plantType = "P" + arrayIndex[3] + tileTypes[arrayIndex[1]];
+                var plantType = "P" + infoType[1] + tileTypes[plantParameter];
+                var soilImg = tilePics[soilType];
+                var plantImg = tilePics[plantType];
+                //var soilImg = tilePics[arrayIndex[0]];
+                //var plantImg = tilePics[arrayIndex[1]];
 
-                    var soilParameter = infoType[2];
-                    var plantParameter = infoType[3];
-
-                    //var soilType = "S" + arrayIndex[2] + tileTypes[arrayIndex[0]];
-                    var soilType = "S"+ infoType[0] + tileTypes[soilParameter];
-
-                    //console.log("SOIL TYPE", soilType);
-                    // var plantType = "P" + arrayIndex[3] + tileTypes[arrayIndex[1]];
-
-                    var plantType = "P" + infoType[1] + tileTypes[plantParameter];
-
-                    var soilImg = tilePics[soilType];
-                    var plantImg = tilePics[plantType];
-                    //var soilImg = tilePics[arrayIndex[0]];
-                    //var plantImg = tilePics[arrayIndex[1]];
-
+                if (arrayIndex[0] === 0) {
                     canvasContext.drawImage(soilImg, drawX, drawY, TILE_W, TILE_H);
                     canvasContext.drawImage(plantImg, drawX + 20, drawY + 20, TILE_W*0.6, TILE_H*0.6);
-
                 }
                 else {
                     if (arrayIndex[0] === 1) {
@@ -239,15 +229,26 @@ function drawOnlyTilesOnScreen() {
                     else if (arrayIndex[0] === 3) {
                         canvasContext.drawImage(tilePics["SXX"], drawX, drawY, TILE_W, TILE_H);
                     }
+                    else if (arrayIndex[0] === 5) {
+                        canvasContext.drawImage(tilePics["W"], drawX, drawY, TILE_W, TILE_H);
+                        canvasContext.drawImage(tilePics["N"], drawX + 20, drawY + 20, TILE_W*0.6, TILE_H*0.6);
+                    }
+                    else if (arrayIndex[0] === 7) {
+                        canvasContext.drawImage(soilImg, drawX, drawY, TILE_W, TILE_H);
+                        canvasContext.drawImage(tilePics["R1"], drawX, drawY, TILE_W, TILE_H);
+                    }
+                    else if (arrayIndex[0] === 8) {
+                        canvasContext.drawImage(soilImg, drawX, drawY, TILE_W, TILE_H);
+                        canvasContext.drawImage(tilePics["R2"], drawX, drawY, TILE_W, TILE_H);
+                    }
+                    else if (arrayIndex[0] === 9) {
+                        canvasContext.drawImage(soilImg, drawX, drawY, TILE_W, TILE_H);
+                        canvasContext.drawImage(tilePics["R3"], drawX, drawY, TILE_W, TILE_H);
+                    }
                 }
-
             }
-        } // end of for each col
-    } // end of for each row
-} // end of drawTiles()
-
-
-function updatePos(posX, posY) {
-
-
+        }
+    }
 }
+
+

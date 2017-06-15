@@ -1,3 +1,5 @@
+
+//********************************move within Init function*************************************************************
 var canvas, canvasContext;
 
 const CANVAS_H = 700;
@@ -13,10 +15,10 @@ var farmerChar = new SpriteClass(charSprite);
 var potatoShow = new AnimationClass(potato1, potato2, potato3);
 
 function getStart() {
-    var mapCols = tileGrid[0].length;
-    var mapRows = tileGrid.length;
-    console.log("MAP COL; ROWS : ", mapCols, mapRows);
-	return [mapCols, mapRows];
+    // add + 1 because array index starts at 0
+    var startCol = Math.floor(tileGrid[0].length/2)+1;
+    var startRow = Math.floor(tileGrid.length/2)+1;
+	return [startCol, startRow];
 }
 
 
@@ -25,17 +27,15 @@ window.onload = function() {
 	canvasContext = canvas.getContext('2d');
 	colorRect(0,0, CANVAS_W,CANVAS_H, 'black');
 	colorText("LOADING IMAGES", CANVAS_W/2-50, CANVAS_H/2-10, 'white');
-    // loadLevel(levelX);
 
-    loadLevel(newGrid);
 	loadImages();
 };
 
 function trackerReset(whichSprite, whichAnim) {
 	// center tracker on screen
-    whichSprite.startX = (getStart()[0] * TILE_W - CANVAS_W)/2;
+    whichSprite.startX = (getStart()[0]) * TILE_W - TILE_W/2;
 	trackerX = whichSprite.startX;
-    whichSprite.startY = (getStart()[1] * TILE_H - CANVAS_H)/2;
+    whichSprite.startY = (getStart()[1]) * TILE_H - TILE_H/2;
 	trackerY = whichSprite.startY;
 
     whichAnim.resetStart(whichSprite.startX, whichSprite.startY);
@@ -51,14 +51,17 @@ function trackerReset(whichSprite, whichAnim) {
 
 function imageLoadingDoneSoStartGame() {
 	var framesPerSecond = 10;
+    loadLevel(newGrid);
+    //loadLevel(testMap2);
 	setInterval(updateAll, 1000/framesPerSecond);
-	initInput();
-
+    initInput();
 }
 
 function loadLevel(whichLevel) {
 	tileGrid = whichLevel.slice();
     trackerReset(farmerChar, potatoShow);
+
+    backgroundSound.play();
 }
 
 function updateAll() {
@@ -71,6 +74,11 @@ function moveEverything() {
 	instantCamFollow();
 }
 
+
+
+
+//********************************UI********************************************************************************
+
 function drawUI(whichSprite){
     canvasContext.drawImage(uiPic,0,0,CANVAS_W,100);
     colorRect(260,10, 100,30, 'red');
@@ -78,6 +86,7 @@ function drawUI(whichSprite){
 
     var currentX = round((trackerX - whichSprite.startX)/TILE_W, 0);
     var currentY = round((trackerY - whichSprite.startY)/TILE_H, 0) * -1;
+    var movesLeft = Math.round((farmerChar.maxSteps/100) * 100);
 
     canvasContext.font = 'italic 18pt "Comic Sans MS", cursive, sans-serif';
     colorText("X: " + currentX, 50,35, "#DAA520");
@@ -85,11 +94,13 @@ function drawUI(whichSprite){
 
     canvasContext.font = 'italic 20pt "Comic Sans MS", cursive, sans-serif';
     colorText(potatoeCount,635,35, "#DAA520");
-    colorText(farmerChar.maxSteps, 285,35, "#DAA520");
+    colorText(movesLeft, 285,35, "#DAA520");
     colorText(round(potatoePrice, 2) + " $", 475,35, "#DAA520");
     canvasContext.font = 'italic 28pt "Comic Sans MS", cursive, sans-serif';
     colorText(round(payoffCount, 2) + " $", 315,85, "#DAA520");
 }
+
+//********************************draw********************************************************************************
 
 function drawEverything() {
 	// drawing black to erase previous frame, doing before .translate() since
@@ -104,18 +115,15 @@ function drawEverything() {
 	canvasContext.translate(-camPanX,-camPanY+50);
 
 	drawOnlyTilesOnScreen();
-    var centreX = camPanX + CANVAS_H/2;
-    var centreY = camPanY + CANVAS_W/2;
-
-    farmerChar.drawSprite(centreX - 30, centreY - 35);
-
-    potatoShow.animatePayoff(centreX, centreY);
 	// console.log("TRACKER X: ", trackerX, "TRACKER Y : ", trackerY);
     // console.log("CAM PAN X: ", camPanX, "CAM PAN Y : ", camPanY);
 
 	canvasContext.restore(); // undoes the .translate() used for cam scroll
-
 	// doing this after .restore() so it won't scroll with the camera pan
+    var centreX = CANVAS_W/2;
+    var centreY = CANVAS_H/2 +50;
+    farmerChar.drawSprite(centreX - 30, centreY - 35);
+    potatoShow.animatePayoff(centreX, centreY);
     drawUI(farmerChar);
 
 }

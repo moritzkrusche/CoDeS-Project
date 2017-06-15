@@ -1,8 +1,3 @@
-var camPanX = 0.0;
-var camPanY = 0.0;
-var shiftedLeft = 0;
-var shiftedUp = 0;
-
 const KEY_LEFT_ARROW = 37;
 const KEY_UP_ARROW = 38;
 const KEY_RIGHT_ARROW = 39;
@@ -40,4 +35,24 @@ function keyPressed(evt) {
 
 function keyReleased(evt) {
 	setKeyHoldState(evt.keyCode, false);
+}
+
+function buttonLeft() {
+    holdLeft = true;
+    holdRight = holdUp = holdDown = false;
+}
+
+function buttonRight() {
+    holdRight = true;
+    holdLeft = holdUp = holdDown = false;
+}
+
+function buttonUp() {
+    holdUp = true;
+    holdRight = holdLeft = holdDown = false;
+}
+
+function buttonDown() {
+    holdDown = true;
+    holdRight = holdUp = holdLeft = false;
 }

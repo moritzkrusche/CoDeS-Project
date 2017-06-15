@@ -4,8 +4,8 @@ function SpriteClass(spritePic) {
     const CHAR_W = 60;
     const CHAR_H = 90;
 
-    this.spriteSheetWidth = 512;
-    this.spriteSheetHeight = 768;
+    this.spriteSheetWidth = 400;
+    this.spriteSheetHeight = 600;
 
     this.spriteRows = 4;
     this.spriteCols = 4;
@@ -74,7 +74,7 @@ function SpriteClass(spritePic) {
 
 function AnimationClass(animPic1, animPic2, animPic3) {
 
-    this.width = 60;
+    this.width = 50;
     this.height = 30;
 
     var meX1 = 0;
