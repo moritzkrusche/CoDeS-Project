@@ -10,7 +10,10 @@ var potatoePrice = 0.1;
 var payoffCount = 0;
 const discountFactor = 0.97;
 
+const STEPS = 40;
+
 var farmerChar = new SpriteClass(charSprite);
+farmerChar.stepsLeft = STEPS;
 
 var potatoShow = new AnimationClass(potato1, potato2, potato3);
 
@@ -52,7 +55,7 @@ function trackerReset(whichSprite, whichAnim) {
 function imageLoadingDoneSoStartGame() {
 	var framesPerSecond = 10;
     loadLevel(newGrid);
-    //loadLevel(testMap2);
+    //loadLevel(testMap1);
 	setInterval(updateAll, 1000/framesPerSecond);
     initInput();
 }
@@ -80,13 +83,14 @@ function moveEverything() {
 //********************************UI********************************************************************************
 
 function drawUI(whichSprite){
-    canvasContext.drawImage(uiPic,0,0,CANVAS_W,100);
-    colorRect(260,10, 100,30, 'red');
-    colorRect(260,10, farmerChar.maxSteps,30, 'green');
-
     var currentX = round((trackerX - whichSprite.startX)/TILE_W, 0);
     var currentY = round((trackerY - whichSprite.startY)/TILE_H, 0) * -1;
-    var movesLeft = Math.round((farmerChar.maxSteps/100) * 100);
+    var propMovesLeft = farmerChar.stepsLeft/STEPS;
+    var movesLeft = Math.round(propMovesLeft * STEPS);
+
+    canvasContext.drawImage(uiPic,0,0,CANVAS_W,100);
+    colorRect(260,10, 100,30, 'red');
+    colorRect(260,10, propMovesLeft * 100,30, 'green');
 
     canvasContext.font = 'italic 18pt "Comic Sans MS", cursive, sans-serif';
     colorText("X: " + currentX, 50,35, "#DAA520");

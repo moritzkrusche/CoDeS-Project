@@ -11,7 +11,20 @@ var holdDown = false;
 function initInput() {
 	document.addEventListener("keydown", keyPressed);
 	document.addEventListener("keyup", keyReleased);
+
+
+    document.getElementById("pbLeft").addEventListener("touchstart",  buttonLeft);
+    document.getElementById("pbRight").addEventListener("touchstart",  buttonRight);
+    document.getElementById("pbUp").addEventListener("touchstart",  buttonUp);
+    document.getElementById("pbDown").addEventListener("touchstart",  buttonDown);
+
+    document.getElementById("pbLeft").addEventListener("touchend", buttonFalse);
+    document.getElementById("pbRight").addEventListener("touchend", buttonFalse);
+    document.getElementById("pbUp").addEventListener("touchend", buttonFalse);
+    document.getElementById("pbDown").addEventListener("touchend", buttonFalse);
+
 }
+
 
 function setKeyHoldState(thisKey, setTo) {
 	if(thisKey === KEY_LEFT_ARROW) {
@@ -55,4 +68,11 @@ function buttonUp() {
 function buttonDown() {
     holdDown = true;
     holdRight = holdUp = holdLeft = false;
+}
+
+function buttonFalse() {
+    holdLeft = false;
+    holdRight = false;
+    holdUp = false;
+    holdDown = false;
 }

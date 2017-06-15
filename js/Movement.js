@@ -25,10 +25,10 @@ function updateInfo(callback) {
     var posY = Math.floor((trackerY + shiftedUp)/TILE_H);
 
     console.log("POS X, Y: ", posX, posY);
-    tileGrid[posX][posY] = tileGrid[posX][posY].slice();
+    tileGrid[posY][posX] = tileGrid[posY][posX].slice();
 
 
-    if (tileGrid[posX][posY][0] === 0) {
+    if (tileGrid[posY][posX][0] === 0) {
 
         exploredRow[posY] += 1;
         exploredColumn[posX] += 1;
@@ -39,7 +39,7 @@ function updateInfo(callback) {
             console.log("NONE");
             payoffTracker.push(0);
 
-            tileGrid[posX][posY][0] = 1;
+            tileGrid[posY][posX][0] = 1;
 
             //console.log("PAYOFFROW ", payoffRow);
             //console.log("PAYOFFCOLUMN ", payoffColumn);
@@ -54,7 +54,7 @@ function updateInfo(callback) {
             potatoeCount += 1;
             payoffCount += potatoePrice;
 
-            tileGrid[posX][posY][0] = 3;
+            tileGrid[posY][posX][0] = 3;
 
             payoffRow[posY] += 1;
             payoffColumn[posX] += 1;
@@ -68,25 +68,29 @@ function updateInfo(callback) {
 }
 
 function stepCounter(whichSprite) {
-    if (whichSprite.maxSteps > 0) {
-        whichSprite.maxSteps -=1;
+    if (whichSprite.stepsLeft > 0) {
+        whichSprite.stepsLeft -=1;
         potatoePrice *= discountFactor;
     }
     whichSprite.animMove = false;
     whichSprite.moving = false;
-
-
 }
+
+
 
 function checkCollision(atTrackerX, atTrackerY) {
     var someX = Math.floor(atTrackerX/TILE_W);
     var someY = Math.floor(atTrackerY/TILE_H);
-    var nextPos = tileGrid[someX][someY].slice();
+    var nextPos = tileGrid[someY][someX].slice();
 
     if (nextPos[0] === 5 || nextPos >= 7) {
-        console.log("STOP MOVING");
-        errorSound.play();
-        //document.getElementById("error").play();
+        //console.log("STOP MOVING");
+
+        if (!errorSound.playing(id) && !errorSound.playing(id2)) {
+            var id = errorSound.play();
+            var id2 = setTimeout(function(){errorSound.play()}, 170);
+            errorSound.rate(1.5, id2);
+        }
         return true;
     }
     else {
@@ -95,21 +99,16 @@ function checkCollision(atTrackerX, atTrackerY) {
 }
 
 
-
-var pauseID;
-
-
 function trackerMove(someSprite) {
     var nextX = trackerX;
     var nextY = trackerY;
     var directionX = 0;
     var directionY = 0;
 
-    if (!someSprite.moving && someSprite.maxSteps > 0) {
+    if (!someSprite.moving && someSprite.stepsLeft > 0) {
 
         if (holdLeft) {
             if (checkCollision(nextX-TILE_W, nextY) !== true) {
-                holdLeft = false;
                 directionX = -5;
                 someSprite.moving = true;
                 someSprite.currentDirection = "left";
@@ -119,7 +118,6 @@ function trackerMove(someSprite) {
         }
         else if (holdRight) {
             if (checkCollision(nextX+TILE_W, nextY) !== true) {
-                holdRight = false;
                 directionX = 5;
                 someSprite.moving = true;
                 someSprite.currentDirection = "right";
@@ -129,7 +127,6 @@ function trackerMove(someSprite) {
         }
         else if (holdUp) {
             if (checkCollision(nextX, nextY-TILE_H) !== true) {
-                holdUp = false;
                 directionY = -5;
                 someSprite.moving = true;
                 someSprite.currentDirection = "up";
@@ -139,7 +136,6 @@ function trackerMove(someSprite) {
         }
         else if (holdDown) {
             if (checkCollision(nextX, nextY+TILE_H) !== true) {
-                holdDown = false;
                 directionY = 5;
                 someSprite.moving = true;
                 someSprite.currentDirection = "down";
@@ -149,11 +145,20 @@ function trackerMove(someSprite) {
         }
     }
     if(someSprite.moving && !someSprite.animMove) {
+
+        if (walkingSound.playing(walkId)) {
+            clearTimeout(pauseId);
+        }
+        else {
+            var walkId = walkingSound.play();
+        }
+        /*
         clearTimeout(pauseID);
         if (walkingSound.pause()){
             walkingSound.play();
         }
-        //document.getElementById("walking").play();
+        */
+
         someSprite.animMove = true;
         var stepsMoved = 0;
 
@@ -163,7 +168,7 @@ function trackerMove(someSprite) {
                 clearInterval(moveId);
                 updateInfo(stepCounter(someSprite));
 
-                pauseID = setTimeout(function(){walkingSound.pause()}, 250);
+                pauseId = setTimeout(function(){walkingSound.pause(walkId)}, 250);
 
             } else {
                 nextX += directionX;

@@ -3,7 +3,7 @@ const TILE_H = 100;
 const TILE_COLS = 220;
 const TILE_ROWS = 220;
 
-var trainingPhase = true;
+//var trainingPhase = true;
 
 rowParameters = new Array(TILE_ROWS);
 columnParameters = new Array(TILE_COLS);
@@ -96,7 +96,6 @@ function createGrid() {
 
 var newGrid = createGrid();
 
-
 var tileGrid = [];
 
 
@@ -110,19 +109,6 @@ function isTileAtCoord(TileRow, TileCol) {
 }
 
 
-function isExplored(TileRow, TileCol) {
-
-    if (exploredRow[TileRow] === 1){
-
-        return 0;
-    }
-    else if (payoffRow[TileRow] * payoffColumn[TileCol] === 1){
-        return 0;
-    }
-    else {
-        return 0;
-    }
-}
 
 function getInfo(TileRow, TileCol) {
     var infoCol = exploredColumn[TileCol];
@@ -195,32 +181,25 @@ function drawOnlyTilesOnScreen() {
     for(var eachCol=cameraLeftMostCol; eachCol<cameraRightMostCol; eachCol++) {
 
         for(var eachRow=cameraTopMostRow; eachRow<cameraBottomMostRow; eachRow++) {
+            var drawX = eachCol * TILE_W;
+            var drawY = eachRow * TILE_H;
 
-			//if (isTileAtCoord(eachRow, eachCol)) {
-            if (trainingPhase) {
-                var arrayIndex = tileGrid[eachCol][eachRow];
-
-                var drawX = eachCol * TILE_W;
-                var drawY = eachRow * TILE_H;
+			if (isTileAtCoord(eachRow, eachCol)) {
+                //if (trainingPhase) {
+                var arrayIndex = tileGrid[eachRow][eachCol];
 
                 var infoType = getInfo(eachRow, eachCol);
                 var soilParameter = infoType[2];
                 var plantParameter = infoType[3];
 
-                //var soilType = "S" + arrayIndex[2] + tileTypes[arrayIndex[0]];
-                var soilType = "S"+ infoType[0] + tileTypes[soilParameter];
-
-                //console.log("SOIL TYPE", soilType);
-                // var plantType = "P" + arrayIndex[3] + tileTypes[arrayIndex[1]];
+                var soilType = "S" + infoType[0] + tileTypes[soilParameter];
                 var plantType = "P" + infoType[1] + tileTypes[plantParameter];
                 var soilImg = tilePics[soilType];
                 var plantImg = tilePics[plantType];
-                //var soilImg = tilePics[arrayIndex[0]];
-                //var plantImg = tilePics[arrayIndex[1]];
 
                 if (arrayIndex[0] === 0) {
                     canvasContext.drawImage(soilImg, drawX, drawY, TILE_W, TILE_H);
-                    canvasContext.drawImage(plantImg, drawX + 20, drawY + 20, TILE_W*0.6, TILE_H*0.6);
+                    canvasContext.drawImage(plantImg, drawX + 20, drawY + 20, TILE_W * 0.6, TILE_H * 0.6);
                 }
                 else {
                     if (arrayIndex[0] === 1) {
@@ -231,7 +210,7 @@ function drawOnlyTilesOnScreen() {
                     }
                     else if (arrayIndex[0] === 5) {
                         canvasContext.drawImage(tilePics["W"], drawX, drawY, TILE_W, TILE_H);
-                        canvasContext.drawImage(tilePics["N"], drawX + 20, drawY + 20, TILE_W*0.6, TILE_H*0.6);
+                        canvasContext.drawImage(tilePics["N"], drawX + 20, drawY + 20, TILE_W * 0.6, TILE_H * 0.6);
                     }
                     else if (arrayIndex[0] === 7) {
                         canvasContext.drawImage(soilImg, drawX, drawY, TILE_W, TILE_H);
@@ -246,6 +225,11 @@ function drawOnlyTilesOnScreen() {
                         canvasContext.drawImage(tilePics["R3"], drawX, drawY, TILE_W, TILE_H);
                     }
                 }
+            }
+            else {
+                    canvasContext.drawImage(tilePics["W"], drawX, drawY, TILE_W, TILE_H);
+                    canvasContext.drawImage(tilePics["N"], drawX + 20, drawY + 20, TILE_W*0.6, TILE_H*0.6);
+
             }
         }
     }

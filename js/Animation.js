@@ -29,7 +29,7 @@ function SpriteClass(spritePic) {
     this.moving = false;
     this.animMove = false;
 
-    this.maxSteps = 100;
+    this.stepsLeft = 100;
     this.startX = 0;
     this.startY = 0;
 
