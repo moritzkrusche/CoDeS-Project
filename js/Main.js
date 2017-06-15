@@ -10,7 +10,7 @@ var potatoePrice = 0.1;
 var payoffCount = 0;
 const discountFactor = 0.97;
 
-const STEPS = 40;
+const STEPS = 100;
 
 var farmerChar = new SpriteClass(charSprite);
 farmerChar.stepsLeft = STEPS;
