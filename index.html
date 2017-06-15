@@ -11,25 +11,36 @@
 		<meta name="description" content="">
 		<meta name="author" content="Moritz Krusche">
 
-		<link rel="stylesheet" type="text/css" href="style.css">
+		<link rel="stylesheet" type="text/css" href="NewStyle.css">
 		<title>Decision game</title>
 	</head>
 
 	<body>
 		<!-- -->
-		<canvas id="gameCanvas" width="700" height="750"></canvas>
+		<div style="position: absolute; left: 0; top: 0">
+			<canvas id="gameCanvas" width="700" height="750"></canvas>
+		</div>
 		<!-- <canvas id="weatherCanvas" width="700" height="750"></canvas> -->
 		<!-- <canvas id="uiCanvas" width="700" height="200"></canvas> -->
 
-		<p id="debugText" style="font-size:20px; margin: auto">
+		<!-- <p id="debugText" style="font-size:20px; margin: auto">
 			Move using the arrow keys on your keyboard.
-		</p>
+		</p> -->
 
-		<button onclick='buttonLeft()'>Left</button>
-		<button onclick='buttonRight()'>Right</button>
-		<button onclick='buttonUp()'>Up</button>
-		<button onclick='buttonDown()'>Down</button>
-
+		<div> <!-- style="position: absolute; left: 700px; top: 375px"> -->
+			<center>
+				<p>
+					<button class="playButton" id="pbUp" onmousedown="buttonUp()" onmouseup="buttonFalse()"> Up </button>
+				</p>
+				<p>
+					<button class="playButton" id="pbLeft" onmousedown="buttonLeft()" onmouseup="buttonFalse()" >Left</button>
+					<button class="playButton" id="pbRight" onmousedown="buttonRight()" onmouseup="buttonFalse()" >Right</button>
+				</p>
+				<p>
+					<button class="playButton" id="pbDown" onmousedown="buttonDown()" onmouseup="buttonFalse()" >Down</button>
+				</p>
+			</center>
+		</div>
 		<!-- Initialising firebase to store data  -->
 		<!--
 		<script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
@@ -49,10 +60,9 @@
 
 		<!-- Libaries-->
 		<script src="js/jstat.js"></script>
-
-
 		<script src="js/howler.core.min.js"></script>
 
+		<!-- <script src="js/hammer-time.min.js"></script> -->
 		<!-- <script src="js/jquery-3.2.1.slim.js"></script> -->
 
 

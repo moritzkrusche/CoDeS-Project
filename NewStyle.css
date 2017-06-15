@@ -1,0 +1,44 @@
+
+.playButton {
+  -webkit-border-radius: 10;
+  -moz-border-radius: 10;
+  border-radius: 10px;
+  font-family: Georgia;
+  color: #ffffff;
+  font-size: 20px;
+  background: #708090;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+}
+
+.playButton:hover {
+  background: #B0C4DE;
+  text-decoration: none;
+}
+
+
+#pbUp {
+  width: 150px;
+  height: 100px;
+  position: absolute; left: 275px; top: 750px
+}
+
+#pbLeft {
+  width: 180px;
+  height: 120px;
+  position: absolute; left: 40px; top: 780px
+}
+
+
+#pbRight {
+  width: 180px;
+  height: 120px;
+  position: absolute; left: 480px; top: 780px
+}
+
+
+#pbDown {
+  width: 150px;
+  height: 100px;
+  position: absolute; left: 275px; top: 850px
+}
