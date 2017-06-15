@@ -18,27 +18,27 @@
 
 
 #pbUp {
-  width: 150px;
+  width: 260px;
   height: 100px;
-  position: absolute; left: 275px; top: 750px
+  position: absolute; left: 220px; top: 750px
 }
 
 #pbLeft {
-  width: 180px;
-  height: 120px;
-  position: absolute; left: 40px; top: 780px
+  width: 220px;
+  height: 200px;
+  position: absolute; left: 0px; top: 750px
 }
 
 
 #pbRight {
-  width: 180px;
-  height: 120px;
-  position: absolute; left: 480px; top: 780px
+  width: 220px;
+  height: 200px;
+  position: absolute; left: 480px; top: 750px
 }
 
 
 #pbDown {
-  width: 150px;
+  width: 260px;
   height: 100px;
-  position: absolute; left: 275px; top: 850px
+  position: absolute; left: 220px; top: 850px
 }
