@@ -12,7 +12,6 @@ function initInput() {
 	document.addEventListener("keydown", keyPressed);
 	document.addEventListener("keyup", keyReleased);
 
-
     document.getElementById("pbLeft").addEventListener("touchstart",  buttonLeft);
     document.getElementById("pbRight").addEventListener("touchstart",  buttonRight);
     document.getElementById("pbUp").addEventListener("touchstart",  buttonUp);

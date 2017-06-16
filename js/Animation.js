@@ -1,8 +1,8 @@
 
 function SpriteClass(spritePic) {
 
-    const CHAR_W = 60;
-    const CHAR_H = 90;
+    const CHAR_W = 0.6 * TILE_W;
+    const CHAR_H = 0.9 * TILE_H;
 
     this.spriteSheetWidth = 400;
     this.spriteSheetHeight = 600;
@@ -109,14 +109,17 @@ function AnimationClass(animPic1, animPic2, animPic3) {
 
         if (animMe1) {
             drawBitmapCenteredWithRotation(animPic1, meX1, meY1, 0, this.width, this.height);
+            console.log("PAYOFF AT: ", meX1, meY1);
         }
 
         if (animMe2) {
             drawBitmapCenteredWithRotation(animPic2, meX2, meY2, 0, this.width, this.height);
+            console.log("PAYOFF AT: ", meX2, meY2);
         }
 
         if (animMe3) {
             drawBitmapCenteredWithRotation(animPic3, meX3, meY3, 0, this.width, this.height);
+            console.log("PAYOFF AT: ", meX3, meY3);
         }
 
     };

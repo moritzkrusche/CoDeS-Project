@@ -2,20 +2,39 @@
 //********************************move within Init function*************************************************************
 var canvas, canvasContext;
 
-const CANVAS_H = 700;
-const CANVAS_W = 700;
+var CANVAS_H = 700;
+var CANVAS_W = 700;
 
 var potatoeCount = 0;
 var potatoePrice = 0.1;
 var payoffCount = 0;
 const discountFactor = 0.97;
-
-const STEPS = 100;
+const STEPS = 40;
 
 var farmerChar = new SpriteClass(charSprite);
 farmerChar.stepsLeft = STEPS;
-
 var potatoShow = new AnimationClass(potato1, potato2, potato3);
+
+/*
+if (isMobile){
+    farmerChar.spriteSheetWidth *= 0.5;
+    farmerChar.spriteSheetHeight *= 0.5;
+    CANVAS_H *= 0.8;
+    CANVAS_W *= 0.8;
+    TILE_H *= 0.8;
+    TILE_W *= 0.8;
+}
+ */
+
+var buttonList = ["pbUp", "pbDown", "pbLeft", "pbRight"];
+
+if (!isMobile) {
+    for (var i = 0; i< buttonList.length; i++) {
+        document.getElementById(buttonList[i]).style.visibility = "hidden";
+    }
+}
+//document.getElementById(buttonList[i]).style.visibility = "visible";
+
 
 function getStart() {
     // add + 1 because array index starts at 0
@@ -28,7 +47,7 @@ function getStart() {
 window.onload = function() {
 	canvas = document.getElementById('gameCanvas');
 	canvasContext = canvas.getContext('2d');
-	colorRect(0,0, CANVAS_W,CANVAS_H, 'black');
+	colorRect(0,0, CANVAS_W,CANVAS_H+50, 'black');
 	colorText("LOADING IMAGES", CANVAS_W/2-50, CANVAS_H/2-10, 'white');
 
 	loadImages();
@@ -40,10 +59,9 @@ function trackerReset(whichSprite, whichAnim) {
 	trackerX = whichSprite.startX;
     whichSprite.startY = (getStart()[1]) * TILE_H - TILE_H/2;
 	trackerY = whichSprite.startY;
-
     whichAnim.resetStart(whichSprite.startX, whichSprite.startY);
-
-	//console.log("TRACKER X, Y : ", trackerX, trackerY);
+    whichAnim.animatePayoff(whichSprite.startX, whichSprite.startY);
+	console.log("TRACKER X, Y : ", trackerX, trackerY);
     updateInfo();
     //potatoeCount = 0;
     //payoffCount = 0;
@@ -54,17 +72,23 @@ function trackerReset(whichSprite, whichAnim) {
 
 function imageLoadingDoneSoStartGame() {
 	var framesPerSecond = 10;
-    loadLevel(newGrid);
-    //loadLevel(testMap1);
+    //loadLevel(newGrid);
+    loadLevel(testMap1);
 	setInterval(updateAll, 1000/framesPerSecond);
     initInput();
+
+    if (isMobile){
+        unlockIOSAudioPlayback();
+    }
 }
 
 function loadLevel(whichLevel) {
 	tileGrid = whichLevel.slice();
     trackerReset(farmerChar, potatoShow);
 
-    backgroundSound.play();
+    if (!isMobile) {
+        backgroundSound.play();
+    }
 }
 
 function updateAll() {
@@ -122,13 +146,13 @@ function drawEverything() {
 	// console.log("TRACKER X: ", trackerX, "TRACKER Y : ", trackerY);
     // console.log("CAM PAN X: ", camPanX, "CAM PAN Y : ", camPanY);
 
-	canvasContext.restore(); // undoes the .translate() used for cam scroll
-	// doing this after .restore() so it won't scroll with the camera pan
-    var centreX = CANVAS_W/2;
-    var centreY = CANVAS_H/2 +50;
+    var centreX = CANVAS_W/2 +camPanX;
+    var centreY = CANVAS_H/2 +camPanY;
     farmerChar.drawSprite(centreX - 30, centreY - 35);
     potatoShow.animatePayoff(centreX, centreY);
-    drawUI(farmerChar);
 
+	canvasContext.restore(); // undoes the .translate() used for cam scroll
+	// doing this after .restore() so it won't scroll with the camera pan
+    drawUI(farmerChar);
 }
 

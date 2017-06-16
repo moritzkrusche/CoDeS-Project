@@ -179,13 +179,13 @@ function loadSounds() {
 
     setFormat();
 
-    potatoSound = new Howl({volume: 0.6, preload: true, src: ["audio/potato" + audioFormat]});
-    walkingSound = new Howl({volume: 0.4, preload: true, src: ["audio/walking" + audioFormat], loop: true});
-    errorSound = new Howl({volume: 0.6, preload: true, src: ["audio/error" + audioFormat]});
-    backgroundSound = new Howl({volume: 0.4, preload: true, src: ["audio/background" + audioFormat], loop: true});
+    potatoSound = new Howl({volume: 0.6, src: ["audio/potato" + audioFormat]});
+    walkingSound = new Howl({volume: 0.4, src: ["audio/walking" + audioFormat], loop: true});
+    errorSound = new Howl({volume: 0.6, src: ["audio/error" + audioFormat]});
+    backgroundSound = new Howl({volume: 0.4, src: ["audio/background" + audioFormat], loop: true});
 
     if (isMobile) {
-    	backgroundSound.html5 = true;
+    	backgroundSound.html5 = true
 	}
 
     var audioId = setInterval(frameAudio, 30);
@@ -198,6 +198,15 @@ function loadSounds() {
     }
 }
 
+
+var unlockIOSAudioPlayback = function () {
+    var context = Howler.ctx;
+    var oscillator = context.createOscillator();
+    oscillator.frequency.value = 200;
+    oscillator.connect(context.destination);
+    oscillator.start(0);
+    oscillator.stop(0);
+};
 
 
 
