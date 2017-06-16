@@ -177,21 +177,27 @@ function setFormat() {
 
 function loadSounds() {
 
-    setFormat();
+	if (!isMobile) {
+        setFormat();
 
-    potatoSound = new Howl({volume: 0.6, src: ["audio/potato" + audioFormat]});
-    walkingSound = new Howl({volume: 0.4, src: ["audio/walking" + audioFormat], loop: true});
-    errorSound = new Howl({volume: 0.6, src: ["audio/error" + audioFormat]});
-    backgroundSound = new Howl({volume: 0.4, src: ["audio/background" + audioFormat], loop: true});
+        potatoSound = new Howl({volume: 0.6, src: ["audio/potato" + audioFormat]});
+        walkingSound = new Howl({volume: 0.4, src: ["audio/walking" + audioFormat], loop: true});
+        errorSound = new Howl({volume: 0.6, src: ["audio/error" + audioFormat]});
+        backgroundSound = new Howl({volume: 0.4, src: ["audio/background" + audioFormat], loop: true});
 
-    var audioId = setInterval(frameAudio, 30);
-    function frameAudio() {
-        if (potatoSound.state() === 'loaded' && walkingSound.state() === 'loaded' && errorSound.state() === 'loaded'
-            && backgroundSound.state() === 'loaded') {
-            clearInterval(audioId);
-            imageLoadingDoneSoStartGame();
+        var audioId = setInterval(frameAudio, 30);
+
+        function frameAudio() {
+            if (potatoSound.state() === 'loaded' && walkingSound.state() === 'loaded' && errorSound.state() === 'loaded'
+                && backgroundSound.state() === 'loaded') {
+                clearInterval(audioId);
+                imageLoadingDoneSoStartGame();
+            }
         }
     }
+    else {
+        imageLoadingDoneSoStartGame();
+	}
 }
 
 
@@ -211,7 +217,6 @@ function loadSoundsMobile() {
     potatoSound = new Howl({volume: 0.6, src: ["audio/potato" + audioFormat]});
     walkingSound = new Howl({volume: 0.4, src: ["audio/walking" + audioFormat], loop: true});
     errorSound = new Howl({volume: 0.6, src: ["audio/error" + audioFormat]});
-    backgroundSound = new Howl({volume: 0.4, html5: true, src: ["audio/background" + audioFormat], loop: true});
 
     var audioId = setInterval(frameAudio, 30);
     function frameAudio() {
