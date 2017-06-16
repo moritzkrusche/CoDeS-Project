@@ -1,9 +1,9 @@
-const TILE_W = 100;
-const TILE_H = 100;
-const TILE_COLS = 220;
-const TILE_ROWS = 220;
+var TILE_W = 100;
+var TILE_H = 100;
+var TILE_COLS = 220;
+var TILE_ROWS = 220;
 
-//var trainingPhase = true;
+var trainingPhase = false;
 
 rowParameters = new Array(TILE_ROWS);
 columnParameters = new Array(TILE_COLS);
@@ -36,14 +36,20 @@ generateParameters();
 
 function generateWorld() {
     for (var i=0; i<TILE_COLS; i++) {
-        var soilSeed = columnParameters[i] * 5;
-        soilColumn[i] = Math.floor(soilSeed);
+        var soilSeed = columnParameters[i] * 6.5;
+        if (soilSeed > 4 ) {
+            soilSeed = 4
+        }
+        soilColumn[i] = round(soilSeed, 0);
         payoffColumn[i] = 0;
         exploredColumn[i] = 0;
     }
     for (var j=0; j<TILE_ROWS; j++) {
-        var plantSeed = rowParameters[j] * 5;
-        plantRow[j] = Math.floor(plantSeed);
+        var plantSeed = rowParameters[j] * 3.25;
+        if (plantSeed > 3 ) {
+            plantSeed = 4
+        }
+        plantRow[j] = round(plantSeed, 0);
         payoffRow[j] = 0;
         exploredRow[j] = 0;
     }
@@ -52,17 +58,11 @@ function generateWorld() {
 function measureWorld() {
 
     for (var i=0; i<TILE_COLS; i++) {
-        randomColumn[i] = Math.random();
         expectedPayoff[i] = columnParameters[i] * rowParameters[i];
     }
     var totalPayoff = jStat.sum(expectedPayoff);
     var meanPayoff = totalPayoff / expectedPayoff.length;
-
-    var totalRandom = jStat.sum(randomColumn);
-    var meanRandom = totalRandom / randomColumn.length;
-
     console.log("MEAN PAYOFF :", meanPayoff);
-    console.log("MEAN RANDOM :", meanRandom);
 }
 
 
@@ -108,18 +108,22 @@ function isTileAtCoord(TileRow, TileCol) {
 
 
 function getInfo(TileRow, TileCol) {
-    var infoCol = exploredColumn[TileCol];
-    var infoRow = exploredRow[TileRow];
 
-    var infoLevelCol = getInfoLevel(infoCol);
-    var infoLevelRow = getInfoLevel(infoRow);
+    if (trainingPhase) {
+        var infoCol = exploredColumn[TileCol];
+        var infoRow = exploredRow[TileRow];
 
+        var infoLevelCol = getInfoLevel(infoCol);
+        var infoLevelRow = getInfoLevel(infoRow);
 
-    var qualityCol = getQuality(payoffColumn[TileCol], infoCol);
-    var qualityRow = getQuality(payoffRow[TileRow], infoRow);
+        var qualityCol = getQuality(payoffColumn[TileCol], infoCol);
+        var qualityRow = getQuality(payoffRow[TileRow], infoRow);
 
-
-    return [infoLevelCol, infoLevelRow, qualityCol, qualityRow];
+        return [infoLevelCol, infoLevelRow, qualityCol, qualityRow];
+    }
+    else {
+        return [1, 1, soilColumn[TileRow], plantRow[TileCol]]
+    }
 }
 
 
@@ -182,45 +186,44 @@ function drawOnlyTilesOnScreen() {
             var drawY = eachRow * TILE_H;
 
 			if (isTileAtCoord(eachRow, eachCol)) {
-                //if (trainingPhase) {
                 var arrayIndex = tileGrid[eachRow][eachCol];
 
                 var infoType = getInfo(eachRow, eachCol);
-                var soilParameter = infoType[2];
-                var plantParameter = infoType[3];
-
-                var soilType = "S" + infoType[0] + tileTypes[soilParameter];
-                var plantType = "P" + infoType[1] + tileTypes[plantParameter];
+                //var soilParameter = infoType[2];
+                //var plantParameter = infoType[3];
+                //var soilInfo = infoType[0];
+                //var plantInfo = infoType[1];
+                
+                var soilType = "S" + infoType[0]  + tileTypes[infoType[2]];
+                var plantType = "P" + infoType[1] + tileTypes[infoType[3]];
                 var soilImg = tilePics[soilType];
                 var plantImg = tilePics[plantType];
+                console.log(soilType);
+                //console.log(plantImg);
 
-                if (arrayIndex[0] === 0) {
-                    canvasContext.drawImage(soilImg, drawX, drawY, TILE_W, TILE_H);
-                    canvasContext.drawImage(plantImg, drawX + 20, drawY + 20, TILE_W * 0.6, TILE_H * 0.6);
-                }
-                else {
-                    if (arrayIndex[0] === 1) {
-                        canvasContext.drawImage(tilePics["S00"], drawX, drawY, TILE_W, TILE_H);
-                    }
-                    else if (arrayIndex[0] === 3) {
-                        canvasContext.drawImage(tilePics["SXX"], drawX, drawY, TILE_W, TILE_H);
-                    }
-                    else if (arrayIndex[0] === 5) {
-                        canvasContext.drawImage(tilePics["W"], drawX, drawY, TILE_W, TILE_H);
+                switch(arrayIndex[0]) {
+                    case 0: canvasContext.drawImage(soilImg, drawX, drawY, TILE_W, TILE_H);
+                        canvasContext.drawImage(plantImg, drawX + 20, drawY + 20, TILE_W * 0.6, TILE_H * 0.6);
+                        break;
+                    case 1: canvasContext.drawImage(tilePics["S00"], drawX, drawY, TILE_W, TILE_H);
+                        break;
+                    case 3: canvasContext.drawImage(tilePics["SXX"], drawX, drawY, TILE_W, TILE_H);
+                        break;
+                    case 5: canvasContext.drawImage(tilePics["W"], drawX, drawY, TILE_W, TILE_H);
                         canvasContext.drawImage(tilePics["N"], drawX + 20, drawY + 20, TILE_W * 0.6, TILE_H * 0.6);
-                    }
-                    else if (arrayIndex[0] === 7) {
-                        canvasContext.drawImage(soilImg, drawX, drawY, TILE_W, TILE_H);
+                        break;
+                    case 7: canvasContext.drawImage(soilImg, drawX, drawY, TILE_W, TILE_H);
                         canvasContext.drawImage(tilePics["R1"], drawX, drawY, TILE_W, TILE_H);
-                    }
-                    else if (arrayIndex[0] === 8) {
-                        canvasContext.drawImage(soilImg, drawX, drawY, TILE_W, TILE_H);
+                        break;
+                    case 8: canvasContext.drawImage(soilImg, drawX, drawY, TILE_W, TILE_H);
                         canvasContext.drawImage(tilePics["R2"], drawX, drawY, TILE_W, TILE_H);
-                    }
-                    else if (arrayIndex[0] === 9) {
-                        canvasContext.drawImage(soilImg, drawX, drawY, TILE_W, TILE_H);
+                        break;
+                    case 9: canvasContext.drawImage(soilImg, drawX, drawY, TILE_W, TILE_H);
                         canvasContext.drawImage(tilePics["R3"], drawX, drawY, TILE_W, TILE_H);
-                    }
+                        break;
+                    default: canvasContext.drawImage(tilePics["W"], drawX, drawY, TILE_W, TILE_H);
+                        canvasContext.drawImage(tilePics["N"], drawX + 20, drawY + 20, TILE_W*0.6, TILE_H*0.6);
+                        break;
                 }
             }
             else {

@@ -46,7 +46,6 @@ function updateInfo(callback) {
         }
         else if (getPayoff === 1) {
             potatoShow.animate();
-            //document.getElementById("potato").play();
             potatoSound.play();
 
             console.log("POTATOE");
@@ -145,19 +144,17 @@ function trackerMove(someSprite) {
         }
     }
     if(someSprite.moving && !someSprite.animMove) {
-
+        /*
+        if (isMobile && !backgroundSound.playing()){
+            backgroundSound.play();
+        }
+        */
         if (walkingSound.playing(walkId)) {
             clearTimeout(pauseId);
         }
         else {
             var walkId = walkingSound.play();
         }
-        /*
-        clearTimeout(pauseID);
-        if (walkingSound.pause()){
-            walkingSound.play();
-        }
-        */
 
         someSprite.animMove = true;
         var stepsMoved = 0;
