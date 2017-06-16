@@ -198,8 +198,7 @@ function drawOnlyTilesOnScreen() {
                 var plantType = "P" + infoType[1] + tileTypes[infoType[3]];
                 var soilImg = tilePics[soilType];
                 var plantImg = tilePics[plantType];
-                console.log(soilType);
-                //console.log(plantImg);
+                //console.log(soilType);
 
                 switch(arrayIndex[0]) {
                     case 0: canvasContext.drawImage(soilImg, drawX, drawY, TILE_W, TILE_H);
