@@ -75,23 +75,19 @@ function imageLoadingDoneSoStartGame() {
     //loadLevel(newGrid);
     loadLevel(testMap1);
 	setInterval(updateAll, 1000/framesPerSecond);
-    initInput();
-    /*
-    if (isMobile){
-        unlockIOSAudioPlayback();
+	if (!isMobile){
+	    initInput();
     }
-    */
+
 }
 
 function loadLevel(whichLevel) {
 	tileGrid = whichLevel.slice();
     trackerReset(farmerChar, potatoShow);
-    /*
     if (!isMobile) {
         backgroundSound.play();
     }
-    */
-    if (isMobile) {
+    else if (isMobile) {
         var askSound = confirm("Play sound?");
         if (askSound === true) {
             try {
@@ -100,10 +96,10 @@ function loadLevel(whichLevel) {
             catch(err) {
                 console.log("Could not unlock sound!")
             }
-            backgroundSound.play();
+            loadSoundsMobile();
         }
         else {
-            alert("You have chosen not to play sound!")
+            initInput();
         }
     }
 
