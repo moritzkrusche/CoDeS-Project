@@ -94,7 +94,7 @@ function loadLevel(whichLevel) {
                 unlockIOSAudioPlayback()
             }
             catch(err) {
-                console.log("Could not unlock sound!")
+                alert("Could not unlock sound!")
             }
             loadSoundsMobile();
             sleep(500);
@@ -103,7 +103,6 @@ function loadLevel(whichLevel) {
             initInput();
         }
     }
-
 }
 
 function updateAll() {
