@@ -181,9 +181,9 @@ function loadSounds() {
         setFormat();
 
         potatoSound = new Howl({volume: 0.6, src: ["audio/potato" + audioFormat]});
-        walkingSound = new Howl({volume: 0.4, src: ["audio/walking" + audioFormat], loop: true});
+        walkingSound = new Howl({volume: 0.3, src: ["audio/walking" + audioFormat], loop: true});
         errorSound = new Howl({volume: 0.6, src: ["audio/error" + audioFormat]});
-        backgroundSound = new Howl({volume: 0.4, src: ["audio/background" + audioFormat], loop: true});
+        backgroundSound = new Howl({volume: 0.6, src: ["audio/background" + audioFormat], loop: true});
 
         var audioId = setInterval(frameAudio, 30);
 
