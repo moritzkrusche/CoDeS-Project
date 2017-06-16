@@ -223,6 +223,12 @@ function loadSoundsMobile() {
         if (potatoSound.state() === 'loaded' && walkingSound.state() === 'loaded' && errorSound.state() === 'loaded'
             && backgroundSound.state() === 'loaded') {
             clearInterval(audioId);
+            try {
+                unlockIOSAudioPlayback()
+            }
+            catch(err) {
+                alert("Could not unlock sound!")
+            }
             initInput();
         }
     }

@@ -90,14 +90,9 @@ function loadLevel(whichLevel) {
     else if (isMobile) {
         var askSound = confirm("Play sound?");
         if (askSound === true) {
-            try {
-                unlockIOSAudioPlayback()
-            }
-            catch(err) {
-                alert("Could not unlock sound!")
-            }
+
             loadSoundsMobile();
-            sleep(500);
+            //sleep(500);
         }
         else {
             initInput();
