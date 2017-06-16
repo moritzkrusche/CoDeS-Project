@@ -36,13 +36,13 @@ generateParameters();
 
 function generateWorld() {
     for (var i=0; i<TILE_COLS; i++) {
-        var soilSeed = columnParameters[i] * 6;
+        var soilSeed = columnParameters[i] * 5.99;
         soilColumn[i] = Math.floor(soilSeed);
         payoffColumn[i] = 0;
         exploredColumn[i] = 0;
     }
     for (var j=0; j<TILE_ROWS; j++) {
-        var plantSeed = rowParameters[j] * 3;
+        var plantSeed = rowParameters[j] * 2.98;
         plantRow[j] = Math.floor(plantSeed);
         payoffRow[j] = 0;
         exploredRow[j] = 0;
