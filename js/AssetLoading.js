@@ -220,8 +220,7 @@ function loadSoundsMobile() {
 
     var audioId = setInterval(frameAudio, 30);
     function frameAudio() {
-        if (potatoSound.state() === 'loaded' && walkingSound.state() === 'loaded' && errorSound.state() === 'loaded'
-            && backgroundSound.state() === 'loaded') {
+        if (potatoSound.state() === 'loaded' && walkingSound.state() === 'loaded' && errorSound.state() === 'loaded') {
             clearInterval(audioId);
             try {
                 unlockIOSAudioPlayback()
