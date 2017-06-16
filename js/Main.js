@@ -62,7 +62,7 @@ function trackerReset(whichSprite, whichAnim) {
 	trackerY = whichSprite.startY;
     whichAnim.resetStart(whichSprite.startX, whichSprite.startY);
     whichAnim.animatePayoff(whichSprite.startX, whichSprite.startY);
-	console.log("TRACKER X, Y : ", trackerX, trackerY);
+	//console.log("TRACKER X, Y : ", trackerX, trackerY);
     updateInfo();
     //potatoeCount = 0;
     //payoffCount = 0;
