@@ -196,7 +196,7 @@ function loadSounds() {
         }
     }
     else {
-        imageLoadingDoneSoStartGame();
+        loadSoundsMobile();
 	}
 }
 
@@ -228,7 +228,7 @@ function loadSoundsMobile() {
             catch(err) {
                 alert("Could not unlock sound!")
             }
-            initInput();
+            imageLoadingDoneSoStartGame();
         }
     }
 
