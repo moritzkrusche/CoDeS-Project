@@ -87,9 +87,11 @@ function imageLoadingDoneSoStartGame() {
         loadLevel(newGrid);
     }
 	setInterval(updateAll, 1000/framesPerSecond);
-	if (!isMobile){
+    initInput();
+
+	/*if (!isMobile){
 	    initInput();
-    }
+    }*/
 
 }
 
