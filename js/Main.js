@@ -97,6 +97,7 @@ function loadLevel(whichLevel) {
                 console.log("Could not unlock sound!")
             }
             loadSoundsMobile();
+            sleep(500);
         }
         else {
             initInput();
