@@ -149,7 +149,7 @@ function trackerMove(someSprite) {
             backgroundSound.play();
         }
         */
-        else if (walkingSound.playing(walkId)) {
+        if (walkingSound.playing(walkId)) {
             clearTimeout(pauseId);
         }
         else {
