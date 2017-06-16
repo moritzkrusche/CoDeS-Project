@@ -32,20 +32,6 @@ if (!isMobile) {
     for (var i = 0; i< buttonList.length; i++) {
         document.getElementById(buttonList[i]).style.visibility = "hidden";
     }
-} else if (isMobile) {
-    var askSound = confirm("Play sound?");
-    if (askSound === true) {
-        try {
-            unlockIOSAudioPlayback()
-        }
-        catch(err) {
-            console.log("Could not unlock sound!")
-        }
-        backgroundSound.play();
-    }
-    else {
-        alert("You have chosen not to play sound!")
-    }
 }
 //document.getElementById(buttonList[i]).style.visibility = "visible";
 
@@ -99,12 +85,28 @@ function imageLoadingDoneSoStartGame() {
 
 function loadLevel(whichLevel) {
 	tileGrid = whichLevel.slice();
-    trackerReset(farmerChar, potatoShow)
+    trackerReset(farmerChar, potatoShow);
     /*
     if (!isMobile) {
         backgroundSound.play();
     }
     */
+    if (isMobile) {
+        var askSound = confirm("Play sound?");
+        if (askSound === true) {
+            try {
+                unlockIOSAudioPlayback()
+            }
+            catch(err) {
+                console.log("Could not unlock sound!")
+            }
+            backgroundSound.play();
+        }
+        else {
+            alert("You have chosen not to play sound!")
+        }
+    }
+
 }
 
 function updateAll() {
