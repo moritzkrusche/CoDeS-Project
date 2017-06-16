@@ -90,10 +90,11 @@ function imageLoadingDoneSoStartGame() {
     loadLevel(testMap1);
 	setInterval(updateAll, 1000/framesPerSecond);
     initInput();
-
+    /*
     if (isMobile){
         unlockIOSAudioPlayback();
     }
+    */
 }
 
 function loadLevel(whichLevel) {
