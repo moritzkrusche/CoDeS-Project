@@ -36,13 +36,13 @@ generateParameters();
 
 function generateWorld() {
     for (var i=0; i<TILE_COLS; i++) {
-        var soilSeed = columnParameters[i] * 5;
+        var soilSeed = columnParameters[i] * 6;
         soilColumn[i] = Math.floor(soilSeed);
         payoffColumn[i] = 0;
         exploredColumn[i] = 0;
     }
     for (var j=0; j<TILE_ROWS; j++) {
-        var plantSeed = rowParameters[j] * 5;
+        var plantSeed = rowParameters[j] * 3;
         plantRow[j] = Math.floor(plantSeed);
         payoffRow[j] = 0;
         exploredRow[j] = 0;
@@ -52,17 +52,11 @@ function generateWorld() {
 function measureWorld() {
 
     for (var i=0; i<TILE_COLS; i++) {
-        randomColumn[i] = Math.random();
         expectedPayoff[i] = columnParameters[i] * rowParameters[i];
     }
     var totalPayoff = jStat.sum(expectedPayoff);
     var meanPayoff = totalPayoff / expectedPayoff.length;
-
-    var totalRandom = jStat.sum(randomColumn);
-    var meanRandom = totalRandom / randomColumn.length;
-
     console.log("MEAN PAYOFF :", meanPayoff);
-    console.log("MEAN RANDOM :", meanRandom);
 }
 
 
