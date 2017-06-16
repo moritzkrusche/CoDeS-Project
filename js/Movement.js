@@ -144,10 +144,11 @@ function trackerMove(someSprite) {
         }
     }
     if(someSprite.moving && !someSprite.animMove) {
-
+        /*
         if (isMobile && !backgroundSound.playing()){
             backgroundSound.play();
         }
+        */
         else if (walkingSound.playing(walkId)) {
             clearTimeout(pauseId);
         }
