@@ -47,27 +47,31 @@
 
 
 #pbUp {
-  width: 260px;
+  max-width: 260px;
+  min-width: 110px;
   height: 100px;
   position: relative; left: 220px; top: 750px
 }
 
 #pbLeft {
-  width: 220px;
+  max-width: 220px;
+  min-width: 110px;
   height: 200px;
   position: relative; left: 0px; top: 750px
 }
 
 
 #pbRight {
-  width: 220px;
+  max-width: 220px;
+  min-width: 110px;
   height: 200px;
   position: relative; left: 480px; top: 750px
 }
 
 
 #pbDown {
-  width: 260px;
+  max-width: 260px;
+  min-width: 110px;
   height: 100px;
   position: relative; left: 220px; top: 850px
 }
