@@ -25,10 +25,10 @@ function updateInfo(callback) {
     var posY = Math.floor((trackerY + shiftedUp)/TILE_H);
 
     console.log("POS X, Y: ", posX, posY);
-    tileGrid[posY][posX] = tileGrid[posY][posX].slice();
+    tileGrid = tileGrid.slice();
 
 
-    if (tileGrid[posY][posX][0] === 0) {
+    if (tileGrid[posY][posX] === 0) {
 
         exploredRow[posY] += 1;
         exploredColumn[posX] += 1;
@@ -39,7 +39,7 @@ function updateInfo(callback) {
             console.log("NONE");
             payoffTracker.push(0);
 
-            tileGrid[posY][posX][0] = 1;
+            tileGrid[posY][posX] = 1;
 
             //console.log("PAYOFFROW ", payoffRow);
             //console.log("PAYOFFCOLUMN ", payoffColumn);
@@ -53,7 +53,7 @@ function updateInfo(callback) {
             potatoeCount += 1;
             payoffCount += potatoePrice;
 
-            tileGrid[posY][posX][0] = 3;
+            tileGrid[posY][posX] = 3;
 
             payoffRow[posY] += 1;
             payoffColumn[posX] += 1;
@@ -80,9 +80,9 @@ function stepCounter(whichSprite) {
 function checkCollision(atTrackerX, atTrackerY) {
     var someX = Math.floor(atTrackerX/TILE_W);
     var someY = Math.floor(atTrackerY/TILE_H);
-    var nextPos = tileGrid[someY][someX].slice();
+    var nextPos = tileGrid[someY][someX];
 
-    if (nextPos[0] === 5 || nextPos >= 7) {
+    if (nextPos === 5 || nextPos >= 7) {
         //console.log("STOP MOVING");
 
         if (!errorSound.playing(id) && !errorSound.playing(id2)) {

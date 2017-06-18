@@ -1,5 +1,9 @@
 var TILE_W = 100;
 var TILE_H = 100;
+
+const PLANT_W = 60;
+const PLANT_H = 60;
+
 var TILE_COLS = 220;
 var TILE_ROWS = 220;
 
@@ -83,7 +87,7 @@ function createGrid() {
     for (j=0; j<newRow.length; j++) {
         var newCol = new Array(TILE_ROWS);
         for (i=0; i<newCol.length; i++) {
-            newCol[i] = [0];
+            newCol[i] = 0;
         }
         newRow[j] = newCol
     }
@@ -107,7 +111,7 @@ function isTileAtCoord(TileRow, TileCol) {
 
 
 
-function getInfo(TileRow, TileCol) {
+function getType(TileRow, TileCol) {
 
     if (trainingPhase) {
         var infoCol = exploredColumn[TileCol];
@@ -122,20 +126,20 @@ function getInfo(TileRow, TileCol) {
         return [infoLevelCol, infoLevelRow, qualityCol, qualityRow];
     }
     else {
-        return [1, 1, soilColumn[TileRow], plantRow[TileCol]]
+        return [0, 0, soilColumn[TileRow], plantRow[TileCol]]
     }
 }
 
 
 function getInfoLevel(rowOrCol) {
     if (rowOrCol === 0) {
-        return 3;
-    }
-    else if (rowOrCol < 4) {
         return 2;
     }
-    else if (rowOrCol >= 4) {
+    else if (rowOrCol < 4) {
         return 1;
+    }
+    else if (rowOrCol >= 4) {
+        return 0;
     }
 }
 
@@ -164,6 +168,72 @@ function getQuality(timesPotato, timesExplored) {
 }
 
 
+/*
+ Tilesheet Soil 100px
+
+ Column 0 1 2 --> Info 1,2,3
+
+ Column 3 --> path (0: no, 1: payoff) + water (3)
+
+ Row 0, 1, 2, 3, 4 --> Soil Quality 1,2,3,4,5
+ */
+
+function SoilSheetClass(soilSheet) {
+
+    this.SheetWidth = 500;
+    this.SheetHeight = 500;
+    this.SheetRows = 5;
+    this.SheetCols = 5;
+
+    var imageWidth = this.SheetWidth/this.SheetCols;
+    var imageHeight = this.SheetHeight/this.SheetRows;
+
+    this.draw = function(x, y, Info, Type) {
+
+        var sheetCol = imageHeight * Info;
+        var sheetRow = imageWidth * Type;
+
+        canvasContext.drawImage(soilSheet, sheetCol, sheetRow, imageWidth, imageHeight, x, y, TILE_W, TILE_H);
+    };
+}
+
+
+/*
+Tilesheet Plants 60px
+
+Column 0 1 2 --> Info 1,2,3
+
+Column 3 --> path (0: no, 1: payoff) + water (3)
+
+Row 0, 1, 2, 3, 4 --> Soil Quality 1,2,3,4,5
+*/
+
+function PlantSheetClass(plantSheet) {
+
+    this.SheetWidth = 300;
+    this.SheetHeight = 300;
+    this.SheetRows = 5;
+    this.SheetCols = 5;
+
+    var imageWidth = this.SheetWidth/this.SheetCols;
+    var imageHeight = this.SheetHeight/this.SheetRows;
+
+    // centers relatively smaller "Plant" type pictures on the relatively larger "Soil" tiles
+    this.offSetX = (TILE_W - PLANT_W)/2;
+    this.offSetY = (TILE_H - PLANT_H)/2;
+
+    this.draw = function(x, y, Info, Type) {
+
+        var sheetCol = imageHeight * Info;
+        var sheetRow = imageWidth * Type;
+
+        canvasContext.drawImage(plantSheet, sheetCol, sheetRow, imageWidth, imageHeight, x+this.offSetX, y+this.offSetY, PLANT_W, PLANT_H);
+    };
+}
+
+
+var soilSheet = new SoilSheetClass(soilSheetPic);
+var plantSheet = new PlantSheetClass(plantSheetPic);
 
 
 function drawOnlyTilesOnScreen() {
@@ -188,47 +258,42 @@ function drawOnlyTilesOnScreen() {
 			if (isTileAtCoord(eachRow, eachCol)) {
                 var arrayIndex = tileGrid[eachRow][eachCol];
 
-                var infoType = getInfo(eachRow, eachCol);
-                //var soilParameter = infoType[2];
-                //var plantParameter = infoType[3];
-                //var soilInfo = infoType[0];
-                //var plantInfo = infoType[1];
-                
-                var soilType = "S" + infoType[0]  + tileTypes[infoType[2]];
-                var plantType = "P" + infoType[1] + tileTypes[infoType[3]];
-                var soilImg = tilePics[soilType];
-                var plantImg = tilePics[plantType];
-                //console.log(soilType);
+                var type = getType(eachRow, eachCol);
+                var soilParameter = type[2];
+                var plantParameter = type[3];
+                var soilInfo = type[0];
+                var plantInfo = type[1];
+                //console.log(plantInfo, plantParameter);
 
-                switch(arrayIndex[0]) {
-                    case 0: canvasContext.drawImage(soilImg, drawX, drawY, TILE_W, TILE_H);
-                        canvasContext.drawImage(plantImg, drawX + 20, drawY + 20, TILE_W * 0.6, TILE_H * 0.6);
+                switch(arrayIndex) {
+                    case 0:
+                        soilSheet.draw(drawX, drawY, soilInfo, soilParameter);
+                        plantSheet.draw(drawX, drawY, plantInfo, plantParameter);
                         break;
-                    case 1: canvasContext.drawImage(tilePics["S00"], drawX, drawY, TILE_W, TILE_H);
+                    case 1: soilSheet.draw(drawX, drawY, 3, 0);
                         break;
-                    case 3: canvasContext.drawImage(tilePics["SXX"], drawX, drawY, TILE_W, TILE_H);
+                    case 3: soilSheet.draw(drawX, drawY, 3, 1);
                         break;
-                    case 5: canvasContext.drawImage(tilePics["W"], drawX, drawY, TILE_W, TILE_H);
-                        canvasContext.drawImage(tilePics["N"], drawX + 20, drawY + 20, TILE_W * 0.6, TILE_H * 0.6);
+                    case 5: soilSheet.draw(drawX, drawY, 3, 2);
+                        plantSheet.draw(drawX, drawY, 3, 1);
                         break;
-                    case 7: canvasContext.drawImage(soilImg, drawX, drawY, TILE_W, TILE_H);
-                        canvasContext.drawImage(tilePics["R1"], drawX, drawY, TILE_W, TILE_H);
+                    case 7: soilSheet.draw(drawX, drawY, soilInfo, soilParameter);
+                        plantSheet.draw(drawX, drawY, 3, 2);
                         break;
-                    case 8: canvasContext.drawImage(soilImg, drawX, drawY, TILE_W, TILE_H);
-                        canvasContext.drawImage(tilePics["R2"], drawX, drawY, TILE_W, TILE_H);
+                    case 8: soilSheet.draw(drawX, drawY, soilInfo, soilParameter);
+                        plantSheet.draw(drawX, drawY, 3, 3);
                         break;
-                    case 9: canvasContext.drawImage(soilImg, drawX, drawY, TILE_W, TILE_H);
-                        canvasContext.drawImage(tilePics["R3"], drawX, drawY, TILE_W, TILE_H);
+                    case 9: soilSheet.draw(drawX, drawY, soilInfo, soilParameter);
+                        plantSheet.draw(drawX, drawY, 3, 4);
                         break;
-                    default: canvasContext.drawImage(tilePics["W"], drawX, drawY, TILE_W, TILE_H);
-                        canvasContext.drawImage(tilePics["N"], drawX + 20, drawY + 20, TILE_W*0.6, TILE_H*0.6);
+                    default: soilSheet.draw(drawX, drawY, 3, 2);
+                        plantSheet.draw(drawX, drawY, 3, 1);
                         break;
                 }
             }
             else {
-                    canvasContext.drawImage(tilePics["W"], drawX, drawY, TILE_W, TILE_H);
-                    canvasContext.drawImage(tilePics["N"], drawX + 20, drawY + 20, TILE_W*0.6, TILE_H*0.6);
-
+			    soilSheet.draw(drawX, drawY, 3, 2);
+                plantSheet.draw(drawX, drawY, 3, 1);
             }
         }
     }

@@ -4,27 +4,27 @@ function SpriteClass(spritePic) {
     const CHAR_W = 0.6 * TILE_W;
     const CHAR_H = 0.9 * TILE_H;
 
-    this.spriteSheetWidth = 400;
-    this.spriteSheetHeight = 600;
+    this.sheetWidth = 240;
+    this.sheetHeight = 360;
 
-    this.spriteRows = 4;
-    this.spriteCols = 4;
+    this.sheetRows = 4;
+    this.sheetCols = 4;
 
-    this.spriteTrackRight = 2;
-    this.spriteTrackLeft = 1;
-    this.spriteTrackUp = 3;
-    this.spriteTrackDown = 0;
+    this.trackRight = 2;
+    this.trackLeft = 1;
+    this.trackUp = 3;
+    this.trackDown = 0;
 
-    var spriteWidth = this.spriteSheetWidth / this.spriteCols;
-    var spriteHeight = this.spriteSheetHeight / this.spriteRows;
+    var spriteWidth = this.sheetWidth / this.sheetCols;
+    var spriteHeight = this.sheetHeight / this.sheetRows;
 
-    this.spriteFrames = 4;
+    this.frames = 4;
 
     var curFrame = 0;
-    var frameCount = this.spriteFrames;
+    var frameCount = this.frames;
 
-    this.spriteX = 0;
-    this.spriteY = 0;
+    this.col = 0;
+    this.row = 0;
 
     this.moving = false;
     this.animMove = false;
@@ -41,23 +41,23 @@ function SpriteClass(spritePic) {
 
 
     this.updateFrame = function(someDirection, someDelay) {
-        this.spriteX = curFrame * spriteWidth;
+        this.col = curFrame * spriteWidth;
 
         if (this.moving) {
             setTimeout(this.moveFrames, someDelay);
         }
 
         if (someDirection === "left") {
-            this.spriteY = this.spriteTrackLeft * spriteHeight;
+            this.row = this.trackLeft * spriteHeight;
         }
         else if (someDirection === "right") {
-            this.spriteY = this.spriteTrackRight * spriteHeight;
+            this.row = this.trackRight * spriteHeight;
         }
         else if (someDirection === "up") {
-            this.spriteY = this.spriteTrackUp * spriteHeight;
+            this.row = this.trackUp * spriteHeight;
         }
         else if (someDirection === "down") {
-            this.spriteY = this.spriteTrackDown * spriteHeight;
+            this.row = this.trackDown * spriteHeight;
         }
     };
 
@@ -66,7 +66,7 @@ function SpriteClass(spritePic) {
         if (!this.moving) {
             curFrame = 0;
         }
-        canvasContext.drawImage(spritePic, this.spriteX, this.spriteY, spriteWidth, spriteHeight, x, y, CHAR_W, CHAR_H);
+        canvasContext.drawImage(spritePic, this.col, this.row, spriteWidth, spriteHeight, x, y, CHAR_W, CHAR_H);
     };
 
 }
