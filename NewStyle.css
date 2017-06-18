@@ -15,7 +15,7 @@
    min-width: 375px;
    margin: 0 auto;
 }
-#gameCanvas {
+.responsive {
    width: 100%;
    height: auto;
    background-color: black;
