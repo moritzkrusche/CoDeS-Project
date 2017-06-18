@@ -1,4 +1,4 @@
-/*
+
 .wrapper {
    display: table;
    padding: 0;
@@ -22,7 +22,7 @@
    height: auto;
    background-color: black;
 }
-*/
+
 .playButton {
   -webkit-border-radius: 8;
   -moz-border-radius: 8;
