@@ -125,7 +125,7 @@ var unlockIOSAudioPlayback = function () {
 
 function loadSoundsMobile() {
     potatoSound = new Howl({volume: 0.6, src: ["audio/potato.mp3"]});
-    walkingSound = new Howl({volume: 0.4, src: ["audio/walking,mp3"], loop: true});
+    walkingSound = new Howl({volume: 0.4, src: ["audio/walking.mp3"], loop: true});
     errorSound = new Howl({volume: 0.6, src: ["audio/error.mp3"]});
 
     var audioId = setInterval(frameAudio, 30);

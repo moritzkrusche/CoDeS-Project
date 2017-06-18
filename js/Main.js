@@ -15,6 +15,8 @@ var farmerChar = new SpriteClass(charSprite);
 farmerChar.stepsLeft = STEPS;
 var potatoShow = new AnimationClass(potato1, potato2, potato3);
 
+//isMobile = true;
+
 /*
 if (isMobile){
     farmerChar.spriteSheetWidth *= 0.5;
@@ -28,7 +30,7 @@ if (isMobile){
 
 var buttonList = ["pbUp", "pbDown", "pbLeft", "pbRight"];
 
-if (isMobile) {
+if (!isMobile) {
     for (var i = 0; i< buttonList.length; i++) {
         document.getElementById(buttonList[i]).style.visibility = "hidden";
     }
@@ -75,7 +77,7 @@ function imageLoadingDoneSoStartGame() {
 	var framesPerSecond = 10;
     //loadLevel(newGrid);
     //loadLevel(testMap1);
-    var levelChoice = true; //confirm("Load Test Map?");
+    var levelChoice = confirm("Load Test Map?");
     if (levelChoice === true) {
         trainingPhase = false;
         loadLevel(testMap1);
