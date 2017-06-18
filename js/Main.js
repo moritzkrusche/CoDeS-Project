@@ -75,7 +75,7 @@ function imageLoadingDoneSoStartGame() {
 	var framesPerSecond = 10;
     //loadLevel(newGrid);
     //loadLevel(testMap1);
-    var levelChoice = confirm("Load Test Map?");
+    var levelChoice = true; //confirm("Load Test Map?");
     if (levelChoice === true) {
         trainingPhase = false;
         loadLevel(testMap1);
