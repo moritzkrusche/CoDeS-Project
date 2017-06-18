@@ -1,3 +1,4 @@
+/*
 .wrapper {
    display: table;
    padding: 0;
@@ -9,6 +10,7 @@
    display: table-cell;
    vertical-align: top;
 }
+*/
 .canvas-container {
    position: relative;
    max-width: 700px;
