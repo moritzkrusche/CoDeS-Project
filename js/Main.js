@@ -28,7 +28,7 @@ if (isMobile){
 
 var buttonList = ["pbUp", "pbDown", "pbLeft", "pbRight"];
 
-if (!isMobile) {
+if (isMobile) {
     for (var i = 0; i< buttonList.length; i++) {
         document.getElementById(buttonList[i]).style.visibility = "hidden";
     }
