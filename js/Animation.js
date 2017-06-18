@@ -75,7 +75,7 @@ function SpriteClass(spritePic) {
 function AnimationClass(animPic1, animPic2, animPic3) {
 
     this.width = 50;
-    this.height = 30;
+    this.height = 32;
 
     var meX1 = 0;
     var meY1 = 0;
