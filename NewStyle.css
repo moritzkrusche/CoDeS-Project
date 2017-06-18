@@ -49,27 +49,27 @@
 #pbUp {
   width: 260px;
   height: 100px;
-  position: absolute; left: 220px; top: 750px
+  position: relative; left: 220px; top: 750px
 }
 
 #pbLeft {
   width: 220px;
   height: 200px;
-  position: absolute; left: 0px; top: 750px
+  position: relative; left: 0px; top: 750px
 }
 
 
 #pbRight {
   width: 220px;
   height: 200px;
-  position: absolute; left: 480px; top: 750px
+  position: relative; left: 480px; top: 750px
 }
 
 
 #pbDown {
   width: 260px;
   height: 100px;
-  position: absolute; left: 220px; top: 850px
+  position: relative; left: 220px; top: 850px
 }
 
 .noselect {
