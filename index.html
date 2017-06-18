@@ -21,6 +21,19 @@
 		  <div class="container">
 		    <div class="canvas-container">
 		      <canvas id="gameCanvas" width="700" height="750"></canvas>
+					<center>
+						<p>
+							<button class="playButton noselect" id="pbUp" onmousedown="buttonUp()" onmouseup="buttonFalse()"> Up </button>
+						</p>
+						<p>
+							<button class="playButton noselect" id="pbLeft" onmousedown="buttonLeft()" onmouseup="buttonFalse()" >Left</button>
+							<button class="playButton noselect" id="pbRight" onmousedown="buttonRight()" onmouseup="buttonFalse()" >Right</button>
+						</p>
+						<p>
+							<button class="playButton noselect" id="pbDown" onmousedown="buttonDown()" onmouseup="buttonFalse()" >Down</button>
+						</p>
+					</center>
+
 		    </div>
 		  </div>
 		</div>
@@ -36,20 +49,6 @@
 			Move using the arrow keys on your keyboard.
 		</p> -->
 
-		<div> <!-- style="position: absolute; left: 700px; top: 375px"> -->
-			<center>
-				<p>
-					<button class="playButton noselect" id="pbUp" onmousedown="buttonUp()" onmouseup="buttonFalse()"> Up </button>
-				</p>
-				<p>
-					<button class="playButton noselect" id="pbLeft" onmousedown="buttonLeft()" onmouseup="buttonFalse()" >Left</button>
-					<button class="playButton noselect" id="pbRight" onmousedown="buttonRight()" onmouseup="buttonFalse()" >Right</button>
-				</p>
-				<p>
-					<button class="playButton noselect" id="pbDown" onmousedown="buttonDown()" onmouseup="buttonFalse()" >Down</button>
-				</p>
-			</center>
-		</div>
 		<!-- Initialising firebase to store data  -->
 		<!--
 		<script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
