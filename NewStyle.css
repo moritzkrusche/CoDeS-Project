@@ -3,7 +3,7 @@
    display: table;
    padding: 0;
    width: 100%;
-   height: 100%;
+   height: auto;
    position: absolute;
 }
 .container {
@@ -48,6 +48,11 @@
   text-decoration: none;
 }
 
+.playButton:hover{
+  background: #525b68;
+  text-decoration: none;
+}
+
 .playButton:active{
   background: #B0C4DE;
   top: 0.125em;
@@ -57,6 +62,9 @@
   box-shadow: none;
 }
 
+#pbDown:active{
+  top: 3.125em;
+}
 
 #pbUp {
   width: 38%;
@@ -81,7 +89,7 @@
 #pbDown {
   width: 38%;
   height: 3em;
-  position: absolute; left: 31%; top: 3em
+  position: absolute; left: 31%; top: 3em;
 }
 
 

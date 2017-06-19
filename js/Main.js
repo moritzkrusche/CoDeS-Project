@@ -50,7 +50,7 @@ window.onload = function() {
 	canvas = document.getElementById('gameCanvas');
 	canvasContext = canvas.getContext('2d');
 	colorRect(0,0, CANVAS_W,CANVAS_H+50, 'black');
-    canvasContext.font = 'italic 20pt "Comic Sans MS", cursive, sans-serif';
+    canvasContext.font = 'italic 20pt "Eagle Lake", cursive, sans-serif';
 	colorText("LOADING", CANVAS_W/2-70, CANVAS_H/2-10, 'white');
 
 	loadImages();
@@ -142,16 +142,16 @@ function drawUI(whichSprite){
     colorRect(260,10, 100,30, 'red');
     colorRect(260,10, propMovesLeft * 100,30, 'green');
 
-    canvasContext.font = 'italic 18pt "Comic Sans MS", cursive, sans-serif';
+    canvasContext.font = 'italic 18pt "Eagle Lake", cursive, sans-serif';
     colorText("X: " + currentX, 50,35, "#DAA520");
     colorText("Y: " + currentY, 130,35, "#DAA520");
 
-    canvasContext.font = 'italic 20pt "Comic Sans MS", cursive, sans-serif';
+    canvasContext.font = 'italic 20pt "Eagle Lake", cursive, sans-serif';
     colorText(potatoeCount,635,35, "#DAA520");
     colorText(movesLeft, 285,35, "#DAA520");
     colorText(round(potatoePrice, 2) + " $", 475,35, "#DAA520");
-    canvasContext.font = 'italic 28pt "Comic Sans MS", cursive, sans-serif';
-    colorText(round(payoffCount, 2) + " $", 315,85, "#DAA520");
+    canvasContext.font = 'italic 26pt "Eagle Lake", cursive, sans-serif';
+    colorText(round(payoffCount, 2) + " $", 310,85, "#DAA520");
 }
 
 //********************************draw********************************************************************************
