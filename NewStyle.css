@@ -14,14 +14,14 @@
 .canvas-container {
    position: relative;
    max-width: 700px;
-   min-width: 700px;
+   min-width: 350px;
    margin: 0 auto;
 }
 
 .button-container {
    position: relative;
    max-width: 700px;
-   min-width: 375px;
+   min-width: 100px;
    margin: 0 auto;
 }
 
@@ -35,11 +35,11 @@
   -webkit-border-radius: 8;
   -moz-border-radius: 8;
   border-radius: 8px;
-  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-family: "Eagle Lake", cursive, sans-serif;
   font-style: italic;
+  font-size: 40px;
   color: #DAA520;
   border: 4px ridge #DAA520;
-  font-size: 40px;
   background-color: #333d3f;
   background-image: linear-gradient(90deg, rgba(51,61,63,.07) 50%, transparent 50%),
   linear-gradient(90deg, rgba(51,61,63,.13) 50%, transparent 50%);
@@ -58,29 +58,29 @@
 
 
 #pbUp {
-  width: 260px;
+  width: 38%;
   height: 100px;
-  position: absolute; left: 220px
+  position: absolute; left: 31%
 }
 
 #pbLeft {
-  width: 220px;
+  width: 31%;
   height: 200px;
-  position: absolute; left: 0px
+  position: absolute; left: 0%
 }
 
 
 #pbRight {
-  width: 220px;
+  width: 31%;
   height: 200px;
-  position: absolute; left: 480px
+  position: absolute; left: 69%
 }
 
 
 #pbDown {
-  width: 260px;
+  width: 38%;
   height: 100px;
-  position: absolute; left: 220px; top: 100px
+  position: absolute; left: 31%; top: 100px
 }
 
 
