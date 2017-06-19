@@ -32,8 +32,8 @@
 }
 
 .playButton {
-  -webkit-border-radius: 8;
-  -moz-border-radius: 8;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
   border-radius: 8px;
   font-family: "Eagle Lake", cursive, sans-serif;
   font-style: italic;
@@ -48,9 +48,13 @@
   text-decoration: none;
 }
 
-.playButton:hover {
+.playButton:active{
   background: #B0C4DE;
+  top: 0.125em;
   text-decoration: none;
+  outline: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
 
 
