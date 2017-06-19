@@ -14,14 +14,14 @@
 .canvas-container {
    position: relative;
    max-width: 700px;
-   min-width: 375px;
+   min-width: 700px;
    margin: 0 auto;
 }
 
 .button-container {
    position: relative;
-   max-width: 220px;
-   min-width: 110px;
+   max-width: 700px;
+   min-width: 375px;
    margin: 0 auto;
 }
 
@@ -46,6 +46,9 @@
   background-size: 13px, 29px, 37px, 53px;
   padding: 10px 20px 10px 20px;
   text-decoration: none;
+
+  width: 100%;
+  height: auto;
 }
 
 .playButton:hover {
@@ -55,34 +58,31 @@
 
 
 #pbUp {
-  max-width: 260px;
-  min-width: 110px;
-  height: auto;
-  position: relative; left: auto; top: auto;
+  width: 260px;
+  height: 100px;
+  position: absolute; left: 220px
 }
 
 #pbLeft {
-  max-width: 220px;
-  min-width: 110px;
-  height: auto;
-  position: absolute; left: 0px; top: 100%;
+  width: 220px;
+  height: 200px;
+  position: absolute; left: 0px
 }
 
 
 #pbRight {
-  max-width: 220px;
-  min-width: 110px;
-  height: auto;
-  position: absolute; left: 100%; top: 100%;
+  width: 220px;
+  height: 200px;
+  position: absolute; left: 480px
 }
 
 
 #pbDown {
-  max-width: 260px;
-  min-width: 110px;
-  height: auto;
-  position: relative; left: auto; top: auto;
+  width: 260px;
+  height: 100px;
+  position: absolute; left: 220px; top: 100px
 }
+
 
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */

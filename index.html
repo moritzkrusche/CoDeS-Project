@@ -21,22 +21,25 @@
 		  <div class="container">
 		    <div class="canvas-container">
 		      <canvas class = "responsive" id="gameCanvas" width="700" height="750"></canvas>
-					<center>
-						<p>
-							<button class="responsive playButton noselect" id="pbUp" onmousedown="buttonUp()" onmouseup="buttonFalse()"> Up </button>
-						</p>
-						<p>
-							<button class="responsive playButton noselect" id="pbLeft" onmousedown="buttonLeft()" onmouseup="buttonFalse()" >Left</button>
-							<button class="responsive playButton noselect" id="pbRight" onmousedown="buttonRight()" onmouseup="buttonFalse()" >Right</button>
-						</p>
-						<p>
-							<button class="responsive playButton noselect" id="pbDown" onmousedown="buttonDown()" onmouseup="buttonFalse()" >Down</button>
-						</p>
-					</center>
-
 		    </div>
+					<div class="button-container" >
+
+							<button class="playButton noselect" id="pbUp" onmousedown="buttonUp()" onmouseup="buttonFalse()"> Up </button>
+						</div>
+						<div class="button-container" >
+
+						<button class="playButton noselect" id="pbLeft" onmousedown="buttonLeft()" onmouseup="buttonFalse()" >Left</button>
+						<button class="playButton noselect" id="pbRight" onmousedown="buttonRight()" onmouseup="buttonFalse()" >Right</button>
+						</div>
+						<div class="button-container" >
+							<button class="playButton noselect" id="pbDown" onmousedown="buttonDown()" onmouseup="buttonFalse()" >Down</button>
+						</div>
+					</div>
 		  </div>
 		</div>
+
+
+
 
 		<!--<div style="position: absolute; left: 0; top: 0">
 			<canvas id="gameCanvas" width="700" height="750"></canvas>
@@ -69,9 +72,6 @@
 		<!-- Libaries-->
 		<script src="js/jstat.js"></script>
 		<script src="js/howler.core.min.js"></script>
-
-		<!-- <script src="https://jsconsole.com/js/remote.js?837004cb-827e-4040-ae56-f9b44e87b28"></script>-->
-
 
 		<!-- <script src="js/hammer-time.min.js"></script> -->
 		<!-- <script src="js/jquery-3.2.1.slim.js"></script> -->
