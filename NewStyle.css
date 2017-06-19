@@ -37,18 +37,15 @@
   border-radius: 8px;
   font-family: "Eagle Lake", cursive, sans-serif;
   font-style: italic;
-  font-size: 40px;
+  font-size: 2em;
   color: #DAA520;
-  border: 4px ridge #DAA520;
+  border: 0.125em ridge #DAA520;
   background-color: #333d3f;
   background-image: linear-gradient(90deg, rgba(51,61,63,.07) 50%, transparent 50%),
   linear-gradient(90deg, rgba(51,61,63,.13) 50%, transparent 50%);
   background-size: 13px, 29px, 37px, 53px;
   padding: 10px 20px 10px 20px;
   text-decoration: none;
-
-  width: 100%;
-  height: auto;
 }
 
 .playButton:hover {
@@ -59,28 +56,28 @@
 
 #pbUp {
   width: 38%;
-  height: 100px;
+  height: 3em;
   position: absolute; left: 31%
 }
 
 #pbLeft {
   width: 31%;
-  height: 200px;
+  height: 6em;
   position: absolute; left: 0%
 }
 
 
 #pbRight {
   width: 31%;
-  height: 200px;
+  height: 6em;
   position: absolute; left: 69%
 }
 
 
 #pbDown {
   width: 38%;
-  height: 100px;
-  position: absolute; left: 31%; top: 100px
+  height: 3em;
+  position: absolute; left: 31%; top: 3em
 }
 
 
