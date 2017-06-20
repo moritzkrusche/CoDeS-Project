@@ -137,9 +137,9 @@ function loadSoundsMobile() {
     spriteSound = new Howl({
         src: ["audio/audioSprite.mp3"],
         sprite: {
-            walking: [0, 5900],
-            potato: [7000, 600],
-            error: [8500, 600]
+            walking: [0, 5500],
+            potato: [7000, 500],
+            error: [8500, 500]
         }
     });
 

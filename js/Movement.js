@@ -100,12 +100,11 @@ function checkCollision(atTrackerX, atTrackerY) {
         }
 
         else {
-            if (!spriteSound.playing(id3) && !errorSound.playing(id4)) {
+            if (!spriteSound.playing()) {
                 var id3 = spriteSound.play('error');
                 setTimeout(function () {
                     var id4 = spriteSound.play('error');
-                }, 470);
-                spriteSound.rate(1.5, id4);
+                }, 170);
             }
         }
 
@@ -173,8 +172,13 @@ function trackerMove(someSprite) {
                 var walkId = walkingSound.play();
             }
         } else {
-            if (spriteSound.playing()) {
-                clearTimeout(pauseId);
+            if (spriteSound.playing(walkId2)) {
+                try{
+                    clearTimeout(pauseId);
+                }
+                catch(err) {
+                    var walkId2 = spriteSound.play('walking');
+                }
             }
             else {
                 var walkId2 = spriteSound.play('walking');
@@ -198,7 +202,7 @@ function trackerMove(someSprite) {
                 } else {
                     pauseId = setTimeout(function () {
                         spriteSound.pause(walkId2)
-                    }, 250);
+                    }, 350);
                 }
 
             } else {
