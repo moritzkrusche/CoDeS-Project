@@ -109,19 +109,26 @@ function isTileAtCoord(TileRow, TileCol) {
     return false;
 }
 
+var alpha1= 2;
+var alpha2 = 1;
+var beta1 = 1;
+var beta2 = 2;
 
 
 function getType(TileRow, TileCol) {
 
     if (trainingPhase) {
-        var infoCol = exploredColumn[TileCol];
-        var infoRow = exploredRow[TileRow];
+
+        //Maarten: add sum of alpha and beta parameters to explored count
+        var infoCol = exploredColumn[TileCol]+alpha1+beta1;
+        var infoRow = exploredRow[TileRow]+alpha2+beta2;
 
         var infoLevelCol = getInfoLevel(infoCol);
         var infoLevelRow = getInfoLevel(infoRow);
 
-        var qualityCol = getQuality(payoffColumn[TileCol], infoCol);
-        var qualityRow = getQuality(payoffRow[TileRow], infoRow);
+        // Maarten: alpha success rate; beta failure rate
+        var qualityCol = getQuality((payoffColumn[TileCol]+alpha1), infoCol);
+        var qualityRow = getQuality((payoffRow[TileRow]+alpha2), infoRow);
 
         return [infoLevelCol, infoLevelRow, qualityCol, qualityRow];
     }
@@ -131,14 +138,16 @@ function getType(TileRow, TileCol) {
 }
 
 
+// remap information levels
+
 function getInfoLevel(rowOrCol) {
-    if (rowOrCol === 0) {
+    if (rowOrCol <= alpha1+beta1) {
         return 2;
     }
-    else if (rowOrCol < 4) {
+    else if (rowOrCol < 4+alpha1+beta1) {
         return 1;
     }
-    else if (rowOrCol >= 4) {
+    else if (rowOrCol >= 4+alpha1+beta1) {
         return 0;
     }
 }
@@ -147,19 +156,19 @@ function getInfoLevel(rowOrCol) {
 function getQuality(timesPotato, timesExplored) {
     var fraction = timesPotato / timesExplored;
 
-    if (timesExplored === 0){
+    if (timesExplored === alpha1+beta1){
         return 2;
     }
-    else if (fraction <= 0.2) {
+    else if (fraction <= 0.20) {
         return 0;
     }
-    else if (fraction <= 0.4) {
+    else if (fraction <= 0.35) {
         return 1;
     }
-    else if (fraction <= 0.6) {
+    else if (fraction <= 0.50) {
         return 2;
     }
-    else if (fraction <= 0.8) {
+    else if (fraction <= 0.65) {
         return 3;
     }
     else  {
