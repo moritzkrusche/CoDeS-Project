@@ -43,7 +43,7 @@ window.onload = function() {
 	canvas.height = 700 + uiHeight;
 
 	// ensures that the lower part of the canvas is not cut out on small laptops etc.
-    if (!isMobile && window.screen.width <850){
+    if (!isMobile && window.screen.height <850){
         document.getElementById('gameContainer').style.maxWidth = "580px";
         var buttonContainers = (document.getElementsByClassName("button-container"));
         for (var i=0; i<buttonContainers.length; i++){
