@@ -93,8 +93,14 @@ function imageLoadingDoneSoStartGame() {
         loadLevel(newGrid);
     }
 	setInterval(updateAll, 1000/framesPerSecond);
-    initInput();
-
+    if (!isMobile){
+        initInput();
+    }
+    else {
+        // wait to load time on iOS;
+        sleep(500);
+        initInput();
+    }
 }
 
 function loadLevel(whichLevel) {
