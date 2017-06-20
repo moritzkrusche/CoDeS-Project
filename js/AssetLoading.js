@@ -79,6 +79,8 @@ var walkingSound;
 var backgroundSound;
 var errorSound;
 
+var spriteSound;
+
 var audioFormat;
 
 function setFormat() {
@@ -128,13 +130,22 @@ var unlockIOSAudioPlayback = function () {
 
 
 function loadSoundsMobile() {
-    potatoSound = new Howl({volume: 0.6, src: ["audio/potato.mp3"]});
-    walkingSound = new Howl({volume: 0.4, src: ["audio/walking.mp3"], loop: true});
-    errorSound = new Howl({volume: 0.6, src: ["audio/error.mp3"]});
+    //potatoSound = new Howl({volume: 0.6, src: ["audio/potato.mp3"]});
+    //walkingSound = new Howl({volume: 0.4, src: ["audio/walking.mp3"], loop: true});
+    //errorSound = new Howl({volume: 0.6, src: ["audio/error.mp3"]});
+
+    spriteSound = new Howl({
+        src: ["audio/audioSprite.mp3"],
+        sprite: {
+            walking: [0, 5900],
+            potato: [7000, 600],
+            error: [8500, 600]
+        }
+    });
 
     var audioId = setInterval(frameAudio, 30);
     function frameAudio() {
-        if (potatoSound.state() === 'loaded' && walkingSound.state() === 'loaded' && errorSound.state() === 'loaded') {
+        if (spriteSound.state() === 'loaded') {
             clearInterval(audioId);
             try {
                 unlockIOSAudioPlayback()

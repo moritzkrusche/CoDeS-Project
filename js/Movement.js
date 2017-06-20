@@ -46,7 +46,12 @@ function updateInfo(callback) {
         }
         else if (getPayoff === 1) {
             potatoShow.animate();
-            potatoSound.play();
+
+            if (!isMobile) {
+                potatoSound.play();
+            } else {
+                spriteSound.play('potato');
+            }
 
             console.log("POTATOE");
             payoffTracker.push(1);
@@ -84,12 +89,26 @@ function checkCollision(atTrackerX, atTrackerY) {
 
     if (nextPos === 5 || nextPos >= 7) {
         //console.log("STOP MOVING");
-
-        if (!errorSound.playing(id) && !errorSound.playing(id2)) {
-            var id = errorSound.play();
-            var id2 = setTimeout(function(){errorSound.play()}, 170);
-            errorSound.rate(1.5, id2);
+        if (!isMobile) {
+            if (!errorSound.playing(id) && !errorSound.playing(id2)) {
+                var id = errorSound.play();
+                var id2 = setTimeout(function () {
+                    errorSound.play()
+                }, 170);
+                errorSound.rate(1.5, id2);
+            }
         }
+
+        else {
+            if (!spriteSound.playing()) {
+                spriteSound.play('error');
+                var id3 = setTimeout(function () {
+                    spriteSound.play('error');
+                }, 470);
+                spriteSound.rate(1.5, id3);
+            }
+        }
+
         return true;
     }
     else {
@@ -144,17 +163,24 @@ function trackerMove(someSprite) {
         }
     }
     if(someSprite.moving && !someSprite.animMove) {
-        /*
-        if (isMobile && !backgroundSound.playing()){
-            backgroundSound.play();
+
+
+        if (!isMobile) {
+            if (walkingSound.playing(walkId)) {
+                clearTimeout(pauseId);
+            }
+            else {
+                var walkId = walkingSound.play();
+            }
+        } else {
+            if (spriteSound.playing()) {
+                clearTimeout(pauseId);
+            }
+            else {
+                spriteSound.play('walking');
+            }
         }
-        */
-        if (walkingSound.playing(walkId)) {
-            clearTimeout(pauseId);
-        }
-        else {
-            var walkId = walkingSound.play();
-        }
+
 
         someSprite.animMove = true;
         var stepsMoved = 0;
@@ -165,7 +191,15 @@ function trackerMove(someSprite) {
                 clearInterval(moveId);
                 updateInfo(stepCounter(someSprite));
 
-                pauseId = setTimeout(function(){walkingSound.pause(walkId)}, 250);
+                if (!isMobile) {
+                    pauseId = setTimeout(function () {
+                        walkingSound.pause(walkId)
+                    }, 250);
+                } else {
+                    pauseId = setTimeout(function () {
+                        spriteSound.pause()
+                    }, 250);
+                }
 
             } else {
                 nextX += directionX;

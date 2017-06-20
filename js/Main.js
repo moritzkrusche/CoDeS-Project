@@ -43,7 +43,7 @@ window.onload = function() {
 	canvas.height = 700 + uiHeight;
 
 	// ensures that the lower part of the canvas is not cut out on small laptops etc.
-    if (!isMobile && window.screen.width <850){
+    if (!isMobile && window.screen.height <850){
         document.getElementById('gameContainer').style.maxWidth = "580px";
         var buttonContainers = (document.getElementsByClassName("button-container"));
         for (var i=0; i<buttonContainers.length; i++){
@@ -95,10 +95,6 @@ function imageLoadingDoneSoStartGame() {
 	setInterval(updateAll, 1000/framesPerSecond);
     initInput();
 
-	/*if (!isMobile){
-	    initInput();
-    }*/
-
 }
 
 function loadLevel(whichLevel) {
@@ -107,18 +103,6 @@ function loadLevel(whichLevel) {
     if (!isMobile) {
         backgroundSound.play();
     }
-    /*
-    else if (isMobile) {
-        var askSound = confirm("Play sound?");
-        if (askSound === true) {
-
-            loadSoundsMobile();
-        }
-        else {
-            initInput();
-        }
-    }
-    */
 }
 
 function updateAll() {
