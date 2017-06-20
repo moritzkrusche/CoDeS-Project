@@ -50,8 +50,8 @@ function updateInfo(callback) {
 
             console.log("POTATOE");
             payoffTracker.push(1);
-            potatoeCount += 1;
-            payoffCount += potatoePrice;
+            potatoCount += 1;
+            payoffCount += potatoPrice;
 
             tileGrid[posY][posX] = 3;
 
@@ -69,7 +69,7 @@ function updateInfo(callback) {
 function stepCounter(whichSprite) {
     if (whichSprite.stepsLeft > 0) {
         whichSprite.stepsLeft -=1;
-        potatoePrice *= discountFactor;
+        potatoPrice *= discountFactor;
     }
     whichSprite.animMove = false;
     whichSprite.moving = false;

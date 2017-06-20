@@ -1,14 +1,44 @@
 
+body {
+  font-size: 100%;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  /* IE10 Consumer Preview */
+  background-image: -ms-radial-gradient(center, ellipse farthest-corner, #F5F5DC 0%, #FAEBD7 100%);
+
+  /* Mozilla Firefox */
+  background-image: -moz-radial-gradient(center, ellipse farthest-corner, #F5F5DC 0%, #FAEBD7 100%);
+
+  /* Opera */
+  background-image: -o-radial-gradient(center, ellipse farthest-corner, #F5F5DC 0%, #FAEBD7 100%);
+
+  /* Webkit (Safari/Chrome 10) */
+  background-image: -webkit-gradient(radial, center center, 0, center center, 497, color-stop(0, #F5F5DC), color-stop(1, #FAEBD7));
+
+  /* Webkit (Chrome 11+) */
+  background-image: -webkit-radial-gradient(center, ellipse farthest-corner, #F5F5DC 0%, #FAEBD7 100%);
+
+  /* W3C Markup, IE10 Release Preview */
+  background-image: radial-gradient(ellipse farthest-corner at center, #F5F5DC 0%, #FAEBD7 100%);
+
+}
+
 .wrapper {
    display: table;
    padding: 0;
    width: 100%;
-   height: auto;
+   height: 100%;
    position: absolute;
 }
 .container {
    display: table-cell;
-   vertical-align: top;
+   vertical-align: sub;
 }
 
 .canvas-container {
@@ -35,7 +65,7 @@
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   border-radius: 8px;
-  font-family: "Eagle Lake", cursive, sans-serif;
+  font-family: "Eagle Lake";
   font-style: italic;
   font-size: 1.5em;
   color: #DAA520;
@@ -63,33 +93,33 @@
 }
 
 #pbDown:active{
-  top: 3.125em;
+  top: 2.625em;
 }
 
 #pbUp {
   width: 38%;
-  height: 3em;
+  height: 2.5em;
   position: absolute; left: 31%
 }
 
 #pbLeft {
   width: 31%;
-  height: 6em;
+  height: 5em;
   position: absolute; left: 0%
 }
 
 
 #pbRight {
   width: 31%;
-  height: 6em;
+  height: 5em;
   position: absolute; left: 69%
 }
 
 
 #pbDown {
   width: 38%;
-  height: 3em;
-  position: absolute; left: 31%; top: 3em;
+  height: 2.5em;
+  position: absolute; left: 31%; top: 2.5em;
 }
 
 

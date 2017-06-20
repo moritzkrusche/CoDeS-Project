@@ -4,29 +4,20 @@ var canvas, canvasContext;
 
 var CANVAS_H = 700;
 var CANVAS_W = 700;
-
-var potatoeCount = 0;
-var potatoePrice = 0.1;
+var potatoCount = 0;
+var potatoPrice = 0.05;
 var payoffCount = 0;
-const discountFactor = 0.97;
+const discountFactor = 0.985;
 var STEPS = 40;
+var PRICE = 0.05;
+
+var uiHeight = 50;
 
 var farmerChar = new SpriteClass(charSprite);
 farmerChar.stepsLeft = STEPS;
 var potatoShow = new AnimationClass(potato1, potato2, potato3);
 
 //isMobile = true;
-
-/*
-if (isMobile){
-    farmerChar.spriteSheetWidth *= 0.5;
-    farmerChar.spriteSheetHeight *= 0.5;
-    CANVAS_H *= 0.8;
-    CANVAS_W *= 0.8;
-    TILE_H *= 0.8;
-    TILE_W *= 0.8;
-}
- */
 
 var buttonList = ["pbUp", "pbDown", "pbLeft", "pbRight"];
 
@@ -48,10 +39,23 @@ function getStart() {
 
 window.onload = function() {
 	canvas = document.getElementById('gameCanvas');
+	canvas.width = 700;
+	canvas.height = 700 + uiHeight;
+
+	// ensures that the lower part of the canvas is not cut out on small laptops etc.
+    if (!isMobile && window.screen.width <850){
+        document.getElementById('gameContainer').style.maxWidth = "580px";
+        var buttonContainers = (document.getElementsByClassName("button-container"));
+        for (var i=0; i<buttonContainers.length; i++){
+            buttonContainers[i].style.maxWidth = "580px";
+        }
+
+    }
+
 	canvasContext = canvas.getContext('2d');
-	colorRect(0,0, CANVAS_W,CANVAS_H+50, 'black');
-    canvasContext.font = 'italic 20pt "Eagle Lake", cursive, sans-serif';
-	colorText("LOADING", CANVAS_W/2-70, CANVAS_H/2-10, 'white');
+	colorRect(0,0, CANVAS_W,CANVAS_H+uiHeight, 'black');
+    canvasContext.font = 'italic 20pt "COMIC SANS MS"';
+	colorText("LOADING", CANVAS_W/2-70, CANVAS_H/2+uiHeight, 'white');
 
 	loadImages();
 };
@@ -66,7 +70,7 @@ function trackerReset(whichSprite, whichAnim) {
     whichAnim.animatePayoff(whichSprite.startX, whichSprite.startY);
 	//console.log("TRACKER X, Y : ", trackerX, trackerY);
     updateInfo();
-    //potatoeCount = 0;
+    //potatoCount = 0;
     //payoffCount = 0;
 
     measureWorld();
@@ -137,20 +141,24 @@ function drawUI(whichSprite){
     var currentY = round((trackerY - whichSprite.startY)/TILE_H, 0) * -1;
     var propMovesLeft = farmerChar.stepsLeft/STEPS;
     var movesLeft = Math.round(propMovesLeft * STEPS);
+    var propPotatoePrice = potatoPrice/PRICE;
 
     canvasContext.drawImage(uiPic,0,0,CANVAS_W,100);
     colorRect(260,10, 100,30, 'red');
     colorRect(260,10, propMovesLeft * 100,30, 'green');
 
-    canvasContext.font = 'italic 18pt "Eagle Lake", cursive, sans-serif';
+    colorRect(475,10, 100,30, 'red');
+    colorRect(475,10, propPotatoePrice * 100,30, 'green');
+
+    canvasContext.font = 'italic 18pt "COMIC SANS MS"';
     colorText("X: " + currentX, 50,35, "#DAA520");
     colorText("Y: " + currentY, 130,35, "#DAA520");
 
-    canvasContext.font = 'italic 20pt "Eagle Lake", cursive, sans-serif';
-    colorText(potatoeCount,635,35, "#DAA520");
+    canvasContext.font = 'italic 20pt "COMIC SANS MS"';
+    colorText(potatoCount,635,35, "#DAA520");
     colorText(movesLeft, 285,35, "#DAA520");
-    colorText(round(potatoePrice, 2) + " $", 475,35, "#DAA520");
-    canvasContext.font = 'italic 26pt "Eagle Lake", cursive, sans-serif';
+    colorText(round(potatoPrice*100, 2) + " ‎¢", 485,35, "#DAA520");
+    canvasContext.font = 'italic 28pt "COMIC SANS MS"';
     colorText(round(payoffCount, 2) + " $", 310,85, "#DAA520");
 }
 
@@ -166,7 +174,7 @@ function drawEverything() {
 	// this next line is like subtracting camPanX and camPanY from every
 	// canvasContext draw operation up until we call canvasContext.restore
 	// this way we can just draw them at their "actual" position coordinates
-	canvasContext.translate(-camPanX,-camPanY+50);
+	canvasContext.translate(-camPanX,-camPanY+uiHeight);
 
 	drawOnlyTilesOnScreen();
 	// console.log("TRACKER X: ", trackerX, "TRACKER Y : ", trackerY);

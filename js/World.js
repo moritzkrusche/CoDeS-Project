@@ -1,8 +1,8 @@
 var TILE_W = 100;
 var TILE_H = 100;
 
-const PLANT_W = 60;
-const PLANT_H = 60;
+var PLANT_W = 60;
+var PLANT_H = 60;
 
 var TILE_COLS = 220;
 var TILE_ROWS = 220;
