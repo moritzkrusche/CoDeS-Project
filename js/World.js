@@ -9,6 +9,11 @@ var TILE_ROWS = 220;
 
 var trainingPhase = false;
 
+var alpha1= 2;
+var alpha2 = 1;
+var beta1 = 1;
+var beta2 = 2;
+
 rowParameters = new Array(TILE_ROWS);
 columnParameters = new Array(TILE_COLS);
 
@@ -75,8 +80,10 @@ generateWorld();
 
 
 function getParameters() {
-    posX = Math.floor((trackerX + shiftedLeft)/TILE_W);
-    posY = Math.floor((trackerY + shiftedUp)/TILE_H);
+    var posX = Math.floor((trackerX + shiftedLeft)/TILE_W);
+    var posY = Math.floor((trackerY + shiftedUp)/TILE_H);
+
+    return [posX, posY]
 }
 
 
@@ -109,10 +116,7 @@ function isTileAtCoord(TileRow, TileCol) {
     return false;
 }
 
-var alpha1= 2;
-var alpha2 = 1;
-var beta1 = 1;
-var beta2 = 2;
+
 
 
 function getType(TileRow, TileCol) {
@@ -123,12 +127,12 @@ function getType(TileRow, TileCol) {
         var infoCol = exploredColumn[TileCol]+alpha1+beta1;
         var infoRow = exploredRow[TileRow]+alpha2+beta2;
 
-        var infoLevelCol = getInfoLevel(infoCol);
-        var infoLevelRow = getInfoLevel(infoRow);
+        var infoLevelCol = getInfoLevel(infoCol, (alpha1+beta1));
+        var infoLevelRow = getInfoLevel(infoRow, (alpha2+beta2));
 
         // Maarten: alpha success rate; beta failure rate
-        var qualityCol = getQuality((payoffColumn[TileCol]+alpha1), infoCol);
-        var qualityRow = getQuality((payoffRow[TileRow]+alpha2), infoRow);
+        var qualityCol = getQuality((payoffColumn[TileCol]+alpha1), infoCol, (alpha1+beta1));
+        var qualityRow = getQuality((payoffRow[TileRow]+alpha2), infoRow, (alpha2+beta2));
 
         return [infoLevelCol, infoLevelRow, qualityCol, qualityRow];
     }
@@ -138,25 +142,24 @@ function getType(TileRow, TileCol) {
 }
 
 
-// remap information levels
 
-function getInfoLevel(rowOrCol) {
-    if (rowOrCol <= alpha1+beta1) {
+function getInfoLevel(rowOrCol, parameters) {
+    if (rowOrCol <= parameters) {
         return 2;
     }
-    else if (rowOrCol < 4+alpha1+beta1) {
+    else if (rowOrCol < 4+parameters) {
         return 1;
     }
-    else if (rowOrCol >= 4+alpha1+beta1) {
+    else if (rowOrCol >= 4+parameters) {
         return 0;
     }
 }
 
 
-function getQuality(timesPotato, timesExplored) {
+function getQuality(timesPotato, timesExplored, parameters) {
     var fraction = timesPotato / timesExplored;
 
-    if (timesExplored === alpha1+beta1){
+    if (timesExplored === parameters){
         return 2;
     }
     else if (fraction <= 0.20) {
@@ -185,29 +188,7 @@ function getQuality(timesPotato, timesExplored) {
  Column 3 --> path (0: no, 1: payoff) + water (3)
 
  Row 0, 1, 2, 3, 4 --> Soil Quality 1,2,3,4,5
- */
 
-function SoilSheetClass(soilSheet) {
-
-    this.SheetWidth = 500;
-    this.SheetHeight = 500;
-    this.SheetRows = 5;
-    this.SheetCols = 5;
-
-    var imageWidth = this.SheetWidth/this.SheetCols;
-    var imageHeight = this.SheetHeight/this.SheetRows;
-
-    this.draw = function(x, y, Info, Type) {
-
-        var sheetCol = imageHeight * Info;
-        var sheetRow = imageWidth * Type;
-
-        canvasContext.drawImage(soilSheet, sheetCol, sheetRow, imageWidth, imageHeight, x, y, TILE_W, TILE_H);
-    };
-}
-
-
-/*
 Tilesheet Plants 60px
 
 Column 0 1 2 --> Info 1,2,3
@@ -217,32 +198,33 @@ Column 3 --> path (0: no, 1: payoff) + water (3)
 Row 0, 1, 2, 3, 4 --> Soil Quality 1,2,3,4,5
 */
 
-function PlantSheetClass(plantSheet) {
+// universal class for drawing (static) tiles from a tilesheet
+function TileSheetClass(image, sheetWidth, sheetHeight, rows, cols, offsetX, offsetY, drawWidth, drawHeight) {
 
-    this.SheetWidth = 300;
-    this.SheetHeight = 300;
-    this.SheetRows = 5;
-    this.SheetCols = 5;
+    this.SheetWidth = sheetWidth;
+    this.SheetHeight = sheetHeight;
+    this.SheetRows = rows;
+    this.SheetCols = cols;
 
     var imageWidth = this.SheetWidth/this.SheetCols;
     var imageHeight = this.SheetHeight/this.SheetRows;
 
-    // centers relatively smaller "Plant" type pictures on the relatively larger "Soil" tiles
-    this.offSetX = (TILE_W - PLANT_W)/2;
-    this.offSetY = (TILE_H - PLANT_H)/2;
+    // centers relatively smaller pictures, e.g. plants or rocks, on relatively larger tiles
+    this.offSetX = offsetX;
+    this.offSetY = offsetY;
 
-    this.draw = function(x, y, Info, Type) {
+    this.draw = function(x, y, whichCol, whichRow) {
 
-        var sheetCol = imageHeight * Info;
-        var sheetRow = imageWidth * Type;
+        var sheetCol = imageHeight * whichCol;
+        var sheetRow = imageWidth * whichRow;
 
-        canvasContext.drawImage(plantSheet, sheetCol, sheetRow, imageWidth, imageHeight, x+this.offSetX, y+this.offSetY, PLANT_W, PLANT_H);
+        canvasContext.drawImage(image, sheetCol, sheetRow, imageWidth, imageHeight, x+this.offSetX, y+this.offSetY, drawWidth, drawHeight);
     };
 }
 
 
-var soilSheet = new SoilSheetClass(soilSheetPic);
-var plantSheet = new PlantSheetClass(plantSheetPic);
+var soilSheet = new TileSheetClass(soilSheetPic, 5*TILE_W, 5*TILE_H, 5, 5, 0, 0, TILE_W, TILE_H);
+var plantSheet = new TileSheetClass(plantSheetPic, 5*PLANT_W, 5*PLANT_H, 5, 5, ((TILE_W-PLANT_W)/2), ((TILE_H-PLANT_H)/2), PLANT_W, PLANT_H);
 
 
 function drawOnlyTilesOnScreen() {
