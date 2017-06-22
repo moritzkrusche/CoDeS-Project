@@ -48,9 +48,9 @@ function updateInfo(callback) {
             potatoShow.animate();
 
             if (!isMobile) {
-                potatoSound.play();
+                assets.potatoSound.play();
             } else {
-                spriteSound.play('potato');
+                assets.spriteSound.play('potato');
             }
 
             console.log("POTATOE");
@@ -90,20 +90,20 @@ function checkCollision(atTrackerX, atTrackerY) {
     if (nextPos === 5 || nextPos >= 7) {
         //console.log("STOP MOVING");
         if (!isMobile) {
-            if (!errorSound.playing(id) && !errorSound.playing(id2)) {
-                var id = errorSound.play();
+            if (!assets.errorSound.playing(id) && !assets.errorSound.playing(id2)) {
+                var id = assets.errorSound.play();
                 var id2 = setTimeout(function () {
-                    errorSound.play()
+                    assets.errorSound.play()
                 }, 170);
-                errorSound.rate(1.5, id2);
+                assets.errorSound.rate(1.5, id2);
             }
         }
 
         else {
-            if (!spriteSound.playing()) {
-                var id3 = spriteSound.play('error');
+            if (!assets.spriteSound.playing()) {
+                var id3 = assets.spriteSound.play('error');
                 setTimeout(function () {
-                    var id4 = spriteSound.play('error');
+                    var id4 = assets.spriteSound.play('error');
                 }, 170);
             }
         }
@@ -165,23 +165,23 @@ function trackerMove(someSprite) {
 
 
         if (!isMobile) {
-            if (walkingSound.playing(walkId)) {
+            if (assets.walkingSound.playing(walkId)) {
                 clearTimeout(pauseId);
             }
             else {
-                var walkId = walkingSound.play();
+                var walkId = assets.walkingSound.play();
             }
         } else {
-            if (spriteSound.playing(walkId2)) {
+            if (assets.spriteSound.playing(walkId2)) {
                 try{
                     clearTimeout(pauseId);
                 }
                 catch(err) {
-                    var walkId2 = spriteSound.play('walking');
+                    var walkId2 = assets.spriteSound.play('walking');
                 }
             }
             else {
-                var walkId2 = spriteSound.play('walking');
+                var walkId2 = assets.spriteSound.play('walking');
             }
         }
 
@@ -197,11 +197,11 @@ function trackerMove(someSprite) {
 
                 if (!isMobile) {
                     pauseId = setTimeout(function () {
-                        walkingSound.pause(walkId)
+                        assets.walkingSound.pause(walkId)
                     }, 250);
                 } else {
                     pauseId = setTimeout(function () {
-                        spriteSound.pause(walkId2)
+                        assets.spriteSound.pause(walkId2)
                     }, 350);
                 }
 

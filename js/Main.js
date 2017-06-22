@@ -1,23 +1,18 @@
 
 //********************************move within Init function*************************************************************
-var canvas, canvasContext;
 
-var CANVAS_H = 700;
-var CANVAS_W = 700;
 var potatoCount = 0;
 var potatoPrice = 0.05;
 var payoffCount = 0;
 const discountFactor = 0.985;
-var STEPS = 40;
+var STEPS = 10;
 var PRICE = 0.05;
 
-var uiHeight = 50;
 
-var farmerChar = new SpriteClass(charSprite);
+
+var farmerChar = new SpriteClass(assets.charSprite);
 farmerChar.stepsLeft = STEPS;
-var potatoShow = new AnimationClass(potato1, potato2, potato3);
-
-//isMobile = true;
+var potatoShow = new AnimationClass(assets.potato);
 
 var buttonList = ["pbUp", "pbDown", "pbLeft", "pbRight"];
 
@@ -36,29 +31,18 @@ function getStart() {
 	return [startCol, startRow];
 }
 
+// load when last finished; 5 * new map; 8* test map
+function experiment(){
 
-window.onload = function() {
-	canvas = document.getElementById('gameCanvas');
-	canvas.width = 700;
-	canvas.height = 700 + uiHeight;
 
-	// ensures that the lower part of the canvas is not cut out on small laptops etc.
-    if (!isMobile && window.screen.height <850){
-        document.getElementById('gameContainer').style.maxWidth = "580px";
-        var buttonContainers = (document.getElementsByClassName("button-container"));
-        for (var i=0; i<buttonContainers.length; i++){
-            buttonContainers[i].style.maxWidth = "580px";
-        }
+}
+// logs per game; sends to firebase at the end
+function logData(){
 
-    }
+}
 
-	canvasContext = canvas.getContext('2d');
-	colorRect(0,0, CANVAS_W,CANVAS_H+uiHeight, 'black');
-    canvasContext.font = 'italic 20pt "COMIC SANS MS"';
-	colorText("LOADING", CANVAS_W/2-70, CANVAS_H/2+uiHeight, 'white');
 
-	loadImages();
-};
+
 
 function trackerReset(whichSprite, whichAnim) {
 	// center tracker on screen
@@ -77,7 +61,7 @@ function trackerReset(whichSprite, whichAnim) {
 }
 
 
-function imageLoadingDoneSoStartGame() {
+function assetLoadingDoneSoStartGame() {
 	var framesPerSecond = 10;
     //loadLevel(newGrid);
     //loadLevel(testMap1);
@@ -107,7 +91,7 @@ function loadLevel(whichLevel) {
 	tileGrid = whichLevel.slice();
     trackerReset(farmerChar, potatoShow);
     if (!isMobile) {
-        backgroundSound.play();
+        assets.backgroundSound.play();
     }
 }
 
@@ -124,7 +108,7 @@ function moveEverything() {
 
 
 
-//********************************UI********************************************************************************
+//******************************** UI Setup ****************************************************************************
 
 function drawUI(whichSprite){
     var currentX = round((trackerX - whichSprite.startX)/TILE_W, 0);
@@ -133,7 +117,7 @@ function drawUI(whichSprite){
     var movesLeft = Math.round(propMovesLeft * STEPS);
     var propPotatoePrice = potatoPrice/PRICE;
 
-    canvasContext.drawImage(uiPic,0,0,CANVAS_W,100);
+    canvasContext.drawImage(assets.uiPic,0,0,CANVAS_W,100);
     colorRect(260,10, 100,30, 'red');
     colorRect(260,10, propMovesLeft * 100,30, 'green');
 
@@ -152,7 +136,7 @@ function drawUI(whichSprite){
     colorText(round(payoffCount, 2) + " $", 310,85, "#DAA520");
 }
 
-//********************************draw********************************************************************************
+//******************************** Main Game Loop **********************************************************************
 
 function drawEverything() {
 	// drawing black to erase previous frame, doing before .translate() since

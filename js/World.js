@@ -14,6 +14,8 @@ var alpha2 = 1;
 var beta1 = 1;
 var beta2 = 2;
 
+
+
 rowParameters = new Array(TILE_ROWS);
 columnParameters = new Array(TILE_COLS);
 
@@ -222,9 +224,9 @@ function TileSheetClass(image, sheetWidth, sheetHeight, rows, cols, offsetX, off
     };
 }
 
-
-var soilSheet = new TileSheetClass(soilSheetPic, 5*TILE_W, 5*TILE_H, 5, 5, 0, 0, TILE_W, TILE_H);
-var plantSheet = new TileSheetClass(plantSheetPic, 5*PLANT_W, 5*PLANT_H, 5, 5, ((TILE_W-PLANT_W)/2), ((TILE_H-PLANT_H)/2), PLANT_W, PLANT_H);
+// this variable-heavy definition requires that the appropriately sized tilesheet is delivered
+var soilSheet = new TileSheetClass(assets.soilSheetPic, 5*TILE_W, 5*TILE_H, 5, 5, 0, 0, TILE_W, TILE_H);
+var plantSheet = new TileSheetClass(assets.plantSheetPic, 5*PLANT_W, 5*PLANT_H, 5, 5, ((TILE_W-PLANT_W)/2), ((TILE_H-PLANT_H)/2), PLANT_W, PLANT_H);
 
 
 function drawOnlyTilesOnScreen() {
