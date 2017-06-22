@@ -124,7 +124,7 @@ function trackerMove(char) {
 
     if (!char.moving && char.stepsLeft > 0) {
 
-        if (holdLeft) {
+        if (keyStatus.holdLeft) {
             if (checkCollision(nextX-TILE_W, nextY) !== true) {
                 directionX = -5;
                 char.moving = true;
@@ -133,7 +133,7 @@ function trackerMove(char) {
                 movementTracker.push("left");
             }
         }
-        else if (holdRight) {
+        else if (keyStatus.holdRight) {
             if (checkCollision(nextX+TILE_W, nextY) !== true) {
                 directionX = 5;
                 char.moving = true;
@@ -142,7 +142,7 @@ function trackerMove(char) {
                 movementTracker.push("right");
             }
         }
-        else if (holdUp) {
+        else if (keyStatus.holdUp) {
             if (checkCollision(nextX, nextY-TILE_H) !== true) {
                 directionY = -5;
                 char.moving = true;
@@ -151,7 +151,7 @@ function trackerMove(char) {
                 movementTracker.push("up");
             }
         }
-        else if (holdDown) {
+        else if (keyStatus.holdDown) {
             if (checkCollision(nextX, nextY+TILE_H) !== true) {
                 directionY = 5;
                 char.moving = true;

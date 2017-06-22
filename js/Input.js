@@ -1,12 +1,15 @@
+
+var keyStatus = {
+    holdLeft: false,
+    holdRight: false,
+    holdUp: false,
+    holdDown: false
+};
+
 const KEY_LEFT_ARROW = 37;
 const KEY_UP_ARROW = 38;
 const KEY_RIGHT_ARROW = 39;
 const KEY_DOWN_ARROW = 40;
-
-var holdLeft = false;
-var holdRight = false;
-var holdUp = false;
-var holdDown = false;
 
 function initInput() {
 	document.addEventListener("keydown", keyPressed);
@@ -21,22 +24,20 @@ function initInput() {
     document.getElementById("pbRight").addEventListener("touchend", buttonFalse);
     document.getElementById("pbUp").addEventListener("touchend", buttonFalse);
     document.getElementById("pbDown").addEventListener("touchend", buttonFalse);
-
 }
-
 
 function setKeyHoldState(thisKey, setTo) {
 	if(thisKey === KEY_LEFT_ARROW) {
-		holdLeft = setTo;
+        keyStatus.holdLeft = setTo;
 	}
 	else if(thisKey === KEY_RIGHT_ARROW) {
-		holdRight = setTo;
+        keyStatus.holdRight = setTo;
 	}
 	else if(thisKey === KEY_UP_ARROW) {
-		holdUp = setTo;
+        keyStatus.holdUp = setTo;
 	}
 	else if(thisKey === KEY_DOWN_ARROW) {
-		holdDown = setTo;
+        keyStatus.holdDown = setTo;
 	}
 }
 
@@ -50,28 +51,25 @@ function keyReleased(evt) {
 }
 
 function buttonLeft() {
-    holdLeft = true;
-    holdRight = holdUp = holdDown = false;
+    keyStatus.holdLeft = true;
+    keyStatus.holdRight = keyStatus.holdUp = keyStatus.holdDown = false;
 }
 
 function buttonRight() {
-    holdRight = true;
-    holdLeft = holdUp = holdDown = false;
+    keyStatus.holdRight = true;
+    keyStatus.holdLeft = keyStatus.holdUp = keyStatus.holdDown = false;
 }
 
 function buttonUp() {
-    holdUp = true;
-    holdRight = holdLeft = holdDown = false;
+    keyStatus.holdUp = true;
+    keyStatus.holdRight = keyStatus.holdLeft = keyStatus.holdDown = false;
 }
 
 function buttonDown() {
-    holdDown = true;
-    holdRight = holdUp = holdLeft = false;
+    keyStatus.holdDown = true;
+    keyStatus.holdRight = keyStatus.holdUp = keyStatus.holdLeft = false;
 }
 
 function buttonFalse() {
-    holdLeft = false;
-    holdRight = false;
-    holdUp = false;
-    holdDown = false;
+    keyStatus.holdLeft = keyStatus.holdRight = keyStatus.holdUp = keyStatus.holdDown = false;
 }
