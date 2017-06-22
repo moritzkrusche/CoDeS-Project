@@ -100,10 +100,11 @@ function checkCollision(atTrackerX, atTrackerY) {
         }
 
         else {
-            if (!assets.spriteSound.playing()) {
+            if (!assets.spriteSound.playing(id3) && !assets.spriteSound.playing(id4)) {
                 var id3 = assets.spriteSound.play('error');
+                var id4;
                 setTimeout(function () {
-                    var id4 = assets.spriteSound.play('error');
+                    id4 = assets.spriteSound.play('error');
                 }, 170);
             }
         }

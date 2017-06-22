@@ -177,7 +177,7 @@ var assets = new function() {
         this.spriteSound = new Howl({
             src: ["audio/audioSprite.mp3"],
             sprite: {
-                walking: [0, 5500],
+                walking: [0, 5500, true],
                 potato: [7000, 500],
                 error: [8500, 500]
             }, onload: function() {
