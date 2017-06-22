@@ -1,12 +1,20 @@
-var camPanX = 0.0;
-var camPanY = 0.0;
-var shiftedLeft = 0;
-var shiftedUp = 0;
 
 
-function instantCamFollow() {
-	camPanX = trackerX - CANVAS_W/2 + shiftedLeft;
-	camPanY = trackerY - CANVAS_H/2 + shiftedUp;
-}
+
+var camera = new function(){
+    var camPanX = 0;
+    var	camPanY = 0;
 
 
+
+
+
+    this.instantFollow =  function () {
+        camPanX = trackerX - CANVAS_W/2;
+        camPanY = trackerY - CANVAS_H/2;
+        this.panX = camPanX;
+        this.panY = camPanY;
+    }
+
+
+};

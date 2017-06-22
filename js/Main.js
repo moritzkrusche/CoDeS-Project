@@ -1,6 +1,16 @@
 
 //********************************move within Init function*************************************************************
 
+function settings(){
+
+
+
+
+}
+
+// potato count etc. per map
+
+
 var potatoCount = 0;
 var potatoPrice = 0.05;
 var payoffCount = 0;
@@ -10,18 +20,14 @@ var PRICE = 0.05;
 
 
 
-var farmerChar = new SpriteClass(assets.charSprite);
+var farmerChar = new CharClass(assets.charSprite, 240, 360, 4, 4, 0.6 * TILE_W, 0.9 * TILE_H);
 farmerChar.stepsLeft = STEPS;
-var potatoShow = new AnimationClass(assets.potato);
+var potatoAnim = new AnimationClass(assets.potato, 0.5 * TILE_W, 0.32 * TILE_H);
 
-var buttonList = ["pbUp", "pbDown", "pbLeft", "pbRight"];
 
-if (!isMobile) {
-    for (var i = 0; i< buttonList.length; i++) {
-        document.getElementById(buttonList[i]).style.visibility = "hidden";
-    }
-}
-//document.getElementById(buttonList[i]).style.visibility = "visible";
+
+
+
 
 
 function getStart() {
@@ -43,15 +49,14 @@ function logData(){
 
 
 
-
-function trackerReset(whichSprite, whichAnim) {
+function trackerReset(char, anim) {
 	// center tracker on screen
-    whichSprite.startX = (getStart()[0]) * TILE_W - TILE_W/2;
-	trackerX = whichSprite.startX;
-    whichSprite.startY = (getStart()[1]) * TILE_H - TILE_H/2;
-	trackerY = whichSprite.startY;
-    whichAnim.resetStart(whichSprite.startX, whichSprite.startY);
-    whichAnim.animatePayoff(whichSprite.startX, whichSprite.startY);
+    char.X = (getStart()[0]) * TILE_W - TILE_W/2;
+	trackerX = char.X;
+    char.Y = (getStart()[1]) * TILE_H - TILE_H/2;
+	trackerY = char.Y;
+    anim.resetStart(char.X, char.Y);
+    anim.animate(char.X, char.Y);
 	//console.log("TRACKER X, Y : ", trackerX, trackerY);
     updateInfo();
     //potatoCount = 0;
@@ -68,7 +73,7 @@ function assetLoadingDoneSoStartGame() {
     var levelChoice = confirm("Load Test Map?");
     if (levelChoice === true) {
         trainingPhase = false;
-        loadLevel(testMap1);
+        loadLevel(testMaps.testMap1);
     }
     else {
         trainingPhase = true;
@@ -89,7 +94,7 @@ function assetLoadingDoneSoStartGame() {
 
 function loadLevel(whichLevel) {
 	tileGrid = whichLevel.slice();
-    trackerReset(farmerChar, potatoShow);
+    trackerReset(farmerChar, potatoAnim);
     if (!isMobile) {
         assets.backgroundSound.play();
     }
@@ -102,7 +107,7 @@ function updateAll() {
 
 function moveEverything() {
 	trackerMove(farmerChar);
-	instantCamFollow();
+	camera.instantFollow();
 }
 
 
@@ -110,9 +115,9 @@ function moveEverything() {
 
 //******************************** UI Setup ****************************************************************************
 
-function drawUI(whichSprite){
-    var currentX = round((trackerX - whichSprite.startX)/TILE_W, 0);
-    var currentY = round((trackerY - whichSprite.startY)/TILE_H, 0) * -1;
+function drawUI(char){
+    var currentX = round((trackerX - char.X)/TILE_W, 0);
+    var currentY = round((trackerY - char.Y)/TILE_H, 0) * -1;
     var propMovesLeft = farmerChar.stepsLeft/STEPS;
     var movesLeft = Math.round(propMovesLeft * STEPS);
     var propPotatoePrice = potatoPrice/PRICE;
@@ -148,16 +153,16 @@ function drawEverything() {
 	// this next line is like subtracting camPanX and camPanY from every
 	// canvasContext draw operation up until we call canvasContext.restore
 	// this way we can just draw them at their "actual" position coordinates
-	canvasContext.translate(-camPanX,-camPanY+uiHeight);
+	canvasContext.translate(-camera.panX,-camera.panY+uiHeight);
 
 	drawOnlyTilesOnScreen();
 	// console.log("TRACKER X: ", trackerX, "TRACKER Y : ", trackerY);
     // console.log("CAM PAN X: ", camPanX, "CAM PAN Y : ", camPanY);
 
-    var centreX = CANVAS_W/2 +camPanX;
-    var centreY = CANVAS_H/2 +camPanY;
+    var centreX = CANVAS_W/2 +camera.panX;
+    var centreY = CANVAS_H/2 +camera.panY;
     farmerChar.drawSprite(centreX - 30, centreY - 35);
-    potatoShow.animatePayoff(centreX, centreY);
+    potatoAnim.animate(centreX, centreY);
 
 	canvasContext.restore(); // undoes the .translate() used for cam scroll
 	// doing this after .restore() so it won't scroll with the camera pan

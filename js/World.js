@@ -82,8 +82,8 @@ generateWorld();
 
 
 function getParameters() {
-    var posX = Math.floor((trackerX + shiftedLeft)/TILE_W);
-    var posY = Math.floor((trackerY + shiftedUp)/TILE_H);
+    var posX = Math.floor(trackerX/TILE_W);
+    var posY = Math.floor(trackerY/TILE_H);
 
     return [posX, posY]
 }
@@ -231,8 +231,8 @@ var plantSheet = new TileSheetClass(assets.plantSheetPic, 5*PLANT_W, 5*PLANT_H, 
 
 function drawOnlyTilesOnScreen() {
     // what are the top-left most row and col visible on canvas?
-    var cameraLeftMostCol = Math.floor(camPanX / TILE_W);
-    var cameraTopMostRow = Math.floor(camPanY / TILE_H);
+    var cameraLeftMostCol = Math.floor(camera.panX / TILE_W);
+    var cameraTopMostRow = Math.floor(camera.panY / TILE_H);
     // how many rows and columns of tiles fit on one screenful of area?
     var colsThatFitOnScreen = Math.floor(CANVAS_W / TILE_W);
     var rowsThatFitOnScreen = Math.floor(CANVAS_H / TILE_H);

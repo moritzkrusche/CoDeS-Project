@@ -15,14 +15,14 @@ function checkPayoff(colPar, rowPar) {
 }
 
 function getGridPos() {
-    var gridX = Math.floor((trackerX + shiftedLeft)/TILE_W);
-    var gridY = Math.floor((trackerY + shiftedUp)/TILE_H);
+    var gridX = Math.floor(trackerX/TILE_W);
+    var gridY = Math.floor(trackerY/TILE_H);
     return [gridX, gridY]
 }
 
 function updateInfo(callback) {
-    var posX = Math.floor((trackerX + shiftedLeft)/TILE_W);
-    var posY = Math.floor((trackerY + shiftedUp)/TILE_H);
+    var posX = Math.floor(trackerX/TILE_W);
+    var posY = Math.floor(trackerY/TILE_H);
 
     console.log("POS X, Y: ", posX, posY);
     tileGrid = tileGrid.slice();
@@ -45,7 +45,7 @@ function updateInfo(callback) {
             //console.log("PAYOFFCOLUMN ", payoffColumn);
         }
         else if (getPayoff === 1) {
-            potatoShow.animate();
+            potatoAnim.show();
 
             if (!isMobile) {
                 assets.potatoSound.play();
@@ -71,13 +71,13 @@ function updateInfo(callback) {
     return callback
 }
 
-function stepCounter(whichSprite) {
-    if (whichSprite.stepsLeft > 0) {
-        whichSprite.stepsLeft -=1;
+function stepCounter(char) {
+    if (char.stepsLeft > 0) {
+        char.stepsLeft -=1;
         potatoPrice *= discountFactor;
     }
-    whichSprite.animMove = false;
-    whichSprite.moving = false;
+    char.animMove = false;
+    char.moving = false;
 }
 
 
@@ -116,19 +116,19 @@ function checkCollision(atTrackerX, atTrackerY) {
 }
 
 
-function trackerMove(someSprite) {
+function trackerMove(char) {
     var nextX = trackerX;
     var nextY = trackerY;
     var directionX = 0;
     var directionY = 0;
 
-    if (!someSprite.moving && someSprite.stepsLeft > 0) {
+    if (!char.moving && char.stepsLeft > 0) {
 
         if (holdLeft) {
             if (checkCollision(nextX-TILE_W, nextY) !== true) {
                 directionX = -5;
-                someSprite.moving = true;
-                someSprite.currentDirection = "left";
+                char.moving = true;
+                char.currentDirection = "left";
 
                 movementTracker.push("left");
             }
@@ -136,8 +136,8 @@ function trackerMove(someSprite) {
         else if (holdRight) {
             if (checkCollision(nextX+TILE_W, nextY) !== true) {
                 directionX = 5;
-                someSprite.moving = true;
-                someSprite.currentDirection = "right";
+                char.moving = true;
+                char.currentDirection = "right";
 
                 movementTracker.push("right");
             }
@@ -145,8 +145,8 @@ function trackerMove(someSprite) {
         else if (holdUp) {
             if (checkCollision(nextX, nextY-TILE_H) !== true) {
                 directionY = -5;
-                someSprite.moving = true;
-                someSprite.currentDirection = "up";
+                char.moving = true;
+                char.currentDirection = "up";
 
                 movementTracker.push("up");
             }
@@ -154,14 +154,14 @@ function trackerMove(someSprite) {
         else if (holdDown) {
             if (checkCollision(nextX, nextY+TILE_H) !== true) {
                 directionY = 5;
-                someSprite.moving = true;
-                someSprite.currentDirection = "down";
+                char.moving = true;
+                char.currentDirection = "down";
 
                 movementTracker.push("down");
             }
         }
     }
-    if(someSprite.moving && !someSprite.animMove) {
+    if(char.moving && !char.animMove) {
 
 
         if (!isMobile) {
@@ -186,14 +186,14 @@ function trackerMove(someSprite) {
         }
 
 
-        someSprite.animMove = true;
+        char.animMove = true;
         var stepsMoved = 0;
 
         var moveId = setInterval(frameMove, 30);
         function frameMove() {
             if (stepsMoved === 100) {
                 clearInterval(moveId);
-                updateInfo(stepCounter(someSprite));
+                updateInfo(stepCounter(char));
 
                 if (!isMobile) {
                     pauseId = setTimeout(function () {

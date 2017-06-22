@@ -1,14 +1,11 @@
 
-function SpriteClass(spritePic) {
+function CharClass(spritePic, sheetWidth, sheetHeight, rows, cols, width, height) {
 
-    const CHAR_W = 0.6 * TILE_W;
-    const CHAR_H = 0.9 * TILE_H;
+    this.sheetWidth = sheetWidth;
+    this.sheetHeight = sheetHeight;
 
-    this.sheetWidth = 240;
-    this.sheetHeight = 360;
-
-    this.sheetRows = 4;
-    this.sheetCols = 4;
+    this.sheetRows = rows;
+    this.sheetCols = cols;
 
     this.trackRight = 2;
     this.trackLeft = 1;
@@ -18,7 +15,7 @@ function SpriteClass(spritePic) {
     var spriteWidth = this.sheetWidth / this.sheetCols;
     var spriteHeight = this.sheetHeight / this.sheetRows;
 
-    this.frames = 4;
+    this.frames = cols;
 
     var curFrame = 0;
     var frameCount = this.frames;
@@ -30,8 +27,8 @@ function SpriteClass(spritePic) {
     this.animMove = false;
 
     this.stepsLeft = 100;
-    this.startX = 0;
-    this.startY = 0;
+    this.X = 0;
+    this.Y = 0;
 
     this.currentDirection = "down";
 
@@ -66,16 +63,13 @@ function SpriteClass(spritePic) {
         if (!this.moving) {
             curFrame = 0;
         }
-        canvasContext.drawImage(spritePic, this.col, this.row, spriteWidth, spriteHeight, x, y, CHAR_W, CHAR_H);
+        canvasContext.drawImage(spritePic, this.col, this.row, spriteWidth, spriteHeight, x, y, width, height);
     };
 
 }
 
 
-function AnimationClass(animPic) {
-
-    this.width = 0.5 * TILE_W;
-    this.height = 0.32 *  TILE_H;
+function AnimationClass(animPic, width, height) {
 
     var meX1 = 0;
     var meY1 = 0;
@@ -91,7 +85,7 @@ function AnimationClass(animPic) {
 
     var animateMe = false;
 
-    this.animate = function() {
+    this.show = function() {
         animateMe = true;
     };
 
@@ -105,68 +99,68 @@ function AnimationClass(animPic) {
         animY1 = someY;
     };
 
-    this.drawPayoff = function() {
+    this.drawAnimation = function() {
 
         if (animMe1) {
-            drawBitmapCenteredWithRotation(animPic, meX1, meY1, 0, this.width, this.height);
+            drawBitmapCenteredWithRotation(animPic, meX1, meY1, 0, width, height);
             //console.log("PAYOFF AT: ", meX1, meY1);
         }
 
         if (animMe2) {
-            drawBitmapCenteredWithRotation(animPic, meX2, meY2, 0, this.width, this.height);
+            drawBitmapCenteredWithRotation(animPic, meX2, meY2, 0, width, height);
             //console.log("PAYOFF AT: ", meX2, meY2);
         }
 
         if (animMe3) {
-            drawBitmapCenteredWithRotation(animPic, meX3, meY3, 0, this.width, this.height);
+            drawBitmapCenteredWithRotation(animPic, meX3, meY3, 0, width, height);
             //console.log("PAYOFF AT: ", meX3, meY3);
         }
 
     };
 
-    this.placePayoff = function(atX, atY) {
+    this.placeAnimation = function(atX, atY) {
 
         if (!animateMe) {
 
             if (!animMe1) {
                 meX1 = atX;
-                meY1 = atY - this.height;
+                meY1 = atY - height;
                 animY1 = meY1
             }
 
             if (!animMe2) {
                 meX2 = atX;
-                meY2 = atY - this.height;
+                meY2 = atY - height;
                 animY2 = meY2
             }
 
             if (!animMe3) {
                 meX3 = atX;
-                meY3 = atY - this.height;
+                meY3 = atY - height;
                 animY3 = meY3
             }
         }
 
     };
 
-    this.movePayoff = function() {
+    this.moveAnimation = function() {
 
         if (animateMe) {
             if (!animMe1) {
                 animateMe = false;
                 animMe1 = true;
                 var animPos1 = 0;
-                var animId1 = setInterval(frameAnim1, 37);
+                var animId1 = setInterval(frameAnim1, 57);
 
                 function frameAnim1() {
-                    if (animPos1 === 280) {
+                    if (animPos1 > 310) {
                         clearInterval(animId1);
                         animMe1 = false;
 
                     } else {
-                        animY1 -= 10;
+                        animY1 -= 15;
                         meY1 = animY1;
-                        animPos1 += 10;
+                        animPos1 += 15;
                     }
                 }
             }
@@ -175,17 +169,17 @@ function AnimationClass(animPic) {
                 animateMe = false;
                 animMe2 = true;
                 var animPos2 = 0;
-                var animId2 = setInterval(frameAnim2, 39);
+                var animId2 = setInterval(frameAnim2, 59);
 
                 function frameAnim2() {
-                    if (animPos2 === 280) {
+                    if (animPos2 > 330) {
                         clearInterval(animId2);
                         animMe2 = false;
 
                     } else {
-                        animY2 -= 10;
+                        animY2 -= 15;
                         meY2 = animY2;
-                        animPos2 += 10;
+                        animPos2 += 15;
                     }
                 }
             }
@@ -194,26 +188,26 @@ function AnimationClass(animPic) {
                 animateMe = false;
                 animMe3 = true;
                 var animPos3 = 0;
-                var animId3 = setInterval(frameAnim3, 38);
+                var animId3 = setInterval(frameAnim3, 58);
 
                 function frameAnim3() {
-                    if (animPos3 === 280) {
+                    if (animPos3 > 320) {
                         clearInterval(animId3);
                         animMe3 = false;
 
                     } else {
-                        animY3 -= 10;
+                        animY3 -= 15;
                         meY3 = animY3;
-                        animPos3 += 10;
+                        animPos3 += 15;
                     }
                 }
             }
         }
     };
 
-    this.animatePayoff = function(someX, someY) {
-        this.placePayoff(someX, someY);
-        this.drawPayoff();
-        this.movePayoff();
+    this.animate = function(someX, someY) {
+        this.placeAnimation(someX, someY);
+        this.drawAnimation();
+        this.moveAnimation();
     };
 }
