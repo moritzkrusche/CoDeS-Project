@@ -2,6 +2,23 @@
 movementTracker = [];
 payoffTracker = [];
 
+var camera = new function(){
+    this.centerX = 0;
+    this.centerY = 0;
+
+    var camPanX = 0;
+    var	camPanY = 0;
+
+    this.instantFollow =  function () {
+        camPanX = this.centerX - CANVAS_W/2;
+        camPanY = this.centerY - CANVAS_H/2;
+        this.panX = camPanX;
+        this.panY = camPanY;
+    }
+
+
+};
+
 function checkPayoff(colPar, rowPar) {
     var draw = Math.random();
     var check = colPar * rowPar;
@@ -14,38 +31,35 @@ function checkPayoff(colPar, rowPar) {
     }
 }
 
-function getGridPos() {
-    var gridX = Math.floor(trackerX/TILE_W);
-    var gridY = Math.floor(trackerY/TILE_H);
-    return [gridX, gridY]
-}
 
 function updateInfo(callback) {
-    var posX = Math.floor(trackerX/TILE_W);
-    var posY = Math.floor(trackerY/TILE_H);
+    var posX = Math.floor(camera.centerX/TILE_W);
+    var posY = Math.floor(camera.centerY/TILE_H);
 
     console.log("POS X, Y: ", posX, posY);
-    tileGrid = tileGrid.slice();
+    console.log("SOIL PAR AT POS X: ", curMapConst.columnParameters[posX]);
+    console.log("PLANT PAR AT POS Y: ", curMapConst.rowParameters[posY]);
 
+    curMapVar.tileGrid = curMapVar.tileGrid.slice();
 
-    if (tileGrid[posY][posX] === 0) {
+    if (curMapVar.tileGrid[posY][posX] === 0) {
 
-        exploredRow[posY] += 1;
-        exploredColumn[posX] += 1;
+        curMapVar.exploredRow[posY] += 1;
+        curMapVar.exploredColumn[posX] += 1;
 
-        var getPayoff = checkPayoff(columnParameters[posX], rowParameters[posY]);
+        var getPayoff = checkPayoff(curMapConst.columnParameters[posX], curMapConst.rowParameters[posY]);
 
         if (getPayoff === 0) {
             console.log("NONE");
             payoffTracker.push(0);
 
-            tileGrid[posY][posX] = 1;
+            curMapVar.tileGrid[posY][posX] = 1;
 
             //console.log("PAYOFFROW ", payoffRow);
             //console.log("PAYOFFCOLUMN ", payoffColumn);
         }
         else if (getPayoff === 1) {
-            potatoAnim.show();
+            experiment.potatoAnim.show();
 
             if (!isMobile) {
                 assets.potatoSound.play();
@@ -53,15 +67,15 @@ function updateInfo(callback) {
                 assets.spriteSound.play('potato');
             }
 
-            console.log("POTATOE");
+            console.log("POTATO");
             payoffTracker.push(1);
-            potatoCount += 1;
-            payoffCount += potatoPrice;
+            curMapVar.potatoCount += 1;
+            curMapVar.payoffCount += curMapVar.potatoPrice;
 
-            tileGrid[posY][posX] = 3;
+            curMapVar.tileGrid[posY][posX] = 3;
 
-            payoffRow[posY] += 1;
-            payoffColumn[posX] += 1;
+            curMapVar.payoffRow[posY] += 1;
+            curMapVar.payoffColumn[posX] += 1;
 
             //console.log("PAYOFFROW ", payoffRow);
             //console.log("PAYOFFCOLUMN ", payoffColumn);
@@ -72,12 +86,13 @@ function updateInfo(callback) {
 }
 
 function stepCounter(char) {
-    if (char.stepsLeft > 0) {
-        char.stepsLeft -=1;
-        potatoPrice *= discountFactor;
-    }
     char.animMove = false;
     char.moving = false;
+    curMapVar.potatoPrice *= curMapConst.discountFactor;
+    curMapVar.movesLeft -=1;
+    if (curMapVar.movesLeft === 0) {
+        curMapVar.loadId = setTimeout(function () {nextLevel()}, 1250);
+    }
 }
 
 
@@ -85,26 +100,24 @@ function stepCounter(char) {
 function checkCollision(atTrackerX, atTrackerY) {
     var someX = Math.floor(atTrackerX/TILE_W);
     var someY = Math.floor(atTrackerY/TILE_H);
-    var nextPos = tileGrid[someY][someX];
+    var nextPos = curMapVar.tileGrid[someY][someX];
 
     if (nextPos === 5 || nextPos >= 7) {
         //console.log("STOP MOVING");
         if (!isMobile) {
-            if (!assets.errorSound.playing(id) && !assets.errorSound.playing(id2)) {
-                var id = assets.errorSound.play();
-                var id2 = setTimeout(function () {
+            if (!assets.errorSound.playing(curMapVar.errorId1) && !assets.errorSound.playing(curMapVar.errorId2)) {
+                curMapVar.errorId1 = assets.errorSound.play();
+                curMapVar.errorId2 = setTimeout(function () {
                     assets.errorSound.play()
                 }, 170);
-                assets.errorSound.rate(1.5, id2);
             }
         }
 
         else {
-            if (!assets.spriteSound.playing(id3) && !assets.spriteSound.playing(id4)) {
-                var id3 = assets.spriteSound.play('error');
-                var id4;
-                setTimeout(function () {
-                    id4 = assets.spriteSound.play('error');
+            if (!assets.spriteSound.playing(curMapVar.errorId1) && !assets.spriteSound.playing(curMapVar.errorId2)) {
+                curMapVar.errorId1 = assets.spriteSound.play('error');
+                curMapVar.errorId2 = setTimeout(function () {
+                    assets.spriteSound.play('error');
                 }, 170);
             }
         }
@@ -118,15 +131,16 @@ function checkCollision(atTrackerX, atTrackerY) {
 
 
 function trackerMove(char) {
-    var nextX = trackerX;
-    var nextY = trackerY;
+
+    var nextX = camera.centerX;
+    var nextY = camera.centerY;
     var directionX = 0;
     var directionY = 0;
 
-    if (!char.moving && char.stepsLeft > 0) {
+    if (!char.moving && curMapVar.movesLeft > 0) {
 
-        if (keyStatus.holdLeft) {
-            if (checkCollision(nextX-TILE_W, nextY) !== true) {
+        if (userInputStatus.holdLeft) {
+            if (checkCollision(nextX - TILE_W, nextY) !== true) {
                 directionX = -5;
                 char.moving = true;
                 char.currentDirection = "left";
@@ -134,8 +148,8 @@ function trackerMove(char) {
                 movementTracker.push("left");
             }
         }
-        else if (keyStatus.holdRight) {
-            if (checkCollision(nextX+TILE_W, nextY) !== true) {
+        else if (userInputStatus.holdRight) {
+            if (checkCollision(nextX + TILE_W, nextY) !== true) {
                 directionX = 5;
                 char.moving = true;
                 char.currentDirection = "right";
@@ -143,8 +157,8 @@ function trackerMove(char) {
                 movementTracker.push("right");
             }
         }
-        else if (keyStatus.holdUp) {
-            if (checkCollision(nextX, nextY-TILE_H) !== true) {
+        else if (userInputStatus.holdUp) {
+            if (checkCollision(nextX, nextY - TILE_H) !== true) {
                 directionY = -5;
                 char.moving = true;
                 char.currentDirection = "up";
@@ -152,8 +166,8 @@ function trackerMove(char) {
                 movementTracker.push("up");
             }
         }
-        else if (keyStatus.holdDown) {
-            if (checkCollision(nextX, nextY+TILE_H) !== true) {
+        else if (userInputStatus.holdDown) {
+            if (checkCollision(nextX, nextY + TILE_H) !== true) {
                 directionY = 5;
                 char.moving = true;
                 char.currentDirection = "down";
@@ -162,57 +176,58 @@ function trackerMove(char) {
             }
         }
     }
-    if(char.moving && !char.animMove) {
-
+    if (char.moving && !char.animMove) {
 
         if (!isMobile) {
-            if (assets.walkingSound.playing(walkId)) {
-                clearTimeout(pauseId);
+            if (assets.walkingSound.playing(curMapVar.walkId)) {
+                clearTimeout(curMapVar.pauseId);
             }
             else {
-                var walkId = assets.walkingSound.play();
-            }
-        } else {
-            if (assets.spriteSound.playing(walkId2)) {
-                try{
-                    clearTimeout(pauseId);
-                }
-                catch(err) {
-                    var walkId2 = assets.spriteSound.play('walking');
-                }
-            }
-            else {
-                var walkId2 = assets.spriteSound.play('walking');
+                curMapVar.walkId = assets.walkingSound.play();
             }
         }
-
+        else {
+            if (assets.spriteSound.playing(curMapVar.walkId)) {
+                try {
+                    clearTimeout(curMapVar.pauseId);
+                }
+                catch (err) {
+                    curMapVar.walkId = assets.spriteSound.play('walking');
+                }
+            }
+            else {
+                curMapVar.walkId = assets.spriteSound.play('walking');
+            }
+        }
 
         char.animMove = true;
         var stepsMoved = 0;
 
         var moveId = setInterval(frameMove, 30);
+
         function frameMove() {
             if (stepsMoved === 100) {
                 clearInterval(moveId);
                 updateInfo(stepCounter(char));
 
                 if (!isMobile) {
-                    pauseId = setTimeout(function () {
-                        assets.walkingSound.pause(walkId)
+                    curMapVar.pauseId = setTimeout(function () {
+                        assets.walkingSound.pause(curMapVar.walkId)
                     }, 250);
                 } else {
-                    pauseId = setTimeout(function () {
-                        assets.spriteSound.pause(walkId2)
+                    curMapVar.pauseId = setTimeout(function () {
+                        assets.spriteSound.pause(curMapVar.walkId)
                     }, 350);
                 }
 
             } else {
                 nextX += directionX;
                 nextY += directionY;
-                trackerX = nextX;
-                trackerY = nextY;
-                stepsMoved+=5;
+                camera.centerX = nextX;
+                camera.centerY = nextY;
+                stepsMoved += 5;
             }
         }
     }
+
 }

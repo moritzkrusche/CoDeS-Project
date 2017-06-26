@@ -1,9 +1,11 @@
 
 function CharClass(spritePic, sheetWidth, sheetHeight, rows, cols, width, height) {
 
+    this.moving = false;
+    this.animMove = false;
+
     this.sheetWidth = sheetWidth;
     this.sheetHeight = sheetHeight;
-
     this.sheetRows = rows;
     this.sheetCols = cols;
 
@@ -16,26 +18,18 @@ function CharClass(spritePic, sheetWidth, sheetHeight, rows, cols, width, height
     var spriteHeight = this.sheetHeight / this.sheetRows;
 
     this.frames = cols;
-
     var curFrame = 0;
     var frameCount = this.frames;
-
     this.col = 0;
     this.row = 0;
 
-    this.moving = false;
-    this.animMove = false;
-
-    this.stepsLeft = 100;
     this.X = 0;
     this.Y = 0;
-
     this.currentDirection = "down";
 
     this.moveFrames = function() {
         curFrame = ++curFrame % frameCount;
     };
-
 
     this.updateFrame = function(someDirection, someDelay) {
         this.col = curFrame * spriteWidth;
@@ -58,12 +52,12 @@ function CharClass(spritePic, sheetWidth, sheetHeight, rows, cols, width, height
         }
     };
 
-    this.drawSprite = function(x, y) {
+    this.drawSprite = function(atX, atY) {
         this.updateFrame(this.currentDirection, 50);
         if (!this.moving) {
             curFrame = 0;
         }
-        canvasContext.drawImage(spritePic, this.col, this.row, spriteWidth, spriteHeight, x, y, width, height);
+        canvasContext.drawImage(spritePic, this.col, this.row, spriteWidth, spriteHeight, atX, atY, width, height);
     };
 
 }

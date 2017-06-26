@@ -1,9 +1,11 @@
 
-var keyStatus = {
+var userInputStatus = {
     holdLeft: false,
     holdRight: false,
     holdUp: false,
-    holdDown: false
+    holdDown: false,
+    mousePosX: 0,
+    mousePosY: 0
 };
 
 const KEY_LEFT_ARROW = 37;
@@ -11,7 +13,12 @@ const KEY_UP_ARROW = 38;
 const KEY_RIGHT_ARROW = 39;
 const KEY_DOWN_ARROW = 40;
 
+//******************************** Init only when called ***************************************************************
+
 function initInput() {
+
+    canvas.addEventListener("mousemove", updateMousePos);
+
 	document.addEventListener("keydown", keyPressed);
 	document.addEventListener("keyup", keyReleased);
 
@@ -24,20 +31,31 @@ function initInput() {
     document.getElementById("pbRight").addEventListener("touchend", buttonFalse);
     document.getElementById("pbUp").addEventListener("touchend", buttonFalse);
     document.getElementById("pbDown").addEventListener("touchend", buttonFalse);
+
 }
+
+
+function updateMousePos(evt) {
+    var rect = canvas.getBoundingClientRect();
+    var root = document.documentElement;
+
+    userInputStatus.mousePosX = evt.clientX - rect.left - root.scrollLeft;
+    userInputStatus.mousePosY = evt.clientY - rect.top - root.scrollTop;
+}
+
 
 function setKeyHoldState(thisKey, setTo) {
 	if(thisKey === KEY_LEFT_ARROW) {
-        keyStatus.holdLeft = setTo;
+        userInputStatus.holdLeft = setTo;
 	}
 	else if(thisKey === KEY_RIGHT_ARROW) {
-        keyStatus.holdRight = setTo;
+        userInputStatus.holdRight = setTo;
 	}
 	else if(thisKey === KEY_UP_ARROW) {
-        keyStatus.holdUp = setTo;
+        userInputStatus.holdUp = setTo;
 	}
 	else if(thisKey === KEY_DOWN_ARROW) {
-        keyStatus.holdDown = setTo;
+        userInputStatus.holdDown = setTo;
 	}
 }
 
@@ -51,25 +69,25 @@ function keyReleased(evt) {
 }
 
 function buttonLeft() {
-    keyStatus.holdLeft = true;
-    keyStatus.holdRight = keyStatus.holdUp = keyStatus.holdDown = false;
+    userInputStatus.holdLeft = true;
+    userInputStatus.holdRight = userInputStatus.holdUp = userInputStatus.holdDown = false;
 }
 
 function buttonRight() {
-    keyStatus.holdRight = true;
-    keyStatus.holdLeft = keyStatus.holdUp = keyStatus.holdDown = false;
+    userInputStatus.holdRight = true;
+    userInputStatus.holdLeft = userInputStatus.holdUp = userInputStatus.holdDown = false;
 }
 
 function buttonUp() {
-    keyStatus.holdUp = true;
-    keyStatus.holdRight = keyStatus.holdLeft = keyStatus.holdDown = false;
+    userInputStatus.holdUp = true;
+    userInputStatus.holdRight = userInputStatus.holdLeft = userInputStatus.holdDown = false;
 }
 
 function buttonDown() {
-    keyStatus.holdDown = true;
-    keyStatus.holdRight = keyStatus.holdUp = keyStatus.holdLeft = false;
+    userInputStatus.holdDown = true;
+    userInputStatus.holdRight = userInputStatus.holdUp = userInputStatus.holdLeft = false;
 }
 
 function buttonFalse() {
-    keyStatus.holdLeft = keyStatus.holdRight = keyStatus.holdUp = keyStatus.holdDown = false;
+    userInputStatus.holdLeft = userInputStatus.holdRight = userInputStatus.holdUp = userInputStatus.holdDown = false;
 }

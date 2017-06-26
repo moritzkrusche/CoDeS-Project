@@ -1,117 +1,194 @@
-var TILE_W = 100;
-var TILE_H = 100;
+// changing any const would break the graphics
+const TILE_W = 100;
+const TILE_H = 100;
+const PLANT_W = 60;
+const PLANT_H = 60;
 
-var PLANT_W = 60;
-var PLANT_H = 60;
+// keeps track of everything that stays the same on a given map
+// for minQual and tilesheets: same on all maps atm
+var curMapConst = {
+    columnParameters: [],
+    rowParameters: [],
 
-var TILE_COLS = 220;
-var TILE_ROWS = 220;
+    maxMoves: 0,
+    potatoPrice: 0,
+    discountFactor: 0,
 
-var trainingPhase = false;
+    alpha1: 0,
+    beta1: 0,
+    alpha2: 0,
+    beta2: 0,
 
-var alpha1= 2;
-var alpha2 = 1;
-var beta1 = 1;
-var beta2 = 2;
+    minQuality1: 0.2,
+    minQuality2: 0.35,
+    minQuality3: 0.5,
+    minQuality4: 0.65,
 
+    soilSheet: NaN,
+    plantSheet: NaN
 
+};
 
-rowParameters = new Array(TILE_ROWS);
-columnParameters = new Array(TILE_COLS);
+// keeps track of everything that is updated on a given map, and compares with static
+// loadNext --> load next lvl upon key input
+var curMapVar = {
 
-plantRow = new Array(TILE_ROWS);
-soilColumn = new Array(TILE_COLS);
+    tileGrid:[],
+    exploredColumn: [],
+    payoffColumn: [],
+    exploredRow: [],
+    payoffRow: [],
+    movesLeft: 0,
+    potatoCount: 0,
+    potatoPrice: 0,
+    // payoffcount gets only added and never overwritten; how much $ part made in the game so far
+    payoffCount: 0,
 
-payoffRow = new Array(TILE_ROWS);
-payoffColumn = new Array(TILE_COLS);
+    loadId: NaN,
+    walkId: NaN,
+    pauseId: NaN,
+    errorId1: NaN,
+    errorId2: NaN
 
-exploredRow = new Array(TILE_ROWS);
-exploredColumn = new Array(TILE_COLS);
+};
 
-expectedPayoff = new Array(TILE_COLS);
-randomColumn = new Array(TILE_COLS);
+// MERGED LEVELS HAVE FORMAT DICT{ KEY: ARRAY[GRID, COL INFO, COL QUAL, COL PAYOFF, ROW INFO, ROW QUAL, ROW PAYOFF, MOVES ALLOWED etc.], KEY: ...}
 
-function generateParameters() {
-    for (var i=0; i<TILE_COLS; i++) {
-        columnParameters[i] = jStat.beta.sample(1,2);
-    }
-    for (var j=0; j<TILE_ROWS; j++) {
-        rowParameters[j] = jStat.beta.sample(2,1);
-    }
-}
+// lvlKeys should be array of strings; e.g. ["map1", "map2", "map3", "map4", "map5", "map6", "map7", "map8"];
 
-generateParameters();
+function mergeLevels(lvlKeys, lvl1, lvl2, lvl3, lvl4, lvl5, lvl6, lvl7, lvl8){
+    lvl1 = lvl1 || 0;
+    lvl2 = lvl2 || 0;
+    lvl3 = lvl3 || 0;
+    lvl4 = lvl4 || 0;
+    lvl5 = lvl5 || 0;
+    lvl6 = lvl6 || 0;
+    lvl7 = lvl7 || 0;
+    lvl8 = lvl8 || 0;
 
-//console.log("rowParameters", rowParameters);
-//console.log("columnParameters", columnParameters);
+    var levelList = [lvl1, lvl2, lvl3, lvl4, lvl5, lvl6, lvl7, lvl8];
+    var levelKeys = lvlKeys;
 
-function generateWorld() {
-    for (var i=0; i<TILE_COLS; i++) {
-        var soilSeed = columnParameters[i] * 6.5;
-        if (soilSeed > 4 ) {
-            soilSeed = 4
+    var levelHolder = {};
+
+    for (var eachLevel=0; eachLevel<levelList.length; eachLevel++){
+        if (levelList[eachLevel]!== 0) {
+
+            var levelDetails = [];
+            var each = levelList[eachLevel];
+
+            levelDetails.push(each.tileGrid);
+            levelDetails.push(each.exploredColumn);
+            levelDetails.push(each.columnParameters);
+            levelDetails.push(each.payoffColumn);
+            levelDetails.push(each.exploredRow);
+            levelDetails.push(each.rowParameters);
+            levelDetails.push(each.payoffRow);
+            levelDetails.push(each.maxMoves);
+            levelDetails.push(each.alpha1);
+            levelDetails.push(each.beta1);
+            levelDetails.push(each.alpha2);
+            levelDetails.push(each.beta2);
+            levelDetails.push(each.potatoPrice);
+            levelDetails.push(each.discountFactor);
+
+            levelHolder[levelKeys[eachLevel]] = levelDetails;
+
         }
-        soilColumn[i] = round(soilSeed, 0);
-        payoffColumn[i] = 0;
-        exploredColumn[i] = 0;
+
     }
-    for (var j=0; j<TILE_ROWS; j++) {
-        var plantSeed = rowParameters[j] * 3.25;
-        if (plantSeed > 3 ) {
-            plantSeed = 4
+    return levelHolder
+}
+
+
+function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2, potPrice, disFactor) {
+
+    this.maxMoves = maxMoves;
+
+    this.alpha1 = alpha1;
+    this.beta1 = beta1;
+    this.alpha2 = alpha2;
+    this.beta2 = beta2;
+
+    this.potatoPrice = potPrice;
+    this.discountFactor = disFactor;
+
+    var that = this;
+
+    // init arrays first to save memory vs. push()
+    that.tileGrid = new Array(numCols);
+
+    that.columnParameters = new Array(numCols);
+    that.rowParameters = new Array(numRows);
+
+    that.exploredColumn = new Array(numCols);
+    that.exploredRow = new Array(numRows);
+
+    that.payoffColumn = new Array(numCols);
+    that.payoffRow = new Array(numRows);
+
+    // only filled when functions called
+    that.meanPayoff = 0;
+    that.sdPayoff = 0;
+    that.skewPayoff = 0;
+    that.kurtPayoff = 0;
+
+    (function () {
+        for (var eachCol=0; eachCol<numCols; eachCol++) {
+            that.exploredColumn[eachCol] = 0;
+            that.payoffColumn[eachCol] = 0;
         }
-        plantRow[j] = round(plantSeed, 0);
-        payoffRow[j] = 0;
-        exploredRow[j] = 0;
-    }
-}
 
-function measureWorld() {
-
-    for (var i=0; i<TILE_COLS; i++) {
-        expectedPayoff[i] = columnParameters[i] * rowParameters[i];
-    }
-    var totalPayoff = jStat.sum(expectedPayoff);
-    var meanPayoff = totalPayoff / expectedPayoff.length;
-    console.log("MEAN PAYOFF :", meanPayoff);
-}
-
-
-generateWorld();
-
-
-
-function getParameters() {
-    var posX = Math.floor(trackerX/TILE_W);
-    var posY = Math.floor(trackerY/TILE_H);
-
-    return [posX, posY]
-}
-
-
-
-function createGrid() {
-    var newRow = new Array(TILE_COLS);
-
-    for (j=0; j<newRow.length; j++) {
-        var newCol = new Array(TILE_ROWS);
-        for (i=0; i<newCol.length; i++) {
-            newCol[i] = 0;
+        for (var eachRow=0; eachRow<numRows; eachRow++) {
+            that.exploredRow[eachRow] = 0;
+            that.payoffRow[eachRow] = 0;
         }
-        newRow[j] = newCol
-    }
-    return newRow;
+    })();
 
+    (function () {
+        for (var eachRow=0; eachRow<numRows; eachRow++) {
+            var newRow = new Array(numCols);
+            for (var eachCol=0; eachCol<numCols; eachCol++) {
+                newRow[eachCol] = 0;
+            }
+            that.tileGrid[eachRow] = newRow
+        }
+    })();
+
+    (function() {
+
+        for (var eachCol = 0; eachCol < numCols; eachCol++) {
+            that.columnParameters[eachCol] = jStat.beta.sample(alpha1, beta1);
+        }
+
+        for (var eachRow = 0; eachRow < numRows; eachRow++) {
+            that.rowParameters[eachRow] = jStat.beta.sample(alpha2, beta2);
+        }
+    })();
+
+    (function() {
+        var rowColPairs = numCols;
+        if (numCols > numRows){
+            rowColPairs = numRows
+        }
+        // This is like a diagonal across the grid, assuming that parameters are independent it suffices
+        var expectedPayoff = new Array(rowColPairs);
+
+        for (var i=0; i<rowColPairs; i++) {
+            expectedPayoff[i] = that.rowParameters[i] * that.columnParameters[i];
+        }
+        that.meanPayoff = jStat.mean(expectedPayoff);
+        // sample SD
+        that.sdPayoff = jStat.stdev(expectedPayoff,true);
+        that.skewPayoff = jStat.skewness(expectedPayoff);
+        that.kurtPayoff = jStat.kurtosis(expectedPayoff);
+    })()
 }
-
-var newGrid = createGrid();
-
-var tileGrid = [];
 
 
 function isTileAtCoord(TileRow, TileCol) {
-    if (tileGrid[TileRow] !== undefined) {
-        if (tileGrid[TileRow][TileCol] !== undefined) {
+    if (curMapVar.tileGrid[TileRow] !== undefined) {
+        if (curMapVar.tileGrid[TileRow][TileCol] !== undefined) {
             return true;
         }
     }
@@ -119,30 +196,27 @@ function isTileAtCoord(TileRow, TileCol) {
 }
 
 
+function getType(TileCol, TileRow) {
 
+    var alpha1 = curMapConst.alpha1;
+    var beta1 = curMapConst.beta1;
+    var alpha2 = curMapConst.alpha2;
+    var beta2 = curMapConst.beta2;
 
-function getType(TileRow, TileCol) {
+    //Maarten: add sum of alpha and beta parameters to explored count
+    var infoCol = curMapVar.exploredColumn[TileCol]+alpha1+beta1;
+    var infoRow = curMapVar.exploredRow[TileRow]+alpha2+beta2;
 
-    if (trainingPhase) {
+    var infoLevelCol = getInfoLevel(infoCol, (alpha1+beta1));
+    var infoLevelRow = getInfoLevel(infoRow, (alpha2+beta2));
 
-        //Maarten: add sum of alpha and beta parameters to explored count
-        var infoCol = exploredColumn[TileCol]+alpha1+beta1;
-        var infoRow = exploredRow[TileRow]+alpha2+beta2;
+    // Maarten: alpha success rate; beta failure rate
+    var qualityCol = getQuality((curMapVar.payoffColumn[TileCol]+alpha1), infoCol, (alpha1+beta1));
+    var qualityRow = getQuality((curMapVar.payoffRow[TileRow]+alpha2), infoRow, (alpha2+beta2));
 
-        var infoLevelCol = getInfoLevel(infoCol, (alpha1+beta1));
-        var infoLevelRow = getInfoLevel(infoRow, (alpha2+beta2));
+    return [infoLevelCol, infoLevelRow, qualityCol, qualityRow];
 
-        // Maarten: alpha success rate; beta failure rate
-        var qualityCol = getQuality((payoffColumn[TileCol]+alpha1), infoCol, (alpha1+beta1));
-        var qualityRow = getQuality((payoffRow[TileRow]+alpha2), infoRow, (alpha2+beta2));
-
-        return [infoLevelCol, infoLevelRow, qualityCol, qualityRow];
-    }
-    else {
-        return [0, 0, soilColumn[TileRow], plantRow[TileCol]]
-    }
 }
-
 
 
 function getInfoLevel(rowOrCol, parameters) {
@@ -164,23 +238,22 @@ function getQuality(timesPotato, timesExplored, parameters) {
     if (timesExplored === parameters){
         return 2;
     }
-    else if (fraction <= 0.20) {
+    else if (fraction <= curMapConst.minQuality1) {
         return 0;
     }
-    else if (fraction <= 0.35) {
+    else if (fraction <= curMapConst.minQuality2) {
         return 1;
     }
-    else if (fraction <= 0.50) {
+    else if (fraction <= curMapConst.minQuality3) {
         return 2;
     }
-    else if (fraction <= 0.65) {
+    else if (fraction <= curMapConst.minQuality4) {
         return 3;
     }
     else  {
         return 4;
     }
 }
-
 
 /*
  Tilesheet Soil 100px
@@ -224,12 +297,7 @@ function TileSheetClass(image, sheetWidth, sheetHeight, rows, cols, offsetX, off
     };
 }
 
-// this variable-heavy definition requires that the appropriately sized tilesheet is delivered
-var soilSheet = new TileSheetClass(assets.soilSheetPic, 5*TILE_W, 5*TILE_H, 5, 5, 0, 0, TILE_W, TILE_H);
-var plantSheet = new TileSheetClass(assets.plantSheetPic, 5*PLANT_W, 5*PLANT_H, 5, 5, ((TILE_W-PLANT_W)/2), ((TILE_H-PLANT_H)/2), PLANT_W, PLANT_H);
-
-
-function drawOnlyTilesOnScreen() {
+function drawVisibleTiles() {
     // what are the top-left most row and col visible on canvas?
     var cameraLeftMostCol = Math.floor(camera.panX / TILE_W);
     var cameraTopMostRow = Math.floor(camera.panY / TILE_H);
@@ -249,44 +317,51 @@ function drawOnlyTilesOnScreen() {
             var drawY = eachRow * TILE_H;
 
 			if (isTileAtCoord(eachRow, eachCol)) {
-                var arrayIndex = tileGrid[eachRow][eachCol];
+                var tilePos = curMapVar.tileGrid[eachRow][eachCol];
 
-                var type = getType(eachRow, eachCol);
+                var type = getType(eachCol, eachRow);
                 var soilParameter = type[2];
                 var plantParameter = type[3];
                 var soilInfo = type[0];
                 var plantInfo = type[1];
                 //console.log(plantInfo, plantParameter);
 
-                switch(arrayIndex) {
+                switch(tilePos) {
                     case 0:
-                        soilSheet.draw(drawX, drawY, soilInfo, soilParameter);
-                        plantSheet.draw(drawX, drawY, plantInfo, plantParameter);
+                        curMapConst.soilSheet.draw(drawX, drawY, soilInfo, soilParameter);
+                        curMapConst.plantSheet.draw(drawX, drawY, plantInfo, plantParameter);
                         break;
-                    case 1: soilSheet.draw(drawX, drawY, 3, 0);
+                    case 1:
+                        curMapConst.soilSheet.draw(drawX, drawY, 3, 0);
                         break;
-                    case 3: soilSheet.draw(drawX, drawY, 3, 1);
+                    case 3:
+                        curMapConst.soilSheet.draw(drawX, drawY, 3, 1);
                         break;
-                    case 5: soilSheet.draw(drawX, drawY, 3, 2);
-                        plantSheet.draw(drawX, drawY, 3, 1);
+                    case 5:
+                        curMapConst.soilSheet.draw(drawX, drawY, 3, 2);
+                        curMapConst.plantSheet.draw(drawX, drawY, 3, 1);
                         break;
-                    case 7: soilSheet.draw(drawX, drawY, soilInfo, soilParameter);
-                        plantSheet.draw(drawX, drawY, 3, 2);
+                    case 7:
+                        curMapConst.soilSheet.draw(drawX, drawY, soilInfo, soilParameter);
+                        curMapConst.plantSheet.draw(drawX, drawY, 3, 2);
                         break;
-                    case 8: soilSheet.draw(drawX, drawY, soilInfo, soilParameter);
-                        plantSheet.draw(drawX, drawY, 3, 3);
+                    case 8:
+                        curMapConst.soilSheet.draw(drawX, drawY, soilInfo, soilParameter);
+                        curMapConst.plantSheet.draw(drawX, drawY, 3, 3);
                         break;
-                    case 9: soilSheet.draw(drawX, drawY, soilInfo, soilParameter);
-                        plantSheet.draw(drawX, drawY, 3, 4);
+                    case 9:
+                        curMapConst.soilSheet.draw(drawX, drawY, soilInfo, soilParameter);
+                        curMapConst.plantSheet.draw(drawX, drawY, 3, 4);
                         break;
-                    default: soilSheet.draw(drawX, drawY, 3, 2);
-                        plantSheet.draw(drawX, drawY, 3, 1);
+                    default:
+                        curMapConst.soilSheet.draw(drawX, drawY, 3, 2);
+                        curMapConst.plantSheet.draw(drawX, drawY, 3, 1);
                         break;
                 }
             }
             else {
-			    soilSheet.draw(drawX, drawY, 3, 2);
-                plantSheet.draw(drawX, drawY, 3, 1);
+                curMapConst.soilSheet.draw(drawX, drawY, 3, 2);
+                curMapConst.plantSheet.draw(drawX, drawY, 3, 1);
             }
         }
     }

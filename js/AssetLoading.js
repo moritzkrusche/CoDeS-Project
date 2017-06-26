@@ -1,3 +1,10 @@
+// where the game is drawn; optionally multiple for UI, animations etc.
+var canvas, canvasContext;
+
+// changing any const would break the graphics
+const CANVAS_H = 700;
+const CANVAS_W = 700;
+const uiHeight = 50;
 
 //******************************** FIRST CHECK IF MOBILE BROWSER *******************************************************
 
@@ -24,12 +31,6 @@ var isMobile = false; //initiate as false
 // Sprite modified from https://otland.net/threads/damons-thread.215668/
 
 //******************************** SHOW LOAD SCREEN WHILE LOADING ******************************************************
-
-var canvas, canvasContext;
-
-const CANVAS_H = 700;
-const CANVAS_W = 700;
-const uiHeight = 50;
 
 function loadScreen() {
     canvas = document.getElementById('gameCanvas');
@@ -109,20 +110,20 @@ var assets = new function() {
     // Set images src
     this.charSprite.src = "images/farmerSprite240px.png";
     this.potato.src = "images/potato50px.png";
-    this.uiPic.src = "images/uiPanelDesktop.png";
+    this.uiPic.src = "images/uiPanel.png";
     this.soilSheetPic.src = "images/soilSheet100px.png";
     this.plantSheetPic.src = "images/plantSheet60px.png";
 
     //******************************** LOADING AUDIO *******************************************************************
 
-    var setFormat = function() {
+    var audioFormat = ".ogg";
+
+    (function() {
         var audio = new Audio();
         if (audio.canPlayType("audio/mp3")) {
             audioFormat = ".mp3";
-        } else {
-            audioFormat = ".ogg";
         }
-    };
+    })();
 
     var unlockIOSAudioPlayback = function () {
         var context = Howler.ctx;
@@ -134,7 +135,6 @@ var assets = new function() {
     };
 
     if (!isMobile) {
-        setFormat();
 
         var numSounds = 4;
         var numSoundsLoaded = 0;
@@ -177,7 +177,7 @@ var assets = new function() {
         this.spriteSound = new Howl({
             src: ["audio/audioSprite.mp3"],
             sprite: {
-                walking: [0, 5500],
+                walking: [0, 5500, true],
                 potato: [7000, 500],
                 error: [8500, 500]
             }, onload: function() {
@@ -187,6 +187,4 @@ var assets = new function() {
 
     }
 };
-
-
 
