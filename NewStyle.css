@@ -9,22 +9,19 @@ body {
   -ms-user-select: none;
   user-select: none;
 
-  /* IE10 Consumer Preview */
-  background-image: -ms-radial-gradient(center, ellipse farthest-corner, #F5F5DC 0%, #FAEBD7 100%);
+  /* Internet Explorer/Edge */
+  background-image: -ms-radial-gradient(ellipse farthest-corner at center, #F5F5DC 0%, #FAEBD7 100%);
 
   /* Mozilla Firefox */
-  background-image: -moz-radial-gradient(center, ellipse farthest-corner, #F5F5DC 0%, #FAEBD7 100%);
+  background-image: -moz-radial-gradient(ellipse farthest-corner at center, #F5F5DC 0%, #FAEBD7 100%);
 
   /* Opera */
-  background-image: -o-radial-gradient(center, ellipse farthest-corner, #F5F5DC 0%, #FAEBD7 100%);
-
-  /* Webkit (Safari/Chrome 10) */
-  background-image: -webkit-gradient(radial, center center, 0, center center, 497, color-stop(0, #F5F5DC), color-stop(1, #FAEBD7));
+  background-image: -o-radial-gradient(ellipse farthest-corner at center, #F5F5DC 0%, #FAEBD7 100%);
 
   /* Webkit (Chrome 11+) */
-  background-image: -webkit-radial-gradient(center, ellipse farthest-corner, #F5F5DC 0%, #FAEBD7 100%);
+  background-image: -webkit-radial-gradient(ellipse farthest-corner at center, #F5F5DC 0%, #FAEBD7 100%);
 
-  /* W3C Markup, IE10 Release Preview */
+  /* W3C Markup */
   background-image: radial-gradient(ellipse farthest-corner at center, #F5F5DC 0%, #FAEBD7 100%);
 
 }
@@ -32,8 +29,8 @@ body {
 .wrapper {
    display: table;
    padding: 0;
-   width: 100%;
-   height: 100%;
+   width: 96%;
+   height: auto;
    position: absolute;
 }
 .container {
@@ -105,7 +102,7 @@ body {
 #pbLeft {
   width: 31%;
   height: 5em;
-  position: absolute; left: 0%
+  position: absolute; left: 0
 }
 
 
