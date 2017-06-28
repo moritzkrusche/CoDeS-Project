@@ -44,6 +44,9 @@ var curMapVar = {
     // payoffcount gets only added and never overwritten; how much $ part made in the game so far
     payoffCount: 0,
 
+    movementTracker: [],
+    payoffTracker: [],
+
     loadId: NaN,
     walkId: NaN,
     pauseId: NaN,
@@ -56,7 +59,8 @@ var curMapVar = {
 
 // lvlKeys should be array of strings; e.g. ["map1", "map2", "map3", "map4", "map5", "map6", "map7", "map8"];
 
-function mergeLevels(lvlKeys, lvl1, lvl2, lvl3, lvl4, lvl5, lvl6, lvl7, lvl8){
+function mergeLevels(lvlKeys, lvl1, lvl2, lvl3, lvl4, lvl5, lvl6, lvl7, lvl8, lvl9, lvl10){
+    "use strict";
     lvl1 = lvl1 || 0;
     lvl2 = lvl2 || 0;
     lvl3 = lvl3 || 0;
@@ -65,8 +69,10 @@ function mergeLevels(lvlKeys, lvl1, lvl2, lvl3, lvl4, lvl5, lvl6, lvl7, lvl8){
     lvl6 = lvl6 || 0;
     lvl7 = lvl7 || 0;
     lvl8 = lvl8 || 0;
+    lvl9 = lvl9 || 0;
+    lvl10 = lvl10 || 0;
 
-    var levelList = [lvl1, lvl2, lvl3, lvl4, lvl5, lvl6, lvl7, lvl8];
+    var levelList = [lvl1, lvl2, lvl3, lvl4, lvl5, lvl6, lvl7, lvl8, lvl9, lvl10];
     var levelKeys = lvlKeys;
 
     var levelHolder = {};
@@ -102,7 +108,7 @@ function mergeLevels(lvlKeys, lvl1, lvl2, lvl3, lvl4, lvl5, lvl6, lvl7, lvl8){
 
 
 function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2, potPrice, disFactor) {
-
+    "use strict";
     this.maxMoves = maxMoves;
 
     this.alpha1 = alpha1;
@@ -134,6 +140,7 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
     that.kurtPayoff = 0;
 
     (function () {
+        "use strict";
         for (var eachCol=0; eachCol<numCols; eachCol++) {
             that.exploredColumn[eachCol] = 0;
             that.payoffColumn[eachCol] = 0;
@@ -146,6 +153,7 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
     })();
 
     (function () {
+        "use strict";
         for (var eachRow=0; eachRow<numRows; eachRow++) {
             var newRow = new Array(numCols);
             for (var eachCol=0; eachCol<numCols; eachCol++) {
@@ -156,7 +164,7 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
     })();
 
     (function() {
-
+        "use strict";
         for (var eachCol = 0; eachCol < numCols; eachCol++) {
             that.columnParameters[eachCol] = jStat.beta.sample(alpha1, beta1);
         }
@@ -167,6 +175,7 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
     })();
 
     (function() {
+        "use strict";
         var rowColPairs = numCols;
         if (numCols > numRows){
             rowColPairs = numRows
@@ -187,6 +196,7 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
 
 
 function isTileAtCoord(TileRow, TileCol) {
+    "use strict";
     if (curMapVar.tileGrid[TileRow] !== undefined) {
         if (curMapVar.tileGrid[TileRow][TileCol] !== undefined) {
             return true;
@@ -197,7 +207,7 @@ function isTileAtCoord(TileRow, TileCol) {
 
 
 function getType(TileCol, TileRow) {
-
+    "use strict";
     var alpha1 = curMapConst.alpha1;
     var beta1 = curMapConst.beta1;
     var alpha2 = curMapConst.alpha2;
@@ -220,6 +230,7 @@ function getType(TileCol, TileRow) {
 
 
 function getInfoLevel(rowOrCol, parameters) {
+    "use strict";
     if (rowOrCol <= parameters) {
         return 2;
     }
@@ -233,6 +244,7 @@ function getInfoLevel(rowOrCol, parameters) {
 
 
 function getQuality(timesPotato, timesExplored, parameters) {
+    "use strict";
     var fraction = timesPotato / timesExplored;
 
     if (timesExplored === parameters){
@@ -275,7 +287,7 @@ Row 0, 1, 2, 3, 4 --> Soil Quality 1,2,3,4,5
 
 // universal class for drawing (static) tiles from a tilesheet
 function TileSheetClass(image, sheetWidth, sheetHeight, rows, cols, offsetX, offsetY, drawWidth, drawHeight) {
-
+    "use strict";
     this.SheetWidth = sheetWidth;
     this.SheetHeight = sheetHeight;
     this.SheetRows = rows;
@@ -293,38 +305,38 @@ function TileSheetClass(image, sheetWidth, sheetHeight, rows, cols, offsetX, off
         var sheetCol = imageHeight * whichCol;
         var sheetRow = imageWidth * whichRow;
 
-        canvasContext.drawImage(image, sheetCol, sheetRow, imageWidth, imageHeight, x+this.offSetX, y+this.offSetY, drawWidth, drawHeight);
+        canvas.gameContext.drawImage(image, sheetCol, sheetRow, imageWidth, imageHeight, x+this.offSetX, y+this.offSetY, drawWidth, drawHeight);
     };
 }
 
 function drawVisibleTiles() {
+    "use strict";
     // what are the top-left most row and col visible on canvas?
-    var cameraLeftMostCol = Math.floor(camera.panX / TILE_W);
     var cameraTopMostRow = Math.floor(camera.panY / TILE_H);
-    // how many rows and columns of tiles fit on one screenful of area?
+    var cameraLeftMostCol = Math.floor(camera.panX / TILE_W);
+    // how many rows and columns of tiles fit on the canvas?
     var colsThatFitOnScreen = Math.floor(CANVAS_W / TILE_W);
     var rowsThatFitOnScreen = Math.floor(CANVAS_H / TILE_H);
 
-    // finding the rightmost and bottommost tiles to draw.
-    // the +1 on each pushes the new tile popping in off visible area
-    var cameraRightMostCol = cameraLeftMostCol + colsThatFitOnScreen + 1;
+    // finding the rightmost and bottommost tiles to draw + 1 on the side
     var cameraBottomMostRow = cameraTopMostRow + rowsThatFitOnScreen + 1;
+    var cameraRightMostCol = cameraLeftMostCol + colsThatFitOnScreen + 1;
 
-    for(var eachCol=cameraLeftMostCol; eachCol<cameraRightMostCol; eachCol++) {
+    for(var eachRow=cameraTopMostRow; eachRow<cameraBottomMostRow; eachRow++) {
+        for(var eachCol=cameraLeftMostCol; eachCol<cameraRightMostCol; eachCol++) {
 
-        for(var eachRow=cameraTopMostRow; eachRow<cameraBottomMostRow; eachRow++) {
             var drawX = eachCol * TILE_W;
             var drawY = eachRow * TILE_H;
 
 			if (isTileAtCoord(eachRow, eachCol)) {
                 var tilePos = curMapVar.tileGrid[eachRow][eachCol];
 
+                // Col/ Row ia correct with respect to parameters and X/ Y; Row/ Col necessary due to JS Rows[Cols]
                 var type = getType(eachCol, eachRow);
                 var soilParameter = type[2];
                 var plantParameter = type[3];
                 var soilInfo = type[0];
                 var plantInfo = type[1];
-                //console.log(plantInfo, plantParameter);
 
                 switch(tilePos) {
                     case 0:

@@ -1,5 +1,16 @@
+
 // where the game is drawn; optionally multiple for UI, animations etc.
-var canvas, canvasContext;
+var canvas = {
+
+    game: document.getElementById('gameCanvas'),
+    effect: document.getElementById('effectCanvas'),
+    info: document.getElementById('infoCanvas'),
+
+    gameContext: document.getElementById('gameCanvas').getContext('2d'),
+    effectContext: document.getElementById('effectCanvas').getContext('2d'),
+    infoContext: document.getElementById('infoCanvas').getContext('2d')
+
+};
 
 // changing any const would break the graphics
 const CANVAS_H = 700;
@@ -18,24 +29,29 @@ var isMobile = false; //initiate as false
 
     //isMobile = true;
 
-    var buttonList = ["pbUp", "pbDown", "pbLeft", "pbRight"];
-    if (!isMobile) {
-        for (var i = 0; i < buttonList.length; i++) {
-            document.getElementById(buttonList[i]).style.visibility = "hidden";
+    if (isMobile) {
+        var buttons = document.getElementsByClassName("playButton");
+        for (var i=0; i<buttons.length; i++){
+            buttons[i].style.visibility = "visible"
         }
     }
-    //document.getElementById(buttonList[i]).style.visibility = "visible";
+
 })();
 
-// Tiles from Arthur Guez
+// Tiles supplied by Arthur Guez and modified
 // Sprite modified from https://otland.net/threads/damons-thread.215668/
 
 //******************************** SHOW LOAD SCREEN WHILE LOADING ******************************************************
 
 function loadScreen() {
-    canvas = document.getElementById('gameCanvas');
-    canvas.width = 700;
-    canvas.height = 700 + uiHeight;
+    "use strict";
+    canvas.game.width = 700;
+    canvas.game.height = 700 + uiHeight;
+
+
+    //canvas.gameContext.clearRect(0,0, CANVAS_W+uiHeight, CANVAS_H);
+    //canvas.infoContext.clearRect(0,0, CANVAS_W+uiHeight, CANVAS_H);
+
 
     // ensures that the lower part of the canvas is not cut out on small laptops etc.
     if (!isMobile && window.screen.height <850){
@@ -53,23 +69,37 @@ function loadScreen() {
 
     }
 
-    canvasContext = canvas.getContext('2d');
-    colorRect(0,0, CANVAS_W,CANVAS_H+uiHeight, 'black');
-    canvasContext.font = 'italic 20pt "COMIC SANS MS"';
-    colorText("LOADING", CANVAS_W/2-70, CANVAS_H/2+uiHeight, 'white');
+    colorRect(canvas.game, 0,0, CANVAS_W,CANVAS_H+uiHeight, 'black');
+    canvas.gameContext.font = 'italic 20pt "COMIC SANS MS"';
+    colorText(canvas.game, "LOADING", CANVAS_W/2-70, CANVAS_H/2+uiHeight, 'white');
+
+}
+
+//******************************** INFO SCREEN INSTEAD OF ALERT ********************************************************
+
+function infoScreen() {
+    "use strict";
+    canvas.width = 700;
+    canvas.height = 700 + uiHeight;
+
+
+    //canvasContext = canvas.getContext('2d');
+    //colorRect(0,0, CANVAS_W,CANVAS_H+uiHeight, 'black');
+    //canvasContext.font = 'italic 20pt "COMIC SANS MS"';
+    //colorText("LOADING", CANVAS_W/2-70, CANVAS_H/2+uiHeight, 'white');
 
 }
 
 //******************************** INIT OBJECT TO HOLD ALL ASSETS; LAUNCH IF LOADED  ***********************************
 
 var assets = new function() {
-
+    "use strict";
     loadScreen();
     var checkReady = 0;
     function assetLoaded() {
         checkReady++;
         if (checkReady === 2) {
-            assetLoadingDoneSoStartGame()
+            startGame()
         }
     }
 
@@ -138,12 +168,12 @@ var assets = new function() {
 
         var numSounds = 4;
         var numSoundsLoaded = 0;
-        function soundLoaded() {
+        var soundLoaded = function() {
             numSoundsLoaded++;
             if (numSoundsLoaded === numSounds) {
                 assetLoaded();
             }
-        }
+        };
 
         this.potatoSound = new Howl({src: ["audio/potato" + audioFormat], volume: 0.6, onload: function() {
             soundLoaded();
@@ -164,7 +194,7 @@ var assets = new function() {
 
     } else {
 
-        function soundSpriteLoaded() {
+        var soundSpriteLoaded = function() {
             try {
                 unlockIOSAudioPlayback()
             }
@@ -172,7 +202,7 @@ var assets = new function() {
                 alert("Could not unlock sound!")
             }
             assetLoaded();
-        }
+        };
 
         this.spriteSound = new Howl({
             src: ["audio/audioSprite.mp3"],

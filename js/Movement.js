@@ -1,8 +1,6 @@
 
-movementTracker = [];
-payoffTracker = [];
-
 var camera = new function(){
+    "use strict";
     this.centerX = 0;
     this.centerY = 0;
 
@@ -15,14 +13,16 @@ var camera = new function(){
         this.panX = camPanX;
         this.panY = camPanY;
     }
-
-
 };
 
+
 function checkPayoff(colPar, rowPar) {
+    "use strict";
     var draw = Math.random();
     var check = colPar * rowPar;
-    console.log("CHECK", check, "DRAW", draw);
+    if (devMode){
+        console.log("CHECK", check, "DRAW", draw);
+    }
     if (draw <= check) {
         return 1
     }
@@ -33,12 +33,15 @@ function checkPayoff(colPar, rowPar) {
 
 
 function updateInfo(callback) {
+    "use strict";
     var posX = Math.floor(camera.centerX/TILE_W);
     var posY = Math.floor(camera.centerY/TILE_H);
 
-    console.log("POS X, Y: ", posX, posY);
-    console.log("SOIL PAR AT POS X: ", curMapConst.columnParameters[posX]);
-    console.log("PLANT PAR AT POS Y: ", curMapConst.rowParameters[posY]);
+    if (devMode){
+        console.log("POS X, Y: ", posX, posY);
+        console.log("SOIL PAR AT POS X: ", curMapConst.columnParameters[posX]);
+        console.log("PLANT PAR AT POS Y: ", curMapConst.rowParameters[posY]);
+    }
 
     curMapVar.tileGrid = curMapVar.tileGrid.slice();
 
@@ -50,13 +53,14 @@ function updateInfo(callback) {
         var getPayoff = checkPayoff(curMapConst.columnParameters[posX], curMapConst.rowParameters[posY]);
 
         if (getPayoff === 0) {
-            console.log("NONE");
-            payoffTracker.push(0);
+            if (devMode){
+                console.log("NONE");
+            }
+
+            curMapVar.payoffTracker.push(0);
 
             curMapVar.tileGrid[posY][posX] = 1;
 
-            //console.log("PAYOFFROW ", payoffRow);
-            //console.log("PAYOFFCOLUMN ", payoffColumn);
         }
         else if (getPayoff === 1) {
             experiment.potatoAnim.show();
@@ -67,8 +71,12 @@ function updateInfo(callback) {
                 assets.spriteSound.play('potato');
             }
 
-            console.log("POTATO");
-            payoffTracker.push(1);
+            if (devMode){
+                console.log("POTATO");
+            }
+
+            curMapVar.payoffTracker.push(1);
+
             curMapVar.potatoCount += 1;
             curMapVar.payoffCount += curMapVar.potatoPrice;
 
@@ -77,8 +85,6 @@ function updateInfo(callback) {
             curMapVar.payoffRow[posY] += 1;
             curMapVar.payoffColumn[posX] += 1;
 
-            //console.log("PAYOFFROW ", payoffRow);
-            //console.log("PAYOFFCOLUMN ", payoffColumn);
         }
     }
 
@@ -86,18 +92,20 @@ function updateInfo(callback) {
 }
 
 function stepCounter(char) {
+    "use strict";
     char.animMove = false;
     char.moving = false;
     curMapVar.potatoPrice *= curMapConst.discountFactor;
     curMapVar.movesLeft -=1;
+
     if (curMapVar.movesLeft === 0) {
         curMapVar.loadId = setTimeout(function () {nextLevel()}, 1250);
     }
 }
 
 
-
 function checkCollision(atTrackerX, atTrackerY) {
+    "use strict";
     var someX = Math.floor(atTrackerX/TILE_W);
     var someY = Math.floor(atTrackerY/TILE_H);
     var nextPos = curMapVar.tileGrid[someY][someX];
@@ -131,7 +139,7 @@ function checkCollision(atTrackerX, atTrackerY) {
 
 
 function trackerMove(char) {
-
+    "use strict";
     var nextX = camera.centerX;
     var nextY = camera.centerY;
     var directionX = 0;
@@ -145,7 +153,7 @@ function trackerMove(char) {
                 char.moving = true;
                 char.currentDirection = "left";
 
-                movementTracker.push("left");
+                curMapVar.movementTracker.push("left");
             }
         }
         else if (userInputStatus.holdRight) {
@@ -154,7 +162,7 @@ function trackerMove(char) {
                 char.moving = true;
                 char.currentDirection = "right";
 
-                movementTracker.push("right");
+                curMapVar.movementTracker.push("right");
             }
         }
         else if (userInputStatus.holdUp) {
@@ -163,7 +171,7 @@ function trackerMove(char) {
                 char.moving = true;
                 char.currentDirection = "up";
 
-                movementTracker.push("up");
+                curMapVar.movementTracker.push("up");
             }
         }
         else if (userInputStatus.holdDown) {
@@ -172,7 +180,7 @@ function trackerMove(char) {
                 char.moving = true;
                 char.currentDirection = "down";
 
-                movementTracker.push("down");
+                curMapVar.movementTracker.push("down");
             }
         }
     }
@@ -203,9 +211,8 @@ function trackerMove(char) {
         char.animMove = true;
         var stepsMoved = 0;
 
-        var moveId = setInterval(frameMove, 30);
-
-        function frameMove() {
+        var frameMove = function () {
+            "use strict";
             if (stepsMoved === 100) {
                 clearInterval(moveId);
                 updateInfo(stepCounter(char));
@@ -227,7 +234,8 @@ function trackerMove(char) {
                 camera.centerY = nextY;
                 stepsMoved += 5;
             }
-        }
+        };
+        var moveId = setInterval(frameMove, 30);
     }
-
 }
+

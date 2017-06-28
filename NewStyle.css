@@ -1,131 +1,162 @@
 
 body {
-  font-size: 100%;
+    font-size: 100%;
 
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
 
-  /* Internet Explorer/Edge */
-  background-image: -ms-radial-gradient(ellipse farthest-corner at center, #F5F5DC 0%, #FAEBD7 100%);
+    /* W3C Markup */
+    background-image: radial-gradient(ellipse farthest-corner at center, #F5F5DC 0%, #FAEBD7 100%);
 
-  /* Mozilla Firefox */
-  background-image: -moz-radial-gradient(ellipse farthest-corner at center, #F5F5DC 0%, #FAEBD7 100%);
+    /* Webkit (Chrome 11+) */
+    background-image: -webkit-radial-gradient(ellipse farthest-corner at center, #F5F5DC 0%, #FAEBD7 100%);
 
-  /* Opera */
-  background-image: -o-radial-gradient(ellipse farthest-corner at center, #F5F5DC 0%, #FAEBD7 100%);
+    /* Mozilla Firefox */
+    background-image: -moz-radial-gradient(ellipse farthest-corner at center, #F5F5DC 0%, #FAEBD7 100%);
 
-  /* Webkit (Chrome 11+) */
-  background-image: -webkit-radial-gradient(ellipse farthest-corner at center, #F5F5DC 0%, #FAEBD7 100%);
+    /* Internet Explorer/Edge */
+    background-image: -ms-radial-gradient(ellipse farthest-corner at center, #F5F5DC 0%, #FAEBD7 100%);
 
-  /* W3C Markup */
-  background-image: radial-gradient(ellipse farthest-corner at center, #F5F5DC 0%, #FAEBD7 100%);
+    /* Opera */
+    background-image: -o-radial-gradient(ellipse farthest-corner at center, #F5F5DC 0%, #FAEBD7 100%);
 
 }
+
 
 .wrapper {
-   display: table;
-   padding: 0;
-   width: 96%;
-   height: auto;
-   position: absolute;
+    display: table !important;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
 }
+
 .container {
-   display: table-cell;
-   vertical-align: sub;
+    display: table-cell !important;
+    vertical-align: sub;
+    /* to adjust for the fact that the wrapper often cuts out a bit on mobile devices */
+    margin-right: 5%;
 }
 
 .canvas-container {
-   position: relative;
-   max-width: 700px;
-   min-width: 350px;
-   margin: 0 auto;
+    vertical-align: top;
+    position: relative !important;
+    max-width: 700px;
+    min-width: 350px;
+    margin: 0 auto 0 auto;
+}
+
+#gameCanvas {
+    vertical-align: top;
+    position: relative;
+    display: inline;
+    z-index: -2;
+}
+
+#effectCanvas {
+    vertical-align: top;
+    position: absolute;
+    top: 0;
+    max-width: 100%;
+    min-width: 50%;
+    z-index: -1;
+}
+
+
+#infoCanvas {
+    vertical-align: top;
+    position: absolute;
+    top: 0;
+    max-width: 100%;
+    min-width: 50%;
+    z-index: 0;
+
 }
 
 .button-container {
-   position: relative;
-   max-width: 700px;
-   min-width: 100px;
-   margin: 0 auto;
+    display: block;
+    position: relative !important;
+    max-width: 700px;
+    min-width: 350px;
+    margin: 0 auto;
 }
 
 .responsive {
-   width: 100%;
-   height: auto;
-   background-color: black;
+    width: 100%;
+    height: 100%;
+    background: transparent;
 }
 
 .playButton {
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  border-radius: 8px;
-  font-family: "Eagle Lake";
-  font-style: italic;
-  font-size: 1.5em;
-  color: #DAA520;
-  border: 0.125em ridge #DAA520;
-  background-color: #333d3f;
-  background-image: linear-gradient(90deg, rgba(51,61,63,.07) 50%, transparent 50%),
-  linear-gradient(90deg, rgba(51,61,63,.13) 50%, transparent 50%);
-  background-size: 13px, 29px, 37px, 53px;
-  padding: 10px 20px 10px 20px;
-  text-decoration: none;
+    visibility: hidden;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    font-family: "Eagle Lake", cursive;
+    font-style: italic;
+    font-size: 1.5em;
+    color: #DAA520;
+    border: 0.125em ridge #DAA520;
+    background-color: #333d3f;
+    background-image: linear-gradient(90deg, rgba(51,61,63,.07) 50%, transparent 50%),
+    linear-gradient(90deg, rgba(51,61,63,.13) 50%, transparent 50%);
+    background-size: 13px, 29px, 37px, 53px;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+
 }
 
 .playButton:hover{
-  background: #525b68;
-  text-decoration: none;
+    background: #525b68;
+    text-decoration: none;
+
 }
 
 .playButton:active{
-  background: #B0C4DE;
-  top: 0.125em;
-  text-decoration: none;
-  outline: none;
-  -webkit-box-shadow: none;
-  box-shadow: none;
+    background: #B0C4DE;
+    top: 0.125em;
+    text-decoration: none;
+    outline: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
 }
 
 #pbDown:active{
-  top: 2.625em;
+    top: 2.625em;
 }
 
 #pbUp {
-  width: 38%;
-  height: 2.5em;
-  position: absolute; left: 31%
+    width: 38%;
+    height: 2.5em;
+    position: absolute; left: 31%
 }
 
 #pbLeft {
-  width: 31%;
-  height: 5em;
-  position: absolute; left: 0
+    width: 31%;
+    height: 5em;
+    position: absolute; left: 0
 }
 
 
 #pbRight {
-  width: 31%;
-  height: 5em;
-  position: absolute; left: 69%
+    width: 31%;
+    height: 5em;
+    position: absolute; left: 69%
 }
 
 
 #pbDown {
-  width: 38%;
-  height: 2.5em;
-  position: absolute; left: 31%; top: 2.5em;
+    width: 38%;
+    height: 2.5em;
+    position: absolute; left: 31%; top: 2.5em;
 }
 
-
-.noselect {
-  -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome and Opera */
-}

@@ -1,26 +1,27 @@
+
 function drawBitmapCenteredWithRotation(useBitmap, atX,atY, withAng, width, height) {
-	canvasContext.save();
-	canvasContext.translate(atX, atY);
-	canvasContext.rotate(withAng);
-	canvasContext.drawImage(useBitmap, -width/2, -height/2, width, height);
-	canvasContext.restore();
+	canvas.gameContext.save();
+	canvas.gameContext.translate(atX, atY);
+	canvas.gameContext.rotate(withAng);
+	canvas.gameContext.drawImage(useBitmap, -width/2, -height/2, width, height);
+	canvas.gameContext.restore();
 }
 
 function colorRect(topLeftX,topLeftY, boxWidth,boxHeight, fillColor) {
-	canvasContext.fillStyle = fillColor;
-	canvasContext.fillRect(topLeftX,topLeftY, boxWidth,boxHeight);
+	canvas.gameContext.fillStyle = fillColor;
+	canvas.gameContext.fillRect(topLeftX,topLeftY, boxWidth,boxHeight);
 }
 
 function colorCircle(centerX,centerY, radius, fillColor) {
-	canvasContext.fillStyle = fillColor;
-	canvasContext.beginPath();
-	canvasContext.arc(centerX,centerY, 10, 0,Math.PI*2, true);
-	canvasContext.fill();
+	canvas.gameContext.fillStyle = fillColor;
+	canvas.gameContext.beginPath();
+	canvas.gameContext.arc(centerX,centerY, 10, 0,Math.PI*2, true);
+	canvas.gameContext.fill();
 }
 
 function colorText(showWords, textX,textY, fillColor) {
-	canvasContext.fillStyle = fillColor;
-	canvasContext.fillText(showWords, textX, textY);
+	canvas.gameContext.fillStyle = fillColor;
+	canvas.gameContext.fillText(showWords, textX, textY);
 }
 
 function sleep(milliseconds) {
@@ -68,4 +69,12 @@ function intervalTimer(func, wait, times){
     }(wait, times);
 
     setTimeout(interv, wait);
+}
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function selectRandomInArray(array) {
+    return array[Math.floor(Math.random() * array.length)];
 }

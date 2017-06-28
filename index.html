@@ -3,8 +3,7 @@
 
 	<head>
 		<!-- Meta / style / title-->
-		<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-		<meta content="utf-8" http-equiv="encoding">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="">
 		<meta name="author" content="Moritz Krusche">
@@ -14,41 +13,30 @@
 	</head>
 
 	<body>
-		<!-- -->
 		<div class="wrapper">
-		  <div class="container">
-		    <div class="canvas-container" id="gameContainer">
-		      <canvas class = "responsive" id="gameCanvas" width="700" height="750"></canvas>
-		    </div>
-					<div class="button-container" >
+			<div class="container">
 
-							<button class="playButton noselect" id="pbUp" onmousedown="buttonUp()" onmouseup="buttonFalse()"> Up </button>
-						</div>
-						<div class="button-container" >
+				<div class="canvas-container">
+					<canvas class = "responsive" id="gameCanvas" width="700" height="750"></canvas>
+					<canvas class = "responsive" id="effectCanvas" width="700" height="750"></canvas>
+					<canvas class = "responsive" id="infoCanvas" width="700" height="750"></canvas>
+				</div>
 
-							<button class="playButton noselect" id="pbLeft" onmousedown="buttonLeft()" onmouseup="buttonFalse()" >Left</button>
-							<button class="playButton noselect" id="pbRight" onmousedown="buttonRight()" onmouseup="buttonFalse()" >Right</button>
-						</div>
-						<div class="button-container" >
-							<button class="playButton noselect" id="pbDown" onmousedown="buttonDown()" onmouseup="buttonFalse()" >Down</button>
-						</div>
-					</div>
-		  </div>
+
+				<div class="button-container" >
+					<button class="playButton" id="pbUp" onmousedown="buttonUp()" onmouseup="buttonFalse()"> Up </button>
+				</div>
+				<div class="button-container" >
+
+					<button class="playButton" id="pbLeft" onmousedown="buttonLeft()" onmouseup="buttonFalse()" >Left</button>
+					<button class="playButton" id="pbRight" onmousedown="buttonRight()" onmouseup="buttonFalse()" >Right</button>
+				</div>
+				<div class="button-container" >
+					<button class="playButton" id="pbDown" onmousedown="buttonDown()" onmouseup="buttonFalse()" >Down</button>
+				</div>
+			</div>
 		</div>
 
-
-
-
-		<!--<div style="position: absolute; left: 0; top: 0">
-			<canvas id="gameCanvas" width="700" height="750"></canvas>
-		</div>-->
-
-		<!-- <canvas id="weatherCanvas" width="700" height="750"></canvas> -->
-		<!-- <canvas id="uiCanvas" width="700" height="200"></canvas> -->
-
-		<!-- <p id="debugText" style="font-size:20px; margin: auto">
-			Move using the arrow keys on your keyboard.
-		</p> -->
 
 		<!-- Initialising firebase to store data  -->
 		<!--
@@ -68,12 +56,8 @@
 		-->
 
 		<!-- Libaries-->
-		<script src="js/jstat.js"></script>
+		<script src="js/jstat.min.js"></script>
 		<script src="js/howler.core.min.js"></script>
-
-		<!-- <script src="js/hammer-time.min.js"></script> -->
-		<!-- <script src="js/jquery-3.2.1.slim.js"></script> -->
-
 
 		<!-- Main Experiment JS files-->
 		<script src="js/GraphicsCommon.js"></script>
