@@ -1,9 +1,8 @@
 
 var camera = new function(){
-    "use strict";
+    'use strict';
     this.centerX = 0;
     this.centerY = 0;
-
     var camPanX = 0;
     var	camPanY = 0;
 
@@ -12,35 +11,38 @@ var camera = new function(){
         camPanY = this.centerY - CANVAS_H/2;
         this.panX = camPanX;
         this.panY = camPanY;
-    }
-};
+    };
+}();
 
 
 function checkPayoff(colPar, rowPar) {
-    "use strict";
+    'use strict';
     var draw = Math.random();
     var check = colPar * rowPar;
     if (devMode){
-        console.log("CHECK", check, "DRAW", draw);
+        console.log('CHECK', check, 'DRAW', draw);
     }
     if (draw <= check) {
-        return 1
+        return 1;
     }
     else {
-        return 0
+        return 0;
     }
 }
 
 
 function updateInfo(callback) {
-    "use strict";
+    'use strict';
     var posX = Math.floor(camera.centerX/TILE_W);
     var posY = Math.floor(camera.centerY/TILE_H);
 
+    //var posY = Math.floor(camera.centerX/TILE_W);
+    //var posX = Math.floor(camera.centerY/TILE_H);
+
     if (devMode){
-        console.log("POS X, Y: ", posX, posY);
-        console.log("SOIL PAR AT POS X: ", curMapConst.columnParameters[posX]);
-        console.log("PLANT PAR AT POS Y: ", curMapConst.rowParameters[posY]);
+        console.log('POS X, Y: ', posX, posY);
+        console.log('SOIL PAR AT POS X: ', curMapConst.columnParameters[posX]);
+        console.log('PLANT PAR AT POS Y: ', curMapConst.rowParameters[posY]);
     }
 
     curMapVar.tileGrid = curMapVar.tileGrid.slice();
@@ -54,7 +56,7 @@ function updateInfo(callback) {
 
         if (getPayoff === 0) {
             if (devMode){
-                console.log("NONE");
+                console.log('NONE');
             }
 
             curMapVar.payoffTracker.push(0);
@@ -72,7 +74,7 @@ function updateInfo(callback) {
             }
 
             if (devMode){
-                console.log("POTATO");
+                console.log('POTATO');
             }
 
             curMapVar.payoffTracker.push(1);
@@ -88,11 +90,11 @@ function updateInfo(callback) {
         }
     }
 
-    return callback
+    return callback;
 }
 
 function stepCounter(char) {
-    "use strict";
+    'use strict';
     char.animMove = false;
     char.moving = false;
     curMapVar.potatoPrice *= curMapConst.discountFactor;
@@ -105,18 +107,19 @@ function stepCounter(char) {
 
 
 function checkCollision(atTrackerX, atTrackerY) {
-    "use strict";
+    'use strict';
     var someX = Math.floor(atTrackerX/TILE_W);
     var someY = Math.floor(atTrackerY/TILE_H);
     var nextPos = curMapVar.tileGrid[someY][someX];
+    //var nextPos = curMapVar.tileGrid[someX][someY];
 
     if (nextPos === 5 || nextPos >= 7) {
-        //console.log("STOP MOVING");
+        //console.log('STOP MOVING');
         if (!isMobile) {
             if (!assets.errorSound.playing(curMapVar.errorId1) && !assets.errorSound.playing(curMapVar.errorId2)) {
                 curMapVar.errorId1 = assets.errorSound.play();
                 curMapVar.errorId2 = setTimeout(function () {
-                    assets.errorSound.play()
+                    assets.errorSound.play();
                 }, 170);
             }
         }
@@ -139,9 +142,11 @@ function checkCollision(atTrackerX, atTrackerY) {
 
 
 function trackerMove(char) {
-    "use strict";
+    'use strict';
     var nextX = camera.centerX;
     var nextY = camera.centerY;
+
+
     var directionX = 0;
     var directionY = 0;
 
@@ -151,36 +156,36 @@ function trackerMove(char) {
             if (checkCollision(nextX - TILE_W, nextY) !== true) {
                 directionX = -5;
                 char.moving = true;
-                char.currentDirection = "left";
+                char.currentDirection = 'left';
 
-                curMapVar.movementTracker.push("left");
+                curMapVar.movementTracker.push('left');
             }
         }
         else if (userInputStatus.holdRight) {
             if (checkCollision(nextX + TILE_W, nextY) !== true) {
                 directionX = 5;
                 char.moving = true;
-                char.currentDirection = "right";
+                char.currentDirection = 'right';
 
-                curMapVar.movementTracker.push("right");
+                curMapVar.movementTracker.push('right');
             }
         }
         else if (userInputStatus.holdUp) {
             if (checkCollision(nextX, nextY - TILE_H) !== true) {
                 directionY = -5;
                 char.moving = true;
-                char.currentDirection = "up";
+                char.currentDirection = 'up';
 
-                curMapVar.movementTracker.push("up");
+                curMapVar.movementTracker.push('up');
             }
         }
         else if (userInputStatus.holdDown) {
             if (checkCollision(nextX, nextY + TILE_H) !== true) {
                 directionY = 5;
                 char.moving = true;
-                char.currentDirection = "down";
+                char.currentDirection = 'down';
 
-                curMapVar.movementTracker.push("down");
+                curMapVar.movementTracker.push('down');
             }
         }
     }
@@ -212,7 +217,6 @@ function trackerMove(char) {
         var stepsMoved = 0;
 
         var frameMove = function () {
-            "use strict";
             if (stepsMoved === 100) {
                 clearInterval(moveId);
                 updateInfo(stepCounter(char));

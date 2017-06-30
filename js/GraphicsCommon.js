@@ -38,7 +38,7 @@ function round(value, decimals) {
 }
 
 function elementMove() {
-    var elem = document.getElementById("animate");
+    var elem = document.getElementById('animate');
     var pos = 0;
     var id = setInterval(frame, 5);
     function frame() {
@@ -55,7 +55,7 @@ function elementMove() {
 function intervalTimer(func, wait, times){
     var interv = function(w, t){
         return function(){
-            if(typeof t === "undefined" || t-- > 0){
+            if(typeof t === 'undefined' || t-- > 0){
                 setTimeout(interv, w);
                 try{
                     func.call(null);

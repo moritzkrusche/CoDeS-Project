@@ -1,6 +1,6 @@
 
 function CharClass(spritePic, sheetWidth, sheetHeight, rows, cols, width, height) {
-    "use strict";
+    'use strict';
     this.moving = false;
     this.animMove = false;
 
@@ -25,7 +25,7 @@ function CharClass(spritePic, sheetWidth, sheetHeight, rows, cols, width, height
 
     this.X = 0;
     this.Y = 0;
-    this.currentDirection = "down";
+    this.currentDirection = 'down';
 
     this.moveFrames = function() {
         curFrame = ++curFrame % frameCount;
@@ -37,16 +37,16 @@ function CharClass(spritePic, sheetWidth, sheetHeight, rows, cols, width, height
         if (this.moving) {
             setTimeout(this.moveFrames, someDelay);
         }
-        if (someDirection === "left") {
+        if (someDirection === 'left') {
             this.row = this.trackLeft * spriteHeight;
         }
-        else if (someDirection === "right") {
+        else if (someDirection === 'right') {
             this.row = this.trackRight * spriteHeight;
         }
-        else if (someDirection === "up") {
+        else if (someDirection === 'up') {
             this.row = this.trackUp * spriteHeight;
         }
-        else if (someDirection === "down") {
+        else if (someDirection === 'down') {
             this.row = this.trackDown * spriteHeight;
         }
     };
@@ -63,7 +63,7 @@ function CharClass(spritePic, sheetWidth, sheetHeight, rows, cols, width, height
 
 
 function AnimationClass(animPic, width, height) {
-    "use strict";
+    'use strict';
     var meX1 = 0;
     var meY1 = 0;
     var animY1 = 0;
@@ -96,17 +96,17 @@ function AnimationClass(animPic, width, height) {
 
         if (animMe1) {
             drawBitmapCenteredWithRotation(animPic, meX1, meY1, 0, width, height);
-            //console.log("PAYOFF AT: ", meX1, meY1);
+            //console.log('PAYOFF AT: ', meX1, meY1);
         }
 
         if (animMe2) {
             drawBitmapCenteredWithRotation(animPic, meX2, meY2, 0, width, height);
-            //console.log("PAYOFF AT: ", meX2, meY2);
+            //console.log('PAYOFF AT: ', meX2, meY2);
         }
 
         if (animMe3) {
             drawBitmapCenteredWithRotation(animPic, meX3, meY3, 0, width, height);
-            //console.log("PAYOFF AT: ", meX3, meY3);
+            //console.log('PAYOFF AT: ', meX3, meY3);
         }
 
     };

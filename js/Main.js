@@ -1,11 +1,18 @@
 
+// when testing the programme, we can use a cheat mode
 var devMode = false;
+var condition;
+
+// These 4 conditions are tested:
+// 1: "1221/soilCol" -> alpha, beta parameters (1,2) for cols & (2,1) for rows; soil for col exploration
+// 2: "1221/plantCol"
+// 3: 05050505/soilCol
+// 4: 05050505/plantCol
+
 
 /*
-var condition = 0;
-
 (function(){
-    "use strict";
+    'use strict';
 
     var test1 = [];
     var test2 = [];
@@ -24,10 +31,10 @@ var condition = 0;
 
     }
 
-    console.log("CONDITION 1 :", test1.length);
-    console.log("CONDITION 2 :", test2.length);
-    console.log("CONDITION 3 :", test3.length);
-    console.log("CONDITION 4 :", test4.length)
+    console.log('CONDITION 1 :', test1.length);
+    console.log('CONDITION 2 :', test2.length);
+    console.log('CONDITION 3 :', test3.length);
+    console.log('CONDITION 4 :', test4.length)
 
     //condition = getCondition;
 
@@ -35,16 +42,20 @@ var condition = 0;
 
 */
 
+(function(){
 
+    condition = getRandomInt(1,4);
+
+})();
 
 
 // 5 * new map; 8* test maps
 var experiment = new function(){
-    "use strict";
+    'use strict';
 
-    this.levelKeys = ["map1", "map2", "map3", "map4", "map5", "map6", "map7", "map8", "map9", "map10"];
+    this.levelKeys = ['map1', 'map2', 'map3', 'map4', 'map5', 'map6', 'map7', 'map8', 'map9', 'map10'];
 
-    // start at zero for array index "levelKeys"
+    // start at zero for array index 'levelKeys'
     this.currentOpenLevel = 0;
     this.maxOpenLevels = 4;
 
@@ -55,35 +66,36 @@ var experiment = new function(){
 
     var that = this;
 
-    /*
-    that.openLevel1 = new OpenLevelClass(220, 220, 100, 1, 2, 2, 1, 0.05, 0.985);
-    that.openLevel2 = new OpenLevelClass(220, 220, 100, 1, 2, 2, 1, 0.05, 0.985);
-    that.openLevel3 = new OpenLevelClass(220, 220, 100, 1, 2, 2, 1, 0.05, 0.985);
-    that.openLevel4 = new OpenLevelClass(220, 220, 100, 1, 2, 2, 1, 0.05, 0.985);
-    that.openLevel5 = new OpenLevelClass(220, 220, 100, 1, 2, 2, 1, 0.05, 0.985);
-    */
-
-    that.openLevel1 = new OpenLevelClass(220, 220, 100, 0.5, 0.5, 0.5, 0.5, 0.05, 0.985);
-    that.openLevel2 = new OpenLevelClass(220, 220, 100, 0.5, 0.5, 0.5, 0.5, 0.05, 0.985);
-    that.openLevel3 = new OpenLevelClass(220, 220, 100, 0.5, 0.5, 0.5, 0.5, 0.05, 0.985);
-    that.openLevel4 = new OpenLevelClass(220, 220, 100, 0.5, 0.5, 0.5, 0.5, 0.05, 0.985);
-    that.openLevel5 = new OpenLevelClass(220, 220, 100, 0.5, 0.5, 0.5, 0.5, 0.05, 0.985);
-
+    if (condition === 1 || condition === 2){
+        that.openLevel1 = new OpenLevelClass(220, 220, 100, 1, 2, 2, 1, 0.05, 0.985);
+        that.openLevel2 = new OpenLevelClass(220, 220, 100, 1, 2, 2, 1, 0.05, 0.985);
+        that.openLevel3 = new OpenLevelClass(220, 220, 100, 1, 2, 2, 1, 0.05, 0.985);
+        that.openLevel4 = new OpenLevelClass(220, 220, 100, 1, 2, 2, 1, 0.05, 0.985);
+        that.openLevel5 = new OpenLevelClass(220, 220, 100, 1, 2, 2, 1, 0.05, 0.985);
+    }
+    else if  (condition === 3 || condition === 4){
+        that.openLevel1 = new OpenLevelClass(220, 220, 100, 0.5, 0.5, 0.5, 0.5, 0.05, 0.985);
+        that.openLevel2 = new OpenLevelClass(220, 220, 100, 0.5, 0.5, 0.5, 0.5, 0.05, 0.985);
+        that.openLevel3 = new OpenLevelClass(220, 220, 100, 0.5, 0.5, 0.5, 0.5, 0.05, 0.985);
+        that.openLevel4 = new OpenLevelClass(220, 220, 100, 0.5, 0.5, 0.5, 0.5, 0.05, 0.985);
+        that.openLevel5 = new OpenLevelClass(220, 220, 100, 0.5, 0.5, 0.5, 0.5, 0.05, 0.985);
+    } else {
+        alert("WARNING: COULD NOT ASSIGN CONDITION!")
+    }
 
     this.openMaps = mergeLevels(this.levelKeys, that.openLevel1, that.openLevel2, that.openLevel3, that.openLevel4, that.openLevel5);
 
     this.farmerChar = new CharClass(assets.charSprite, 240, 360, 4, 4, 0.6 * TILE_W, 0.9 * TILE_H);
     this.potatoAnim = new AnimationClass(assets.potato, 0.5 * TILE_W, 0.32 * TILE_H)
-};
+}();
 
-
-// this definition requires that the appropriately sized tilesheet is delivered
+// this definition requires that the appropriately sized tile sheet is delivered
 curMapConst.soilSheet = new TileSheetClass(assets.soilSheetPic, 5*TILE_W, 5*TILE_H, 5, 5, 0, 0, TILE_W, TILE_H);
 curMapConst.plantSheet = new TileSheetClass(assets.plantSheetPic, 5*PLANT_W, 5*PLANT_H, 5, 5, ((TILE_W-PLANT_W)/2), ((TILE_H-PLANT_H)/2), PLANT_W, PLANT_H);
 
 
 function getStartPos() {
-    "use strict";
+    'use strict';
     // add + 1 because array index starts at 0
     var startCol = Math.floor(curMapVar.tileGrid[0].length/2)+1;
     var startRow = Math.floor(curMapVar.tileGrid.length/2)+1;
@@ -92,9 +104,8 @@ function getStartPos() {
 
 
 function trackerReset(char, anim) {
-    "use strict";
-    killInput();
-    char.currentDirection = "down";
+    'use strict';
+    char.currentDirection = 'down';
 	// centers tracker on start position in the center of the map
     char.X = (getStartPos()[0]) * TILE_W - TILE_W/2;
 	camera.centerX = char.X;
@@ -104,14 +115,16 @@ function trackerReset(char, anim) {
     anim.animate(char.X, char.Y);
     updateInfo();
     initInput();
+    buttonFalse();
 }
 
 
 function startGame() {
-    "use strict";
+    'use strict';
 	var framesPerSecond = 10;
 
     loadLevel(experiment.openMaps.map1);
+    //loadLevel(testMaps.map1);
 
     //loadLevel(testMaps.map1);
     if (isMobile){
@@ -123,15 +136,17 @@ function startGame() {
 
 }
 
-
 // logs per game; sends to firebase at the end
 function logData(){
-    "use strict";
+    'use strict';
+
+
 }
 
 
 function loadLevel(whichLevel) {
-    "use strict";
+    'use strict';
+    killInput();
     curMapConst.columnParameters = whichLevel[2].slice();
     curMapConst.rowParameters = whichLevel[5].slice();
 
@@ -167,7 +182,7 @@ function loadLevel(whichLevel) {
 
 
 function nextLevel() {
-    "use strict";
+    'use strict';
     var e = experiment;
     var showCurLevel = 0;
     var showMaxLevel = 0;
@@ -178,28 +193,28 @@ function nextLevel() {
             e.testPhase = true;
             showMaxLevel = e.maxTestLevels+1;
             loadLevel(testMaps.map1);
-            alert("THIS IS THE START OF THE TEST PHASE OF THIS EXPERIMENT. THIS IS TEST LEVEL 1 OUT OF " + showMaxLevel)
+            alert('THIS IS THE START OF THE TEST PHASE OF THIS EXPERIMENT. THIS IS TEST LEVEL 1 OUT OF ' + showMaxLevel)
         }
         else {
             var openLevelKey = e.levelKeys[e.currentOpenLevel];
             showCurLevel = e.currentOpenLevel+1;
             showMaxLevel = e.maxOpenLevels+1;
             loadLevel(e.openMaps[openLevelKey]);
-            alert("NEXT LEVEL LOADED. THIS IS OPEN LEVEL " + showCurLevel + " OUT OF " + showMaxLevel);
+            alert('NEXT LEVEL LOADED. THIS IS OPEN LEVEL ' + showCurLevel + ' OUT OF ' + showMaxLevel);
         }
     }
 
     else {
         e.currentTestLevel++;
         if (e.currentTestLevel > e.maxTestLevels) {
-            alert("CONGRATULATIONS! YOU HAVE FINISHED THE EXPERIMENT!!!")
+            alert('CONGRATULATIONS! YOU HAVE FINISHED THE EXPERIMENT!!!')
         }
         else {
             var testLevelKey = e.levelKeys[e.currentTestLevel];
             showCurLevel= e.currentTestLevel+1;
             showMaxLevel = e.maxTestLevels+1;
             loadLevel(testMaps[testLevelKey]);
-            alert("NEXT LEVEL LOADED. THIS IS TEST LEVEL " + showCurLevel + " OUT OF " + showMaxLevel);
+            alert('NEXT LEVEL LOADED. THIS IS TEST LEVEL ' + showCurLevel + ' OUT OF ' + showMaxLevel);
         }
     }
 
@@ -209,7 +224,7 @@ function nextLevel() {
 //******************************** UI Setup ****************************************************************************
 
 function drawUI(char){
-    "use strict";
+    'use strict';
     var currentX = round((camera.centerX - char.X)/TILE_W, 0);
     var currentY = round((camera.centerY - char.Y)/TILE_H, 0) * -1;
     var propMovesLeft = curMapVar.movesLeft/curMapConst.maxMoves;
@@ -224,21 +239,21 @@ function drawUI(char){
     colorRect(475,10, propPotatoPrice * 100,30, 'green');
 
     canvas.gameContext.font = 'italic 18pt "COMIC SANS MS"';
-    colorText("X: " + currentX, 50,35, "#DAA520");
-    colorText("Y: " + currentY, 130,35, "#DAA520");
+    colorText('X: ' + currentX, 50,35, '#DAA520');
+    colorText('Y: ' + currentY, 130,35, '#DAA520');
 
     canvas.gameContext.font = 'italic 20pt "COMIC SANS MS"';
-    colorText(curMapVar.potatoCount,635,35, "#DAA520");
-    colorText(movesLeft, 285,35, "#DAA520");
-    colorText(round(curMapVar.potatoPrice*100, 2) + " ‎¢", 485,35, "#DAA520");
+    colorText(curMapVar.potatoCount,635,35, '#DAA520');
+    colorText(movesLeft, 285,35, '#DAA520');
+    colorText(round(curMapVar.potatoPrice*100, 2) + ' ‎¢', 485,35, '#DAA520');
     canvas.gameContext.font = 'italic 28pt "COMIC SANS MS"';
-    colorText(round(curMapVar.payoffCount, 2) + " $", 310,85, "#DAA520");
+    colorText(round(curMapVar.payoffCount, 2) + ' $', 310,85, '#DAA520');
 }
 
 //******************************** Main Game Loop **********************************************************************
 
 function gameLoop() {
-    "use strict";
+    'use strict';
     // move pointer and follow with camera
     trackerMove(experiment.farmerChar);
     camera.instantFollow();
@@ -277,6 +292,5 @@ function gameLoop() {
     }
 
 }
-
 
 

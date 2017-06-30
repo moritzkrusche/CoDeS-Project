@@ -30,9 +30,9 @@ var isMobile = false; //initiate as false
     //isMobile = true;
 
     if (isMobile) {
-        var buttons = document.getElementsByClassName("playButton");
+        var buttons = document.getElementsByClassName('playButton');
         for (var i=0; i<buttons.length; i++){
-            buttons[i].style.visibility = "visible"
+            buttons[i].style.visibility = 'visible'
         }
     }
 
@@ -44,7 +44,7 @@ var isMobile = false; //initiate as false
 //******************************** SHOW LOAD SCREEN WHILE LOADING ******************************************************
 
 function loadScreen() {
-    "use strict";
+    'use strict';
     canvas.game.width = 700;
     canvas.game.height = 700 + uiHeight;
 
@@ -56,13 +56,13 @@ function loadScreen() {
     // ensures that the lower part of the canvas is not cut out on small laptops etc.
     if (!isMobile && window.screen.height <850){
 
-        var newMaxWidth = "580px";
+        var newMaxWidth = '580px';
         if(window.screen.height <720) {
-            newMaxWidth = "420px";
+            newMaxWidth = '420px';
         }
 
         document.getElementById('gameContainer').style.maxWidth = newMaxWidth;
-        var buttonContainers = (document.getElementsByClassName("button-container"));
+        var buttonContainers = (document.getElementsByClassName('button-container'));
         for (var i=0; i<buttonContainers.length; i++){
             buttonContainers[i].style.maxWidth = newMaxWidth;
         }
@@ -71,29 +71,29 @@ function loadScreen() {
 
     colorRect(canvas.game, 0,0, CANVAS_W,CANVAS_H+uiHeight, 'black');
     canvas.gameContext.font = 'italic 20pt "COMIC SANS MS"';
-    colorText(canvas.game, "LOADING", CANVAS_W/2-70, CANVAS_H/2+uiHeight, 'white');
+    colorText(canvas.game, 'LOADING', CANVAS_W/2-70, CANVAS_H/2+uiHeight, 'white');
 
 }
 
 //******************************** INFO SCREEN INSTEAD OF ALERT ********************************************************
 
 function infoScreen() {
-    "use strict";
+    'use strict';
     canvas.width = 700;
     canvas.height = 700 + uiHeight;
 
 
     //canvasContext = canvas.getContext('2d');
     //colorRect(0,0, CANVAS_W,CANVAS_H+uiHeight, 'black');
-    //canvasContext.font = 'italic 20pt "COMIC SANS MS"';
-    //colorText("LOADING", CANVAS_W/2-70, CANVAS_H/2+uiHeight, 'white');
+    //canvasContext.font = 'italic 20pt 'COMIC SANS MS'';
+    //colorText('LOADING', CANVAS_W/2-70, CANVAS_H/2+uiHeight, 'white');
 
 }
 
 //******************************** INIT OBJECT TO HOLD ALL ASSETS; LAUNCH IF LOADED  ***********************************
 
 var assets = new function() {
-    "use strict";
+    'use strict';
     loadScreen();
     var checkReady = 0;
     function assetLoaded() {
@@ -106,11 +106,11 @@ var assets = new function() {
     //******************************** LOADING IMAGES ******************************************************************
 
     // Define images
-    this.charSprite = document.createElement("img");
-    this.potato = document.createElement("img");
-    this.uiPic = document.createElement("img");
-    this.soilSheetPic = document.createElement("img");
-    this.plantSheetPic = document.createElement("img");
+    this.charSprite = document.createElement('img');
+    this.potato = document.createElement('img');
+    this.uiPic = document.createElement('img');
+    this.soilSheetPic = document.createElement('img');
+    this.plantSheetPic = document.createElement('img');
 
     // Check if all images have loaded
     var numImages = 5;
@@ -138,20 +138,20 @@ var assets = new function() {
     };
 
     // Set images src
-    this.charSprite.src = "images/farmerSprite240px.png";
-    this.potato.src = "images/potato50px.png";
-    this.uiPic.src = "images/uiPanel.png";
-    this.soilSheetPic.src = "images/soilSheet100px.png";
-    this.plantSheetPic.src = "images/plantSheet60px.png";
+    this.charSprite.src = 'images/farmerSprite240px.png';
+    this.potato.src = 'images/potato50px.png';
+    this.uiPic.src = 'images/uiPanel.png';
+    this.soilSheetPic.src = 'images/soilSheet100px.png';
+    this.plantSheetPic.src = 'images/plantSheet60px.png';
 
     //******************************** LOADING AUDIO *******************************************************************
 
-    var audioFormat = ".ogg";
+    var audioFormat = '.ogg';
 
     (function() {
         var audio = new Audio();
-        if (audio.canPlayType("audio/mp3")) {
-            audioFormat = ".mp3";
+        if (audio.canPlayType('audio/mp3')) {
+            audioFormat = '.mp3';
         }
     })();
 
@@ -175,19 +175,19 @@ var assets = new function() {
             }
         };
 
-        this.potatoSound = new Howl({src: ["audio/potato" + audioFormat], volume: 0.6, onload: function() {
+        this.potatoSound = new Howl({src: ['audio/potato' + audioFormat], volume: 0.6, onload: function() {
             soundLoaded();
             }
         });
-        this.walkingSound = new Howl({src: ["audio/walking" + audioFormat], volume: 0.3, loop: true, onload: function() {
+        this.walkingSound = new Howl({src: ['audio/walking' + audioFormat], volume: 0.3, loop: true, onload: function() {
             soundLoaded();
             }
         });
-        this.errorSound = new Howl({src: ["audio/error" + audioFormat], volume: 0.6, onload: function() {
+        this.errorSound = new Howl({src: ['audio/error' + audioFormat], volume: 0.6, onload: function() {
             soundLoaded();
             }
         });
-        this.backgroundSound = new Howl({src: ["audio/background" + audioFormat], volume: 0.6, loop: true, onload: function() {
+        this.backgroundSound = new Howl({src: ['audio/background' + audioFormat], volume: 0.6, loop: true, onload: function() {
             soundLoaded();
             }
         });
@@ -199,13 +199,13 @@ var assets = new function() {
                 unlockIOSAudioPlayback()
             }
             catch(err) {
-                alert("Could not unlock sound!")
+                alert('Could not unlock sound!')
             }
             assetLoaded();
         };
 
         this.spriteSound = new Howl({
-            src: ["audio/audioSprite.mp3"],
+            src: ['audio/audioSprite.mp3'],
             sprite: {
                 walking: [0, 5500, true],
                 potato: [7000, 500],
@@ -216,5 +216,5 @@ var assets = new function() {
         });
 
     }
-};
+}();
 

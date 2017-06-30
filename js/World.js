@@ -55,12 +55,42 @@ var curMapVar = {
 
 };
 
+// condition in clear text; e.g "1221/soilCol" or 05050505/plantCol etc.
+
+var loggedData = {
+    condition: "",
+    partAge: "",
+    partGender: "",
+    dateTime: "",
+
+    browserIsMobile: false,
+
+    allColParameters: {},
+    allRowParameters: {},
+
+    allAphaBetas: {},
+
+    allExploredCols: {},
+    allPayoffCols: {},
+    allExploredRows:  {},
+    allPayoffRows: {},
+
+    allPotatoCounts: {},
+    allPotatoPrice: {},
+    // payoffcount gets only added and never overwritten; how much $ part made in the game so far
+    payoffCount: 0,
+
+    allMovementTrackers: {},
+    allPayoffTrackers: {}
+
+};
+
 // MERGED LEVELS HAVE FORMAT DICT{ KEY: ARRAY[GRID, COL INFO, COL QUAL, COL PAYOFF, ROW INFO, ROW QUAL, ROW PAYOFF, MOVES ALLOWED etc.], KEY: ...}
 
-// lvlKeys should be array of strings; e.g. ["map1", "map2", "map3", "map4", "map5", "map6", "map7", "map8"];
+// lvlKeys should be array of strings; e.g. ['map1', 'map2', 'map3', 'map4', 'map5', 'map6', 'map7', 'map8'];
 
 function mergeLevels(lvlKeys, lvl1, lvl2, lvl3, lvl4, lvl5, lvl6, lvl7, lvl8, lvl9, lvl10){
-    "use strict";
+    'use strict';
     lvl1 = lvl1 || 0;
     lvl2 = lvl2 || 0;
     lvl3 = lvl3 || 0;
@@ -108,7 +138,7 @@ function mergeLevels(lvlKeys, lvl1, lvl2, lvl3, lvl4, lvl5, lvl6, lvl7, lvl8, lv
 
 
 function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2, potPrice, disFactor) {
-    "use strict";
+    'use strict';
     this.maxMoves = maxMoves;
 
     this.alpha1 = alpha1;
@@ -140,7 +170,7 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
     that.kurtPayoff = 0;
 
     (function () {
-        "use strict";
+        'use strict';
         for (var eachCol=0; eachCol<numCols; eachCol++) {
             that.exploredColumn[eachCol] = 0;
             that.payoffColumn[eachCol] = 0;
@@ -153,7 +183,7 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
     })();
 
     (function () {
-        "use strict";
+        'use strict';
         for (var eachRow=0; eachRow<numRows; eachRow++) {
             var newRow = new Array(numCols);
             for (var eachCol=0; eachCol<numCols; eachCol++) {
@@ -164,7 +194,7 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
     })();
 
     (function() {
-        "use strict";
+        'use strict';
         for (var eachCol = 0; eachCol < numCols; eachCol++) {
             that.columnParameters[eachCol] = jStat.beta.sample(alpha1, beta1);
         }
@@ -175,7 +205,7 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
     })();
 
     (function() {
-        "use strict";
+        'use strict';
         var rowColPairs = numCols;
         if (numCols > numRows){
             rowColPairs = numRows
@@ -196,7 +226,7 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
 
 
 function isTileAtCoord(TileRow, TileCol) {
-    "use strict";
+    'use strict';
     if (curMapVar.tileGrid[TileRow] !== undefined) {
         if (curMapVar.tileGrid[TileRow][TileCol] !== undefined) {
             return true;
@@ -207,7 +237,7 @@ function isTileAtCoord(TileRow, TileCol) {
 
 
 function getType(TileCol, TileRow) {
-    "use strict";
+    'use strict';
     var alpha1 = curMapConst.alpha1;
     var beta1 = curMapConst.beta1;
     var alpha2 = curMapConst.alpha2;
@@ -230,7 +260,7 @@ function getType(TileCol, TileRow) {
 
 
 function getInfoLevel(rowOrCol, parameters) {
-    "use strict";
+    'use strict';
     if (rowOrCol <= parameters) {
         return 2;
     }
@@ -244,7 +274,7 @@ function getInfoLevel(rowOrCol, parameters) {
 
 
 function getQuality(timesPotato, timesExplored, parameters) {
-    "use strict";
+    'use strict';
     var fraction = timesPotato / timesExplored;
 
     if (timesExplored === parameters){
@@ -287,7 +317,7 @@ Row 0, 1, 2, 3, 4 --> Soil Quality 1,2,3,4,5
 
 // universal class for drawing (static) tiles from a tilesheet
 function TileSheetClass(image, sheetWidth, sheetHeight, rows, cols, offsetX, offsetY, drawWidth, drawHeight) {
-    "use strict";
+    'use strict';
     this.SheetWidth = sheetWidth;
     this.SheetHeight = sheetHeight;
     this.SheetRows = rows;
@@ -310,7 +340,7 @@ function TileSheetClass(image, sheetWidth, sheetHeight, rows, cols, offsetX, off
 }
 
 function drawVisibleTiles() {
-    "use strict";
+    'use strict';
     // what are the top-left most row and col visible on canvas?
     var cameraTopMostRow = Math.floor(camera.panY / TILE_H);
     var cameraLeftMostCol = Math.floor(camera.panX / TILE_W);
@@ -329,14 +359,24 @@ function drawVisibleTiles() {
             var drawY = eachRow * TILE_H;
 
 			if (isTileAtCoord(eachRow, eachCol)) {
+
                 var tilePos = curMapVar.tileGrid[eachRow][eachCol];
 
                 // Col/ Row ia correct with respect to parameters and X/ Y; Row/ Col necessary due to JS Rows[Cols]
                 var type = getType(eachCol, eachRow);
+
                 var soilParameter = type[2];
                 var plantParameter = type[3];
                 var soilInfo = type[0];
                 var plantInfo = type[1];
+
+                // condition 2 & 4 invert the mapping of soil/ plant to row/ col (was col/ row in condition 1 & 2)
+                if (condition === 2 || condition === 4) {
+                    soilInfo = type[1];
+                    plantInfo = type[0];
+                    soilParameter = type[3];
+                    plantParameter = type[2];
+                }
 
                 switch(tilePos) {
                     case 0:
