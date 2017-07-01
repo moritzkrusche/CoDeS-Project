@@ -36,9 +36,6 @@ function updateInfo(callback) {
     var posX = Math.floor(camera.centerX/TILE_W);
     var posY = Math.floor(camera.centerY/TILE_H);
 
-    //var posY = Math.floor(camera.centerX/TILE_W);
-    //var posX = Math.floor(camera.centerY/TILE_H);
-
     if (devMode){
         console.log('POS X, Y: ', posX, posY);
         console.log('SOIL PAR AT POS X: ', curMapConst.columnParameters[posX]);
@@ -111,10 +108,9 @@ function checkCollision(atTrackerX, atTrackerY) {
     var someX = Math.floor(atTrackerX/TILE_W);
     var someY = Math.floor(atTrackerY/TILE_H);
     var nextPos = curMapVar.tileGrid[someY][someX];
-    //var nextPos = curMapVar.tileGrid[someX][someY];
 
     if (nextPos === 5 || nextPos >= 7) {
-        //console.log('STOP MOVING');
+
         if (!isMobile) {
             if (!assets.errorSound.playing(curMapVar.errorId1) && !assets.errorSound.playing(curMapVar.errorId2)) {
                 curMapVar.errorId1 = assets.errorSound.play();
@@ -145,7 +141,6 @@ function trackerMove(char) {
     'use strict';
     var nextX = camera.centerX;
     var nextY = camera.centerY;
-
 
     var directionX = 0;
     var directionY = 0;

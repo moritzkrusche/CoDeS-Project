@@ -76,9 +76,9 @@ var loggedData = {
     allPayoffRows: {},
 
     allPotatoCounts: {},
-    allPotatoPrice: {},
     // payoffcount gets only added and never overwritten; how much $ part made in the game so far
     payoffCount: 0,
+    allPayoffCounts: {},
 
     allMovementTrackers: {},
     allPayoffTrackers: {}

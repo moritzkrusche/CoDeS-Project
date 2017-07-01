@@ -67,18 +67,18 @@ var experiment = new function(){
     var that = this;
 
     if (condition === 1 || condition === 2){
-        that.openLevel1 = new OpenLevelClass(220, 220, 100, 1, 2, 2, 1, 0.05, 0.985);
-        that.openLevel2 = new OpenLevelClass(220, 220, 100, 1, 2, 2, 1, 0.05, 0.985);
-        that.openLevel3 = new OpenLevelClass(220, 220, 100, 1, 2, 2, 1, 0.05, 0.985);
-        that.openLevel4 = new OpenLevelClass(220, 220, 100, 1, 2, 2, 1, 0.05, 0.985);
-        that.openLevel5 = new OpenLevelClass(220, 220, 100, 1, 2, 2, 1, 0.05, 0.985);
+        that.openLevel1 = new OpenLevelClass(210, 210, 10, 1, 2, 2, 1, 0.05, 0.985);
+        that.openLevel2 = new OpenLevelClass(210, 210, 10, 1, 2, 2, 1, 0.05, 0.985);
+        that.openLevel3 = new OpenLevelClass(210, 210, 10, 1, 2, 2, 1, 0.05, 0.985);
+        that.openLevel4 = new OpenLevelClass(210, 210, 10, 1, 2, 2, 1, 0.05, 0.985);
+        that.openLevel5 = new OpenLevelClass(210, 210, 10, 1, 2, 2, 1, 0.05, 0.985);
     }
     else if  (condition === 3 || condition === 4){
-        that.openLevel1 = new OpenLevelClass(220, 220, 100, 0.5, 0.5, 0.5, 0.5, 0.05, 0.985);
-        that.openLevel2 = new OpenLevelClass(220, 220, 100, 0.5, 0.5, 0.5, 0.5, 0.05, 0.985);
-        that.openLevel3 = new OpenLevelClass(220, 220, 100, 0.5, 0.5, 0.5, 0.5, 0.05, 0.985);
-        that.openLevel4 = new OpenLevelClass(220, 220, 100, 0.5, 0.5, 0.5, 0.5, 0.05, 0.985);
-        that.openLevel5 = new OpenLevelClass(220, 220, 100, 0.5, 0.5, 0.5, 0.5, 0.05, 0.985);
+        that.openLevel1 = new OpenLevelClass(210, 210, 10, 0.5, 0.5, 0.5, 0.5, 0.05, 0.985);
+        that.openLevel2 = new OpenLevelClass(210, 210, 10, 0.5, 0.5, 0.5, 0.5, 0.05, 0.985);
+        that.openLevel3 = new OpenLevelClass(210, 210, 10, 0.5, 0.5, 0.5, 0.5, 0.05, 0.985);
+        that.openLevel4 = new OpenLevelClass(210, 210, 10, 0.5, 0.5, 0.5, 0.5, 0.05, 0.985);
+        that.openLevel5 = new OpenLevelClass(210, 210, 10, 0.5, 0.5, 0.5, 0.5, 0.05, 0.985);
     } else {
         alert("WARNING: COULD NOT ASSIGN CONDITION!")
     }
@@ -113,9 +113,14 @@ function trackerReset(char, anim) {
 	camera.centerY = char.Y;
     anim.resetStart(char.X, char.Y);
     anim.animate(char.X, char.Y);
+    // check potato etc. at starting position
     updateInfo();
+    // init input and immediately set to false -> if key held
     initInput();
     buttonFalse();
+    if (!isMobile) {
+        assets.backgroundSound.play();
+    }
 }
 
 
@@ -136,13 +141,97 @@ function startGame() {
 
 }
 
-// logs per game; sends to firebase at the end
-function logData(){
-    'use strict';
 
+function logInit(){
+    "use strict";
+
+
+    var loggedData = {
+        condition: "",
+        partAge: "",
+        partGender: "",
+        dateTime: "",
+
+        browserIsMobile: false,
+
+        allColParameters: {},
+        allRowParameters: {},
+
+        allAphaBetas: {},
+
+        allExploredCols: {},
+        allPayoffCols: {},
+        allExploredRows:  {},
+        allPayoffRows: {},
+
+        allPotatoCounts: {},
+        allPotatoPrice: {},
+        // payoffcount gets only added and never overwritten; how much $ part made in the game so far
+        payoffCount: 0,
+        allPayoffCounts: {},
+
+        allMovementTrackers: {},
+        allPayoffTrackers: {}
+
+    };
 
 }
 
+//TODO: fix logging; currently key: OpenMapNaN and values are from AFTER they were overwritten!!!
+
+// logs per game; sends to firebase at the end
+
+
+// logging all variable level-like information at the end of each level; sending to firebase at the end
+function logData(lvlKey){
+    'use strict';
+    loggedData.allAphaBetas[lvlKey] = [curMapConst.alpha1, curMapConst.beta1, curMapConst.alpha2, curMapConst.beta2];
+
+    loggedData.allColParameters[lvlKey] = curMapConst.columnParameters.slice();
+    loggedData.allRowParameters[lvlKey] = curMapConst.rowParameters.slice();
+
+    loggedData.allExploredCols[lvlKey] = curMapVar.exploredColumn.slice();
+    loggedData.allExploredRows[lvlKey] = curMapVar.exploredRow.slice();
+
+    loggedData.allPayoffCols[lvlKey] = curMapVar.payoffColumn.slice();
+    loggedData.allPayoffRows[lvlKey] = curMapVar.payoffRow.slice();
+
+    loggedData.allPotatoCounts[lvlKey] = curMapVar.potatoCount;
+
+    // always updated anyway
+    loggedData.payoffCount += curMapVar.payoffCount;
+    // but this is what is was at the end of each level
+    loggedData.allPayoffCounts[lvlKey] = curMapVar.payoffCount;
+
+    loggedData.allMovementTrackers[lvlKey] = curMapVar.movementTracker.slice();
+    loggedData.allPayoffTrackers[lvlKey] = curMapVar.payoffTracker.slice();
+
+}
+
+
+function sendData(){
+    "use strict";
+
+}
+
+function getLogLevelKey(){
+    "use strict";
+
+    var curLevel = NaN;
+    var logLevelKey = NaN;
+
+    if (experiment.currentTestLevel > 0){
+        // increment by one for readability;
+        curLevel = experiment.currentTestLevel;
+        logLevelKey = "testMap" + curLevel;
+
+    } else if (experiment.currentOpenLevel > 0){
+
+        curLevel = experiment.currentOpenLevel;
+        logLevelKey = "openMap" + curLevel;
+    }
+    return logLevelKey;
+}
 
 function loadLevel(whichLevel) {
     'use strict';
@@ -175,9 +264,6 @@ function loadLevel(whichLevel) {
     curMapVar.payoffTracker = [];
 
     trackerReset(experiment.farmerChar, experiment.potatoAnim);
-    if (!isMobile) {
-        assets.backgroundSound.play();
-    }
 }
 
 
@@ -186,12 +272,16 @@ function nextLevel() {
     var e = experiment;
     var showCurLevel = 0;
     var showMaxLevel = 0;
+    // This key is for the old level, not the new one
+    var logLevelKey = NaN;
 
     if (!e.testPhase){
         e.currentOpenLevel++;
         if (e.currentOpenLevel > e.maxOpenLevels){
             e.testPhase = true;
             showMaxLevel = e.maxTestLevels+1;
+            logLevelKey = getLogLevelKey();
+            logData(logLevelKey);
             loadLevel(testMaps.map1);
             alert('THIS IS THE START OF THE TEST PHASE OF THIS EXPERIMENT. THIS IS TEST LEVEL 1 OUT OF ' + showMaxLevel)
         }
@@ -199,6 +289,8 @@ function nextLevel() {
             var openLevelKey = e.levelKeys[e.currentOpenLevel];
             showCurLevel = e.currentOpenLevel+1;
             showMaxLevel = e.maxOpenLevels+1;
+            logLevelKey = getLogLevelKey();
+            logData(logLevelKey);
             loadLevel(e.openMaps[openLevelKey]);
             alert('NEXT LEVEL LOADED. THIS IS OPEN LEVEL ' + showCurLevel + ' OUT OF ' + showMaxLevel);
         }
@@ -207,12 +299,16 @@ function nextLevel() {
     else {
         e.currentTestLevel++;
         if (e.currentTestLevel > e.maxTestLevels) {
+            logLevelKey = getLogLevelKey();
+            logData(logLevelKey);
             alert('CONGRATULATIONS! YOU HAVE FINISHED THE EXPERIMENT!!!')
         }
         else {
             var testLevelKey = e.levelKeys[e.currentTestLevel];
             showCurLevel= e.currentTestLevel+1;
             showMaxLevel = e.maxTestLevels+1;
+            logLevelKey = getLogLevelKey();
+            logData(logLevelKey);
             loadLevel(testMaps[testLevelKey]);
             alert('NEXT LEVEL LOADED. THIS IS TEST LEVEL ' + showCurLevel + ' OUT OF ' + showMaxLevel);
         }
