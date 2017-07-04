@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+	<head>
+		<!-- Meta / style / title-->
+		<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
+		<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+		<meta name='description' content=''>
+		<meta name='author' content='Moritz Krusche'>
+		<link rel='stylesheet' type='text/css' href='NewStyle.css'>
+		<link href='https://fonts.googleapis.com/css?family=Eagle Lake' rel='stylesheet'>
+		<title>Decision game</title>
+	</head>
+
+	<body>
+		<div class='wrapper'>
+			<div class='container'>
+
+				<div class='canvas-container'>
+					<canvas class = 'responsive' id='gameCanvas' width='700' height='750'></canvas>
+					<canvas class = 'responsive' id='effectCanvas' width='700' height='750'></canvas>
+					<canvas class = 'responsive' id='infoCanvas' width='700' height='750'></canvas>
+				</div>
+					<button id = cheatButton >Next</button>
+					<button id = okButton >Next</button>
+
+
+					<form>
+						<input type="checkbox" name="vehicle" value="Bike"> I have a bike<br>
+						<input type="checkbox" name="vehicle" value="Car" checked> I have a car<br>
+						<input type="submit" value="Submit">
+					</form>
+
+
+
+				<div class='button-container' >
+					<button class='playButton' id='pbUp' onmousedown='buttonUp()' onmouseup='buttonFalse()'> Up </button>
+				</div>
+				<div class='button-container' >
+
+					<button class='playButton' id='pbLeft' onmousedown='buttonLeft()' onmouseup='buttonFalse()' >Left</button>
+					<button class='playButton' id='pbRight' onmousedown='buttonRight()' onmouseup='buttonFalse()' >Right</button>
+				</div>
+				<div class='button-container' >
+					<button class='playButton' id='pbDown' onmousedown='buttonDown()' onmouseup='buttonFalse()' >Down</button>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Initialising firebase to store data  -->
+		<!--
+		<script src='https://www.gstatic.com/firebasejs/4.1.2/firebase.js'></script>
+		<script>
+	  	// Initialize Firebase
+	  	var config = {
+	    	apiKey: 'AIzaSyDp7KeZVXhpaaryW-sPQZmXZYobouqecO0',
+	    	authDomain: 'pilot-farming-task.firebaseapp.com',
+	    	databaseURL: 'https://pilot-farming-task.firebaseio.com',
+	    	projectId: 'pilot-farming-task',
+	    	storageBucket: 'pilot-farming-task.appspot.com',
+	    	messagingSenderId: '768805606623'
+	  	};
+	  	firebase.initializeApp(config);
+		</script>
+		-->
+
+		<!-- Libaries-->
+		<script src='js/jstat.min.js'></script>
+		<script src='js/howler.core.min.js'></script>
+
+		<!-- Main Experiment JS files-->
+		<script src='js/GraphicsCommon.js'></script>
+		<script src='js/AssetLoading.js'></script>
+		<script src='js/World.js'></script>
+		<script src='js/Maps.js'></script>
+		<script src='js/Input.js'></script>
+		<script src='js/Movement.js'></script>
+		<script src='js/Animation.js'></script>
+		<script src='js/Main.js'></script>
+
+	</body>
+</html>

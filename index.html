@@ -1,73 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
 
-	<head>
-		<!-- Meta / style / title-->
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="">
-		<meta name="author" content="Moritz Krusche">
-		<link rel="stylesheet" type="text/css" href="NewStyle.css">
-		<link href='https://fonts.googleapis.com/css?family=Eagle Lake' rel='stylesheet'>
-		<title>Decision game</title>
-	</head>
+<head>
+    <!-- Meta / style / title-->
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta name='description' content=''>
+    <meta name='author' content='Moritz Krusche'>
 
-	<body>
-		<div class="wrapper">
-			<div class="container">
+    <!-- Libraries -->
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
 
-				<div class="canvas-container">
-					<canvas class = "responsive" id="gameCanvas" width="700" height="750"></canvas>
-					<canvas class = "responsive" id="effectCanvas" width="700" height="750"></canvas>
-					<canvas class = "responsive" id="infoCanvas" width="700" height="750"></canvas>
-				</div>
+    <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <title>Information & Consent Form</title>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Medium red is the colour of the Faculty of Brain Sciences :-) -->
+    <img src="uclBanner.jpg" style="position: relative; width: 100%; right: 0;">
+
+    <div class="page-header">
+        <h2>Information Sheet for Participants in Research Studies</h2>
+    </div>
+
+    <p>Title of the project:</p>
+    <h4>Thinking ahead in Exploratory Decision-making</h4>
+    <p>This study has been approved by the UCL Research Ethics Committee <strong>CBP/2014/005</strong></p>
+
+    <hr>
+
+    <h4>Name and Contact Details of the Investigators:</h4>
+    <br>
+    <div class="col-sm-6" id="left">
+        <p>
+            <strong>Contact the researcher:</strong><br>
+            Moritz Krusche<br>
+            <strong>moritz.krusche.16@ucl.ac.uk</strong><br>
+            +44 (0)79 1926 4351<br>
+        </p>
+    </div>
+    <div class="col-sm-6" id="left2">
+        <p>
+            Project supervised by:<br>
+            Dr. Maarten Speekenbrink<br>
+            m.speekenbrink@ucl.ac.uk<br>
+            +44 (0)20 7679 8548<br>
+        </p>
+    </div>
+</div>
+
+<hr>
+
+<div class="container">
+    <h4>Details of the Study</h4>
+    <div class="row">
+        <div class="col-md-10">
+            <p>
+                We would like to invite you to participate in this research project
+                directed by researchers at UCL. You should only participate if you want
+                to; choosing not to take part will not disadvantage you in any way.
+                Before you decide whether you want to take part, it is important for you
+                to read the following information carefully and discuss it with others
+                if you wish. Do not hesitate to ask the researcher if there is anything
+                that is not clear or if you would like more information (moritz.krusche.16@ucl.ac.uk).
+            </p>
+            <p>
+                In this experiment, you will play a browser-based computer game, which should
+                be enjoyable, as part of a research project into human decision-making.
+                Your goal will be to collect as many resources as you can with a limited
+                amount of moves. There will be several different maps throughout the experiment.
+                In order to succeed, you will need to balance between exploring new options, and
+                exploiting options that you already know about.
+            </p>
+            <ul>
+                <li>The approximate duration of this study is <strong>XX minutes.</strong> </li>
+                <li>The maximum allowed duration is XX minutes. If you exceed this time, you can no longer complete the study.</li>
+                <li>You will be paid <strong>at least</strong> X.X £ upon successful completion,
+                    no matter how well you do, or how long you take.</li>
+                <li>You should normally be able to <strong>earn a sizable bonus</strong>
+                    on top, if you perform well. The minimum reward is calculated based on very poor performance.</li>
+                <li>The faster you learn, the more you can earn, because reward value decreases over time.</li>
+                <li>In order to do well, you must carefully read the instructions that are displayed throughout the study.</li>
+            </ul>
+
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="page-header">
+        <h2>Informed Consent Form for Participants in Research Studies</h2>
+    </div>
+
+    <p>Title of the project:</p>
+    <h4>Thinking ahead in Exploratory Decision-making</h4>
+    <p>This study has been approved by the UCL Research Ethics Committee  <strong>CBP/2014/005</strong></p>
+
+    <div class="row">
+        <div class="col-md-10">
+            <ul>
+
+                <li><strong>Important:</strong> the experiment has been carefully designed to work with all
+                    modern browsers on a computer, and also with mobile Safari and Chrome browsers on iOS or Android.
+                    It will not work with any version of Internet Explorer.</li>
+
+                <li><strong>If you are using Internet Explorer:</strong> please switch to a modern browser such as
+                    Google Chrome / Chromium, Firefox, Safari, Microsoft Edge etc. You will not be
+                    able to complete this study using Internet Explorer. </li>
+
+                <li> <strong>Acceptance of submissions:</strong> Ordinarily all research participants that complete a study are paid at least
+                    the minimum sign-up reward. However, we check responses carefully to make sure that participants are human beings,
+                    read the instructions and do not cheat. If you try to cheat or share sensitive information about
+                    this study on online forums, your submission <strong>will</strong> be rejected.</li>
+
+                <li>Please also take into account that in this study, you can earn substantially more than the minimum amount
+                    if you perform well. This is only possible if you read the instructions carefully. </li>
+            </ul>
 
 
-				<div class="button-container" >
-					<button class="playButton" id="pbUp" onmousedown="buttonUp()" onmouseup="buttonFalse()"> Up </button>
-				</div>
-				<div class="button-container" >
+        </div>
+    </div>
 
-					<button class="playButton" id="pbLeft" onmousedown="buttonLeft()" onmouseup="buttonFalse()" >Left</button>
-					<button class="playButton" id="pbRight" onmousedown="buttonRight()" onmouseup="buttonFalse()" >Right</button>
-				</div>
-				<div class="button-container" >
-					<button class="playButton" id="pbDown" onmousedown="buttonDown()" onmouseup="buttonFalse()" >Down</button>
-				</div>
-			</div>
-		</div>
+    <hr>
+
+    <h4>Participant’s Statement</h4>
+
+    <p>By ticking the appropriate boxes below, I agree that:</p>
+
+    <div class="row">
+        <div class="col-md-10">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="">
+                    I have read the information page.
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="">
+                    I am not using Internet Explorer.
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="">
+                    I will not try to cheat or post details of this study on online forums
+                    while the study is still running.
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="">
+                    I have had the opportunity to ask questions and discuss the study.
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="">
+                    I understand that I have the right to withdraw at any stage simply
+                    by closing my browser.
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="">
+                    I understand that by participating I consent to the processing of my personal
+                    information for the purposes of this study only and that any such
+                    information will be treated as strictly confidential and handled
+                    in accordance with the provisions of the Data Protection Act 1998.
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="">
+                    I understand that by clicking ‘continue’ I consent to participate
+                    in this study.
+                </label>
+            </div>
+        </div>
+    </div>
 
 
-		<!-- Initialising firebase to store data  -->
-		<!--
-		<script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
-		<script>
-	  	// Initialize Firebase
-	  	var config = {
-	    	apiKey: "AIzaSyDp7KeZVXhpaaryW-sPQZmXZYobouqecO0",
-	    	authDomain: "pilot-farming-task.firebaseapp.com",
-	    	databaseURL: "https://pilot-farming-task.firebaseio.com",
-	    	projectId: "pilot-farming-task",
-	    	storageBucket: "pilot-farming-task.appspot.com",
-	    	messagingSenderId: "768805606623"
-	  	};
-	  	firebase.initializeApp(config);
-		</script>
-		-->
+    <!-- CONTINUE BUTTON -->
+    <div class="row">
+        <a id="start_experiment">
+            <button type="button" disabled id="continue" class="btn btn-primary"
+                    style="margin-bottom:40px; background-color: #761c19">Continue</button>
+        </a>
+    </div>
 
-		<!-- Libaries-->
-		<script src="js/jstat.min.js"></script>
-		<script src="js/howler.core.min.js"></script>
+</div> <!-- end container -->
 
-		<!-- Main Experiment JS files-->
-		<script src="js/GraphicsCommon.js"></script>
-		<script src="js/AssetLoading.js"></script>
-		<script src="js/World.js"></script>
-		<script src="js/Maps.js"></script>
-		<script src="js/Input.js"></script>
-		<script src="js/Movement.js"></script>
-		<script src="js/Animation.js"></script>
-		<script src="js/Main.js"></script>
+<script>
+    $(function() {
+        updateLink();
 
-	</body>
+        // If any of the input checkboxes changes, check the state of the continue button
+        $("input").change(updateContinue);
+    });
+
+    // Enables the continue button if all the checkboxes are ON. Disables the button otherwise.
+    function updateContinue() {
+        $("#continue").prop('disabled', $("input").length !== $("input:checked").length);
+    }
+
+    // Updates the link to the experiment.
+    function updateLink() {
+        // Retrieve the html params
+        var params = decodeURIComponent(window.location.search.substring(1));
+
+        // Concatenate the html params
+        var href = "experiment.html".concat("?").concat(params);
+
+        $("#start_experiment").attr("href", href);
+    }
+
+
+</script>
+
+
+</body>
 </html>
