@@ -95,17 +95,17 @@ function AnimationClass(animPic, width, height) {
     this.drawAnimation = function() {
 
         if (animMe1) {
-            drawBitmapCenteredWithRotation(animPic, meX1, meY1, 0, width, height);
+            gameCenteredBitmap(animPic, meX1, meY1, width, height);
             //console.log('PAYOFF AT: ', meX1, meY1);
         }
 
         if (animMe2) {
-            drawBitmapCenteredWithRotation(animPic, meX2, meY2, 0, width, height);
+            gameCenteredBitmap(animPic, meX2, meY2, width, height);
             //console.log('PAYOFF AT: ', meX2, meY2);
         }
 
         if (animMe3) {
-            drawBitmapCenteredWithRotation(animPic, meX3, meY3, 0, width, height);
+            gameCenteredBitmap(animPic, meX3, meY3, width, height);
             //console.log('PAYOFF AT: ', meX3, meY3);
         }
 
