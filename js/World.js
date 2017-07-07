@@ -114,11 +114,11 @@ function mergeLevels(lvlKeys, lvl1, lvl2, lvl3, lvl4, lvl5, lvl6, lvl7, lvl8, lv
             var each = levelList[eachLevel];
 
             levelDetails.push(each.tileGrid);
-            levelDetails.push(each.exploredColumn);
             levelDetails.push(each.columnParameters);
+            levelDetails.push(each.exploredColumn);
             levelDetails.push(each.payoffColumn);
-            levelDetails.push(each.exploredRow);
             levelDetails.push(each.rowParameters);
+            levelDetails.push(each.exploredRow);
             levelDetails.push(each.payoffRow);
             levelDetails.push(each.maxMoves);
             levelDetails.push(each.alpha1);
@@ -250,19 +250,13 @@ function getType(TileCol, TileRow) {
     var infoLevelCol = getInfoLevel(infoCol, (alpha1+beta1));
     var infoLevelRow = getInfoLevel(infoRow, (alpha2+beta2));
 
-    // Maarten: alpha success rate; beta failure rate
-    //var qualityCol = getQuality((curMapVar.payoffColumn[TileCol]+alpha1), infoCol, (alpha1+beta1));
-    //var qualityRow = getQuality((curMapVar.payoffRow[TileRow]+alpha2), infoRow, (alpha2+beta2));
+    var qualityColRow = getQuality(TileCol, TileRow);
 
-    var qualityCol = getQuality(TileCol, TileRow)[0];
-    var qualityRow = getQuality(TileCol, TileRow)[1];
-
-
-    return [infoLevelCol, infoLevelRow, qualityCol, qualityRow];
+    return [infoLevelCol, infoLevelRow, qualityColRow[0], qualityColRow[1]];
 
 }
 
-å
+
 function getInfoLevel(rowOrCol, parameters) {
     'use strict';
     if (rowOrCol <= parameters) {
@@ -303,54 +297,22 @@ function getQuality(whichCol, whichRow){
     var alpha2 = curMapConst.alpha2;
     var beta2 = curMapConst.beta2;
 
-    var qualCol = ((alpha1+curMapVar.payoffColumn[whichCol])/(alpha1+beta1+curMapVar.exploredColumn[whichCol]))/(alpha2/(alpha2+beta2));
-    var qualRow = ((alpha2+curMapVar.payoffRow[whichRow])/(alpha2+beta2+curMapVar.exploredRow[whichRow]))/(alpha1/(alpha1+beta1));
-
-    if (qualCol >1) qualCol = 1;
-    if (qualRow > 1) qualRow = 1;
+    var qualCol = ((alpha1+curMapVar.payoffColumn[whichCol])/(alpha1+beta1+curMapVar.exploredColumn[whichCol]));
+    var qualRow = ((alpha2+curMapVar.payoffRow[whichRow])/(alpha2+beta2+curMapVar.exploredRow[whichRow]));
 
     var qualLevelCol = getQualityLevel(qualCol);
     var qualLevelRow = getQualityLevel(qualRow);
 
     return [qualLevelCol, qualLevelRow]
-
 }
 
-
+// Maarten's original proposal for Bayesian Paramerer Estimation
 /*
- curMapVar.exploredColumn;
- curMapVar.exploredRow;
- curMapVar.payoffColumn;
- curMapVar.payoffRow;
-
  var qualRow = ((alpha2+potatoRow)/(alpha2+beta2+potatoRow+NoneRow))/(alpha1/(alpha1+beta1));
  var qualCol = ((alpha1+potatoCol)/(alpha1+beta1+potatoCol+NoneCol))/(alpha2/(alpha2+beta2));
  */
+// debiasing by putting in other parameter does not work
 
-
-// debiasing by putting in other par
-
-function getQualityOLD(timesPotato, timesExplored, parameters) {
-    'use strict';
-    var fraction = timesPotato / timesExplored;
-
-
-    if (fraction <= curMapConst.minQuality1) {
-        return 0;
-    }
-    else if (fraction <= curMapConst.minQuality2) {
-        return 1;
-    }
-    else if (fraction <= curMapConst.minQuality3) {
-        return 2;
-    }
-    else if (fraction <= curMapConst.minQuality4) {
-        return 3;
-    }
-    else  {
-        return 4;
-    }
-}
 
 /*
  Tilesheet Soil 100px

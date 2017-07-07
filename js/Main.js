@@ -67,18 +67,18 @@ var experiment = new function(){
     var that = this;
 
     if (condition === 1 || condition === 2){
-        that.openLevel1 = new OpenLevelClass(210, 210, 10, 1, 2, 2, 1, 0.05, 0.985);
-        that.openLevel2 = new OpenLevelClass(210, 210, 10, 1, 2, 2, 1, 0.05, 0.985);
-        that.openLevel3 = new OpenLevelClass(210, 210, 10, 1, 2, 2, 1, 0.05, 0.985);
-        that.openLevel4 = new OpenLevelClass(210, 210, 10, 1, 2, 2, 1, 0.05, 0.985);
-        that.openLevel5 = new OpenLevelClass(210, 210, 10, 1, 2, 2, 1, 0.05, 0.985);
+        that.openLevel1 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.05, 0.98);
+        that.openLevel2 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.05, 0.98);
+        that.openLevel3 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.05, 0.98);
+        that.openLevel4 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.05, 0.98);
+        that.openLevel5 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.05, 0.98);
     }
     else if  (condition === 3 || condition === 4){
-        that.openLevel1 = new OpenLevelClass(210, 210, 10, 0.5, 0.5, 0.5, 0.5, 0.05, 0.985);
-        that.openLevel2 = new OpenLevelClass(210, 210, 10, 0.5, 0.5, 0.5, 0.5, 0.05, 0.985);
-        that.openLevel3 = new OpenLevelClass(210, 210, 10, 0.5, 0.5, 0.5, 0.5, 0.05, 0.985);
-        that.openLevel4 = new OpenLevelClass(210, 210, 10, 0.5, 0.5, 0.5, 0.5, 0.05, 0.985);
-        that.openLevel5 = new OpenLevelClass(210, 210, 10, 0.5, 0.5, 0.5, 0.5, 0.05, 0.985);
+        that.openLevel1 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.05, 0.98);
+        that.openLevel2 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.05, 0.98);
+        that.openLevel3 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.05, 0.98);
+        that.openLevel4 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.05, 0.98);
+        that.openLevel5 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.05, 0.98);
     } else {
         alert("WARNING: COULD NOT ASSIGN CONDITION!")
     }
@@ -177,7 +177,6 @@ function logInit(){
 
 }
 
-//TODO: fix logging; currently key: OpenMapNaN and values are from AFTER they were overwritten!!!
 
 // logs per game; sends to firebase at the end
 
@@ -236,13 +235,13 @@ function getLogLevelKey(){
 function loadLevel(whichLevel) {
     'use strict';
     killInput();
-    curMapConst.columnParameters = whichLevel[2].slice();
-    curMapConst.rowParameters = whichLevel[5].slice();
+    curMapConst.columnParameters = whichLevel[1].slice();
+    curMapConst.rowParameters = whichLevel[4].slice();
 
     curMapVar.tileGrid = whichLevel[0].slice();
-    curMapVar.exploredColumn = whichLevel[1].slice();
+    curMapVar.exploredColumn = whichLevel[2].slice();
     curMapVar.payoffColumn = whichLevel[3].slice();
-    curMapVar.exploredRow = whichLevel[4].slice();
+    curMapVar.exploredRow = whichLevel[5].slice();
     curMapVar.payoffRow = whichLevel[6].slice();
 
     var moves = whichLevel[7];
@@ -328,22 +327,22 @@ function drawUI(char){
     var propPotatoPrice = curMapVar.potatoPrice/curMapConst.potatoPrice;
 
     canvas.gameContext.drawImage(assets.uiPic,0,0,CANVAS_W,100);
-    colorRect(260,10, 100,30, 'red');
-    colorRect(260,10, propMovesLeft * 100,30, 'green');
+    gameRect(260,10, 100,30, 'red');
+    gameRect(260,10, propMovesLeft * 100,30, 'green');
 
-    colorRect(475,10, 100,30, 'red');
-    colorRect(475,10, propPotatoPrice * 100,30, 'green');
+    gameRect(475,10, 100,30, 'red');
+    gameRect(475,10, propPotatoPrice * 100,30, 'green');
 
     canvas.gameContext.font = 'italic 18pt "COMIC SANS MS"';
-    colorText('X: ' + currentX, 50,35, '#DAA520');
-    colorText('Y: ' + currentY, 130,35, '#DAA520');
+    gameText('X: ' + currentX, 50,35, '#DAA520');
+    gameText('Y: ' + currentY, 130,35, '#DAA520');
 
     canvas.gameContext.font = 'italic 20pt "COMIC SANS MS"';
-    colorText(curMapVar.potatoCount,635,35, '#DAA520');
-    colorText(movesLeft, 285,35, '#DAA520');
-    colorText(round(curMapVar.potatoPrice*100, 2) + ' ‎¢', 485,35, '#DAA520');
+    gameText(curMapVar.potatoCount,635,35, '#DAA520');
+    gameText(movesLeft, 285,35, '#DAA520');
+    gameText(round(curMapVar.potatoPrice*100, 2) + ' ‎¢', 485,35, '#DAA520');
     canvas.gameContext.font = 'italic 28pt "COMIC SANS MS"';
-    colorText(round(curMapVar.payoffCount, 2) + ' $', 310,85, '#DAA520');
+    gameText(round(curMapVar.payoffCount, 2) + ' $', 310,85, '#DAA520');
 }
 
 //******************************** Main Game Loop **********************************************************************
@@ -355,7 +354,7 @@ function gameLoop() {
     camera.instantFollow();
 
 	// drawing black to erase previous frame before .translate()
-	colorRect(0, 0, CANVAS_W, CANVAS_H, 'black');
+	gameRect(0, 0, CANVAS_W, CANVAS_H, 'black');
 
 	canvas.gameContext.save(); // needed to undo this .translate() used for scroll
 
@@ -371,6 +370,7 @@ function gameLoop() {
 
     // rendering everything
     drawVisibleTiles();
+    //rainAnimation();
 
     // render farmer Sprite and potato Animation
     var centreX = CANVAS_W/2 +camera.panX;
@@ -384,9 +384,10 @@ function gameLoop() {
     // drawing parameters to screen AFTER restore() on mouse position
     if (devMode){
         canvas.gameContext.font = '14pt "COMIC SANS MS"';
-        colorText(payoff, userInputStatus.mousePosX, userInputStatus.mousePosY, 'white');
+        gameText(payoff, userInputStatus.mousePosX, userInputStatus.mousePosY, 'white');
     }
 
 }
 
 
+rainAnimation();
