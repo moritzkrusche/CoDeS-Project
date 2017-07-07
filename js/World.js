@@ -115,11 +115,11 @@ function mergeLevels(lvlKeys, lvl1, lvl2, lvl3, lvl4, lvl5, lvl6, lvl7, lvl8, lv
 
             levelDetails.push(each.tileGrid);
             levelDetails.push(each.columnParameters);
-            levelDetails.push(each.exploredColumn);
             levelDetails.push(each.payoffColumn);
+            levelDetails.push(each.exploredColumn);
             levelDetails.push(each.rowParameters);
-            levelDetails.push(each.exploredRow);
             levelDetails.push(each.payoffRow);
+            levelDetails.push(each.exploredRow);
             levelDetails.push(each.maxMoves);
             levelDetails.push(each.alpha1);
             levelDetails.push(each.beta1);
@@ -306,7 +306,7 @@ function getQuality(whichCol, whichRow){
     return [qualLevelCol, qualLevelRow]
 }
 
-// Maarten's original proposal for Bayesian Paramerer Estimation
+// Maarten's original proposal for Bayesian Parameter Estimation
 /*
  var qualRow = ((alpha2+potatoRow)/(alpha2+beta2+potatoRow+NoneRow))/(alpha1/(alpha1+beta1));
  var qualCol = ((alpha1+potatoCol)/(alpha1+beta1+potatoCol+NoneCol))/(alpha2/(alpha2+beta2));

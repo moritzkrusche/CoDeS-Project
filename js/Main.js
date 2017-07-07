@@ -67,18 +67,18 @@ var experiment = new function(){
     var that = this;
 
     if (condition === 1 || condition === 2){
-        that.openLevel1 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.03, 0.98);
-        that.openLevel2 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.03, 0.98);
-        that.openLevel3 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.03, 0.98);
-        that.openLevel4 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.02, 0.98);
-        that.openLevel5 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.03, 0.98);
+        that.openLevel1 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.04, 0.98);
+        that.openLevel2 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.04, 0.98);
+        that.openLevel3 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.04, 0.98);
+        that.openLevel4 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.04, 0.98);
+        that.openLevel5 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.04, 0.98);
     }
     else if  (condition === 3 || condition === 4){
-        that.openLevel1 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.03, 0.98);
-        that.openLevel2 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.03, 0.98);
-        that.openLevel3 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.03, 0.98);
-        that.openLevel4 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.03, 0.98);
-        that.openLevel5 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.03, 0.98);
+        that.openLevel1 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.04, 0.98);
+        that.openLevel2 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.04, 0.98);
+        that.openLevel3 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.04, 0.98);
+        that.openLevel4 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.04, 0.98);
+        that.openLevel5 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.04, 0.98);
     } else {
         alert("WARNING: COULD NOT ASSIGN CONDITION!")
     }
@@ -114,7 +114,14 @@ function trackerReset(char, anim) {
     anim.resetStart(char.X, char.Y);
     anim.animate(char.X, char.Y);
     // check potato etc. at starting position
-    updateInfo();
+
+    var posX = Math.floor(camera.centerX/TILE_W);
+    var posY = Math.floor(camera.centerY/TILE_H);
+    curMapVar.tileGrid[posY][posX] = 1;
+    curMapVar.exploredRow[posY] += 1;
+    curMapVar.exploredColumn[posX] += 1;
+    //updateInfo();
+
     // init input and immediately set to false -> if key held
     initInput();
     buttonFalse();
@@ -232,17 +239,37 @@ function getLogLevelKey(){
     return logLevelKey;
 }
 
+/*
+levelDetails.push(each.tileGrid);
+levelDetails.push(each.columnParameters);
+levelDetails.push(each.exploredColumn);
+levelDetails.push(each.payoffColumn);
+levelDetails.push(each.rowParameters);
+levelDetails.push(each.exploredRow);
+levelDetails.push(each.payoffRow);
+levelDetails.push(each.maxMoves);
+levelDetails.push(each.alpha1);
+levelDetails.push(each.beta1);
+levelDetails.push(each.alpha2);
+levelDetails.push(each.beta2);
+levelDetails.push(each.potatoPrice);
+levelDetails.push(each.discountFactor);
+
+*/
+
 function loadLevel(whichLevel) {
     'use strict';
     killInput();
-    curMapConst.columnParameters = whichLevel[1].slice();
-    curMapConst.rowParameters = whichLevel[4].slice();
 
     curMapVar.tileGrid = whichLevel[0].slice();
-    curMapVar.exploredColumn = whichLevel[2].slice();
-    curMapVar.payoffColumn = whichLevel[3].slice();
-    curMapVar.exploredRow = whichLevel[5].slice();
-    curMapVar.payoffRow = whichLevel[6].slice();
+
+    curMapConst.columnParameters = whichLevel[1].slice();
+    curMapVar.payoffColumn = whichLevel[2].slice();
+    curMapVar.exploredColumn = whichLevel[3].slice();
+
+    curMapConst.rowParameters = whichLevel[4].slice();
+    curMapVar.payoffRow = whichLevel[5].slice();
+    curMapVar.exploredRow = whichLevel[6].slice();
 
     var moves = whichLevel[7];
     curMapConst.maxMoves = moves;
