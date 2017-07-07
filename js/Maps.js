@@ -41,7 +41,7 @@ var testMaps = {
             [0, 0,  0,  0,  0,  0,  0,  0,  16,  20,16, 16, 4,  10, 10, 0,  0,  0,  0,  0,  0,  0,  0],
             [0, 0,  0,  0,  0,  0,  0,  0,  20,  20,20, 20, 20, 20, 20, 0,  0,  0,  0,  0,  0,  0,  0],
 
-            10, 1, 1, 1, 1, 0.20, 0.98], //NUM MOVES ALLOWED/ALPHA1/BETA1/ALPHA2/BETA2/POTATO PRICE/ DISCOUNT FACTOR
+            10, 1, 1, 1, 1, 0.10, 0.98], //NUM MOVES ALLOWED/ALPHA1/BETA1/ALPHA2/BETA2/POTATO PRICE/ DISCOUNT FACTOR
 
     map2:                                                                     //ROW QUAL/INFO/PAYOFF --> INFO 0,1,2; QUAL 0-1
         [[  [5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5], // 0   /  0 /  0
@@ -80,7 +80,7 @@ var testMaps = {
             [0, 0,  0,  0,  0,  0,  0,  0,  10, 10, 4,  16, 16,  20,16, 0,  0,  0,  0,  0,  0,  0,  0],
             [0, 0,  0,  0,  0,  0,  0,  0,  20, 20, 20, 20, 20,  20,20, 0,  0,  0,  0,  0,  0,  0,  0],
 
-            10, 1, 1, 1, 1, 0.20, 0.98], //NUM MOVES ALLOWED/ALPHA1/BETA1/ALPHA2/BETA2/POTATO PRICE/ DISCOUNT FACTOR
+            10, 1, 1, 1, 1, 0.10, 0.98], //NUM MOVES ALLOWED/ALPHA1/BETA1/ALPHA2/BETA2/POTATO PRICE/ DISCOUNT FACTOR
 
     map3:                                                                     //ROW QUAL/INFO/PAYOFF --> INFO 0,1,2; QUAL 0-1
         [[  [5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5], // 0   /  0 /  0
@@ -119,7 +119,7 @@ var testMaps = {
             [0, 0,  0,  0,  0,  0,  0,  0,  3,   4, 3,  3,  1,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0],
             [0, 0,  0,  0,  0,  0,  0,  0,  4,   4, 4,  4,  4,  4,  4,  0,  0,  0,  0,  0,  0,  0,  0],
 
-            10, 1, 1, 1, 1, 0.20, 0.98], //NUM MOVES ALLOWED/ALPHA1/BETA1/ALPHA2/BETA2/POTATO PRICE/ DISCOUNT FACTOR
+            10, 1, 1, 1, 1, 0.10, 0.98], //NUM MOVES ALLOWED/ALPHA1/BETA1/ALPHA2/BETA2/POTATO PRICE/ DISCOUNT FACTOR
 
     map4:                                                                     //ROW QUAL/INFO/PAYOFF --> INFO 0,1,2; QUAL 0-1
         [[  [5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5], // 0   /  0 /  0
@@ -158,7 +158,7 @@ var testMaps = {
             [0, 0,  0,  0,  0,  0,  0,  0,  2,  2,  1,  3,  3,   4, 3,  0,  0,  0,  0,  0,  0,  0,  0],
             [0, 0,  0,  0,  0,  0,  0,  0,  4,  4,  4,  4,  4,   4, 4,  0,  0,  0,  0,  0,  0,  0,  0],
 
-            10, 1, 1, 1, 1, 0.20, 0.98], //NUM MOVES ALLOWED/ALPHA1/BETA1/ALPHA2/BETA2/POTATO PRICE/ DISCOUNT FACTOR
+            10, 1, 1, 1, 1, 0.10, 0.98], //NUM MOVES ALLOWED/ALPHA1/BETA1/ALPHA2/BETA2/POTATO PRICE/ DISCOUNT FACTOR
 
     map5:                                                                     //ROW QUAL/INFO/PAYOFF --> INFO 0,1,2; QUAL 0-1
         [[  [5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5], // 0   /  0 /  0
@@ -197,7 +197,7 @@ var testMaps = {
             [0, 0,  0,  0,  0,  0,  0,  0,  16,  20,16, 16, 4,  10, 10, 0,  0,  0,  0,  0,  0,  0,  0],
             [0, 0,  0,  0,  0,  0,  0,  0,  20,  20,20, 20, 20, 20, 20, 0,  0,  0,  0,  0,  0,  0,  0],
 
-            10, 1, 1, 1, 1, 0.20, 0.98], //NUM MOVES ALLOWED/ALPHA1/BETA1/ALPHA2/BETA2/POTATO PRICE/ DISCOUNT FACTOR
+            10, 1, 1, 1, 1, 0.10, 0.98], //NUM MOVES ALLOWED/ALPHA1/BETA1/ALPHA2/BETA2/POTATO PRICE/ DISCOUNT FACTOR
 
     map6:                                                                     //ROW QUAL/INFO/PAYOFF --> INFO 0,1,2; QUAL 0-1
         [[  [5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5], // 0   /  0 /  0
@@ -236,7 +236,7 @@ var testMaps = {
             [0, 0,  0,  0,  0,  0,  0,  0,  10, 10, 4,  16, 16,  20,16, 0,  0,  0,  0,  0,  0,  0,  0],
             [0, 0,  0,  0,  0,  0,  0,  0,  20, 20, 20, 20, 20,  20,20, 0,  0,  0,  0,  0,  0,  0,  0],
 
-            10, 1, 1, 1, 1, 0.20, 0.98], //NUM MOVES ALLOWED/ALPHA1/BETA1/ALPHA2/BETA2/POTATO PRICE/ DISCOUNT FACTOR
+            10, 1, 1, 1, 1, 0.10, 0.98], //NUM MOVES ALLOWED/ALPHA1/BETA1/ALPHA2/BETA2/POTATO PRICE/ DISCOUNT FACTOR
 
     map7:                                                                     //ROW QUAL/INFO/PAYOFF --> INFO 0,1,2; QUAL 0-1
         [[  [5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5], // 0   /  0 /  0
@@ -275,7 +275,7 @@ var testMaps = {
             [0, 0,  0,  0,  0,  0,  0,  0,  3,   4, 3,  3,  1,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0],
             [0, 0,  0,  0,  0,  0,  0,  0,  4,   4, 4,  4,  4,  4,  4,  0,  0,  0,  0,  0,  0,  0,  0],
 
-            10, 1, 1, 1, 1, 0.20, 0.98], //NUM MOVES ALLOWED/ALPHA1/BETA1/ALPHA2/BETA2/POTATO PRICE/ DISCOUNT FACTOR
+            10, 1, 1, 1, 1, 0.10, 0.98], //NUM MOVES ALLOWED/ALPHA1/BETA1/ALPHA2/BETA2/POTATO PRICE/ DISCOUNT FACTOR
 
     map8:                                                                     //ROW QUAL/INFO/PAYOFF --> INFO 0,1,2; QUAL 0-1
         [[  [5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5], // 0   /  0 /  0
@@ -314,7 +314,7 @@ var testMaps = {
             [0, 0,  0,  0,  0,  0,  0,  0,  2,  2,  1,  3,  3,   4, 3,  0,  0,  0,  0,  0,  0,  0,  0],
             [0, 0,  0,  0,  0,  0,  0,  0,  4,  4,  4,  4,  4,   4, 4,  0,  0,  0,  0,  0,  0,  0,  0],
 
-            10, 1, 1, 1, 1, 0.20, 0.98] //NUM MOVES ALLOWED/ALPHA1/BETA1/ALPHA2/BETA2/POTATO PRICE/ DISCOUNT FACTOR
+            10, 1, 1, 1, 1, 0.10, 0.98] //NUM MOVES ALLOWED/ALPHA1/BETA1/ALPHA2/BETA2/POTATO PRICE/ DISCOUNT FACTOR
 };
 
 

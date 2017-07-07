@@ -67,18 +67,18 @@ var experiment = new function(){
     var that = this;
 
     if (condition === 1 || condition === 2){
-        that.openLevel1 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.05, 0.98);
-        that.openLevel2 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.05, 0.98);
-        that.openLevel3 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.05, 0.98);
-        that.openLevel4 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.05, 0.98);
-        that.openLevel5 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.05, 0.98);
+        that.openLevel1 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.03, 0.98);
+        that.openLevel2 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.03, 0.98);
+        that.openLevel3 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.03, 0.98);
+        that.openLevel4 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.02, 0.98);
+        that.openLevel5 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.03, 0.98);
     }
     else if  (condition === 3 || condition === 4){
-        that.openLevel1 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.05, 0.98);
-        that.openLevel2 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.05, 0.98);
-        that.openLevel3 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.05, 0.98);
-        that.openLevel4 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.05, 0.98);
-        that.openLevel5 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.05, 0.98);
+        that.openLevel1 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.03, 0.98);
+        that.openLevel2 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.03, 0.98);
+        that.openLevel3 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.03, 0.98);
+        that.openLevel4 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.03, 0.98);
+        that.openLevel5 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.03, 0.98);
     } else {
         alert("WARNING: COULD NOT ASSIGN CONDITION!")
     }
