@@ -69,25 +69,148 @@ function loadScreen() {
 
     }
 
-    colorRect(canvas.game, 0,0, CANVAS_W,CANVAS_H+uiHeight, 'black');
+    gameRect(canvas.game, 0,0, CANVAS_W,CANVAS_H+uiHeight, 'black');
     canvas.gameContext.font = 'italic 20pt "COMIC SANS MS"';
-    colorText(canvas.game, 'LOADING', CANVAS_W/2-70, CANVAS_H/2+uiHeight, 'white');
+    gameText(canvas.game, 'LOADING', CANVAS_W/2-70, CANVAS_H/2+uiHeight, 'white');
 
 }
 
 //******************************** INFO SCREEN INSTEAD OF ALERT ********************************************************
-
+/*
 function infoScreen() {
     'use strict';
-    canvas.width = 700;
-    canvas.height = 700 + uiHeight;
+    canvas.info.width = 700;
+    canvas.info.height = 700 + uiHeight;
+
+    var info = canvas.info;
+    var ctx = canvas.infoContext;
+
+    function showText(){
+        ctx.fillStyle = 0;
+        //ctx.fillText() = 0;
+
+    }
+
+    function gameText(showWords, textX,textY, fillColor) {
+        canvas.gameContext.fillStyle = fillColor;
+        canvas.gameContext.fillText(showWords, textX, textY);
+    }
 
 
     //canvasContext = canvas.getContext('2d');
-    //colorRect(0,0, CANVAS_W,CANVAS_H+uiHeight, 'black');
+    //gameRect(0,0, CANVAS_W,CANVAS_H+uiHeight, 'black');
     //canvasContext.font = 'italic 20pt 'COMIC SANS MS'';
-    //colorText('LOADING', CANVAS_W/2-70, CANVAS_H/2+uiHeight, 'white');
+    //gameText('LOADING', CANVAS_W/2-70, CANVAS_H/2+uiHeight, 'white');
 
+}
+*/
+
+
+function showInfo(lvl){
+    "use strict";
+
+    var text;
+
+    switch(lvl) {
+        case 'open1':
+            text = '';
+
+            break;
+        case 'open1':
+
+            break;
+        case 'open1':
+
+            break;
+        case 'open1':
+
+            break;
+        case 7:
+
+            break;
+        case 8:
+
+            break;
+        case 9:
+
+            break;
+        default:
+
+            break;
+    }
+
+
+
+
+
+
+
+
+    infoText()
+
+
+}
+
+// adapted from https://codepen.io/ruigewaard/pen/JHDdF by Max Ruigewaard
+function rainAnimation() {
+
+    var ctx = canvas.effectContext;
+    var w = canvas.effect.width;
+    var h = canvas.effect.height;
+    ctx.strokeStyle = 'rgba(174,194,224,0.8)';
+    ctx.lineWidth = 1;
+    ctx.lineCap = 'round';
+
+    var init = [];
+    var maxParts = 1000;
+    for(var a = 0; a < maxParts; a++) {
+        init.push({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            l: Math.random() * 1.2,
+            xs: -4 + Math.random() * 4 + 2,
+            ys: Math.random() * 10 + 10
+        })
+    }
+
+    var particles = [];
+    for(var b = 0; b < maxParts; b++) {
+        particles[b] = init[b];
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, w, h);
+        for(var c = 0; c < particles.length; c++) {
+            var p = particles[c];
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p.x + p.l * p.xs, p.y + p.l * p.ys);
+            ctx.stroke();
+        }
+        move();
+    }
+
+    function move() {
+        for(var b = 0; b < particles.length; b++) {
+            var p = particles[b];
+            p.x += p.xs;
+            p.y += p.ys;
+            if(p.x > w || p.y > h) {
+                p.x = Math.random() * w;
+                p.y = -10;
+            }
+        }
+    }
+    setInterval(draw, 30);
+
+}
+
+function showRainAnimation(timeout){
+    "use strict";
+    setTimeout(rainAnimation(), timeout);
+    // play rain sound
+    // kill/ freeze input
+    // remove character? -> draw map on top of char?
 }
 
 //******************************** INIT OBJECT TO HOLD ALL ASSETS; LAUNCH IF LOADED  ***********************************
