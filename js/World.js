@@ -272,16 +272,16 @@ function getInfoLevel(rowOrCol, parameters) {
 
 function getQualityLevel(fraction){
 
-    if (fraction <= curMapConst.minQuality1) {
+    if (fraction < curMapConst.minQuality1) {
         return 0;
     }
-    else if (fraction <= curMapConst.minQuality2) {
+    else if (fraction < curMapConst.minQuality2) {
         return 1;
     }
-    else if (fraction <= curMapConst.minQuality3) {
+    else if (fraction < curMapConst.minQuality3) {
         return 2;
     }
-    else if (fraction <= curMapConst.minQuality4) {
+    else if (fraction < curMapConst.minQuality4) {
         return 3;
     }
     else  {
