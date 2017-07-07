@@ -1,72 +1,152 @@
 <!DOCTYPE html>
 <html lang='en'>
 
-	<head>
-		<!-- Meta / style / title-->
-		<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
-		<meta name='viewport' content='width=device-width, initial-scale=1.0'>
-		<meta name='description' content=''>
-		<meta name='author' content='Moritz Krusche'>
-		<link rel='stylesheet' type='text/css' href='NewStyle.css'>
-		<link href='https://fonts.googleapis.com/css?family=Eagle Lake' rel='stylesheet'>
-		<title>Decision game</title>
-	</head>
+<head>
+    <!-- Meta / style / title-->
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta name='description' content=''>
+    <meta name='author' content='Moritz Krusche'>
+    <link rel='stylesheet' type='text/css' href='NewStyle.css'>
 
-	<body>
-		<div class='wrapper'>
-			<div class='container'>
+    <!-- Slightly modified bootstrap to allow for different body styling-->
+    <link rel='stylesheet' type='text/css' href='bootstrap.css'>
+    <link href='https://fonts.googleapis.com/css?family=Eagle Lake' rel='stylesheet'>
+    <title>Decision game</title>
+</head>
 
-				<div class='canvas-container'>
-					<canvas class = 'responsive' id='gameCanvas' width='700' height='750'></canvas>
-					<canvas class = 'responsive' id='effectCanvas' width='700' height='750'></canvas>
-					<canvas class = 'responsive' id='infoCanvas' width='700' height='750'></canvas>
-				</div>
-				
-				<div class='button-container' >
-					<button class='playButton' id='pbUp' onmousedown='buttonUp()' onmouseup='buttonFalse()'> Up </button>
-				</div>
-				<div class='button-container' >
+<body>
+<div class='wrapper'>
+    <div class='container'>
 
-					<button class='playButton' id='pbLeft' onmousedown='buttonLeft()' onmouseup='buttonFalse()' >Left</button>
-					<button class='playButton' id='pbRight' onmousedown='buttonRight()' onmouseup='buttonFalse()' >Right</button>
-				</div>
-				<div class='button-container' >
-					<button class='playButton' id='pbDown' onmousedown='buttonDown()' onmouseup='buttonFalse()' >Down</button>
-				</div>
-			</div>
-		</div>
+        <div class='canvas-container'>
+            <canvas class = 'responsive' id='gameCanvas' width='700' height='750'></canvas>
+            <canvas class = 'responsive' id='effectCanvas' width='700' height='750'></canvas>
+            <canvas class = 'responsive' id='infoCanvas' width='700' height='750'></canvas>
+        </div>
+        <button id = 'cheatButton' onclick='nextLevel()' >CHEAT TO NEXT</button>
+
+        <div class='button-container' >
+            <button class='playButton' id='pbUp' onmousedown='buttonUp()' onmouseup='buttonFalse()'> Up </button>
+        </div>
+        <div class='button-container' >
+
+            <button class='playButton' id='pbLeft' onmousedown='buttonLeft()' onmouseup='buttonFalse()' >Left</button>
+            <button class='playButton' id='pbRight' onmousedown='buttonRight()' onmouseup='buttonFalse()' >Right</button>
+        </div>
+        <div class='button-container' >
+            <button class='playButton' id='pbDown' onmousedown='buttonDown()' onmouseup='buttonFalse()' >Down</button>
+        </div>
+    </div>
+</div>
+
+<!-- DEMOGRAPHICS PAGE -->
+<div class='wrapper'>
+<div class="container" id="demographicsPage">
+    <form id="demographics" style="display:none">
+        <div class = "centeredOnCanvas">
+
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Demographic information</h3>
+
+                <hr>
+                <p>Before the start of the experiment we have to collect standard demographic information.
+                    Your Prolific ID is solely used to process participation and payoff, and will thereafter be deleted.
+                </p>
+                <hr>
+            </div>
+        </div>
+
+        <div>
+            <h4>Prolific ID</h4>
+            <label class="labelstyle" id="loginTitle1" for="loginField1">
+                <input id="loginField1" name="loginInput" type="text" value="" tabindex="1">
+            </label>
+        </div><hr> <!-- end of login field -->
+
+        <!-- Age -->
+        <div class="row">
+            <div class="col-lg-6">
+                <h4>Age</h4>
+                <div class="input-group input-group-lg">
+                    <label class="radio-inline">
+                        <input type="radio" name="age" value="18-25" />18-25
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="age" value="26-35" />26-35
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="age" value="36-45" />36-45
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="age" value="46-55" />46-55
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="age" value="56-65" />56-65
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="age" value="66+" />66+
+                    </label>
+                </div>
+            </div>
+        </div>
+            <hr>
+        <!-- Gender -->
+        <div class="row">
+            <div class="col-lg-6">
+                <h4>Gender</h4>
+                <div class="input-group input-group-lg">
+                    <label class="radio-inline">
+                        <input type="radio" name="gender" value="female" />Female
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="gender" value="male" />Male
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="gender" value="other" />Other
+                    </label>
+                </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+        </div>
+        </div>
+    </form>
+</div>
+</div>
+<!-- END demographicsPage -->
 
 
-		<!-- Initialising firebase to store data  -->
-		<!--
-		<script src='https://www.gstatic.com/firebasejs/4.1.2/firebase.js'></script>
-		<script>
-	  	// Initialize Firebase
-	  	var config = {
-	    	apiKey: 'AIzaSyDp7KeZVXhpaaryW-sPQZmXZYobouqecO0',
-	    	authDomain: 'pilot-farming-task.firebaseapp.com',
-	    	databaseURL: 'https://pilot-farming-task.firebaseio.com',
-	    	projectId: 'pilot-farming-task',
-	    	storageBucket: 'pilot-farming-task.appspot.com',
-	    	messagingSenderId: '768805606623'
-	  	};
-	  	firebase.initializeApp(config);
-		</script>
-		-->
+<!-- Initialising firebase to store data  -->
+<!--
+<script src='https://www.gstatic.com/firebasejs/4.1.2/firebase.js'></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: 'AIzaSyDp7KeZVXhpaaryW-sPQZmXZYobouqecO0',
+    authDomain: 'pilot-farming-task.firebaseapp.com',
+    databaseURL: 'https://pilot-farming-task.firebaseio.com',
+    projectId: 'pilot-farming-task',
+    storageBucket: 'pilot-farming-task.appspot.com',
+    messagingSenderId: '768805606623'
+  };
+  firebase.initializeApp(config);
+</script>
+-->
 
-		<!-- Libaries-->
-		<script src='js/jstat.min.js'></script>
-		<script src='js/howler.core.min.js'></script>
+<!-- Libaries-->
+<script src='js/jstat.min.js'></script>
+<script src='js/howler.core.min.js'></script>
 
-		<!-- Main Experiment JS files-->
-		<script src='js/GraphicsCommon.js'></script>
-		<script src='js/AssetLoading.js'></script>
-		<script src='js/World.js'></script>
-		<script src='js/Maps.js'></script>
-		<script src='js/Input.js'></script>
-		<script src='js/Movement.js'></script>
-		<script src='js/Animation.js'></script>
-		<script src='js/Main.js'></script>
+<!-- Main Experiment JS files-->
+<script src='js/GraphicsCommon.js'></script>
+<script src='js/AssetLoading.js'></script>
+<script src='js/World.js'></script>
+<script src='js/Maps.js'></script>
+<script src='js/Input.js'></script>
+<script src='js/Movement.js'></script>
+<script src='js/Animation.js'></script>
+<script src='js/Main.js'></script>
 
-	</body>
+</body>
 </html>
+

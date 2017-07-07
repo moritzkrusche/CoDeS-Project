@@ -390,4 +390,4 @@ function gameLoop() {
 }
 
 
-rainAnimation();
+//rainAnimation();
