@@ -265,6 +265,12 @@ function loadLevel(whichLevel) {
     trackerReset(experiment.farmerChar, experiment.potatoAnim);
 }
 
+function nextLevelTestLevel(){
+    "use strict";
+    experiment.currentOpenLevel = 4;
+    nextLevel()
+}
+
 
 function nextLevel() {
     'use strict';
