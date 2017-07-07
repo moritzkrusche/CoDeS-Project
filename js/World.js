@@ -20,9 +20,9 @@ var curMapConst = {
     beta2: 0,
 
     minQuality1: 0.2,
-    minQuality2: 0.35,
-    minQuality3: 0.5,
-    minQuality4: 0.65,
+    minQuality2: 0.4,
+    minQuality3: 0.6,
+    minQuality4: 0.8,
 
     soilSheet: NaN,
     plantSheet: NaN
@@ -251,14 +251,18 @@ function getType(TileCol, TileRow) {
     var infoLevelRow = getInfoLevel(infoRow, (alpha2+beta2));
 
     // Maarten: alpha success rate; beta failure rate
-    var qualityCol = getQuality((curMapVar.payoffColumn[TileCol]+alpha1), infoCol, (alpha1+beta1));
-    var qualityRow = getQuality((curMapVar.payoffRow[TileRow]+alpha2), infoRow, (alpha2+beta2));
+    //var qualityCol = getQuality((curMapVar.payoffColumn[TileCol]+alpha1), infoCol, (alpha1+beta1));
+    //var qualityRow = getQuality((curMapVar.payoffRow[TileRow]+alpha2), infoRow, (alpha2+beta2));
+
+    var qualityCol = getQuality(TileCol, TileRow)[0];
+    var qualityRow = getQuality(TileCol, TileRow)[1];
+
 
     return [infoLevelCol, infoLevelRow, qualityCol, qualityRow];
 
 }
 
-
+å
 function getInfoLevel(rowOrCol, parameters) {
     'use strict';
     if (rowOrCol <= parameters) {
@@ -272,15 +276,66 @@ function getInfoLevel(rowOrCol, parameters) {
     }
 }
 
+function getQualityLevel(fraction){
 
-function getQuality(timesPotato, timesExplored, parameters) {
+    if (fraction <= curMapConst.minQuality1) {
+        return 0;
+    }
+    else if (fraction <= curMapConst.minQuality2) {
+        return 1;
+    }
+    else if (fraction <= curMapConst.minQuality3) {
+        return 2;
+    }
+    else if (fraction <= curMapConst.minQuality4) {
+        return 3;
+    }
+    else  {
+        return 4;
+    }
+}
+
+
+function getQuality(whichCol, whichRow){
+    "use strict";
+    var alpha1 = curMapConst.alpha1;
+    var beta1 = curMapConst.beta1;
+    var alpha2 = curMapConst.alpha2;
+    var beta2 = curMapConst.beta2;
+
+    var qualCol = ((alpha1+curMapVar.payoffColumn[whichCol])/(alpha1+beta1+curMapVar.exploredColumn[whichCol]))/(alpha2/(alpha2+beta2));
+    var qualRow = ((alpha2+curMapVar.payoffRow[whichRow])/(alpha2+beta2+curMapVar.exploredRow[whichRow]))/(alpha1/(alpha1+beta1));
+
+    if (qualCol >1) qualCol = 1;
+    if (qualRow > 1) qualRow = 1;
+
+    var qualLevelCol = getQualityLevel(qualCol);
+    var qualLevelRow = getQualityLevel(qualRow);
+
+    return [qualLevelCol, qualLevelRow]
+
+}
+
+
+/*
+ curMapVar.exploredColumn;
+ curMapVar.exploredRow;
+ curMapVar.payoffColumn;
+ curMapVar.payoffRow;
+
+ var qualRow = ((alpha2+potatoRow)/(alpha2+beta2+potatoRow+NoneRow))/(alpha1/(alpha1+beta1));
+ var qualCol = ((alpha1+potatoCol)/(alpha1+beta1+potatoCol+NoneCol))/(alpha2/(alpha2+beta2));
+ */
+
+
+// debiasing by putting in other par
+
+function getQualityOLD(timesPotato, timesExplored, parameters) {
     'use strict';
     var fraction = timesPotato / timesExplored;
 
-    if (timesExplored === parameters){
-        return 2;
-    }
-    else if (fraction <= curMapConst.minQuality1) {
+
+    if (fraction <= curMapConst.minQuality1) {
         return 0;
     }
     else if (fraction <= curMapConst.minQuality2) {
