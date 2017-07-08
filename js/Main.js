@@ -53,14 +53,16 @@ var condition;
 var experiment = new function(){
     'use strict';
 
-    this.levelKeys = ['map1', 'map2', 'map3', 'map4', 'map5', 'map6', 'map7', 'map8', 'map9', 'map10'];
+    //this.levelKeys = ['map1', 'map2', 'map3', 'map4', 'map5', 'map6', 'map7', 'map8', 'map9', 'map10'];
+
+    this.levelKeys = ['map1', 'map2', 'map3', 'map4', 'map5', 'map6', 'map7', 'map8', 'map9', 'map10', 'map11', 'map12', 'map13', 'map14', 'map15', 'map16'];
 
     // start at zero for array index 'levelKeys'
     this.currentOpenLevel = 0;
     this.maxOpenLevels = 4;
 
     this.currentTestLevel = 0;
-    this.maxTestLevels = 7;
+    this.maxTestLevels = 15;
 
     this.testPhase = false;
 

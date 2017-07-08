@@ -9,13 +9,12 @@
     <meta name='author' content='Moritz Krusche'>
     <link rel='stylesheet' type='text/css' href='NewStyle.css'>
 
-    <!-- Slightly modified bootstrap to allow for different body styling-->
-    <!--<link rel='stylesheet' type='text/css' href='bootstrap.css'>-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href='https://fonts.googleapis.com/css?family=Eagle Lake' rel='stylesheet'>
-    <title>Decision game</title>
+    <title>The Potato Game</title>
 </head>
 
-<body>
+<body style="background-image: radial-gradient(ellipse farthest-corner at center, #F5F5DC 0%, #FAEBD7 100%);">
 
 <button id = 'cheatButtonTest' onclick='nextLevelTestLevel()' >CHEAT TO TEST MAP 1</button>
 <button id = 'cheatButton' onclick='nextLevel()' >CHEAT TO NEXT MAP</button>
@@ -24,9 +23,10 @@
     <div class='container'>
 
         <div class='canvas-container'>
-            <canvas class = 'responsive' id='gameCanvas' width='700' height='750'></canvas>
-            <canvas class = 'responsive' id='effectCanvas' width='700' height='750'></canvas>
-            <canvas class = 'responsive' id='infoCanvas' width='700' height='750'></canvas>
+            <canvas class = 'responsive' id='gameCanvas' width='700' height='750' style="display:block"></canvas>
+            <canvas class = 'responsive' id='effectCanvas' width='700' height='750' style="display:block"></canvas>
+            <canvas class = 'responsive' id='infoCanvas' width='700' height='750' style="display:block"></canvas>
+
         </div>
 
         <div class='button-container' >
@@ -50,14 +50,12 @@
         <div class = "centeredOnCanvas">
 
         <div class="row">
-            <div class="col-md-6">
-                <h3>Demographic information</h3>
+            <div class="col-md-8">
+                <h3>Demographic Information</h3>
 
-                <hr>
                 <p>Before the start of the experiment we have to collect standard demographic information.
                     Your Prolific ID is solely used to process participation and payoff, and will thereafter be deleted.
                 </p>
-                <hr>
             </div>
         </div>
 
@@ -66,7 +64,7 @@
             <label class="labelstyle" id="loginTitle1" for="loginField1">
                 <input id="loginField1" name="loginInput" type="text" value="" tabindex="1">
             </label>
-        </div><hr> <!-- end of login field -->
+        </div> <!-- end of login field -->
 
         <!-- Age -->
         <div class="row">
@@ -94,7 +92,6 @@
                 </div>
             </div>
         </div>
-            <hr>
         <!-- Gender -->
         <div class="row">
             <div class="col-lg-6">
@@ -144,7 +141,7 @@
 <script src='js/GraphicsCommon.js'></script>
 <script src='js/AssetLoading.js'></script>
 <script src='js/World.js'></script>
-<script src='js/maps2.js'></script>
+<script src='js/Maps.js'></script>
 <script src='js/Input.js'></script>
 <script src='js/Movement.js'></script>
 <script src='js/Animation.js'></script>
