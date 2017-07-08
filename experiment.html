@@ -16,6 +16,10 @@
 </head>
 
 <body>
+
+<button id = 'cheatButtonTest' onclick='nextLevelTestLevel()' >CHEAT TO TEST MAP 1</button>
+<button id = 'cheatButton' onclick='nextLevel()' >CHEAT TO NEXT MAP</button>
+
 <div class='wrapper'>
     <div class='container'>
 
@@ -24,9 +28,6 @@
             <canvas class = 'responsive' id='effectCanvas' width='700' height='750'></canvas>
             <canvas class = 'responsive' id='infoCanvas' width='700' height='750'></canvas>
         </div>
-
-        <button id = 'cheatButtonTest' onclick='nextLevelTestLevel()' >CHEAT TO TEST MAP 1</button>
-        <button id = 'cheatButton' onclick='nextLevel()' >CHEAT TO NEXT MAP</button>
 
         <div class='button-container' >
             <button class='playButton' id='pbUp' onmousedown='buttonUp()' onmouseup='buttonFalse()'> Up </button>
@@ -44,7 +45,7 @@
 
 <!-- DEMOGRAPHICS PAGE -->
 <div class='wrapper'>
-<div class="container" id="demographicsPage">
+<div class="container">
     <form id="demographics" style="display:none">
         <div class = "centeredOnCanvas">
 
@@ -143,7 +144,7 @@
 <script src='js/GraphicsCommon.js'></script>
 <script src='js/AssetLoading.js'></script>
 <script src='js/World.js'></script>
-<script src='js/Maps.js'></script>
+<script src='js/maps2.js'></script>
 <script src='js/Input.js'></script>
 <script src='js/Movement.js'></script>
 <script src='js/Animation.js'></script>
