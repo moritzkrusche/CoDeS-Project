@@ -85,7 +85,7 @@ function selectRandomInArray(array) {
 }
 
 // From here: http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-function shuffle(array) {
+function shuffleArray(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
     // While there remain elements to shuffle...

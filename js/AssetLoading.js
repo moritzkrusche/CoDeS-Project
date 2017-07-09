@@ -144,8 +144,6 @@ function showInfo(lvl){
 
 
 
-
-
     infoText()
 
 

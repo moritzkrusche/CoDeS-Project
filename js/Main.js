@@ -55,7 +55,9 @@ var experiment = new function(){
 
     //this.levelKeys = ['map1', 'map2', 'map3', 'map4', 'map5', 'map6', 'map7', 'map8', 'map9', 'map10'];
 
-    this.levelKeys = ['map1', 'map2', 'map3', 'map4', 'map5', 'map6', 'map7', 'map8', 'map9', 'map10', 'map11', 'map12', 'map13', 'map14', 'map15', 'map16'];
+
+
+
 
     // start at zero for array index 'levelKeys'
     this.currentOpenLevel = 0;
@@ -67,6 +69,10 @@ var experiment = new function(){
     this.testPhase = false;
 
     var that = this;
+
+    that.openLevelKeys = ['map1', 'map2', 'map3', 'map4', 'map5', 'map6', 'map7', 'map8', 'map9', 'map10', 'map11', 'map12', 'map13', 'map14', 'map15', 'map16'];
+
+    that.testLevelKeys = shuffleArray(that.openLevelKeys.slice());
 
     if (condition === 1 || condition === 2){
         that.openLevel1 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.04, 0.98);
@@ -85,7 +91,7 @@ var experiment = new function(){
         alert("WARNING: COULD NOT ASSIGN CONDITION!")
     }
 
-    this.openMaps = mergeLevels(this.levelKeys, that.openLevel1, that.openLevel2, that.openLevel3, that.openLevel4, that.openLevel5);
+    this.openMaps = mergeLevels(that.openLevelKeys, that.openLevel1, that.openLevel2, that.openLevel3, that.openLevel4, that.openLevel5);
 
     this.farmerChar = new CharClass(assets.charSprite, 240, 360, 4, 4, 0.6 * TILE_W, 0.9 * TILE_H);
     this.potatoAnim = new AnimationClass(assets.potato, 0.5 * TILE_W, 0.32 * TILE_H)
@@ -138,9 +144,7 @@ function startGame() {
 	var framesPerSecond = 10;
 
     loadLevel(experiment.openMaps.map1);
-    //loadLevel(testMaps.map1);
 
-    //loadLevel(testMaps.map1);
     if (isMobile){
         // wait to adjust for occasionally lagging audio load time on mobile, esp iOS;
         sleep(500);
@@ -241,23 +245,6 @@ function getLogLevelKey(){
     return logLevelKey;
 }
 
-/*
-levelDetails.push(each.tileGrid);
-levelDetails.push(each.columnParameters);
-levelDetails.push(each.exploredColumn);
-levelDetails.push(each.payoffColumn);
-levelDetails.push(each.rowParameters);
-levelDetails.push(each.exploredRow);
-levelDetails.push(each.payoffRow);
-levelDetails.push(each.maxMoves);
-levelDetails.push(each.alpha1);
-levelDetails.push(each.beta1);
-levelDetails.push(each.alpha2);
-levelDetails.push(each.beta2);
-levelDetails.push(each.potatoPrice);
-levelDetails.push(each.discountFactor);
-
-*/
 
 function loadLevel(whichLevel) {
     'use strict';
@@ -316,11 +303,12 @@ function nextLevel() {
             showMaxLevel = e.maxTestLevels+1;
             logLevelKey = getLogLevelKey();
             logData(logLevelKey);
-            loadLevel(testMaps.map1);
+            // first test map
+            loadLevel(testMaps[e.testLevelKeys[0]]);
             alert('THIS IS THE START OF THE TEST PHASE OF THIS EXPERIMENT. THIS IS TEST LEVEL 1 OUT OF ' + showMaxLevel)
         }
         else {
-            var openLevelKey = e.levelKeys[e.currentOpenLevel];
+            var openLevelKey = e.openLevelKeys[e.currentOpenLevel];
             showCurLevel = e.currentOpenLevel+1;
             showMaxLevel = e.maxOpenLevels+1;
             logLevelKey = getLogLevelKey();
@@ -338,7 +326,7 @@ function nextLevel() {
             alert('CONGRATULATIONS! YOU HAVE FINISHED THE EXPERIMENT!!!')
         }
         else {
-            var testLevelKey = e.levelKeys[e.currentTestLevel];
+            var testLevelKey = e.testLevelKeys[e.currentTestLevel];
             showCurLevel= e.currentTestLevel+1;
             showMaxLevel = e.maxTestLevels+1;
             logLevelKey = getLogLevelKey();
