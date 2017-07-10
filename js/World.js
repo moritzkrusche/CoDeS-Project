@@ -399,45 +399,42 @@ function drawVisibleTiles() {
                 }
 
                 switch(tilePos) {
-                    case 0:
+                    case 0: // standard tile that has not been explored/ exploited
                         curMapConst.soilSheet.draw(drawX, drawY, soilInfo, soilParameter);
                         curMapConst.plantSheet.draw(drawX, drawY, plantInfo, plantParameter);
                         break;
-                    case 1:
+                    case 1: // explored tile (i.e. no potato)
                         curMapConst.soilSheet.draw(drawX, drawY, 3, 0);
                         break;
-                    case 3:
+                    case 3: // exploited tile (i.e. potato found)
                         curMapConst.soilSheet.draw(drawX, drawY, 3, 1);
                         break;
-                    case 5:
+                    case 5: // water tile
                         curMapConst.soilSheet.draw(drawX, drawY, 3, 2);
-                        //curMapConst.plantSheet.draw(drawX, drawY, 3, 1);
                         break;
-                    case 6:
+                    case 6: // water tile with red X
                         curMapConst.soilSheet.draw(drawX, drawY, 3, 2);
                         curMapConst.plantSheet.draw(drawX, drawY, 3, 1);
                         break;
-                    case 7:
+                    case 7: // rock type 1 on top of normal soil
                         curMapConst.soilSheet.draw(drawX, drawY, soilInfo, soilParameter);
                         curMapConst.plantSheet.draw(drawX, drawY, 3, 2);
                         break;
-                    case 8:
+                    case 8: // rock type 2 on top of normal soil
                         curMapConst.soilSheet.draw(drawX, drawY, soilInfo, soilParameter);
                         curMapConst.plantSheet.draw(drawX, drawY, 3, 3);
                         break;
-                    case 9:
+                    case 9: // rock type 2 on top of normal soil
                         curMapConst.soilSheet.draw(drawX, drawY, soilInfo, soilParameter);
                         curMapConst.plantSheet.draw(drawX, drawY, 3, 4);
                         break;
-                    default:
+                    default: // water tile
                         curMapConst.soilSheet.draw(drawX, drawY, 3, 2);
-                        //curMapConst.plantSheet.draw(drawX, drawY, 3, 1);
                         break;
                 }
             }
-            else {
+            else { // water tile
                 curMapConst.soilSheet.draw(drawX, drawY, 3, 2);
-                //curMapConst.plantSheet.draw(drawX, drawY, 3, 1);
             }
         }
     }
