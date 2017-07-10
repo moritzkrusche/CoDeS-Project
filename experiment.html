@@ -22,15 +22,23 @@
 <div class='wrapper'>
     <div class='container'>
 
-        <div class='canvas-container'>
+        <div id='canvas-container'>
             <canvas class = 'responsive' id='gameCanvas' width='700' height='750' style="display:block"></canvas>
             <canvas class = 'responsive' id='effectCanvas' width='700' height='750' style="display:block"></canvas>
+            <canvas class = 'responsive' id='uiCanvas' width='700' height='750' style="display:block"></canvas>
             <canvas class = 'responsive' id='infoCanvas' width='700' height='750' style="display:block"></canvas>
+            <canvas class = 'responsive' id='boxCanvas' width='700' height='750' style="display:block"></canvas>
+
+            <div class="gameBox" id="gameBox" style="display:none"> <span> </span></div>
+
+            <button class='continueButton' id='nextButton' style="display:none" onclick='buttonNext()' >NEXT</button>
+            <button class='continueButton' id='backButton' style="display:none" onclick='buttonBack()' >BACK</button>
+            <button class='continueButton' id='startButton' style="display:none" onclick='buttonStartLevel()' > START </button>
 
         </div>
 
         <div class='button-container' >
-            <button class='playButton' id='pbUp' onmousedown='buttonUp()' onmouseup='buttonFalse()'> Up </button>
+            <button class='playButton' id='pbUp' onmousedown='buttonUp()' onmouseup='buttonFalse()' > Up </button>
         </div>
         <div class='button-container' >
 

@@ -111,6 +111,11 @@ function checkCollision(atTrackerX, atTrackerY) {
 
     if (nextPos === 5 || nextPos >= 7) {
 
+        // show X temporarily
+        //var oldPos = nextPos;
+        curMapVar.tileGrid[someY][someX] = nextPos * 10;
+        //setTimeout(function(){curMapVar.tileGrid[someY][someX] = nextPos}, 1000);
+
         if (!isMobile) {
             if (!assets.errorSound.playing(curMapVar.errorId1) && !assets.errorSound.playing(curMapVar.errorId2)) {
                 curMapVar.errorId1 = assets.errorSound.play();

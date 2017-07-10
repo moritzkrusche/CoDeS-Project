@@ -53,23 +53,19 @@ var condition;
 var experiment = new function(){
     'use strict';
 
-    //this.levelKeys = ['map1', 'map2', 'map3', 'map4', 'map5', 'map6', 'map7', 'map8', 'map9', 'map10'];
-
-
-
-
-
     // start at zero for array index 'levelKeys'
     this.currentOpenLevel = 0;
     this.maxOpenLevels = 4;
 
     this.currentTestLevel = 0;
+    //this.maxTestLevels = 15;
     this.maxTestLevels = 7;
 
     this.testPhase = false;
 
     var that = this;
 
+    //that.openLevelKeys = ['map1', 'map2', 'map3', 'map4', 'map5', 'map6', 'map7', 'map8', 'map9', 'map10', 'map11', 'map12', 'map13', 'map14', 'map15', 'map16'];
     that.openLevelKeys = ['map1', 'map2', 'map3', 'map4', 'map5', 'map6', 'map7', 'map8'];
 
     that.testLevelKeys = shuffleArray(that.openLevelKeys.slice());
@@ -131,11 +127,10 @@ function trackerReset(char, anim) {
     //updateInfo();
 
     // init input and immediately set to false -> if key held
-    initInput();
+    //initInput();
     buttonFalse();
-    if (!isMobile) {
-        assets.backgroundSound.play();
-    }
+
+
 }
 
 
@@ -144,6 +139,7 @@ function startGame() {
 	var framesPerSecond = 10;
 
     loadLevel(experiment.openMaps.map1);
+    showExampleScreen();
 
     if (isMobile){
         // wait to adjust for occasionally lagging audio load time on mobile, esp iOS;
@@ -305,7 +301,9 @@ function nextLevel() {
             logData(logLevelKey);
             // first test map
             loadLevel(testMaps[e.testLevelKeys[0]]);
-            alert('THIS IS THE START OF THE TEST PHASE OF THIS EXPERIMENT. THIS IS TEST LEVEL 1 OUT OF ' + showMaxLevel)
+            //alert('THIS IS THE START OF THE TEST PHASE OF THIS EXPERIMENT. THIS IS TEST LEVEL 1 OUT OF ' + showMaxLevel);
+            boxScreen.show('THIS IS THE START OF THE TEST PHASE OF THIS EXPERIMENT. THIS IS TEST LEVEL 1 OUT OF ' + showMaxLevel);
+            showStartButton()
         }
         else {
             var openLevelKey = e.openLevelKeys[e.currentOpenLevel];
@@ -314,7 +312,9 @@ function nextLevel() {
             logLevelKey = getLogLevelKey();
             logData(logLevelKey);
             loadLevel(e.openMaps[openLevelKey]);
-            alert('NEXT LEVEL LOADED. THIS IS OPEN LEVEL ' + showCurLevel + ' OUT OF ' + showMaxLevel);
+            //alert('NEXT LEVEL LOADED. THIS IS OPEN LEVEL ' + showCurLevel + ' OUT OF ' + showMaxLevel);
+            boxScreen.show('NEXT LEVEL LOADED. THIS IS OPEN LEVEL ' + showCurLevel + ' OUT OF ' + showMaxLevel);
+            showStartButton()
         }
     }
 
@@ -323,7 +323,8 @@ function nextLevel() {
         if (e.currentTestLevel > e.maxTestLevels) {
             logLevelKey = getLogLevelKey();
             logData(logLevelKey);
-            alert('CONGRATULATIONS! YOU HAVE FINISHED THE EXPERIMENT!!!')
+            //alert('CONGRATULATIONS! YOU HAVE FINISHED THE EXPERIMENT!!!');
+            boxScreen.show('CONGRATULATIONS! YOU HAVE FINISHED THE EXPERIMENT!!!')
         }
         else {
             var testLevelKey = e.testLevelKeys[e.currentTestLevel];
@@ -332,7 +333,9 @@ function nextLevel() {
             logLevelKey = getLogLevelKey();
             logData(logLevelKey);
             loadLevel(testMaps[testLevelKey]);
-            alert('NEXT LEVEL LOADED. THIS IS TEST LEVEL ' + showCurLevel + ' OUT OF ' + showMaxLevel);
+            //alert('NEXT LEVEL LOADED. THIS IS TEST LEVEL ' + showCurLevel + ' OUT OF ' + showMaxLevel);
+            boxScreen.show('NEXT LEVEL LOADED. THIS IS TEST LEVEL ' + showCurLevel + ' OUT OF ' + showMaxLevel);
+            showStartButton()
         }
     }
 
@@ -349,23 +352,23 @@ function drawUI(char){
     var movesLeft = Math.round(propMovesLeft * curMapConst.maxMoves);
     var propPotatoPrice = curMapVar.potatoPrice/curMapConst.potatoPrice;
 
-    canvas.gameContext.drawImage(assets.uiPic,0,0,CANVAS_W,100);
-    gameRect(260,10, 100,30, 'red');
-    gameRect(260,10, propMovesLeft * 100,30, 'green');
+    canvas.uiContext.drawImage(assets.uiPic,0,0,CANVAS_W,100);
+    uiRect(260,10, 100,30, 'red');
+    uiRect(260,10, propMovesLeft * 100,30, 'green');
 
-    gameRect(475,10, 100,30, 'red');
-    gameRect(475,10, propPotatoPrice * 100,30, 'green');
+    uiRect(475,10, 100,30, 'red');
+    uiRect(475,10, propPotatoPrice * 100,30, 'green');
 
-    canvas.gameContext.font = 'italic 18pt "COMIC SANS MS"';
-    gameText('X: ' + currentX, 50,35, '#DAA520');
-    gameText('Y: ' + currentY, 130,35, '#DAA520');
+    canvas.uiContext.font = 'italic 18pt "COMIC SANS MS"';
+    uiText('X: ' + currentX, 50,35, '#DAA520');
+    uiText('Y: ' + currentY, 130,35, '#DAA520');
 
-    canvas.gameContext.font = 'italic 20pt "COMIC SANS MS"';
-    gameText(curMapVar.potatoCount,635,35, '#DAA520');
-    gameText(movesLeft, 285,35, '#DAA520');
-    gameText(round(curMapVar.potatoPrice*100, 2) + ' ‎¢', 485,35, '#DAA520');
-    canvas.gameContext.font = 'italic 28pt "COMIC SANS MS"';
-    gameText(round(curMapVar.payoffCount, 2) + ' $', 310,85, '#DAA520');
+    canvas.uiContext.font = 'italic 20pt "COMIC SANS MS"';
+    uiText(curMapVar.potatoCount,635,35, '#DAA520');
+    uiText(movesLeft, 285,35, '#DAA520');
+    uiText(round(curMapVar.potatoPrice*100, 2) + ' ‎¢', 485,35, '#DAA520');
+    canvas.uiContext.font = 'italic 28pt "COMIC SANS MS"';
+    uiText(round(curMapVar.payoffCount, 2) + ' $', 310,85, '#DAA520');
 }
 
 //******************************** Main Game Loop **********************************************************************

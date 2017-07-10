@@ -51,7 +51,10 @@ var curMapVar = {
     walkId: NaN,
     pauseId: NaN,
     errorId1: NaN,
-    errorId2: NaN
+    errorId2: NaN,
+    backgroundId: NaN,
+
+    mobileSoundUnlocked: false
 
 };
 
@@ -408,7 +411,7 @@ function drawVisibleTiles() {
                         break;
                     case 5:
                         curMapConst.soilSheet.draw(drawX, drawY, 3, 2);
-                        curMapConst.plantSheet.draw(drawX, drawY, 3, 1);
+                        //curMapConst.plantSheet.draw(drawX, drawY, 3, 1);
                         break;
                     case 7:
                         curMapConst.soilSheet.draw(drawX, drawY, soilInfo, soilParameter);
@@ -422,15 +425,34 @@ function drawVisibleTiles() {
                         curMapConst.soilSheet.draw(drawX, drawY, soilInfo, soilParameter);
                         curMapConst.plantSheet.draw(drawX, drawY, 3, 4);
                         break;
-                    default:
+                    case 50:
                         curMapConst.soilSheet.draw(drawX, drawY, 3, 2);
                         curMapConst.plantSheet.draw(drawX, drawY, 3, 1);
+                        break;
+                    case 70:
+                        curMapConst.soilSheet.draw(drawX, drawY, soilInfo, soilParameter);
+                        curMapConst.plantSheet.draw(drawX, drawY, 3, 2);
+                        curMapConst.plantSheet.draw(drawX, drawY, 3, 1);
+                        break;
+                    case 80:
+                        curMapConst.soilSheet.draw(drawX, drawY, soilInfo, soilParameter);
+                        curMapConst.plantSheet.draw(drawX, drawY, 3, 3);
+                        curMapConst.plantSheet.draw(drawX, drawY, 3, 1);
+                        break;
+                    case 90:
+                        curMapConst.soilSheet.draw(drawX, drawY, soilInfo, soilParameter);
+                        curMapConst.plantSheet.draw(drawX, drawY, 3, 4);
+                        curMapConst.plantSheet.draw(drawX, drawY, 3, 1);
+                        break;
+                    default:
+                        curMapConst.soilSheet.draw(drawX, drawY, 3, 2);
+                        //curMapConst.plantSheet.draw(drawX, drawY, 3, 1);
                         break;
                 }
             }
             else {
                 curMapConst.soilSheet.draw(drawX, drawY, 3, 2);
-                curMapConst.plantSheet.draw(drawX, drawY, 3, 1);
+                //curMapConst.plantSheet.draw(drawX, drawY, 3, 1);
             }
         }
     }
