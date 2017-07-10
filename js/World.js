@@ -413,6 +413,10 @@ function drawVisibleTiles() {
                         curMapConst.soilSheet.draw(drawX, drawY, 3, 2);
                         //curMapConst.plantSheet.draw(drawX, drawY, 3, 1);
                         break;
+                    case 6:
+                        curMapConst.soilSheet.draw(drawX, drawY, 3, 2);
+                        curMapConst.plantSheet.draw(drawX, drawY, 3, 1);
+                        break;
                     case 7:
                         curMapConst.soilSheet.draw(drawX, drawY, soilInfo, soilParameter);
                         curMapConst.plantSheet.draw(drawX, drawY, 3, 2);
@@ -424,25 +428,6 @@ function drawVisibleTiles() {
                     case 9:
                         curMapConst.soilSheet.draw(drawX, drawY, soilInfo, soilParameter);
                         curMapConst.plantSheet.draw(drawX, drawY, 3, 4);
-                        break;
-                    case 50:
-                        curMapConst.soilSheet.draw(drawX, drawY, 3, 2);
-                        curMapConst.plantSheet.draw(drawX, drawY, 3, 1);
-                        break;
-                    case 70:
-                        curMapConst.soilSheet.draw(drawX, drawY, soilInfo, soilParameter);
-                        curMapConst.plantSheet.draw(drawX, drawY, 3, 2);
-                        curMapConst.plantSheet.draw(drawX, drawY, 3, 1);
-                        break;
-                    case 80:
-                        curMapConst.soilSheet.draw(drawX, drawY, soilInfo, soilParameter);
-                        curMapConst.plantSheet.draw(drawX, drawY, 3, 3);
-                        curMapConst.plantSheet.draw(drawX, drawY, 3, 1);
-                        break;
-                    case 90:
-                        curMapConst.soilSheet.draw(drawX, drawY, soilInfo, soilParameter);
-                        curMapConst.plantSheet.draw(drawX, drawY, 3, 4);
-                        curMapConst.plantSheet.draw(drawX, drawY, 3, 1);
                         break;
                     default:
                         curMapConst.soilSheet.draw(drawX, drawY, 3, 2);

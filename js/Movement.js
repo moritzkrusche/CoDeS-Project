@@ -107,13 +107,22 @@ function checkCollision(atTrackerX, atTrackerY) {
     'use strict';
     var someX = Math.floor(atTrackerX/TILE_W);
     var someY = Math.floor(atTrackerY/TILE_H);
+
+    curMapVar.tileGrid = curMapVar.tileGrid.slice();
     var nextPos = curMapVar.tileGrid[someY][someX];
 
-    if (nextPos === 5 || nextPos >= 7) {
+    if (nextPos >= 5) {
 
         // show X temporarily
-        //var oldPos = nextPos;
-        curMapVar.tileGrid[someY][someX] = nextPos * 10;
+        if (nextPos === 5){
+            curMapVar.tileGrid[someY][someX] = 6;
+
+            var resetTile = function() {
+                curMapVar.tileGrid[someY][someX] = 5;
+            };
+            var resetId = setTimeout(resetTile, 750);
+        }
+
         //setTimeout(function(){curMapVar.tileGrid[someY][someX] = nextPos}, 1000);
 
         if (!isMobile) {
