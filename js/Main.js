@@ -64,13 +64,13 @@ var experiment = new function(){
     this.maxOpenLevels = 4;
 
     this.currentTestLevel = 0;
-    this.maxTestLevels = 15;
+    this.maxTestLevels = 7;
 
     this.testPhase = false;
 
     var that = this;
 
-    that.openLevelKeys = ['map1', 'map2', 'map3', 'map4', 'map5', 'map6', 'map7', 'map8', 'map9', 'map10', 'map11', 'map12', 'map13', 'map14', 'map15', 'map16'];
+    that.openLevelKeys = ['map1', 'map2', 'map3', 'map4', 'map5', 'map6', 'map7', 'map8'];
 
     that.testLevelKeys = shuffleArray(that.openLevelKeys.slice());
 
