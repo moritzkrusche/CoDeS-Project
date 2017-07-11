@@ -1,51 +1,32 @@
 
-function gameCenteredBitmap(useBitmap, atX,atY, width, height) {
-	canvas.gameContext.save();
-	canvas.gameContext.translate(atX, atY);
-	canvas.gameContext.drawImage(useBitmap, -width/2, -height/2, width, height);
-	canvas.gameContext.restore();
+function canvasCenteredBitmap(ctx, useBitmap, atX,atY, width, height) {
+    ctx.save();
+    ctx.translate(atX, atY);
+    ctx.drawImage(useBitmap, -width/2, -height/2, width, height);
+    ctx.restore();
 }
 
-function gameRect(topLeftX,topLeftY, boxWidth,boxHeight, fillColor) {
-	canvas.gameContext.fillStyle = fillColor;
-	canvas.gameContext.fillRect(topLeftX,topLeftY, boxWidth,boxHeight);
+function canvasRect(ctx, topLeftX,topLeftY, boxWidth,boxHeight, fillColor) {
+    ctx.fillStyle = fillColor;
+    ctx.fillRect(topLeftX,topLeftY, boxWidth,boxHeight);
 }
 
-function uiRect(topLeftX,topLeftY, boxWidth,boxHeight, fillColor) {
-    canvas.uiContext.fillStyle = fillColor;
-    canvas.uiContext.fillRect(topLeftX,topLeftY, boxWidth,boxHeight);
+function canvasFrame(ctx, topLeftX,topLeftY, boxWidth,boxHeight, border, fillColor) {
+    ctx.fillStyle = fillColor;
+    ctx.fillRect(topLeftX,topLeftY, boxWidth,boxHeight);
+    ctx.clearRect(topLeftX+border,topLeftY+border, boxWidth-2*border,boxHeight-2*border);
 }
 
-function infoRect(topLeftX,topLeftY, boxWidth,boxHeight, fillColor) {
-    canvas.infoContext.fillStyle = fillColor;
-    canvas.infoContext.fillRect(topLeftX,topLeftY, boxWidth,boxHeight);
+function canvasCircle(ctx, centerX,centerY, radius, fillColor) {
+    ctx.fillStyle = fillColor;
+    ctx.beginPath();
+    ctx.arc(centerX,centerY, 10, 0,Math.PI*2, true);
+    ctx.fill();
 }
 
-function boxRect(topLeftX,topLeftY, boxWidth,boxHeight, fillColor) {
-    canvas.infoContext.fillStyle = fillColor;
-    canvas.infoContext.fillRect(topLeftX,topLeftY, boxWidth,boxHeight);
-}
-
-function gameCircle(centerX,centerY, radius, fillColor) {
-	canvas.gameContext.fillStyle = fillColor;
-	canvas.gameContext.beginPath();
-	canvas.gameContext.arc(centerX,centerY, 10, 0,Math.PI*2, true);
-	canvas.gameContext.fill();
-}
-
-function gameText(showWords, textX,textY, fillColor) {
-	canvas.gameContext.fillStyle = fillColor;
-	canvas.gameContext.fillText(showWords, textX, textY);
-}
-
-function infoText(showWords, textX,textY, fillColor) {
-    canvas.infoContext.fillStyle = fillColor;
-    canvas.infoContext.fillText(showWords, textX, textY);
-}
-
-function uiText(showWords, textX,textY, fillColor) {
-    canvas.uiContext.fillStyle = fillColor;
-    canvas.uiContext.fillText(showWords, textX, textY);
+function canvasText(ctx, showWords, textX,textY, fillColor) {
+    ctx.fillStyle = fillColor;
+    ctx.fillText(showWords, textX, textY);
 }
 
 function sleep(milliseconds) {
@@ -59,21 +40,6 @@ function sleep(milliseconds) {
 
 function round(value, decimals) {
     return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
-}
-
-function elementMove() {
-    var elem = document.getElementById('animate');
-    var pos = 0;
-    var id = setInterval(frame, 5);
-    function frame() {
-        if (pos === 350) {
-            clearInterval(id);
-        } else {
-            pos++;
-            elem.style.top = pos + 'px';
-            elem.style.left = pos + 'px';
-        }
-    }
 }
 
 function intervalTimer(func, wait, times){
@@ -125,7 +91,7 @@ function shuffleArray(array) {
 
 
 // adapted from https://codepen.io/ruigewaard/pen/JHDdF by Max Ruigewaard
-function rainAnimation() {
+var rainAnimationClass = function(intensity) {
 
     var ctx = canvas.effectContext;
     var w = canvas.effect.width;
@@ -135,7 +101,7 @@ function rainAnimation() {
     ctx.lineCap = 'round';
 
     var init = [];
-    var maxParts = 1000;
+    var maxParts = 1000*intensity;
     for(var a = 0; a < maxParts; a++) {
         init.push({
             x: Math.random() * w,
@@ -174,14 +140,269 @@ function rainAnimation() {
             }
         }
     }
-    setInterval(draw, 30);
 
+    var that = this;
+    that.rainId = NaN;
+
+    this.start = function(){
+        "use strict";
+        that.rainId = setInterval(draw, 30);
+
+        //TODO: start rain sound (intensity??)
+
+    };
+
+    this.stop = function(){
+        "use strict";
+        clearInterval(that.rainId);
+        ctx.clearRect(0,0, CANVAS_W,CANVAS_H+uiHeight)
+
+        //TODO: stop rain sound (intensity??)
+    };
+};
+
+// From: http://www.dbp-consulting.com/tutorials/canvas/CanvasArrow.html
+// Draw arrow head
+function drawHead (ctx, x0, y0, x1, y1, x2, y2, style, color, width) {
+    if (typeof(x0) === 'string') {
+        x0 = parseInt(x0);
+    }
+    if (typeof(y0) === 'string') {
+        y0 = parseInt(y0);
+    }
+    if (typeof(x1) === 'string') {
+        x1 = parseInt(x1);
+    }
+    if (typeof(y1) === 'string') {
+        y1 = parseInt(y1);
+    }
+    if (typeof(x2) === 'string') {
+        x2 = parseInt(x2);
+    }
+    if (typeof(y2) === 'string') {
+        y2 = parseInt(y2);
+    }
+
+    var backDist;
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.strokeStyle = color;
+    ctx.fillStyle = color;
+    ctx.lineWidth = width;
+    ctx.moveTo(x0, y0);
+    ctx.lineTo(x1, y1);
+    ctx.lineTo(x2, y2);
+
+    switch (style) {
+        case 0:
+            backDist = Math.sqrt(((x2 - x0) * (x2 - x0)) + ((y2 - y0) * (y2 - y0)));
+            ctx.arcTo(x1, y1, x0, y0, .55 * backDist);
+            ctx.fill();
+            break;
+        case 1:
+            ctx.beginPath();
+            ctx.moveTo(x0, y0);
+            ctx.lineTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.lineTo(x0, y0);
+            ctx.fill();
+            break;
+        case 2:
+            ctx.stroke();
+            break;
+        case 3:
+            var cpx = (x0 + x1 + x2) / 3;
+            var cpy = (y0 + y1 + y2) / 3;
+            ctx.quadraticCurveTo(cpx, cpy, x0, y0);
+            ctx.fill();
+            break;
+        case 4:
+            var cp1x, cp1y, cp2x, cp2y;
+            var shiftAmt = 5;
+            if (x2 === x0) {
+                backDist = y2 - y0;
+                cp1x = (x1 + x0) / 2;
+                cp2x = (x1 + x0) / 2;
+                cp1y = y1 + backDist / shiftAmt;
+                cp2y = y1 - backDist / shiftAmt;
+            } else {
+                backDist = Math.sqrt(((x2 - x0) * (x2 - x0)) + ((y2 - y0) * (y2 - y0)));
+                var xback = (x0 + x2) / 2;
+                var yback = (y0 + y2) / 2;
+                var xmid = (xback + x1) / 2;
+                var ymid = (yback + y1) / 2;
+                var m = (y2 - y0) / (x2 - x0);
+                var dx = (backDist / (2 * Math.sqrt(m * m + 1))) / shiftAmt;
+                var dy = m * dx;
+                cp1x = xmid - dx;
+                cp1y = ymid - dy;
+                cp2x = xmid + dx;
+                cp2y = ymid + dy;
+            }
+            ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x0, y0);
+            ctx.fill();
+            break;
+    }
+    ctx.restore();
 }
 
-function showRainAnimation(timeout){
-    "use strict";
-    setTimeout(rainAnimation(), timeout);
-    // play rain sound
-    // kill/ freeze input
-    // remove character? -> draw map on top of char?
+// draw arrow
+function drawArrow(ctx, x1, y1, x2, y2, style, which, angle, d, color, width) {
+    if (typeof(x1) === 'string') {
+        x1 = parseInt(x1);
+    }
+    if (typeof(y1) === 'string') {
+        y1 = parseInt(y1);
+    }
+    if (typeof(x2) === 'string') {
+        x2 = parseInt(x2);
+    }
+    if (typeof(y2) === 'string') {
+        y2 = parseInt(y2);
+    }
+    style = typeof(style) !== 'undefined' ? style : 3;
+    which = typeof(which) !== 'undefined' ? which : 1;
+    angle = typeof(angle) !== 'undefined' ? angle : Math.PI / 9;
+    d = typeof(d) !== 'undefined' ? d : 10;
+    color = typeof(color) !== 'undefined' ? color : '#000';
+    width = typeof(width) !== 'undefined' ? width : 1;
+    var toDrawHead = typeof(style) !== 'function' ? drawHead : style;
+    var dist = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+    var ratio = (dist - d / 3) / dist;
+    var toX, toY, fromX, fromY;
+    if (which === 1) {
+        toX = Math.round(x1 + (x2 - x1) * ratio);
+        toY = Math.round(y1 + (y2 - y1) * ratio);
+    } else {
+        toX = x2;
+        toY = y2;
+    }
+
+    if (which === 2) {
+        fromX = x1 + (x2 - x1) * (1 - ratio);
+        fromY = y1 + (y2 - y1) * (1 - ratio);
+    } else {
+        fromX = x1;
+        fromY = y1;
+    }
+
+    ctx.beginPath();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = width;
+    ctx.moveTo(fromX, fromY);
+    ctx.lineTo(toX, toY);
+    ctx.stroke();
+
+    var angle1, topX, topY, angle2, botX, botY;
+
+    var lineAngle = Math.atan2(y2 - y1, x2 - x1);
+    var h = Math.abs(d / Math.cos(angle));
+    if (which === 1) {
+        angle1 = lineAngle + Math.PI + angle;
+        topX = x2 + Math.cos(angle1) * h;
+        topY = y2 + Math.sin(angle1) * h;
+        angle2 = lineAngle + Math.PI - angle;
+        botX = x2 + Math.cos(angle2) * h;
+        botY = y2 + Math.sin(angle2) * h;
+        toDrawHead(ctx, topX, topY, x2, y2, botX, botY, style, color, width);
+    }
+
+    if (which === 2) {
+        angle1 = lineAngle + angle;
+        topX = x1 + Math.cos(angle1) * h;
+        topY = y1 + Math.sin(angle1) * h;
+        angle2 = lineAngle - angle;
+        botX = x1 + Math.cos(angle2) * h;
+        botY = y1 + Math.sin(angle2) * h;
+        toDrawHead(ctx, topX, topY, x1, y1, botX, botY, style, color, width);
+    }
+}
+
+// draw arced arrow
+function drawArcedArrow(ctx, x, y, r, startAngle, endAngle, anticlockwise, style, which, angle, d, color, width) {
+    style = typeof(style) !== 'undefined' ? style : 3;
+    which = typeof(which) !== 'undefined' ? which : 1;
+    angle = typeof(angle) !== 'undefined' ? angle : Math.PI / 8;
+    d = typeof (d) !== 'undefined' ? d : 10;
+    color = typeof(color) !== 'undefined' ? color : '#000';
+    width = typeof(width) !== 'undefined' ? width : 1;
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.lineWidth = width;
+    ctx.strokeStyle = color;
+    ctx.arc(x, y, r, startAngle, endAngle, anticlockwise);
+    ctx.stroke();
+    var sourceX, sourceY, lineAngle, destX, destY;
+    ctx.strokeStyle = 'rgba(0,0,0,0)';
+    if (which === 1) {
+        sourceX = Math.cos(startAngle) * r + x;
+        sourceY = Math.sin(startAngle) * r + y;
+        lineAngle = Math.atan2(x - sourceX, sourceY - y);
+        if (anticlockwise) {
+            destX = sourceX + 10 * Math.cos(lineAngle);
+            destY = sourceY + 10 * Math.sin(lineAngle);
+        } else {
+            destX = sourceX - 10 * Math.cos(lineAngle);
+            destY = sourceY - 10 * Math.sin(lineAngle);
+        }
+        drawArrow(ctx, sourceX, sourceY, destX, destY, style, 2, angle, d, color, width);
+    }
+
+    if (which === 2) {
+        sourceX = Math.cos(endAngle) * r + x;
+        sourceY = Math.sin(endAngle) * r + y;
+        lineAngle = Math.atan2(x - sourceX, sourceY - y);
+        if (anticlockwise) {
+            destX = sourceX - 10 * Math.cos(lineAngle);
+            destY = sourceY - 10 * Math.sin(lineAngle);
+        } else {
+            destX = sourceX + 10 * Math.cos(lineAngle);
+            destY = sourceY + 10 * Math.sin(lineAngle);
+        }
+        drawArrow(ctx, sourceX, sourceY, destX, destY, style, 2, angle, d, color, width);
+    }
+    ctx.restore();
+}
+
+
+function canvasApp() {
+
+    var ctx = canvas.infoContext;
+
+    function drawScreen(){
+
+        drawArrow(ctx, 100, 50, 250, 50, 1, 1, 20, 10, '#f36', 4);
+        drawArrow(ctx, 300, 50, 450, 50, 2, 1, 20, 10, 'blue', 4);
+        //drawArrow(ctx, 500, 50, 650, 50, 3, 1, 20, 10, 'orange', 4);
+        //drawArrow(ctx, 700, 50, 850, 50, 4, 1, 20, 10, 'green', 4);
+
+        drawArrow(ctx, 100, 100, 250, 100, 1, 2, 20, 10, '#f36', 4);
+        drawArrow(ctx, 300, 100, 450, 100, 2, 2, 20, 10, 'blue', 4);
+        //drawArrow(ctx, 500, 100, 650, 100, 3, 2, 20, 10, 'orange', 4);
+        //drawArrow(ctx, 700, 100, 850, 100, 4, 2, 20, 10, 'green', 4);
+
+        drawArrow(ctx, 100, 150, 250, 250, 1, 2, 20, 10, '#f36', 4);
+        drawArrow(ctx, 300, 150, 450, 250, 2, 2, 20, 10, 'blue', 4);
+        //drawArrow(ctx, 500, 150, 650, 250, 3, 2, 20, 10, 'orange', 4);
+        //drawArrow(ctx, 700, 150, 850, 250, 4, 2, 20, 10, 'green', 4);
+
+
+        drawArrow(canvas.infoContext, 400, 100, 350, 100, 1, 2, 20, 10, 'red', 4);
+        drawArrow(canvas.infoContext, 350, 100, 400, 100, 1, 2, 20, 10, 'red', 4);
+
+        drawArcedArrow(ctx, 500, 200, 100, 20, 100, true, 1, 1, 20, 10, 'blue', 4);
+
+        //drawArcedArrow(ctx, x, y, r, startAngle, endAngle, anticlockwise, style, which, angle, d, color, width)
+
+        drawArrow(ctx, 100, 200, 250, 100, 1, 2, 20, 20, 'red', 15);
+
+        drawArcedArrow(ctx, 400, 200, 100, 20, 100, true, 1, 1, 19, 20, 'red', 15);
+
+
+    }
+
+    drawScreen();
+
 }

@@ -33,12 +33,7 @@ var isMobile = false; //initiate as false
 
     //isMobile = true;
 
-    if (isMobile) {
-        var buttons = document.getElementsByClassName('playButton');
-        for (var i=0; i<buttons.length; i++){
-            buttons[i].style.visibility = 'visible'
-        }
-    }
+
 
 })();
 
@@ -66,9 +61,10 @@ function loadScreen() {
 
     }
 
-    gameRect(0,0, CANVAS_W,CANVAS_H+uiHeight, 'black');
-    canvas.gameContext.font = 'italic 20pt "COMIC SANS MS"';
-    gameText('LOADING', CANVAS_W/2-70, CANVAS_H/2+uiHeight, 'white');
+    var ctx = canvas.gameContext;
+    canvasRect(ctx, 0,0, CANVAS_W,CANVAS_H+uiHeight, 'black');
+    ctx.font = 'italic 20pt "COMIC SANS MS"';
+    canvasText(ctx, 'LOADING', CANVAS_W/2-70, CANVAS_H/2+uiHeight, 'white');
 
 }
 

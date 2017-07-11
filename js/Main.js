@@ -26,16 +26,15 @@ var experiment = new function(){
     this.maxOpenLevels = 4;
 
     this.currentTestLevel = 0;
-    this.maxTestLevels = 15;
-    //this.maxTestLevels = 7;
+    //this.maxTestLevels = 15;
+    this.maxTestLevels = 7;
 
     this.testPhase = false;
 
     var that = this;
 
-    that.openLevelKeys = ['map1', 'map2', 'map3', 'map4', 'map5', 'map6', 'map7', 'map8', 'map9', 'map10', 'map11',
-        'map12', 'map13', 'map14', 'map15', 'map16'];
-    //that.openLevelKeys = ['map1', 'map2', 'map3', 'map4', 'map5', 'map6', 'map7', 'map8'];
+    //that.openLevelKeys = ['map1', 'map2', 'map3', 'map4', 'map5', 'map6', 'map7', 'map8', 'map9', 'map10', 'map11', 'map12', 'map13', 'map14', 'map15', 'map16'];
+    that.openLevelKeys = ['map1', 'map2', 'map3', 'map4', 'map5', 'map6', 'map7', 'map8'];
 
     that.testLevelKeys = shuffleArray(that.openLevelKeys.slice());
 
@@ -108,7 +107,7 @@ function startGame() {
 	var framesPerSecond = 10;
 
     loadLevel(experiment.openMaps.map1);
-    showExampleScreen();
+    //instructions.show();
 
     if (isMobile){
         // wait to adjust for occasionally lagging audio load time on mobile, esp iOS;
@@ -144,7 +143,7 @@ function logInit(){
 
         allPotatoCounts: {},
         allPotatoPrice: {},
-        // payoffcount gets only added and never overwritten; how much $ part made in the game so far
+        // payoff count gets only added and never overwritten; how much $ part made in the game so far
         payoffCount: 0,
         allPayoffCounts: {},
 
@@ -271,8 +270,9 @@ function nextLevel() {
             // first test map
             loadLevel(testMaps[e.testLevelKeys[0]]);
 
-            boxScreen.show('THIS IS THE START OF THE TEST PHASE OF THIS EXPERIMENT. THIS IS TEST LEVEL 1 OUT OF ' + showMaxLevel);
-            showStartButton()
+            testInstructions.show();
+            //boxScreen.show('THIS IS THE START OF THE TEST PHASE OF THIS EXPERIMENT. THIS IS TEST LEVEL 1 OUT OF ' + showMaxLevel);
+
         }
         else {
             var openLevelKey = e.openLevelKeys[e.currentOpenLevel];
@@ -282,8 +282,9 @@ function nextLevel() {
             logData(logLevelKey);
             loadLevel(e.openMaps[openLevelKey]);
 
+            boxScreen.showBox();
+            showStartButton();
             boxScreen.show('NEXT LEVEL LOADED. THIS IS OPEN LEVEL ' + showCurLevel + ' OUT OF ' + showMaxLevel);
-            showStartButton()
         }
     }
 
@@ -293,7 +294,8 @@ function nextLevel() {
             logLevelKey = getLogLevelKey();
             logData(logLevelKey);
 
-            boxScreen.show('CONGRATULATIONS! YOU HAVE FINISHED THE EXPERIMENT!!!')
+            boxScreen.showBox();
+            boxScreen.show('CONGRATULATIONS! YOU HAVE FINISHED THE EXPERIMENT!!!');
         }
         else {
             var testLevelKey = e.testLevelKeys[e.currentTestLevel];
@@ -303,8 +305,9 @@ function nextLevel() {
             logData(logLevelKey);
             loadLevel(testMaps[testLevelKey]);
 
+            boxScreen.showBox();
+            showStartButton();
             boxScreen.show('NEXT LEVEL LOADED. THIS IS TEST LEVEL ' + showCurLevel + ' OUT OF ' + showMaxLevel);
-            showStartButton()
         }
     }
 
@@ -315,53 +318,57 @@ function nextLevel() {
 
 function drawUI(char){
     'use strict';
+    var ctx = canvas.uiContext;
+
     var currentX = round((camera.centerX - char.X)/TILE_W, 0);
     var currentY = round((camera.centerY - char.Y)/TILE_H, 0) * -1;
     var propMovesLeft = curMapVar.movesLeft/curMapConst.maxMoves;
     var movesLeft = Math.round(propMovesLeft * curMapConst.maxMoves);
     var propPotatoPrice = curMapVar.potatoPrice/curMapConst.potatoPrice;
 
-    canvas.uiContext.clearRect(0,0,CANVAS_W,100); //clear, mainly for transparent part
+    ctx.clearRect(0,0,CANVAS_W,100); //clear, mainly for transparent part
 
-    canvas.uiContext.globalAlpha = 0.6;
-    uiRect(250,50, 200,50, '#333d3f'); // transparent rect under payoff counter
-    canvas.uiContext.globalAlpha = 1.0;
+    ctx.globalAlpha = 0.6;
+    canvasRect(ctx, 250,50, 200,50, '#333d3f'); // transparent rect under payoff counter
+    ctx.globalAlpha = 1.0;
 
-    canvas.uiContext.drawImage(assets.uiPic,0,0,CANVAS_W,100); // ui panel image
+    ctx.drawImage(assets.uiPic,0,0,CANVAS_W,100); // ui panel image
 
-    uiRect(260,10, 100,30, 'red'); // moves left progress bar
-    uiRect(260,10, propMovesLeft * 100,30, 'green');
+    canvasRect(ctx, 260,10, 100,30, 'red'); // moves left progress bar
+    canvasRect(ctx, 260,10, propMovesLeft * 100,30, 'green');
 
-    uiRect(475,10, 100,30, 'red'); // potato price progress bar
-    uiRect(475,10, propPotatoPrice * 100,30, 'green');
+    canvasRect(ctx, 475,10, 100,30, 'red'); // potato price progress bar
+    canvasRect(ctx, 475,10, propPotatoPrice * 100,30, 'green');
 
-    canvas.uiContext.font = 'italic 18pt "COMIC SANS MS"'; // X/ Y coordinates
-    uiText('X: ' + currentX, 50,35, '#DAA520');
-    uiText('Y: ' + currentY, 130,35, '#DAA520');
+    ctx.font = 'italic 18pt "COMIC SANS MS"'; // X/ Y coordinates
+    canvasText(ctx, 'X: ' + currentX, 50,35, '#DAA520');
+    canvasText(ctx, 'Y: ' + currentY, 130,35, '#DAA520');
 
-    canvas.uiContext.font = 'italic 20pt "COMIC SANS MS"';
-    uiText(curMapVar.potatoCount,635,35, '#DAA520'); // potato count
-    uiText(movesLeft, 285,35, '#DAA520'); // moves left
-    uiText(round(curMapVar.potatoPrice*100, 2) + ' ‎¢', 485,35, '#DAA520'); // potato price
-    canvas.uiContext.font = 'italic 24pt "COMIC SANS MS"';
-    uiText(round(curMapVar.payoffCount, 2) + ' $', 310,85, '#DAA520'); // payoff counter (on transparent rect)
+    ctx.font = 'italic 20pt "COMIC SANS MS"';
+    canvasText(ctx, curMapVar.potatoCount,635,35, '#DAA520'); // potato count
+    canvasText(ctx, movesLeft, 285,35, '#DAA520'); // moves left
+    canvasText(ctx, round(curMapVar.potatoPrice*100, 2) + ' ‎¢', 485,35, '#DAA520'); // potato price
+    ctx.font = 'italic 24pt "COMIC SANS MS"';
+    canvasText(ctx, round(curMapVar.payoffCount, 2) + ' $', 310,85, '#DAA520'); // payoff counter (on transparent rect)
 }
 
 //******************************** Main Game Loop **********************************************************************
 
 function gameLoop() {
     'use strict';
+    var ctx = canvas.gameContext;
+
     // move pointer and follow with camera
     trackerMove(experiment.farmerChar);
     camera.instantFollow();
 
 	// drawing black to erase previous frame before .translate()
-	gameRect(0, 0, CANVAS_W, CANVAS_H, 'black');
+	canvasRect(ctx, 0, 0, CANVAS_W, CANVAS_H, 'black');
 
-	canvas.gameContext.save(); // needed to undo this .translate() used for scroll
+    ctx.save(); // needed to undo this .translate() used for scroll
 
 	// subtracting camPanX and camPanY from every draw operation up until restore()
-	canvas.gameContext.translate(-camera.panX,-camera.panY+uiHeight);
+    ctx.translate(-camera.panX,-camera.panY+uiHeight);
 
 	// this bit of code brings the true soil (X), or plant (Y) parameter on the screen at the mouse cursor
     var pointerX = (camera.centerX - 350 + userInputStatus.mousePosX);
@@ -379,16 +386,15 @@ function gameLoop() {
     experiment.farmerChar.drawSprite(centreX - 30, centreY - 35);
     experiment.potatoAnim.animate(centreX, centreY);
 
-	canvas.gameContext.restore(); // undoes the .translate()
+    ctx.restore(); // undoes the .translate()
     drawUI(experiment.farmerChar); // UI on top
 
     // drawing parameters to screen AFTER restore() on mouse position
     if (devMode){
-        canvas.gameContext.font = '14pt "COMIC SANS MS"';
-        gameText(payoff, userInputStatus.mousePosX, userInputStatus.mousePosY, 'white');
+        ctx.font = '14pt "COMIC SANS MS"';
+        canvasText(ctx, payoff, userInputStatus.mousePosX, userInputStatus.mousePosY, 'white');
     }
 
 }
 
 
-//rainAnimation();

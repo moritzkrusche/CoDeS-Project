@@ -24,7 +24,7 @@ body, .playButton {
     margin-right: 5%;
 }
 
-#canvasContainer {
+#canvasContainer, .demoBox {
     vertical-align: top;
     position: relative !important;
     max-width: 700px;
@@ -33,24 +33,24 @@ body, .playButton {
 }
 
 #demographics {
-    /*color: #a50000;*/
-    color: black;
-    vertical-align: top;
-    position: relative !important;
-    max-width: 700px;
-    min-width: 350px;
-    margin: 0 auto 0 auto;
-    display: table;
+
+    width: 100%;
+    padding-top: 107.14%;
 
     font-family: "Helvetica Neue", sans-serif;
+    font-size: 1em;
 
-    font-size: 1.1em;
+    z-index: 2;
 }
 
 .centeredOnCanvas{
-    vertical-align: middle;
-    margin-left: 25px;
-    margin-right: 25px;
+
+    position: absolute;
+    top: 0;
+    left: 5%;
+    bottom: 0;
+    right: 5%;
+
 }
 
 
@@ -61,39 +61,27 @@ body, .playButton {
     z-index: -4;
 }
 
-#effectCanvas {
+#effectCanvas, #uiCanvas, #infoCanvas, #boxCanvas {
     vertical-align: top;
     position: absolute;
     top: 0;
     max-width: 100%;
     min-width: 50%;
+}
+
+#effectCanvas {
     z-index: -3;
 }
 
 #uiCanvas {
-    vertical-align: top;
-    position: absolute;
-    top: 0;
-    max-width: 100%;
-    min-width: 50%;
     z-index: -2;
 }
 
 #infoCanvas {
-    vertical-align: top;
-    position: absolute;
-    top: 0;
-    max-width: 100%;
-    min-width: 50%;
     z-index: -1;
 }
 
 #boxCanvas {
-    vertical-align: top;
-    position: absolute;
-    top: 0;
-    max-width: 100%;
-    min-width: 50%;
     z-index: 1;
 }
 
@@ -127,23 +115,29 @@ body, .playButton {
 
 }
 
-#nextButton{
+#submitButton{
+    z-index: 2;
+    width: 30%;
+    height: 2.5em;
+    position: absolute;
+    top: 88.8%;
+    left: 35%;
+}
+
+#nextButton, #backButton{
     z-index: 2;
     width: 20%;
     height: 8%;
     position: absolute;
     top: 88.8%;
+}
+
+#nextButton {
     left: 75%;
 }
 
 #backButton{
-    z-index: 2;
-    width: 20%;
-    height: 8%;
-    position: absolute;
-    top: 88.8%;
     left: 5%;
-
 }
 
 #gameBox{
@@ -165,7 +159,7 @@ body, .playButton {
     left: 5%;
 }
 
-.gameBox, .playButton, .continueButton{
+.gameBox, .playButton, .continueButton, .demoBox{
 
     border-radius: 0.4em;
     font-family: "Eagle Lake", cursive;
@@ -225,13 +219,11 @@ body, .playButton {
     position: absolute; left: 0
 }
 
-
 #pbRight {
     width: 31%;
     height: 5em;
     position: absolute; left: 69%
 }
-
 
 #pbDown {
     width: 38%;

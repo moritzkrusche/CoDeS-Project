@@ -300,8 +300,8 @@ function getQuality(whichCol, whichRow){
     var alpha2 = curMapConst.alpha2;
     var beta2 = curMapConst.beta2;
 
-    // Pseudo-Bayesian estimation that neglects the corresponding row/ col paramter in the grid.
-    // Then again, they are to be independently estimated, no?
+    // Pseudo-Bayesian estimation that neglects the corresponding row/ col parameter in the grid.
+    // Then again, they are to be independently estimated
     var qualCol = ((alpha1+curMapVar.payoffColumn[whichCol])/(alpha1+beta1+curMapVar.exploredColumn[whichCol]));
     var qualRow = ((alpha2+curMapVar.payoffRow[whichRow])/(alpha2+beta2+curMapVar.exploredRow[whichRow]));
 

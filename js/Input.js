@@ -32,6 +32,13 @@ function initInput() {
     document.getElementById('pbUp').addEventListener('touchend', buttonFalse);
     document.getElementById('pbDown').addEventListener('touchend', buttonFalse);
 
+    if (isMobile) {
+        var buttons = document.getElementsByClassName('playButton');
+        for (var i=0; i<buttons.length; i++){
+            buttons[i].style.visibility = 'visible'
+        }
+    }
+
 }
 
 function killInput(){
@@ -48,6 +55,13 @@ function killInput(){
     document.getElementById('pbRight').removeEventListener('touchend', buttonFalse);
     document.getElementById('pbUp').removeEventListener('touchend', buttonFalse);
     document.getElementById('pbDown').removeEventListener('touchend', buttonFalse);
+
+    if (isMobile) {
+        var buttons = document.getElementsByClassName('playButton');
+        for (var i=0; i<buttons.length; i++){
+            buttons[i].style.visibility = 'hidden'
+        }
+    }
 
 }
 

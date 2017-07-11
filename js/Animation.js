@@ -64,6 +64,8 @@ function CharClass(spritePic, sheetWidth, sheetHeight, rows, cols, width, height
 
 function AnimationClass(animPic, width, height) {
     'use strict';
+    var ctx = canvas.gameContext;
+
     var meX1 = 0;
     var meY1 = 0;
     var animY1 = 0;
@@ -95,17 +97,17 @@ function AnimationClass(animPic, width, height) {
     this.drawAnimation = function() {
 
         if (animMe1) {
-            gameCenteredBitmap(animPic, meX1, meY1, width, height);
+            canvasCenteredBitmap(ctx, animPic, meX1, meY1, width, height);
             //console.log('PAYOFF AT: ', meX1, meY1);
         }
 
         if (animMe2) {
-            gameCenteredBitmap(animPic, meX2, meY2, width, height);
+            canvasCenteredBitmap(ctx, animPic, meX2, meY2, width, height);
             //console.log('PAYOFF AT: ', meX2, meY2);
         }
 
         if (animMe3) {
-            gameCenteredBitmap(animPic, meX3, meY3, width, height);
+            canvasCenteredBitmap(ctx, animPic, meX3, meY3, width, height);
             //console.log('PAYOFF AT: ', meX3, meY3);
         }
 

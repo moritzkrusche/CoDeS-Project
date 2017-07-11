@@ -9,12 +9,12 @@
     <meta name='author' content='Moritz Krusche'>
     <link rel='stylesheet' type='text/css' href='NewStyle.css'>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
     <link href='https://fonts.googleapis.com/css?family=Eagle Lake' rel='stylesheet'>
     <title>The Potato Game</title>
 </head>
 
-<body style="background-image: radial-gradient(ellipse farthest-corner at center, #F5F5DC 0%, #FAEBD7 100%);">
+<body style='background-image: radial-gradient(ellipse farthest-corner at center, #F5F5DC 0%, #FAEBD7 100%);'>
 
 <button id = 'cheatButtonTest' onclick='nextLevelTestLevel()' >CHEAT TO TEST MAP 1</button>
 <button id = 'cheatButton' onclick='nextLevel()' >CHEAT TO NEXT MAP</button>
@@ -23,18 +23,23 @@
     <div class='gameContainer'>
 
         <div id='canvasContainer'>
-            <canvas class = 'responsive' id='gameCanvas' width='700' height='750' style="display:block"></canvas>
-            <canvas class = 'responsive' id='effectCanvas' width='700' height='750' style="display:block"></canvas>
-            <canvas class = 'responsive' id='uiCanvas' width='700' height='750' style="display:block"></canvas>
-            <canvas class = 'responsive' id='infoCanvas' width='700' height='750' style="display:block"></canvas>
-            <canvas class = 'responsive' id='boxCanvas' width='700' height='750' style="display:block"></canvas>
+            <canvas class = 'responsive' id='gameCanvas' width='700' height='750' style='display:block'></canvas>
+            <canvas class = 'responsive' id='effectCanvas' width='700' height='750' style='display:block'></canvas>
+            <canvas class = 'responsive' id='uiCanvas' width='700' height='750' style='display:block'></canvas>
+            <canvas class = 'responsive' id='infoCanvas' width='700' height='750' style='display:block'></canvas>
+            <canvas class = 'responsive' id='boxCanvas' width='700' height='750' style='display:block'></canvas>
 
-            <div class="gameBox" id="gameBox" style="display:none"> </div>
-            <div class="gameBox" id="fullGameBox" style="display:none"> </div>
+            <div class='gameBox' id='gameBox' style='display:none'> </div>
+            <div class='gameBox' id='fullGameBox' style='display:none'> </div>
 
-            <button class='continueButton' id='nextButton' style="display:none" onclick='buttonNext()' >Next</button>
-            <button class='continueButton' id='backButton' style="display:none" onclick='buttonBack()' >Back</button>
-            <button class='continueButton' id='startButton' style="display:none" onclick='buttonStartLevel()' >Start</button>
+            <button class='continueButton' id='nextButton' style='display:none' onclick='buttonNext()' >Next</button>
+            <button class='continueButton' id='backButton' style='display:none' onclick='buttonBack()' >Back</button>
+            <button class='continueButton' id='startButton' style='display:none' onclick='buttonStartLevel()' >Start</button>
+
+            <button id='legendButton' style='display:none' onclick='buttonStartLevel()' > </button>
+            <button class='continueButton' id='closeButton' style='display:none' onclick='buttonStartLevel()' >Close</button>
+
+            <button class='continueButton' id='finishButton' style='display:none' onclick='buttonStartLevel()' >Finish</button>
 
         </div>
 
@@ -53,74 +58,84 @@
 </div>
 
 <!-- DEMOGRAPHICS PAGE -->
-<div class='wrapper'>
-<div class="container">
-    <form id="demographics" style="display:none">
-        <div class = "centeredOnCanvas">
+<div class='gameWrapper'>
+    <div class='gameContainer'>
+        <div class = 'demoBox' id='demoBox' style='display:block'>
 
-        <div class="row">
-            <div class="col-md-8">
-                <h3>Demographic Information</h3>
+            <form id='demographics'>
+                <div class = 'centeredOnCanvas'>
 
-                <p>Before the start of the experiment we have to collect standard demographic information.
-                    Your Prolific ID is solely used to process participation and payoff, and will thereafter be deleted.
-                </p>
-            </div>
-        </div>
+                    <div class='row'>
+                        <div class='col-md-8'>
+                            <h3>Demographic Information</h3>
 
-        <div>
-            <h4>Prolific ID</h4>
-            <label class="labelstyle" id="loginTitle1" for="loginField1">
-                <input id="loginField1" name="loginInput" type="text" value="" tabindex="1">
-            </label>
-        </div> <!-- end of login field -->
+                            <p>Before the start of the experiment we have to collect standard demographic information.
+                                Your Prolific ID is solely used to process participation and payoff, and will thereafter be deleted.
+                            </p>
+                        </div>
+                    </div>
 
-        <!-- Age -->
-        <div class="row">
-            <div class="col-lg-6">
-                <h4>Age</h4>
-                <div class="input-group input-group-lg">
-                    <label class="radio-inline">
-                        <input type="radio" name="age" value="18-25" />18-25
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="age" value="26-35" />26-35
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="age" value="36-45" />36-45
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="age" value="46-55" />46-55
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="age" value="56-65" />56-65
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="age" value="66+" />66+
-                    </label>
+                    <div>
+                        <h4>Prolific ID</h4>
+                        <label class='labelstyle' id='loginTitle1' for='loginField1'>
+                            <input id='loginField1' name='loginInput' type='text' value='' tabindex='1'>
+                        </label>
+                    </div> <!-- end of login field -->
+
+                    <!-- Age -->
+                    <div class='row'>
+                        <div class='col-lg-6'>
+                            <h4>Age</h4>
+                            <div class='input-group input-group-lg'>
+                                <label class='radio-inline'>
+                                    <input type='radio' name='age' value='18-25' />18-25
+                                </label>
+                                <label class='radio-inline'>
+                                    <input type='radio' name='age' value='26-35' />26-35
+                                </label>
+                                <label class='radio-inline'>
+                                    <input type='radio' name='age' value='36-45' />36-45
+                                </label>
+                                <label class='radio-inline'>
+                                    <input type='radio' name='age' value='46-55' />46-55
+                                </label>
+                                <label class='radio-inline'>
+                                    <input type='radio' name='age' value='56-65' />56-65
+                                </label>
+                                <label class='radio-inline'>
+                                    <input type='radio' name='age' value='66+' />66+
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Gender -->
+                    <div class='row'>
+                        <div class='col-lg-6'>
+                            <h4>Gender</h4>
+                            <div class='input-group input-group-lg'>
+                                <label class='radio-inline'>
+                                    <input type='radio' name='gender' value='female' />Female
+                                </label>
+                                <label class='radio-inline'>
+                                    <input type='radio' name='gender' value='male' />Male
+                                </label>
+                                <label class='radio-inline'>
+                                    <input type='radio' name='gender' value='other' />Other
+                                </label>
+                            </div><!-- /input-group -->
+                        </div><!-- /.col-lg-6 -->
+                    </div>
                 </div>
+
+            </form>
+
+            <div class='buttonContainer' >
+                <button class='continueButton' id='submitButton' style='display:block' onclick='buttonSubmit()' >Submit</button>
             </div>
+
         </div>
-        <!-- Gender -->
-        <div class="row">
-            <div class="col-lg-6">
-                <h4>Gender</h4>
-                <div class="input-group input-group-lg">
-                    <label class="radio-inline">
-                        <input type="radio" name="gender" value="female" />Female
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="gender" value="male" />Male
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="gender" value="other" />Other
-                    </label>
-                </div><!-- /input-group -->
-            </div><!-- /.col-lg-6 -->
-        </div>
-        </div>
-    </form>
-</div>
+
+    </div>
 </div>
 <!-- END demographicsPage -->
 
@@ -151,7 +166,7 @@
 <script src='js/AssetLoading.js'></script>
 <script src='js/Instructions.js'></script>
 <script src='js/World.js'></script>
-<script src='js/Maps.js'></script>
+<script src='js/Maps2.js'></script>
 <script src='js/Input.js'></script>
 <script src='js/Movement.js'></script>
 <script src='js/Animation.js'></script>
