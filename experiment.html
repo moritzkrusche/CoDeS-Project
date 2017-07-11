@@ -19,33 +19,34 @@
 <button id = 'cheatButtonTest' onclick='nextLevelTestLevel()' >CHEAT TO TEST MAP 1</button>
 <button id = 'cheatButton' onclick='nextLevel()' >CHEAT TO NEXT MAP</button>
 
-<div class='wrapper'>
-    <div class='container'>
+<div class='gameWrapper'>
+    <div class='gameContainer'>
 
-        <div id='canvas-container'>
+        <div id='canvasContainer'>
             <canvas class = 'responsive' id='gameCanvas' width='700' height='750' style="display:block"></canvas>
             <canvas class = 'responsive' id='effectCanvas' width='700' height='750' style="display:block"></canvas>
             <canvas class = 'responsive' id='uiCanvas' width='700' height='750' style="display:block"></canvas>
             <canvas class = 'responsive' id='infoCanvas' width='700' height='750' style="display:block"></canvas>
             <canvas class = 'responsive' id='boxCanvas' width='700' height='750' style="display:block"></canvas>
 
-            <div class="gameBox" id="gameBox" style="display:none"> <span> </span></div>
+            <div class="gameBox" id="gameBox" style="display:none"> </div>
+            <div class="gameBox" id="fullGameBox" style="display:none"> </div>
 
-            <button class='continueButton' id='nextButton' style="display:none" onclick='buttonNext()' >NEXT</button>
-            <button class='continueButton' id='backButton' style="display:none" onclick='buttonBack()' >BACK</button>
-            <button class='continueButton' id='startButton' style="display:none" onclick='buttonStartLevel()' > START </button>
+            <button class='continueButton' id='nextButton' style="display:none" onclick='buttonNext()' >Next</button>
+            <button class='continueButton' id='backButton' style="display:none" onclick='buttonBack()' >Back</button>
+            <button class='continueButton' id='startButton' style="display:none" onclick='buttonStartLevel()' >Start</button>
 
         </div>
 
-        <div class='button-container' >
+        <div class='buttonContainer' >
             <button class='playButton' id='pbUp' onmousedown='buttonUp()' onmouseup='buttonFalse()' > Up </button>
         </div>
-        <div class='button-container' >
+        <div class='buttonContainer' >
 
             <button class='playButton' id='pbLeft' onmousedown='buttonLeft()' onmouseup='buttonFalse()' >Left</button>
             <button class='playButton' id='pbRight' onmousedown='buttonRight()' onmouseup='buttonFalse()' >Right</button>
         </div>
-        <div class='button-container' >
+        <div class='buttonContainer' >
             <button class='playButton' id='pbDown' onmousedown='buttonDown()' onmouseup='buttonFalse()' >Down</button>
         </div>
     </div>
@@ -148,8 +149,9 @@
 <!-- Main Experiment JS files-->
 <script src='js/GraphicsCommon.js'></script>
 <script src='js/AssetLoading.js'></script>
+<script src='js/Instructions.js'></script>
 <script src='js/World.js'></script>
-<script src='js/Maps2.js'></script>
+<script src='js/Maps.js'></script>
 <script src='js/Input.js'></script>
 <script src='js/Movement.js'></script>
 <script src='js/Animation.js'></script>

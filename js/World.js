@@ -300,6 +300,8 @@ function getQuality(whichCol, whichRow){
     var alpha2 = curMapConst.alpha2;
     var beta2 = curMapConst.beta2;
 
+    // Pseudo-Bayesian estimation that neglects the corresponding row/ col paramter in the grid.
+    // Then again, they are to be independently estimated, no?
     var qualCol = ((alpha1+curMapVar.payoffColumn[whichCol])/(alpha1+beta1+curMapVar.exploredColumn[whichCol]));
     var qualRow = ((alpha2+curMapVar.payoffRow[whichRow])/(alpha2+beta2+curMapVar.exploredRow[whichRow]));
 
@@ -308,13 +310,6 @@ function getQuality(whichCol, whichRow){
 
     return [qualLevelCol, qualLevelRow]
 }
-
-// Maarten's original proposal for Bayesian Parameter Estimation
-/*
- var qualRow = ((alpha2+potatoRow)/(alpha2+beta2+potatoRow+NoneRow))/(alpha1/(alpha1+beta1));
- var qualCol = ((alpha1+potatoCol)/(alpha1+beta1+potatoCol+NoneCol))/(alpha2/(alpha2+beta2));
- */
-// debiasing by putting in other parameter does not work
 
 
 /*
@@ -335,7 +330,10 @@ Column 3 --> path (0: no, 1: payoff) + water (3)
 Row 0, 1, 2, 3, 4 --> Soil Quality 1,2,3,4,5
 */
 
-// universal class for drawing (static) tiles from a tilesheet
+//curMapConst.soilSheet = new TileSheetClass(assets.soilSheetPic, 5*TILE_W, 5*TILE_H, 5, 5, 0, 0, TILE_W, TILE_H);
+//curMapConst.plantSheet = new TileSheetClass(assets.plantSheetPic, 5*PLANT_W, 5*PLANT_H, 5, 5, ((TILE_W-PLANT_W)/2), ((TILE_H-PLANT_H)/2), PLANT_W, PLANT_H);
+
+// universal class for drawing (static) tiles from a tile-sheet
 function TileSheetClass(image, sheetWidth, sheetHeight, rows, cols, offsetX, offsetY, drawWidth, drawHeight) {
     'use strict';
     this.SheetWidth = sheetWidth;

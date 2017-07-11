@@ -10,38 +10,6 @@ var condition;
 // 4: 05050505/plantCol
 
 
-/*
-(function(){
-    'use strict';
-
-    var test1 = [];
-    var test2 = [];
-    var test3 = [];
-    var test4 = [];
-
-
-    for (var i=0; i<100; i++){
-
-        var getCondition = getRandomInt(1,4);
-
-        if (getCondition === 1 )test1.push(getCondition);
-        else if (getCondition === 2 )test2.push(getCondition);
-        else if (getCondition === 3 )test3.push(getCondition);
-        else if (getCondition === 4 )test4.push(getCondition)
-
-    }
-
-    console.log('CONDITION 1 :', test1.length);
-    console.log('CONDITION 2 :', test2.length);
-    console.log('CONDITION 3 :', test3.length);
-    console.log('CONDITION 4 :', test4.length)
-
-    //condition = getCondition;
-
-})();
-
-*/
-
 (function(){
 
     condition = getRandomInt(1,4);
@@ -58,15 +26,16 @@ var experiment = new function(){
     this.maxOpenLevels = 4;
 
     this.currentTestLevel = 0;
-    //this.maxTestLevels = 15;
-    this.maxTestLevels = 7;
+    this.maxTestLevels = 15;
+    //this.maxTestLevels = 7;
 
     this.testPhase = false;
 
     var that = this;
 
-    //that.openLevelKeys = ['map1', 'map2', 'map3', 'map4', 'map5', 'map6', 'map7', 'map8', 'map9', 'map10', 'map11', 'map12', 'map13', 'map14', 'map15', 'map16'];
-    that.openLevelKeys = ['map1', 'map2', 'map3', 'map4', 'map5', 'map6', 'map7', 'map8'];
+    that.openLevelKeys = ['map1', 'map2', 'map3', 'map4', 'map5', 'map6', 'map7', 'map8', 'map9', 'map10', 'map11',
+        'map12', 'map13', 'map14', 'map15', 'map16'];
+    //that.openLevelKeys = ['map1', 'map2', 'map3', 'map4', 'map5', 'map6', 'map7', 'map8'];
 
     that.testLevelKeys = shuffleArray(that.openLevelKeys.slice());
 
@@ -93,7 +62,7 @@ var experiment = new function(){
     this.potatoAnim = new AnimationClass(assets.potato, 0.5 * TILE_W, 0.32 * TILE_H)
 }();
 
-// this definition requires that the appropriately sized tile sheet is delivered
+// this definition requires that the appropriately sized tile-sheet is delivered
 curMapConst.soilSheet = new TileSheetClass(assets.soilSheetPic, 5*TILE_W, 5*TILE_H, 5, 5, 0, 0, TILE_W, TILE_H);
 curMapConst.plantSheet = new TileSheetClass(assets.plantSheetPic, 5*PLANT_W, 5*PLANT_H, 5, 5, ((TILE_W-PLANT_W)/2), ((TILE_H-PLANT_H)/2), PLANT_W, PLANT_H);
 
@@ -301,7 +270,7 @@ function nextLevel() {
             logData(logLevelKey);
             // first test map
             loadLevel(testMaps[e.testLevelKeys[0]]);
-            //alert('THIS IS THE START OF THE TEST PHASE OF THIS EXPERIMENT. THIS IS TEST LEVEL 1 OUT OF ' + showMaxLevel);
+
             boxScreen.show('THIS IS THE START OF THE TEST PHASE OF THIS EXPERIMENT. THIS IS TEST LEVEL 1 OUT OF ' + showMaxLevel);
             showStartButton()
         }
@@ -312,7 +281,7 @@ function nextLevel() {
             logLevelKey = getLogLevelKey();
             logData(logLevelKey);
             loadLevel(e.openMaps[openLevelKey]);
-            //alert('NEXT LEVEL LOADED. THIS IS OPEN LEVEL ' + showCurLevel + ' OUT OF ' + showMaxLevel);
+
             boxScreen.show('NEXT LEVEL LOADED. THIS IS OPEN LEVEL ' + showCurLevel + ' OUT OF ' + showMaxLevel);
             showStartButton()
         }
@@ -323,7 +292,7 @@ function nextLevel() {
         if (e.currentTestLevel > e.maxTestLevels) {
             logLevelKey = getLogLevelKey();
             logData(logLevelKey);
-            //alert('CONGRATULATIONS! YOU HAVE FINISHED THE EXPERIMENT!!!');
+
             boxScreen.show('CONGRATULATIONS! YOU HAVE FINISHED THE EXPERIMENT!!!')
         }
         else {
@@ -333,7 +302,7 @@ function nextLevel() {
             logLevelKey = getLogLevelKey();
             logData(logLevelKey);
             loadLevel(testMaps[testLevelKey]);
-            //alert('NEXT LEVEL LOADED. THIS IS TEST LEVEL ' + showCurLevel + ' OUT OF ' + showMaxLevel);
+
             boxScreen.show('NEXT LEVEL LOADED. THIS IS TEST LEVEL ' + showCurLevel + ' OUT OF ' + showMaxLevel);
             showStartButton()
         }
@@ -352,23 +321,30 @@ function drawUI(char){
     var movesLeft = Math.round(propMovesLeft * curMapConst.maxMoves);
     var propPotatoPrice = curMapVar.potatoPrice/curMapConst.potatoPrice;
 
-    canvas.uiContext.drawImage(assets.uiPic,0,0,CANVAS_W,100);
-    uiRect(260,10, 100,30, 'red');
+    canvas.uiContext.clearRect(0,0,CANVAS_W,100); //clear, mainly for transparent part
+
+    canvas.uiContext.globalAlpha = 0.6;
+    uiRect(250,50, 200,50, '#333d3f'); // transparent rect under payoff counter
+    canvas.uiContext.globalAlpha = 1.0;
+
+    canvas.uiContext.drawImage(assets.uiPic,0,0,CANVAS_W,100); // ui panel image
+
+    uiRect(260,10, 100,30, 'red'); // moves left progress bar
     uiRect(260,10, propMovesLeft * 100,30, 'green');
 
-    uiRect(475,10, 100,30, 'red');
+    uiRect(475,10, 100,30, 'red'); // potato price progress bar
     uiRect(475,10, propPotatoPrice * 100,30, 'green');
 
-    canvas.uiContext.font = 'italic 18pt "COMIC SANS MS"';
+    canvas.uiContext.font = 'italic 18pt "COMIC SANS MS"'; // X/ Y coordinates
     uiText('X: ' + currentX, 50,35, '#DAA520');
     uiText('Y: ' + currentY, 130,35, '#DAA520');
 
     canvas.uiContext.font = 'italic 20pt "COMIC SANS MS"';
-    uiText(curMapVar.potatoCount,635,35, '#DAA520');
-    uiText(movesLeft, 285,35, '#DAA520');
-    uiText(round(curMapVar.potatoPrice*100, 2) + ' ‎¢', 485,35, '#DAA520');
-    canvas.uiContext.font = 'italic 28pt "COMIC SANS MS"';
-    uiText(round(curMapVar.payoffCount, 2) + ' $', 310,85, '#DAA520');
+    uiText(curMapVar.potatoCount,635,35, '#DAA520'); // potato count
+    uiText(movesLeft, 285,35, '#DAA520'); // moves left
+    uiText(round(curMapVar.potatoPrice*100, 2) + ' ‎¢', 485,35, '#DAA520'); // potato price
+    canvas.uiContext.font = 'italic 24pt "COMIC SANS MS"';
+    uiText(round(curMapVar.payoffCount, 2) + ' $', 310,85, '#DAA520'); // payoff counter (on transparent rect)
 }
 
 //******************************** Main Game Loop **********************************************************************
@@ -396,7 +372,6 @@ function gameLoop() {
 
     // rendering everything
     drawVisibleTiles();
-    //rainAnimation();
 
     // render farmer Sprite and potato Animation
     var centreX = CANVAS_W/2 +camera.panX;

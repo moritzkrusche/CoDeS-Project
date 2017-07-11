@@ -113,7 +113,7 @@ function checkCollision(atTrackerX, atTrackerY) {
 
     if (nextPos >= 5) {
 
-        // show X temporarily
+        // show X on water tiles temporarily
         if (nextPos === 5){
             curMapVar.tileGrid[someY][someX] = 6;
 
@@ -122,8 +122,6 @@ function checkCollision(atTrackerX, atTrackerY) {
             };
             var resetId = setTimeout(resetTile, 750);
         }
-
-        //setTimeout(function(){curMapVar.tileGrid[someY][someX] = nextPos}, 1000);
 
         if (!isMobile) {
             if (!assets.errorSound.playing(curMapVar.errorId1) && !assets.errorSound.playing(curMapVar.errorId2)) {

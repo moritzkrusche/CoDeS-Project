@@ -1,5 +1,5 @@
 
-body {
+body, .playButton {
     font-size: 100%;
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
@@ -9,8 +9,7 @@ body {
 
 }
 
-
-.wrapper {
+.gameWrapper {
     display: table !important;
     padding: 0;
     width: 100%;
@@ -18,14 +17,14 @@ body {
     position: absolute;
 }
 
-.container {
+.gameContainer {
     display: table-cell !important;
     vertical-align: sub;
     /* to adjust for the fact that the wrapper often cuts out a bit on mobile devices */
     margin-right: 5%;
 }
 
-#canvas-container {
+#canvasContainer {
     vertical-align: top;
     position: relative !important;
     max-width: 700px;
@@ -98,7 +97,7 @@ body {
     z-index: 1;
 }
 
-.button-container {
+.buttonContainer {
     display: block;
     position: relative !important;
     max-width: 700px;
@@ -112,23 +111,6 @@ body {
     background: transparent;
 }
 
-.continueButton{
-
-
-    border-radius: 8px;
-    font-family: "Eagle Lake", cursive;
-    font-style: italic;
-    font-size: 1.5em;
-    color: #DAA520;
-    border: 0.125em ridge #DAA520;
-    background-color: #333d3f;
-    background-image: linear-gradient(90deg, rgba(51,61,63,.07) 50%, transparent 50%),
-    linear-gradient(90deg, rgba(51,61,63,.13) 50%, transparent 50%);
-    background-size: 13px, 29px, 37px, 53px;
-    padding: 10px 20px 10px 20px;
-    text-decoration: none;
-
-}
 
 .continueButton:hover{
     background: #525b68;
@@ -137,86 +119,78 @@ body {
 
 #startButton{
     z-index: 2;
-
-    width: 200px;
-    height: auto;
+    width: 30%;
+    height: 8%;
     position: absolute;
-    top: 680px;
-    left: 250px;
+    top: 88.8%;
+    left: 35%;
 
 }
 
 #nextButton{
     z-index: 2;
-
-    width: 120px;
-    height: auto;
+    width: 20%;
+    height: 8%;
     position: absolute;
-    top: 680px;
-    left: 550px;
+    top: 88.8%;
+    left: 75%;
 }
 
 #backButton{
     z-index: 2;
-
-    width: 120px;
-    height: auto;
+    width: 20%;
+    height: 8%;
     position: absolute;
-    top: 680px;
-    left: 30px;
+    top: 88.8%;
+    left: 5%;
 
 }
 
 #gameBox{
     z-index: 0;
-    /*display: none;*/
+    width: 90%;
+    height: 32.6%;
+    opacity: 0.8;
+    position: absolute;
+    top: 64%;
+    left: 5%
 }
 
-.gameBox{
-    width: 640px;
-    height: 260px;
-
+#fullGameBox{
+    z-index: 0;
+    width: 90%;
+    height: 83.6%;
     position: absolute;
-    top: 475px;
-    left: 30px;
+    top: 13.2%;
+    left: 5%;
+}
 
-    border-radius: 8px;
+.gameBox, .playButton, .continueButton{
+
+    border-radius: 0.4em;
     font-family: "Eagle Lake", cursive;
     font-style: italic;
-    font-size: 1.5em;
+
     color: #DAA520;
-    border: 0.125em ridge #DAA520;
+    border: 0.13em ridge #DAA520;
     background-color: #333d3f;
     background-image: linear-gradient(90deg, rgba(51,61,63,.07) 50%, transparent 50%);
-    opacity: 0.9;
-    background-size: 13px, 29px, 37px, 53px;
-    padding: 10px 20px 10px 20px;
     text-decoration: none;
 
+}
+
+.gameBox, .continueButton{
+    font-size: 140%;
+    background-size: 1.3%, 2.9%, 3.7%, 5.3%;
+    padding: 1% 2% 1% 2%;
 }
 
 .playButton {
     visibility: hidden;
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
 
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    border-radius: 8px;
-    font-family: "Eagle Lake", cursive;
-    font-style: italic;
     font-size: 1.5em;
-    color: #DAA520;
-    border: 0.125em ridge #DAA520;
-    background-color: #333d3f;
-    background-image: linear-gradient(90deg, rgba(51,61,63,.07) 50%, transparent 50%),
-    linear-gradient(90deg, rgba(51,61,63,.13) 50%, transparent 50%);
-    background-size: 13px, 29px, 37px, 53px;
-    padding: 10px 20px 10px 20px;
-    text-decoration: none;
+    background-size: 1.3%, 2.9%, 3.7%, 5.3%;
+    padding: 2% 4% 2% 4%;
 
 }
 
@@ -228,7 +202,7 @@ body {
 
 .playButton:active{
     background: #B0C4DE;
-    top: 0.125em;
+    top: 0.13em;
     text-decoration: none;
     outline: none;
     -webkit-box-shadow: none;
@@ -236,7 +210,7 @@ body {
 }
 
 #pbDown:active{
-    top: 2.625em;
+    top: 2.6em;
 }
 
 #pbUp {
