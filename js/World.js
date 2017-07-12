@@ -380,7 +380,7 @@ function drawVisibleTiles() {
 
                 var tilePos = curMapVar.tileGrid[eachRow][eachCol];
 
-                // Col/ Row ia correct with respect to parameters and X/ Y; Row/ Col necessary due to JS Rows[Cols]
+                // Col/ Row is correct with respect to parameters and X/ Y; Row/ Col necessary due to JS Rows[Cols]
                 var type = getType(eachCol, eachRow);
 
                 var soilParameter = type[2];

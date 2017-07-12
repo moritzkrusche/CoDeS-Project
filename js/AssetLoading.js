@@ -33,8 +33,6 @@ var isMobile = false; //initiate as false
 
     //isMobile = true;
 
-
-
 })();
 
 // Tiles supplied by Arthur Guez and modified
@@ -145,7 +143,7 @@ var assets = new function() {
 
     if (!isMobile) {
 
-        var numSounds = 4;
+        var numSounds = 8;
         var numSoundsLoaded = 0;
         var soundLoaded = function() {
             numSoundsLoaded++;
@@ -170,6 +168,26 @@ var assets = new function() {
             soundLoaded();
             }
         });
+        this.normalRainSound = new Howl({src: ['audio/normalRain' + audioFormat], volume: 0.6, loop: true, onload: function() {
+            soundLoaded();
+        }
+        });
+
+        this.strongRainSound = new Howl({src: ['audio/strongRain' + audioFormat], volume: 0.6, loop: true, onload: function() {
+            soundLoaded();
+        }
+        });
+
+        this.strongestRainSound = new Howl({src: ['audio/strongestRain' + audioFormat], volume: 0.6, loop: true, onload: function() {
+            soundLoaded();
+        }
+        });
+
+        this.finishedSound = new Howl({src: ['audio/finished' + audioFormat], volume: 0.6, onload: function() {
+            soundLoaded();
+        }
+        });
+
 
     } else {
 
@@ -183,7 +201,11 @@ var assets = new function() {
             sprite: {
                 walking: [0, 5500, true],
                 potato: [7000, 500],
-                error: [8500, 500]
+                error: [8500, 500],
+                finished: [10000, 4000],
+                normalRain: [15000, 10000, true],
+                strongRain: [26000, 10000, true],
+                strongestRain: [37000, 10000, true]
             }, onload: function() {
                 soundSpriteLoaded();
             }

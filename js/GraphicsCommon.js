@@ -147,17 +147,12 @@ var rainAnimationClass = function(intensity) {
     this.start = function(){
         "use strict";
         that.rainId = setInterval(draw, 30);
-
-        //TODO: start rain sound (intensity??)
-
     };
 
     this.stop = function(){
         "use strict";
         clearInterval(that.rainId);
         ctx.clearRect(0,0, CANVAS_W,CANVAS_H+uiHeight)
-
-        //TODO: stop rain sound (intensity??)
     };
 };
 

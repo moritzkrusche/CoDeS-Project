@@ -169,19 +169,52 @@ var testInstructions = new function () {
                 boxScreen.show('Look, it starts to rain...');
                 boxScreen.showBox();
                 normalRain.start();
+                if (!isMobile) {
+                    assets.normalRainSound.play();
+                }else {
+                    assets.spriteSound.stop();
+                    assets.spriteSound.play('normalRain');
+                }
+
                 break;
             case 1:
                 boxScreen.show('This rain is getting too strong... Let us hope that the potatoes survive.');
                 normalRain.stop();
                 strongRain.start();
+                if (!isMobile){
+                    assets.normalRainSound.stop();
+                    assets.strongRainSound.play();
+                }else {
+                    assets.spriteSound.stop();
+                    assets.spriteSound.play('strongRain');
+                }
+
+
                 break;
             case 2:
                 boxScreen.show('Oh dear! It looks as if this is a monsoon! The field will not go undamaged!');
                 strongRain.stop();
                 strongestRain.start();
+                if (!isMobile){
+                    assets.strongRainSound.stop();
+                    assets.strongestRainSound.play();
+                }else {
+                    assets.spriteSound.stop();
+                    assets.spriteSound.play('strongestRain');
+                }
+
+
                 break;
             case 3:
                 strongestRain.stop();
+                if (!isMobile){
+                    assets.strongestRainSound.stop();
+                } else {
+                    assets.spriteSound.stop();
+                }
+
+                loadLevel(testMaps[experiment.testLevelKeys[0]]);
+
                 boxScreen.hideFull();
                 boxScreen.show('text3');
                 document.getElementById('backButton').style.display = 'none';
@@ -215,6 +248,7 @@ var instructions = new function() {
 
     this.show = function(){
 
+        var ctx = canvas.boxContext;
         var index = this.index;
         switch (index) {
 
@@ -238,10 +272,19 @@ var instructions = new function() {
                 showExampleTiles(1);
                 showExampleTiles(2);
 
-                drawArrow(canvas.boxContext, 360, 150, 420, 150, 1, 2, 20, 10, 'red', 4);
-                canvasText(canvas.boxContext, 'worst', 440,150, 'red');
-                drawArrow(canvas.boxContext, 360, 470, 420, 470, 1, 2, 20, 10, 'red', 4);
-                canvasText(canvas.boxContext, 'best', 440,470, 'red');
+                drawArrow(ctx, 360, 150, 420, 150, 1, 2, 20, 10, 'red', 4);
+                drawArrow(ctx, 360, 470, 420, 470, 1, 2, 20, 10, 'red', 4);
+                ctx.font = 'italic 18pt "COMIC SANS MS"';
+                canvasText(ctx, 'worst soil type', 440,155, '#DAA520');
+                canvasText(ctx, 'best soil type', 440,475, '#DAA520');
+
+                drawArrow(ctx, 130, 260, 420, 260, 1, 2, 20, 8, 'red', 2);
+                drawArrow(ctx, 240, 310, 420, 310, 1, 2, 20, 8, 'red', 2);
+                drawArrow(ctx, 350, 360, 420, 360, 1, 2, 20, 8, 'red', 2);
+                canvasText(ctx, 'not explored', 440,265, '#DAA520');
+                canvasText(ctx, 'briefly explored', 440,315, '#DAA520');
+                canvasText(ctx, 'well explored', 440,365, '#DAA520');
+
                 //showExampleTiles(6);
 
                 break;
@@ -255,9 +298,18 @@ var instructions = new function() {
                 showExampleTiles(4);
                 showExampleTiles(5);
 
-                drawArrow(canvas.boxContext, 360, 150, 420, 150, 1, 2, 20, 10, 'red', 4);
+                drawArrow(ctx, 360, 150, 420, 150, 1, 2, 20, 10, 'red', 4);
+                drawArrow(ctx, 360, 470, 420, 470, 1, 2, 20, 10, 'red', 4);
+                ctx.font = 'italic 18pt "COMIC SANS MS"';
+                canvasText(ctx, 'worst plant type', 440,155, '#DAA520');
+                canvasText(ctx, 'best plant type', 440,475, '#DAA520');
 
-                drawArrow(canvas.boxContext, 360, 470, 420, 470, 1, 2, 20, 10, 'red', 4);
+                drawArrow(ctx, 130, 260, 420, 260, 1, 2, 20, 8, 'red', 2);
+                drawArrow(ctx, 240, 310, 420, 310, 1, 2, 20, 8, 'red', 2);
+                drawArrow(ctx, 350, 360, 420, 360, 1, 2, 20, 8, 'red', 2);
+                canvasText(ctx, 'not explored', 440,265, '#DAA520');
+                canvasText(ctx, 'briefly explored', 440,315, '#DAA520');
+                canvasText(ctx, 'well explored', 440,365, '#DAA520');
 
                 break;
             case 3:
@@ -418,6 +470,7 @@ var exampleScreen = new function(){
         // entire UI
         canvasFrame(ctx, 10,0, 670, 50, 5, 'red');
         canvasFrame(ctx, 250,45, 170, 55, 5, 'red');
+        ctx.clearRect(255,45, 160, 50);
     };
 
     this.clear = function(){

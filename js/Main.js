@@ -268,7 +268,6 @@ function nextLevel() {
             logLevelKey = getLogLevelKey();
             logData(logLevelKey);
             // first test map
-            loadLevel(testMaps[e.testLevelKeys[0]]);
 
             testInstructions.show();
             //boxScreen.show('THIS IS THE START OF THE TEST PHASE OF THIS EXPERIMENT. THIS IS TEST LEVEL 1 OUT OF ' + showMaxLevel);
@@ -294,8 +293,13 @@ function nextLevel() {
             logLevelKey = getLogLevelKey();
             logData(logLevelKey);
 
-            boxScreen.showBox();
+            boxScreen.showFull();
             boxScreen.show('CONGRATULATIONS! YOU HAVE FINISHED THE EXPERIMENT!!!');
+            if (!isMobile){
+                assets.finishedSound.play();
+            } else {
+                assets.spriteSound.play('finished');
+            }
         }
         else {
             var testLevelKey = e.testLevelKeys[e.currentTestLevel];
