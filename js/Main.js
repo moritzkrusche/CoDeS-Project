@@ -268,7 +268,7 @@ function nextLevel() {
             logLevelKey = getLogLevelKey();
             logData(logLevelKey);
             // first test map
-
+            killInput();
             testInstructions.show();
             //boxScreen.show('THIS IS THE START OF THE TEST PHASE OF THIS EXPERIMENT. THIS IS TEST LEVEL 1 OUT OF ' + showMaxLevel);
 

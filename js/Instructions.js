@@ -20,11 +20,9 @@ demographicsForm.addEventListener('submit', function() {
     loggedData.partAge = form.age.value;
     loggedData.partGender = form.gender.value;
 
-    document.getElementById('submitButton').style.display = 'none';
     document.getElementById('demoBox').style.display = 'none';
 
     instructions.show();
-
 });
 
 var boxScreen = new function() {
