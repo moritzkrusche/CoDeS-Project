@@ -38,9 +38,10 @@ body, .playButton {
     padding-top: 107.14%;
 
     font-family: "Helvetica Neue", sans-serif;
-    font-size: 1em;
+    font-size: 1.1em;
+    position: relative;
+    z-index: 3;'
 
-    z-index: 2;
 }
 
 .centeredOnCanvas{

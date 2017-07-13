@@ -2,20 +2,30 @@
 
 //******************************** INSTRUCTIONS ************************************************************************
 
-function buttonSubmit() {
-    "use strict";
+var demographicsForm = document.getElementById('demographics');
 
+var normalRain = new rainAnimationClass(1);
+var strongRain = new rainAnimationClass(5);
+var strongestRain = new rainAnimationClass(15);
+
+demographicsForm.addEventListener('submit', function() {
+    var form = demographicsForm;
+    event.preventDefault();
+
+    //console.log('ID: ', form.prolificId.value);
+    //console.log('AGE: ', form.age.value);
+    //console.log('GENDER: ', form.gender.value);
+
+    loggedData.prolificId = form.prolificId.value;
+    loggedData.partAge = form.age.value;
+    loggedData.partGender = form.gender.value;
 
     document.getElementById('submitButton').style.display = 'none';
     document.getElementById('demoBox').style.display = 'none';
 
     instructions.show();
-}
 
-
-var normalRain = new rainAnimationClass(1);
-var strongRain = new rainAnimationClass(5);
-var strongestRain = new rainAnimationClass(15);
+});
 
 var boxScreen = new function() {
     "use strict";

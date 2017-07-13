@@ -62,76 +62,58 @@
     <div class='gameContainer'>
         <div class = 'demoBox' id='demoBox' style='display:block'>
 
-            <form id='demographics'>
+            <form id='demographics' >
                 <div class = 'centeredOnCanvas'>
 
-                    <div class='row'>
-                        <div class='col-md-8'>
-                            <h3>Demographic Information</h3>
-
-                            <p>Before the start of the experiment we have to collect standard demographic information.
-                                Your Prolific ID is solely used to process participation and payoff, and will thereafter be deleted.
-                            </p>
-                        </div>
+                    <div>
+                        <h3>Demographic Information</h3>
+                        <p>Before the start of the experiment we have to collect standard demographic information. <br>
+                            Your Prolific ID is solely used to process participation and payoff, and will thereafter be deleted.
+                        </p>
                     </div>
 
-                    <div>
+                    <!-- Prolific ID-->
+                    <div class='input'>
                         <h4>Prolific ID</h4>
-                        <label class='labelstyle' id='loginTitle1' for='loginField1'>
-                            <input id='loginField1' required pattern="[A-Z]{3}[0-9]{4}" name='loginInput' type='text' value='' tabindex='1'>
-                        </label>
-                    </div> <!-- end of login field -->
+                        <label for='prolificId'></label>
+                        <input type="text" name='prolificId' id='prolificId' required> <!--pattern="[A-Z]{3}[0-9]{4}"-->
+                    </div>
 
                     <!-- Age -->
-                    <div class='row'>
-                        <div class='col-lg-6'>
-                            <h4>Age</h4>
-                            <div class='input-group input-group-lg'>
-                                <label class='radio-inline'>
-                                    <input type='radio' name='age' value='18-25' />18-25
-                                </label>
-                                <label class='radio-inline'>
-                                    <input type='radio' name='age' value='26-35' />26-35
-                                </label>
-                                <label class='radio-inline'>
-                                    <input type='radio' name='age' value='36-45' />36-45
-                                </label>
-                                <label class='radio-inline'>
-                                    <input type='radio' name='age' value='46-55' />46-55
-                                </label>
-                                <label class='radio-inline'>
-                                    <input type='radio' name='age' value='56-65' />56-65
-                                </label>
-                                <label class='radio-inline'>
-                                    <input type='radio' name='age' value='66+' />66+
-                                </label>
-                            </div>
-                        </div>
+                    <div class='input'>
+                        <h4>Age</h4>
+                        <label for="age"></label>
+                        <select name='age' required id = "age">
+                            <option value = "">Please select</option>
+                            <option value = "18">18-25</option>
+                            <option value = "26">26-35</option>
+                            <option value = "36">36-45</option>
+                            <option value = "46">46-55</option>
+                            <option value = "56">56-65</option>
+                            <option value = "65">65+</option>
+                        </select>
                     </div>
+
                     <!-- Gender -->
-                    <div class='row'>
-                        <div class='col-lg-6'>
-                            <h4>Gender</h4>
-                            <div class='input-group input-group-lg'>
-                                <label class='radio-inline'>
-                                    <input type='radio' name='gender' value='female' />Female
-                                </label>
-                                <label class='radio-inline'>
-                                    <input type='radio' name='gender' value='male' />Male
-                                </label>
-                                <label class='radio-inline'>
-                                    <input type='radio' name='gender' value='other' />Other
-                                </label>
-                            </div><!-- /input-group -->
-                        </div><!-- /.col-lg-6 -->
+                    <div class='input'>
+                        <h4>Gender</h4>
+                        <label for="gender"></label>
+                        <select name='gender' required id = "gender">
+                            <option value = "">Please select</option>
+                            <option value = "1">female</option>
+                            <option value = "2">male</option>
+                            <option value = "3">other</option>
+                        </select>
                     </div>
+
                 </div>
+                <input type="submit" class='continueButton' id='submitButton' />
 
             </form>
 
-            <div class='buttonContainer' >
+            <!--<div class='buttonContainer' >
                 <button class='continueButton' id='submitButton' style='display:block' onclick='buttonSubmit()' >Submit</button>
-            </div>
+            </div>-->
 
         </div>
 

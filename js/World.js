@@ -61,10 +61,11 @@ var curMapVar = {
 // condition in clear text; e.g "1221/soilCol" or 05050505/plantCol etc.
 
 var loggedData = {
+    prolificId: "",
     condition: "",
     partAge: "",
     partGender: "",
-    dateTime: "",
+    dateTime: {},
 
     browserIsMobile: false,
 
