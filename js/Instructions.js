@@ -2,14 +2,26 @@
 
 //******************************** INSTRUCTIONS ************************************************************************
 
-var demographicsForm = document.getElementById('demographics');
+var htmlPage = {
+    demoForm: document.getElementById('demographics'),
+    demoBox: document.getElementById('demoBox'),
+    gameBox: document.getElementById('gameBox'),
+    fullBox: document.getElementById('fullGameBox'),
 
-var normalRain = new rainAnimationClass(1);
-var strongRain = new rainAnimationClass(5);
-var strongestRain = new rainAnimationClass(15);
+    nextButton: document.getElementById('nextButton'),
+    backButton: document.getElementById('backButton'),
+    startButton: document.getElementById('startButton')
 
-demographicsForm.addEventListener('submit', function() {
-    var form = demographicsForm;
+};
+
+var rainEffects = {
+    normal: new rainAnimationClass(1),
+    strong: new rainAnimationClass(5),
+    strongest: new rainAnimationClass(15)
+};
+
+htmlPage.demoForm.addEventListener('submit', function() {
+    var form = htmlPage.demoForm;
     event.preventDefault();
 
     //console.log('ID: ', form.prolificId.value);
@@ -20,7 +32,7 @@ demographicsForm.addEventListener('submit', function() {
     loggedData.partAge = form.age.value;
     loggedData.partGender = form.gender.value;
 
-    document.getElementById('demoBox').style.display = 'none';
+    htmlPage.demoBox.style.display = 'none';
 
     instructions.show();
 });
@@ -60,55 +72,43 @@ var boxScreen = new function() {
 
         canvas.boxContext.clearRect(0,0, CANVAS_W,CANVAS_H+uiHeight);
         canvas.infoContext.clearRect(0,0, CANVAS_W,CANVAS_H+uiHeight);
-        document.getElementById('gameBox').style.display = 'none';
-        document.getElementById('fullGameBox').style.display = 'none';
+        htmlPage.gameBox.style.display = 'none';
+        htmlPage.fullBox.style.display = 'none';
 
-        document.getElementById('nextButton').style.display = 'none';
-        document.getElementById('backButton').style.display = 'none';
+        htmlPage.nextButton.style.display = 'none';
+        htmlPage.backButton.style.display = 'none';
 
     };
 
-    this.show = function(words){
+    this.showText = function(words){
         "use strict";
-
-        if (!isMobile){
-            if (assets.backgroundSound.playing(curMapVar.backgroundId)){
-                assets.backgroundSound.stop(curMapVar.backgroundId)
-            }
-        }
         canvas.boxContext.clearRect(0,0, CANVAS_W,CANVAS_H+uiHeight);
-
         that.wrapText(words, 80, 540, 540, 25);
     };
-
-    this.showBox = function(){
-        document.getElementById('gameBox').style.display = 'block';
-    };
-    this.hideBox = function(){
-        document.getElementById('gameBox').style.display = 'none';
-    };
-    this.showFull = function(){
-        document.getElementById('fullGameBox').style.display = 'block';
-    };
-    this.hideFull = function(){
-        document.getElementById('fullGameBox').style.display = 'none';
-    }
 };
 
 function buttonNext() {
     "use strict";
 
     if (!experiment.testPhase){
-        if (instructions.index < instructions.maxIndex){
+        if (experiment.currentOpenLevel === 0 && instructions.index < instructions.maxIndex){
             instructions.index++;
+            instructions.show()
+            }
+            else {
+            nextOpenLevel.index++;
+            nextOpenLevel.show()
         }
-        instructions.show()
     }
+
     else if (experiment.testPhase){
-        if (testInstructions.index < testInstructions.maxIndex){
+        if (experiment.currentTestLevel === 0 && testInstructions.index < testInstructions.maxIndex) {
             testInstructions.index++;
+            testInstructions.show();
+        } else {
+            nextTestLevel.index++;
+            nextTestLevel.show()
         }
-        testInstructions.show();
     }
 }
 
@@ -127,16 +127,16 @@ function buttonBack() {
         testInstructions.show();
     }
 
-    document.getElementById('nextButton').style.display = 'block';
+    htmlPage.nextButton.style.display = 'block';
 }
-
 
 function buttonStartLevel(){
     "use strict";
     boxScreen.hideAll();
     initInput();
-
-    document.getElementById('startButton').style.display = 'none';
+    htmlPage.startButton.style.display = 'none';
+    nextTestLevel.index = 0;
+    nextOpenLevel.index = 0;
 
     if (!isMobile) {
         if (assets.backgroundSound.playing(curMapVar.backgroundId)){
@@ -152,13 +152,16 @@ function buttonStartLevel(){
                 alert('Could not unlock sound!')
             }
         }
-
     }
 }
 
-function showStartButton(){
+function stopBackgroundSound(){
     "use strict";
-    document.getElementById('startButton').style.display = 'block';
+    if (!isMobile){
+        if (assets.backgroundSound.playing(curMapVar.backgroundId)){
+            assets.backgroundSound.stop(curMapVar.backgroundId)
+        }
+    }
 }
 
 var testInstructions = new function () {
@@ -169,26 +172,30 @@ var testInstructions = new function () {
 
     this.show = function() {
 
+        stopBackgroundSound();
         var index = this.index;
+        var maxLevel = experiment.maxTestLevels+1;
+
         switch (index) {
+
             case 0:
-                document.getElementById('nextButton').style.display = 'block';
-                document.getElementById('backButton').style.display = 'none';
-                boxScreen.show('Look, it starts to rain...');
-                boxScreen.showBox();
-                normalRain.start();
+                htmlPage.nextButton.style.display = 'block';
+                htmlPage.backButton.style.display = 'none';
+                boxScreen.showText('Look, it starts to rain...');
+                htmlPage.gameBox.style.display = 'block';
+                rainEffects.normal.start();
                 if (!isMobile) {
                     assets.normalRainSound.play();
                 }else {
                     assets.spriteSound.stop();
                     assets.spriteSound.play('normalRain');
                 }
-
                 break;
+
             case 1:
-                boxScreen.show('This rain is getting too strong... Let us hope that the potatoes survive.');
-                normalRain.stop();
-                strongRain.start();
+                boxScreen.showText('This rain is getting too strong... Let us hope that the potatoes survive.');
+                rainEffects.normal.stop();
+                rainEffects.strong.start();
                 if (!isMobile){
                     assets.normalRainSound.stop();
                     assets.strongRainSound.play();
@@ -196,13 +203,12 @@ var testInstructions = new function () {
                     assets.spriteSound.stop();
                     assets.spriteSound.play('strongRain');
                 }
-
-
                 break;
+
             case 2:
-                boxScreen.show('Oh dear! It looks as if this is a monsoon! The field will not go undamaged!');
-                strongRain.stop();
-                strongestRain.start();
+                boxScreen.showText('Oh dear! It looks as if this is a monsoon! The field will not go undamaged!');
+                rainEffects.strong.stop();
+                rainEffects.strongest.start();
                 if (!isMobile){
                     assets.strongRainSound.stop();
                     assets.strongestRainSound.play();
@@ -210,40 +216,128 @@ var testInstructions = new function () {
                     assets.spriteSound.stop();
                     assets.spriteSound.play('strongestRain');
                 }
-
-
                 break;
+
             case 3:
-                strongestRain.stop();
+                rainEffects.strongest.stop();
                 if (!isMobile){
                     assets.strongestRainSound.stop();
                 } else {
                     assets.spriteSound.stop();
                 }
 
-                loadLevel(testMaps[experiment.testLevelKeys[0]]);
+                loadLevel(testMaps[experiment.testLevelKeys[0]]); // load first test map
 
-                boxScreen.hideFull();
-                boxScreen.show('text3');
-                document.getElementById('backButton').style.display = 'none';
+                htmlPage.fullBox.style.display = 'none';
+                boxScreen.showText('Unfortunately, the heavy rain has soaked parts of the field with water and you will not be able to ' +
+                    'move to those tiles. You will also not be able to move very far on the other tiles because of the muddy ground.');
+                htmlPage.backButton.style.display = 'none';
                 break;
+
             case 4:
-                boxScreen.show('text4');
-                boxScreen.showFull();
-                showExampleTiles(6);
-                document.getElementById('backButton').style.display = 'block';
+                htmlPage.fullBox.style.display = 'none';
+                boxScreen.showText('However the value of potatoes has also risen sharply, because there is now less ' +
+                    'supply. You also know the potato field better than on the previous maps. ');
+                htmlPage.backButton.style.display = 'block';
                 break;
+
             case 5:
-                boxScreen.hideFull();
-                boxScreen.show('text5');
+                htmlPage.fullBox.style.display = 'block';
+                boxScreen.showText('As a reminder: dark soil and large plants are better. Note: you cannot move to water tiles.');
+                showExampleTiles('both');
+                showExampleTiles('water');
                 break;
+
             case 6:
-                boxScreen.show('text6');
-                document.getElementById('nextButton').style.display = 'none';
-                document.getElementById('startButton').style.display = 'block';
-
+                htmlPage.fullBox.style.display = 'none';
+                boxScreen.showText('This is small level 1 out of ' + maxLevel + '. On every small level, you have ' + curMapVar.movesLeft + ' moves, but potatoes are worth much more.');
+                htmlPage.nextButton.style.display = 'none';
+                htmlPage.startButton.style.display = 'block';
                 break;
 
+            default:
+                // should never execute
+                alert("ERROR: testInstructions() in instructions.js fell through cases!");
+                break;
+        }
+    }
+};
+
+var nextTestLevel = new function () {
+    this.index = 0;
+    this.maxIndex = 1;
+
+    this.show = function() {
+
+        stopBackgroundSound();
+        var index = this.index;
+        var curLevel = experiment.currentTestLevel+1;
+        var maxLevel = experiment.maxTestLevels+1;
+        switch (index) {
+
+            case 0:
+                htmlPage.nextButton.style.display = 'block';
+                htmlPage.backButton.style.display = 'none';
+
+                htmlPage.fullBox.style.display = 'block';
+                boxScreen.showText('Next level loaded. As a reminder: dark soil and large plants are better. Note: you cannot move to water tiles.');
+                showExampleTiles('both');
+                showExampleTiles('water');
+                break;
+
+            case 1:
+                htmlPage.fullBox.style.display = 'none';
+                htmlPage.gameBox.style.display = 'block';
+                htmlPage.nextButton.style.display = 'none';
+                htmlPage.startButton.style.display = 'block';
+                boxScreen.showText('This is small level ' + curLevel + ' out of ' + maxLevel +
+                    '. On every small level, you have ' + curMapVar.movesLeft + ' moves, but potatoes are worth much more.');
+                break;
+
+            default:
+                // should never execute
+                alert("ERROR: nextTestLevel() in instructions.js fell through cases!");
+                break;
+        }
+    }
+};
+
+var nextOpenLevel = new function () {
+    this.index = 0;
+    this.maxIndex = 1;
+
+    this.show = function() {
+
+        stopBackgroundSound();
+        var index = this.index;
+        var curLevel = experiment.currentOpenLevel+1;
+        var maxLevel = experiment.maxOpenLevels+1;
+
+        switch (index) {
+
+            case 0:
+                htmlPage.nextButton.style.display = 'block';
+                htmlPage.backButton.style.display = 'none';
+
+                htmlPage.fullBox.style.display = 'block';
+                boxScreen.showText('Next level loaded. As a reminder: dark soil and large plants are better.');
+                showExampleTiles('both');
+                break;
+
+            case 1:
+
+                htmlPage.fullBox.style.display = 'none';
+                htmlPage.gameBox.style.display = 'block';
+                htmlPage.nextButton.style.display = 'none';
+                htmlPage.startButton.style.display = 'block';
+                boxScreen.showText('This is large level ' + curLevel + ' out of ' + maxLevel +
+                    '. On every large level, you have '  + curMapVar.movesLeft + ' moves.');
+                break;
+
+            default:
+                // should never execute
+                alert("ERROR: nextOpenLevel() in instructions.js fell through cases!");
+                break;
         }
     }
 };
@@ -252,131 +346,165 @@ var instructions = new function() {
     "use strict";
 
     this.index = 0;
-    this.maxIndex = 12;
+    this.maxIndex = 18;
 
     this.show = function(){
 
-        var ctx = canvas.boxContext;
         var index = this.index;
+        var maxLevel = experiment.maxOpenLevels+1;
         switch (index) {
 
             case 0:
-                document.getElementById('nextButton').style.display = 'block';
-                document.getElementById('backButton').style.display = 'none';
-                boxScreen.show(getText(0));
-                boxScreen.showBox();
-                boxScreen.hideFull();
+                // text intro etc.
+                exampleScreen.clear();
+                boxScreen.showText('In this task, you will be playing a web game where you control a farmer harvesting potatoes on a ' +
+                'large field. Your goal is to collect as many potatoes as possible.');
+                // show/ hide some buttons & boxes
+                htmlPage.nextButton.style.display = 'block';
+                htmlPage.backButton.style.display = 'none';
+                htmlPage.gameBox.style.display = 'block';
+                htmlPage.fullBox.style.display = 'none';
+                break;
+
+
+            case 0.5:
+                boxScreen.showText('Every potato that you earn is worth real money. Please pay careful attention to the following ' +
+                'information, so that you can earn as many potatoes as possible.');
+
                 break;
 
             case 1:
-
-                document.getElementById('backButton').style.display = 'block';
-                exampleScreen.clear();
-                exampleScreen.highlightFarmer();
-                boxScreen.show(getText(1));
-
-                boxScreen.showFull();
-                showExampleTiles(0);
-                showExampleTiles(1);
-                showExampleTiles(2);
-
-                drawArrow(ctx, 360, 150, 420, 150, 1, 2, 20, 10, 'red', 4);
-                drawArrow(ctx, 360, 470, 420, 470, 1, 2, 20, 10, 'red', 4);
-                ctx.font = 'italic 18pt "COMIC SANS MS"';
-                canvasText(ctx, 'worst soil type', 440,155, '#DAA520');
-                canvasText(ctx, 'best soil type', 440,475, '#DAA520');
-
-                drawArrow(ctx, 130, 260, 420, 260, 1, 2, 20, 8, 'red', 2);
-                drawArrow(ctx, 240, 310, 420, 310, 1, 2, 20, 8, 'red', 2);
-                drawArrow(ctx, 350, 360, 420, 360, 1, 2, 20, 8, 'red', 2);
-                canvasText(ctx, 'not explored', 440,265, '#DAA520');
-                canvasText(ctx, 'briefly explored', 440,315, '#DAA520');
-                canvasText(ctx, 'well explored', 440,365, '#DAA520');
-
-                //showExampleTiles(6);
-
+                // text intro etc. contd
+                boxScreen.showText('Every potato that you earn is worth real money. Please pay careful attention to the following ' +
+                    'information, so that you can earn as many potatoes as possible.');
+                // show back button as now one step to go back to
+                htmlPage.backButton.style.display = 'block';
                 break;
+
             case 2:
-                exampleScreen.clear();
-                exampleScreen.highlightTile();
-                boxScreen.show(getText(2));
-
-                boxScreen.showFull();
-                showExampleTiles(3);
-                showExampleTiles(4);
-                showExampleTiles(5);
-
-                drawArrow(ctx, 360, 150, 420, 150, 1, 2, 20, 10, 'red', 4);
-                drawArrow(ctx, 360, 470, 420, 470, 1, 2, 20, 10, 'red', 4);
-                ctx.font = 'italic 18pt "COMIC SANS MS"';
-                canvasText(ctx, 'worst plant type', 440,155, '#DAA520');
-                canvasText(ctx, 'best plant type', 440,475, '#DAA520');
-
-                drawArrow(ctx, 130, 260, 420, 260, 1, 2, 20, 8, 'red', 2);
-                drawArrow(ctx, 240, 310, 420, 310, 1, 2, 20, 8, 'red', 2);
-                drawArrow(ctx, 350, 360, 420, 360, 1, 2, 20, 8, 'red', 2);
-                canvasText(ctx, 'not explored', 440,265, '#DAA520');
-                canvasText(ctx, 'briefly explored', 440,315, '#DAA520');
-                canvasText(ctx, 'well explored', 440,365, '#DAA520');
+                // moving using arrow keys or buttons
+                exampleScreen.highlightFarmerMoves();
+                if (!isMobile){
+                    boxScreen.showText("Once the game starts, you will be able to control your farmer with the arrow keys on your keyboard.");
+                } else {
+                    boxScreen.showText("Once the game starts, you will be able to control your farmer with the touch buttons that will display below the screen.");
+                }
 
                 break;
+
             case 3:
-                exampleScreen.clear();
-                exampleScreen.highlightCenterCol();
-                boxScreen.show(getText(3));
-
-                boxScreen.hideFull();
+                exampleScreen.highlightFarmer();
+                exampleScreen.highlightTile();
+                boxScreen.showText("everything here is made up of tiles!");
                 break;
+
             case 4:
-                exampleScreen.clear();
-                exampleScreen.highlightCenterRow();
-                boxScreen.show(getText(4));
+                exampleScreen.highlightCenterCol();
+                boxScreen.showText("this is a column");
                 break;
+
             case 5:
-                exampleScreen.clear();
-                exampleScreen.highlightCol();
-                boxScreen.show(getText(5));
+                exampleScreen.highlightCenterRow();
+                boxScreen.showText("this is a row");
+                htmlPage.fullBox.style.display = 'none';
                 break;
+
             case 6:
+                // show soil quality
+                htmlPage.fullBox.style.display = 'block';
+                boxScreen.showText('all the soil qualities');
                 exampleScreen.clear();
-                exampleScreen.highlightRow();
-                boxScreen.show(getText(6));
+                showExampleTiles('soil');
                 break;
+
             case 7:
+                // show plant quality
+                htmlPage.fullBox.style.display = 'block';
+                boxScreen.showText('all the plant qualities');
                 exampleScreen.clear();
-                exampleScreen.highlightUi();
-                boxScreen.show(getText(7));
+                showExampleTiles('plant');
                 break;
+
             case 8:
-                exampleScreen.clear();
-                exampleScreen.highlightPotatoCount();
-                boxScreen.show(getText(8));
+                // text
+                boxScreen.showText('some explanation about you do not know soil column');
+                htmlPage.fullBox.style.display = 'none';
                 break;
+
             case 9:
-                exampleScreen.clear();
-                exampleScreen.highlightPotatoPrice();
-                boxScreen.show(getText(9));
+                exampleScreen.highlightCenterCol();
+                boxScreen.showText("this is the center col");
                 break;
+
             case 10:
-                exampleScreen.clear();
-                exampleScreen.highlightPayoff();
-                boxScreen.show(getText(10));
+                exampleScreen.highlightCenterRow();
+                boxScreen.showText("this is the center row");
+                htmlPage.fullBox.style.display = 'none';
                 break;
+
             case 11:
+                // show soil qual + info
+                htmlPage.fullBox.style.display = 'block';
+                boxScreen.showText("soil info and quality");
                 exampleScreen.clear();
-                exampleScreen.highlightMovesLeft();
-                boxScreen.show(getText(11));
+                showExampleTiles('soilInfo');
                 break;
+
             case 12:
-                exampleScreen.clear();
+                // show plant qual + info
                 exampleScreen.highlightXY();
-                boxScreen.show(getText(12));
+                htmlPage.fullBox.style.display = 'block';
+                boxScreen.showText("plant info and quality");
+                exampleScreen.clear();
+                showExampleTiles('plantInfo');
+                break;
 
+            case 13:
+                // show moves left
+                exampleScreen.highlightMovesLeft();
+                htmlPage.fullBox.style.display = 'none';
+                boxScreen.showText("how many moves you have left");
+                break;
 
+            case 14:
+                // show potato count
+                exampleScreen.highlightPotatoCount();
+                boxScreen.showText("how many potatoes you found this level");
+                break;
 
-                document.getElementById('nextButton').style.display = 'none';
+            case 15:
+                // show potato price
+                exampleScreen.highlightPotatoPrice();
+                boxScreen.showText("this is the current potato price");
+                break;
 
-                document.getElementById('startButton').style.display = 'block';
+            case 16:
+                // show payoff total
+                exampleScreen.highlightPayoff();
+                boxScreen.showText('Your total reward for all the potatoes you have earned is shown here. It will increase with every ' +
+                    'potato you find, and be carried over to the next level. At the end of the experiment, this is your ' +
+                    'compensation.');
+                break;
+
+            case 17:
+                // show XY
+                exampleScreen.highlightXY();
+                boxScreen.showText("You can always see where you are in comparison with your starting " +
+                    "point here. X for column, and Y for row positions.");
+                break;
+
+            case 18:
+                // level start text
+                exampleScreen.clear();
+                boxScreen.showText('This is large level 1 out of ' + maxLevel +
+                '. On every large level, you have ' + curMapVar.movesLeft + ' moves.');
+                htmlPage.nextButton.style.display = 'none';
+                htmlPage.startButton.style.display = 'block';
+                break;
+
+            default:
+                // should never execute
+                alert("ERROR: instructions() in instructions.js fell through cases!");
                 break;
         }
     }
@@ -389,29 +517,87 @@ function showExampleTiles(whichTiles){
     var redHeight = TILE_H*0.8;
     var redColHeight = TILE_H*0.8*5;
 
+    var ctx = canvas.boxContext;
+
     switch (whichTiles){
-        case 0: // show example soil tiles info level 3
-            canvas.boxContext.drawImage(assets.soilSheetPic, 0, 0, TILE_W, TILE_H*5, 270, 110, redWidth, redColHeight);
-            break;
-        case 1: // show example soil tiles info level 2
-            canvas.boxContext.drawImage(assets.soilSheetPic, TILE_W, 0, TILE_W, TILE_H*5, 160, 110, redWidth, redColHeight);
-            break;
-        case 2: // show example soil tiles info level 1
-            canvas.boxContext.drawImage(assets.soilSheetPic, TILE_W*2, 0, TILE_W, TILE_H*5, 50, 110, redWidth, redColHeight);
-            break;
-        case 3: // show example plant tiles info level 3
-            canvas.boxContext.drawImage(assets.plantSheetPic, 0, 0, PLANT_W, PLANT_H*5, 270, 110, redWidth, redColHeight);
-            break;
-        case 4: // show example plant tiles info level 2
-            canvas.boxContext.drawImage(assets.plantSheetPic, PLANT_W, 0, PLANT_W, PLANT_H*5, 160, 110, redWidth, redColHeight);
-            break;
-        case 5: // show example plant tiles info level 1
-            canvas.boxContext.drawImage(assets.plantSheetPic, PLANT_W*2, 0, PLANT_W, PLANT_H*5, 50, 110, redWidth, redColHeight);
-            break;
-        case 6: // example water tile
-            canvas.boxContext.drawImage(assets.soilSheetPic, TILE_W*3, TILE_H*2, TILE_W, TILE_H, 380, 430, redWidth, redHeight);
+        case 'soil':
+            ctx.drawImage(assets.soilSheetPic, 0, 0, TILE_W, TILE_H*5, 270, 110, redWidth, redColHeight);
+            drawArrow(ctx, 360, 150, 420, 150, 1, 2, 20, 10, 'red', 5);
+            drawArrow(ctx, 360, 470, 420, 470, 1, 2, 20, 10, 'red', 5);
+            ctx.font = 'italic 16pt "COMIC SANS MS"';
+            canvasText(ctx, 'worst soil type', 440,155, '#DAA520');
+            canvasText(ctx, 'best soil type', 440,475, '#DAA520');
             break;
 
+        case 'plant':
+            ctx.drawImage(assets.plantSheetPic, 0, 0, PLANT_W, PLANT_H*5, 270, 110, redWidth, redColHeight);
+            drawArrow(ctx, 360, 150, 420, 150, 1, 2, 20, 10, 'red', 5);
+            drawArrow(ctx, 360, 470, 420, 470, 1, 2, 20, 10, 'red', 5);
+            ctx.font = 'italic 16pt "COMIC SANS MS"';
+            canvasText(ctx, 'worst plant type', 440,155, '#DAA520');
+            canvasText(ctx, 'best plant type', 440,475, '#DAA520');
+            break;
+
+
+        case 'soilInfo': // show example soil tiles info level 1 - 3
+            ctx.drawImage(assets.soilSheetPic, 0, 0, TILE_W, TILE_H*5, 270, 110, redWidth, redColHeight);
+            ctx.drawImage(assets.soilSheetPic, TILE_W, 0, TILE_W, TILE_H*5, 160, 110, redWidth, redColHeight);
+            ctx.drawImage(assets.soilSheetPic, TILE_W*2, 0, TILE_W, TILE_H*5, 50, 110, redWidth, redColHeight);
+            drawArrow(ctx, 360, 150, 420, 150, 1, 2, 20, 10, 'red', 5);
+            drawArrow(ctx, 360, 470, 420, 470, 1, 2, 20, 10, 'red', 5);
+            ctx.font = 'italic 16pt "COMIC SANS MS"';
+            canvasText(ctx, 'worst soil type', 440,155, '#DAA520');
+            canvasText(ctx, 'best soil type', 440,475, '#DAA520');
+
+            drawArrow(ctx, 130, 260, 420, 260, 1, 2, 20, 8, 'red', 2);
+            drawArrow(ctx, 240, 310, 420, 310, 1, 2, 20, 8, 'red', 2);
+            drawArrow(ctx, 350, 360, 420, 360, 1, 2, 20, 8, 'red', 2);
+            canvasText(ctx, 'not explored', 440,265, '#DAA520');
+            canvasText(ctx, 'briefly explored', 440,315, '#DAA520');
+            canvasText(ctx, 'well explored', 440,365, '#DAA520');
+            break;
+
+        case 'plantInfo': // show example plant tiles info level 1 - 3
+            ctx.drawImage(assets.plantSheetPic, 0, 0, PLANT_W, PLANT_H*5, 270, 110, redWidth, redColHeight);
+            ctx.drawImage(assets.plantSheetPic, PLANT_W, 0, PLANT_W, PLANT_H*5, 160, 110, redWidth, redColHeight);
+            ctx.drawImage(assets.plantSheetPic, PLANT_W*2, 0, PLANT_W, PLANT_H*5, 50, 110, redWidth, redColHeight);
+
+            drawArrow(ctx, 360, 150, 420, 150, 1, 2, 20, 10, 'red', 5);
+            drawArrow(ctx, 360, 470, 420, 470, 1, 2, 20, 10, 'red', 5);
+            ctx.font = 'italic 16pt "COMIC SANS MS"';
+            canvasText(ctx, 'worst plant type', 440,155, '#DAA520');
+            canvasText(ctx, 'best plant type', 440,475, '#DAA520');
+
+            drawArrow(ctx, 130, 260, 420, 260, 1, 2, 20, 8, 'red', 2);
+            drawArrow(ctx, 240, 310, 420, 310, 1, 2, 20, 8, 'red', 2);
+            drawArrow(ctx, 350, 360, 420, 360, 1, 2, 20, 8, 'red', 2);
+            canvasText(ctx, 'not explored', 440,265, '#DAA520');
+            canvasText(ctx, 'briefly explored', 440,315, '#DAA520');
+            canvasText(ctx, 'well explored', 440,365, '#DAA520');
+            break;
+
+        case 'both': // show example plant & soil tiles info level 3
+            ctx.drawImage(assets.plantSheetPic, 0, 0, PLANT_W, PLANT_H*5, 160, 110, redWidth, redColHeight);
+            ctx.drawImage(assets.soilSheetPic, 0, 0, TILE_W, TILE_H*5, 270, 110, redWidth, redColHeight);
+
+            drawArrow(ctx, 360, 150, 420, 150, 1, 2, 20, 10, 'red', 5);
+            drawArrow(ctx, 360, 470, 420, 470, 1, 2, 20, 10, 'red', 5);
+            ctx.font = 'italic 16pt "COMIC SANS MS"';
+            canvasText(ctx, 'worst plant/ soil type', 440,155, '#DAA520');
+            canvasText(ctx, 'best plant/ soil type', 440,475, '#DAA520');
+            break;
+
+        case 'water': // example water tile
+            ctx.drawImage(assets.soilSheetPic, TILE_W*3, TILE_H*2, TILE_W, TILE_H, 380, 270, redWidth, redHeight);
+            drawArrow(ctx, 470, 310, 530, 310, 1, 2, 20, 10, 'red', 5);
+            ctx.font = 'italic 16pt "COMIC SANS MS"';
+            canvasText(ctx, 'inaccessible', 480,345, '#DAA520');
+            break;
+
+        default:
+            // should never execute
+            alert("ERROR: showExampleTiles() in instructions.js fell through cases!");
+            break;
     }
 }
 
@@ -419,151 +605,86 @@ var exampleScreen = new function(){
     "use strict";
     var ctx = canvas.infoContext;
 
+    this.clear = function(){
+        ctx.clearRect(0,0, CANVAS_W,CANVAS_H+uiHeight);
+    };
     this.highlightFarmer = function(){
         // farmer character on tile
+        this.clear();
         canvasFrame(ctx, 300,350, 100, 100, 5, 'red');
+    };
+
+    this.highlightFarmerMoves = function(){
+        // Show arrows for all directions (left, right, top, down) that farmer can walk
+        this.clear();
+        drawArrow(ctx, 270, 400, 300, 400, 1, 2, 20, 10, 'red', 10);
+        drawArrow(ctx, 430, 400, 400, 400, 1, 2, 20, 10, 'red', 10);
+        drawArrow(ctx, 350, 320, 350, 350, 1, 2, 20, 10, 'red', 10);
+        drawArrow(ctx, 350, 480, 350, 450, 1, 2, 20, 10, 'red', 10);
     };
 
     this.highlightTile = function(){
         // example tile
+        this.clear();
         canvasFrame(ctx, 100,350, 100, 100, 5, 'red');
     };
 
-    this.highlightCol = function(){
+    this.highlightOtherCol = function(){
         // example column
+        this.clear();
         canvasFrame(ctx, 100,50, 100, 700, 5, 'red');
     };
 
-    this.highlightRow = function(){
+    this.highlightOtherRow = function(){
         // example row
+        this.clear();
         canvasFrame(ctx, 0,150, 700, 100, 5, 'red');
     };
 
     this.highlightCenterCol = function(){
         // example column
+        this.clear();
         canvasFrame(ctx, 300,100, 100, 650, 5, 'red');
     };
 
     this.highlightCenterRow = function(){
         // example row
+        this.clear();
         canvasFrame(ctx, 0,350, 700, 100, 5, 'red');
     };
 
     this.highlightXY = function(){
         // XY coordinates
+        this.clear();
         canvasFrame(ctx, 10,0, 180, 50, 5, 'red');
+        drawArrow(ctx, 100, 60, 100, 140, 1, 2, 20, 10, 'red', 5);
     };
 
     this.highlightMovesLeft = function(){
         // moves left
+        this.clear();
         canvasFrame(ctx, 200,0, 170, 50, 5, 'red');
+        drawArrow(ctx, 250, 60, 250, 140, 1, 2, 20, 10, 'red', 5);
     };
 
     this.highlightPotatoPrice = function(){
         // potato price
+        this.clear();
         canvasFrame(ctx, 390,0, 195, 50, 5, 'red');
+        drawArrow(ctx, 520, 60, 520, 140, 1, 2, 20, 10, 'red', 5);
     };
 
     this.highlightPotatoCount = function(){
         // potato count
+        this.clear();
         canvasFrame(ctx, 580,0, 100, 50, 5, 'red');
+        drawArrow(ctx, 640, 60, 640, 140, 1, 2, 20, 10, 'red', 5);
     };
 
     this.highlightPayoff = function(){
         // payoff total
+        this.clear();
         canvasFrame(ctx, 250,40, 170, 60, 5, 'red');
+        drawArrow(ctx, 350, 110, 350, 190, 1, 2, 20, 10, 'red', 5);
     };
-
-    this.highlightUi = function(){
-        // entire UI
-        canvasFrame(ctx, 10,0, 670, 50, 5, 'red');
-        canvasFrame(ctx, 250,45, 170, 55, 5, 'red');
-        ctx.clearRect(255,45, 160, 50);
-    };
-
-    this.clear = function(){
-        ctx.clearRect(0,0, CANVAS_W,CANVAS_H+uiHeight);
-    }
 };
-
-function getText(whichText){
-    "use strict";
-
-    switch(whichText) {
-        case 'open':
-            return 'For every large map, you have 100 moves.';
-
-            break;
-        case 'exampleScreen1':
-            return 'In this task, you will be playing a web game where you control a farmer harvesting potatoes on a ' +
-                'large field. Your goal is to collect as many potatoes as possible. \n ' +
-                'Every potato that you earn is worth real money. Please pay careful attention to the following ' +
-                'information, so that you can earn as many potatoes as possible.';
-
-            break;
-        case 'exampleScreen2':
-            return 'Every potato that you earn is worth real money. Please pay careful attention to the following ' +
-                'information, so that you can earn as many potatoes as possible.';
-
-            break;
-        case 'open1':
-            return '';
-
-            break;
-        case 0:
-            return 'Once the game starts, you will be able to control your farmer with the arrow keys on your keyboard (show!).';
-
-            break;
-        case 1:
-            return 'text 1';
-
-            break;
-        case 2:
-            return 'text 2';
-
-            break;
-        case 3:
-            return 'text 3';
-
-            break;
-        case 4:
-            return 'text 4';
-
-            break;
-        case 5:
-            return 'text 5';
-
-            break;
-        case 6:
-            return 'text 6';
-
-            break;
-        case 7:
-            return 'text 7';
-
-            break;
-        case 8:
-            return 'text 8';
-
-            break;
-        case 9:
-            return 'text 9';
-
-            break;
-        case 10:
-            return 'text 10';
-
-            break;
-        case 11:
-            return 'text 11';
-
-            break;
-        case 12:
-            return 'text 12';
-
-            break;
-        default:
-
-            break;
-    }
-}

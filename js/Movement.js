@@ -12,7 +12,7 @@ var camera = new function(){
         this.panX = camPanX;
         this.panY = camPanY;
     };
-}();
+};
 
 
 function checkPayoff(colPar, rowPar) {
@@ -120,7 +120,7 @@ function checkCollision(atTrackerX, atTrackerY) {
             var resetTile = function() {
                 curMapVar.tileGrid[someY][someX] = 5;
             };
-            var resetId = setTimeout(resetTile, 750);
+            setTimeout(resetTile, 750);
         }
 
         if (!isMobile) {
@@ -160,7 +160,7 @@ function trackerMove(char) {
     if (!char.moving && curMapVar.movesLeft > 0) {
 
         if (userInputStatus.holdLeft) {
-            if (checkCollision(nextX - TILE_W, nextY) !== true) {
+            if (!checkCollision(nextX - TILE_W, nextY)) {
                 directionX = -5;
                 char.moving = true;
                 char.currentDirection = 'left';
@@ -169,7 +169,7 @@ function trackerMove(char) {
             }
         }
         else if (userInputStatus.holdRight) {
-            if (checkCollision(nextX + TILE_W, nextY) !== true) {
+            if (!checkCollision(nextX + TILE_W, nextY)) {
                 directionX = 5;
                 char.moving = true;
                 char.currentDirection = 'right';
@@ -178,7 +178,7 @@ function trackerMove(char) {
             }
         }
         else if (userInputStatus.holdUp) {
-            if (checkCollision(nextX, nextY - TILE_H) !== true) {
+            if (!checkCollision(nextX, nextY - TILE_H)) {
                 directionY = -5;
                 char.moving = true;
                 char.currentDirection = 'up';
@@ -187,7 +187,7 @@ function trackerMove(char) {
             }
         }
         else if (userInputStatus.holdDown) {
-            if (checkCollision(nextX, nextY + TILE_H) !== true) {
+            if (!checkCollision(nextX, nextY + TILE_H)) {
                 directionY = 5;
                 char.moving = true;
                 char.currentDirection = 'down';

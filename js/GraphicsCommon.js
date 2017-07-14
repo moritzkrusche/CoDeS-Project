@@ -17,13 +17,6 @@ function canvasFrame(ctx, topLeftX,topLeftY, boxWidth,boxHeight, border, fillCol
     ctx.clearRect(topLeftX+border,topLeftY+border, boxWidth-2*border,boxHeight-2*border);
 }
 
-function canvasCircle(ctx, centerX,centerY, radius, fillColor) {
-    ctx.fillStyle = fillColor;
-    ctx.beginPath();
-    ctx.arc(centerX,centerY, 10, 0,Math.PI*2, true);
-    ctx.fill();
-}
-
 function canvasText(ctx, showWords, textX,textY, fillColor) {
     ctx.fillStyle = fillColor;
     ctx.fillText(showWords, textX, textY);

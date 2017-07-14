@@ -76,21 +76,25 @@
                     <div class='input'>
                         <h4>Prolific ID</h4>
                         <label for='prolificId'></label>
-                        <input type="text" name='prolificId' id='prolificId' required> <!--pattern="[A-Z]{3}[0-9]{4}"-->
+                        <input type="text" name='prolificId' id='prolificId' required
+                               oninvalid="setCustomValidity('Please enter your Prolific ID!')"
+                               onchange="try{setCustomValidity('')}catch(e){}"> <!--pattern="[A-Z]{3}[0-9]{4}"-->
                     </div>
 
                     <!-- Age -->
                     <div class='input'>
                         <h4>Age</h4>
                         <label for="age"></label>
-                        <select name='age' required id = "age">
-                            <option value = "">Please select</option>
-                            <option value = "18">18-25</option>
-                            <option value = "26">26-35</option>
-                            <option value = "36">36-45</option>
-                            <option value = "46">46-55</option>
-                            <option value = "56">56-65</option>
-                            <option value = "65">65+</option>
+                        <select name='age' required id = "age"
+                                oninvalid="setCustomValidity('Please select your age!')"
+                                onchange="try{setCustomValidity('')}catch(e){}">
+                            <option value = "">Please select your age</option>
+                            <option value = "18-25">18-25</option>
+                            <option value = "26-35">26-35</option>
+                            <option value = "36-45">36-45</option>
+                            <option value = "46-55">46-55</option>
+                            <option value = "56-65">56-65</option>
+                            <option value = "65+">65+</option>
                         </select>
                     </div>
 
@@ -98,25 +102,22 @@
                     <div class='input'>
                         <h4>Gender</h4>
                         <label for="gender"></label>
-                        <select name='gender' required id = "gender">
-                            <option value = "">Please select</option>
+                        <select name='gender' required id = "gender"
+                                oninvalid="setCustomValidity('Please select your gender!')"
+                                onchange="try{setCustomValidity('')}catch(e){}">
+                            <option value = "">Please select your gender</option>
                             <option value = "1">female</option>
                             <option value = "2">male</option>
                             <option value = "3">other</option>
                         </select>
                     </div>
-
                 </div>
+
                 <input type="submit" class='continueButton' id='submitButton' />
 
             </form>
 
-            <!--<div class='buttonContainer' >
-                <button class='continueButton' id='submitButton' style='display:block' onclick='buttonSubmit()' >Submit</button>
-            </div>-->
-
         </div>
-
     </div>
 </div>
 <!-- END demographicsPage -->

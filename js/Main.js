@@ -39,18 +39,18 @@ var experiment = new function(){
     that.testLevelKeys = shuffleArray(that.openLevelKeys.slice());
 
     if (condition === 1 || condition === 2){
-        that.openLevel1 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.04, 0.98);
-        that.openLevel2 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.04, 0.98);
-        that.openLevel3 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.04, 0.98);
-        that.openLevel4 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.04, 0.98);
-        that.openLevel5 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.04, 0.98);
+        that.openLevel1 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.04, 0.985);
+        that.openLevel2 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.04, 0.985);
+        that.openLevel3 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.04, 0.985);
+        that.openLevel4 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.04, 0.985);
+        that.openLevel5 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.04, 0.985);
     }
     else if  (condition === 3 || condition === 4){
-        that.openLevel1 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.04, 0.98);
-        that.openLevel2 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.04, 0.98);
-        that.openLevel3 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.04, 0.98);
-        that.openLevel4 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.04, 0.98);
-        that.openLevel5 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.04, 0.98);
+        that.openLevel1 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.04, 0.985);
+        that.openLevel2 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.04, 0.985);
+        that.openLevel3 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.04, 0.985);
+        that.openLevel4 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.04, 0.985);
+        that.openLevel5 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.04, 0.985);
     } else {
         alert("WARNING: COULD NOT ASSIGN CONDITION!")
     }
@@ -115,7 +115,6 @@ function startGame() {
     }
 
 	setInterval(gameLoop, 1000/framesPerSecond);
-
 }
 
 
@@ -151,7 +150,6 @@ function logInit(){
         allPayoffTrackers: {}
 
     };
-
 }
 
 
@@ -251,39 +249,45 @@ function nextLevelTestLevel(){
     nextLevel()
 }
 
+function getTimeDate(){
+    "use strict";
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    //var dateTime = date+' '+time;
+
+    console.log("DATE: ", date);
+    console.log("TIME: ", time);
+
+    return [date, time];
+}
 
 function nextLevel() {
     'use strict';
     var e = experiment;
-    var showCurLevel = 0;
-    var showMaxLevel = 0;
+
     // This key is for the old level, not the new one
     var logLevelKey = NaN;
+    canvas.infoContext.clearRect(0,0, CANVAS_W,CANVAS_H+uiHeight);
 
     if (!e.testPhase){
         e.currentOpenLevel++;
         if (e.currentOpenLevel > e.maxOpenLevels){
             e.testPhase = true;
-            showMaxLevel = e.maxTestLevels+1;
             logLevelKey = getLogLevelKey();
             logData(logLevelKey);
             // first test map
             killInput();
             testInstructions.show();
-            //boxScreen.show('THIS IS THE START OF THE TEST PHASE OF THIS EXPERIMENT. THIS IS TEST LEVEL 1 OUT OF ' + showMaxLevel);
 
         }
         else {
             var openLevelKey = e.openLevelKeys[e.currentOpenLevel];
-            showCurLevel = e.currentOpenLevel+1;
-            showMaxLevel = e.maxOpenLevels+1;
             logLevelKey = getLogLevelKey();
             logData(logLevelKey);
             loadLevel(e.openMaps[openLevelKey]);
-
-            boxScreen.showBox();
-            showStartButton();
-            boxScreen.show('NEXT LEVEL LOADED. THIS IS OPEN LEVEL ' + showCurLevel + ' OUT OF ' + showMaxLevel);
+            killInput();
+            nextOpenLevel.show();
         }
     }
 
@@ -293,8 +297,8 @@ function nextLevel() {
             logLevelKey = getLogLevelKey();
             logData(logLevelKey);
 
-            boxScreen.showFull();
-            boxScreen.show('CONGRATULATIONS! YOU HAVE FINISHED THE EXPERIMENT!!!');
+            htmlPage.fullBox.style.display = 'block';
+            boxScreen.showText('CONGRATULATIONS! YOU HAVE FINISHED THE EXPERIMENT!!!');
             if (!isMobile){
                 assets.finishedSound.play();
             } else {
@@ -303,15 +307,11 @@ function nextLevel() {
         }
         else {
             var testLevelKey = e.testLevelKeys[e.currentTestLevel];
-            showCurLevel= e.currentTestLevel+1;
-            showMaxLevel = e.maxTestLevels+1;
             logLevelKey = getLogLevelKey();
             logData(logLevelKey);
             loadLevel(testMaps[testLevelKey]);
-
-            boxScreen.showBox();
-            showStartButton();
-            boxScreen.show('NEXT LEVEL LOADED. THIS IS TEST LEVEL ' + showCurLevel + ' OUT OF ' + showMaxLevel);
+            killInput();
+            nextTestLevel.show();
         }
     }
 

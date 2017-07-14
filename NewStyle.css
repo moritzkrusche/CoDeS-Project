@@ -1,12 +1,11 @@
 
-body, .playButton {
+body, .playButton, .continueButton {
     font-size: 100%;
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
-
 }
 
 .gameWrapper {
@@ -53,7 +52,6 @@ body, .playButton {
     right: 5%;
 
 }
-
 
 #gameCanvas {
     vertical-align: top;
@@ -145,7 +143,7 @@ body, .playButton {
     z-index: 0;
     width: 90%;
     height: 32.6%;
-    opacity: 0.8;
+    opacity: 0.7;
     position: absolute;
     top: 64%;
     left: 5%
