@@ -299,6 +299,10 @@ function nextLevel() {
 
             htmlPage.fullBox.style.display = 'block';
             boxScreen.showText('CONGRATULATIONS! YOU HAVE FINISHED THE EXPERIMENT!!!');
+
+            // shorthand would be:
+            //!isMobile ? assets.finishedSound.play() : assets.spriteSound.play('finished');
+
             if (!isMobile){
                 assets.finishedSound.play();
             } else {
@@ -314,9 +318,7 @@ function nextLevel() {
             nextTestLevel.show();
         }
     }
-
 }
-
 
 //******************************** UI Setup ****************************************************************************
 
@@ -398,7 +400,6 @@ function gameLoop() {
         ctx.font = '14pt "COMIC SANS MS"';
         canvasText(ctx, payoff, userInputStatus.mousePosX, userInputStatus.mousePosY, 'white');
     }
-
 }
 
 

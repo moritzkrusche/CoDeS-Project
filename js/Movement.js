@@ -1,4 +1,6 @@
 
+//******************************** CAMERA OBJECT USED FOR DRAWING CURRENT TILES AND MOVEMENT ***************************
+
 var camera = new function(){
     'use strict';
     this.centerX = 0;
@@ -14,6 +16,7 @@ var camera = new function(){
     };
 };
 
+//******************************** RANDOMLY DRAWING PAYOFF BASED ON PARAMETERS *****************************************
 
 function checkPayoff(colPar, rowPar) {
     'use strict';
@@ -30,6 +33,7 @@ function checkPayoff(colPar, rowPar) {
     }
 }
 
+//******************************** UPDATES COLLISION GRID AND LOGGERS AFTER TILE VISITED *******************************
 
 function updateInfo(callback) {
     'use strict';
@@ -55,9 +59,7 @@ function updateInfo(callback) {
             if (devMode){
                 console.log('NONE');
             }
-
             curMapVar.payoffTracker.push(0);
-
             curMapVar.tileGrid[posY][posX] = 1;
 
         }
@@ -69,26 +71,24 @@ function updateInfo(callback) {
             } else {
                 assets.spriteSound.play('potato');
             }
-
             if (devMode){
                 console.log('POTATO');
             }
 
             curMapVar.payoffTracker.push(1);
-
             curMapVar.potatoCount += 1;
             curMapVar.payoffCount += curMapVar.potatoPrice;
 
             curMapVar.tileGrid[posY][posX] = 3;
-
             curMapVar.payoffRow[posY] += 1;
             curMapVar.payoffColumn[posX] += 1;
 
         }
     }
-
     return callback;
 }
+
+//******************************** COUNTS STEPS LEFT; LOADS NEXT LEVEL *************************************************
 
 function stepCounter(char) {
     'use strict';
@@ -102,6 +102,7 @@ function stepCounter(char) {
     }
 }
 
+//******************************** COLLISION HANDLING ON TEST MAPS INCL SOUND AND CROSSES ******************************
 
 function checkCollision(atTrackerX, atTrackerY) {
     'use strict';
@@ -131,7 +132,6 @@ function checkCollision(atTrackerX, atTrackerY) {
                 }, 170);
             }
         }
-
         else {
             if (!assets.spriteSound.playing(curMapVar.errorId1) && !assets.spriteSound.playing(curMapVar.errorId2)) {
                 curMapVar.errorId1 = assets.spriteSound.play('error');
@@ -140,7 +140,6 @@ function checkCollision(atTrackerX, atTrackerY) {
                 }, 170);
             }
         }
-
         return true;
     }
     else {
@@ -148,6 +147,7 @@ function checkCollision(atTrackerX, atTrackerY) {
     }
 }
 
+//******************************** MOVEMENT HANDLING CALLING SOUND & ANIMATION FUNCTIONS *******************************
 
 function trackerMove(char) {
     'use strict';

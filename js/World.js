@@ -354,9 +354,12 @@ function TileSheetClass(image, sheetWidth, sheetHeight, rows, cols, offsetX, off
         var sheetCol = imageHeight * whichCol;
         var sheetRow = imageWidth * whichRow;
 
-        canvas.gameContext.drawImage(image, sheetCol, sheetRow, imageWidth, imageHeight, x+this.offSetX, y+this.offSetY, drawWidth, drawHeight);
+        canvas.gameContext.drawImage(image, sheetCol, sheetRow, imageWidth, imageHeight, x+this.offSetX, y+this.offSetY,
+            drawWidth, drawHeight);
     };
 }
+
+//******************************** DRAWING TILES WITHIN VISIBLE AREA DEPENDING ON COND & GAME STATUS *******************
 
 function drawVisibleTiles() {
     'use strict';

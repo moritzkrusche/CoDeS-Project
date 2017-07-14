@@ -1,6 +1,6 @@
 
 
-//******************************** INSTRUCTIONS ************************************************************************
+//******************************** INSTRUCTIONS PAGE *******************************************************************
 
 var htmlPage = {
     demoForm: document.getElementById('demographics'),
@@ -20,22 +20,7 @@ var rainEffects = {
     strongest: new rainAnimationClass(15)
 };
 
-htmlPage.demoForm.addEventListener('submit', function() {
-    var form = htmlPage.demoForm;
-    event.preventDefault();
-
-    //console.log('ID: ', form.prolificId.value);
-    //console.log('AGE: ', form.age.value);
-    //console.log('GENDER: ', form.gender.value);
-
-    loggedData.prolificId = form.prolificId.value;
-    loggedData.partAge = form.age.value;
-    loggedData.partGender = form.gender.value;
-
-    htmlPage.demoBox.style.display = 'none';
-
-    instructions.show();
-});
+//******************************** SHOWS TWO SIZES OF POP-UP SCREENS FOR INSTRUCTIONS **********************************
 
 var boxScreen = new function() {
     "use strict";
@@ -86,6 +71,25 @@ var boxScreen = new function() {
         that.wrapText(words, 80, 540, 540, 25);
     };
 };
+
+//******************************** BUTTON FUNCTIONS ********************************************************************
+
+htmlPage.demoForm.addEventListener('submit', function() {
+    var form = htmlPage.demoForm;
+    event.preventDefault();
+
+    //console.log('ID: ', form.prolificId.value);
+    //console.log('AGE: ', form.age.value);
+    //console.log('GENDER: ', form.gender.value);
+
+    loggedData.prolificId = form.prolificId.value;
+    loggedData.partAge = form.age.value;
+    loggedData.partGender = form.gender.value;
+
+    htmlPage.demoBox.style.display = 'none';
+
+    instructions.show();
+});
 
 function buttonNext() {
     "use strict";
@@ -164,6 +168,252 @@ function stopBackgroundSound(){
     }
 }
 
+//******************************** INITIAL INSTRUCTIONS AT START *******************************************************
+
+var instructions = new function() {
+    "use strict";
+
+    this.index = 0;
+    this.maxIndex = 25;
+
+    this.show = function(){
+
+        var index = this.index;
+        var maxLevel = experiment.maxOpenLevels+1;
+        switch (index) {
+
+            case 0:
+                // text intro etc.
+                exampleScreen.clear();
+                boxScreen.showText('In this task, you will be playing a web game where you control a farmer ' +
+                    'harvesting potatoes on a large field. Your goal is to collect as many potatoes as possible.');
+                // show/ hide some buttons & boxes
+                htmlPage.nextButton.style.display = 'block';
+                htmlPage.backButton.style.display = 'none';
+                htmlPage.gameBox.style.display = 'block';
+                htmlPage.fullBox.style.display = 'none';
+                break;
+
+            case 1:
+                // text intro etc. contd
+                exampleScreen.clear();
+                boxScreen.showText('Every potato that you earn is worth real money. Please pay careful attention to ' +
+                    'the following information, so that you can earn as many potatoes as possible.');
+                // show back button as now one step to go back to
+                htmlPage.backButton.style.display = 'block';
+                break;
+
+            case 2:
+                // moving using arrow keys or buttons
+                exampleScreen.highlightFarmerMoves();
+                if (!isMobile){
+                    boxScreen.showText("Once the game starts, you will be able to control your farmer with the " +
+                        "arrow keys on your keyboard.");
+                } else {
+                    boxScreen.showText("Once the game starts, you will be able to control your farmer with the " +
+                        "touch buttons that will display below the screen.");
+                }
+                break;
+
+            case 3:
+                exampleScreen.highlightFarmer();
+                boxScreen.showText("There are 7 x 7 tiles visible on the screen at any time. Every tile may or may " +
+                    "not yield a potato when you visit it.");
+                break;
+
+            case 4:
+                exampleScreen.highlightTile();
+                boxScreen.showText("You do not know for sure on which tiles there are potatoes, but you can use a " +
+                    "number of cues to find out.");
+                break;
+
+            case 5:
+                exampleScreen.highlightCenterCol();
+                // condition 1 & 3 soil in col, plant row
+                if (condition === 1 || condition === 3){
+                    boxScreen.showText("The better the fertilizer for a column, the richer the soil will be " +
+                        "in that column.");
+                } else {
+                    boxScreen.showText("The better the fertilizer for a column, the better the plants will grow " +
+                        "in that column.");
+                }
+                break;
+
+            case 6:
+                exampleScreen.highlightCenterRow();
+                // condition 1 & 3 soil in col, plant row
+                if (condition === 1 || condition === 3){
+                    boxScreen.showText("The better the fertilizer for a row, the better the plants will grow " +
+                        "in that row.");
+                } else {
+                    boxScreen.showText("The better the fertilizer for a row, the richer the soil will be " +
+                        "in that row.");
+                }
+                htmlPage.fullBox.style.display = 'none';
+                break;
+
+            case 7:
+                // show soil quality
+                htmlPage.fullBox.style.display = 'block';
+                boxScreen.showText('There are 5 different qualities of soil fertilizer used. Darker soil will ' +
+                    'always be richer than lighter soil.');
+                exampleScreen.clear();
+                showExampleTiles('soil');
+                break;
+
+            case 8:
+                // show plant quality
+                htmlPage.fullBox.style.display = 'block';
+                boxScreen.showText('There are also 5 different qualities of plant fertilizer used. Larger plants ' +
+                    'will always be richer than smaller plants.');
+                exampleScreen.clear();
+                showExampleTiles('plant');
+                break;
+
+            case 9:
+                // text
+                htmlPage.fullBox.style.display = 'none';
+                boxScreen.showText('Your chance of collecting a potato depends on BOTH the plant and soil quality. ' +
+                    'Their values are completely unrelated to each other.');
+                break;
+
+            case 10:
+                // text
+                exampleScreen.clear();
+                boxScreen.showText("As you can see, most of the tiles around you are greyed out, because you have " +
+                    "not explored the area yet.");
+                break;
+
+            case 11:
+                // text
+                exampleScreen.highlightCenterCol();
+                if (condition === 1 || condition === 3){
+                    boxScreen.showText("Every time that you move within a given column, your information about " +
+                        "the soil quality increases.");
+                } else {
+                    boxScreen.showText("Every time that you move within a given column, your information about " +
+                        "the plant quality increases.");
+                }
+                break;
+
+            case 12:
+                // text
+                exampleScreen.highlightCenterRow();
+                htmlPage.fullBox.style.display = 'none';
+                if (condition === 1 || condition === 3){
+                    boxScreen.showText("And every time that you move within a given row, your information about " +
+                        "the plant quality increases.");
+                } else {
+                    boxScreen.showText("And every time that you move within a given row, your information about " +
+                        "the soil quality increases.");
+                }
+                break;
+
+            case 13:
+                // show soil quality + info
+                exampleScreen.clear();
+                htmlPage.fullBox.style.display = 'block';
+                boxScreen.showText("There are 3 information levels, which are displayed by different shades of " +
+                    "grey. This is how the look for soil.");
+                showExampleTiles('soilInfo');
+                break;
+
+            case 14:
+                // show plant quality + info
+                htmlPage.fullBox.style.display = 'block';
+                boxScreen.showText("And this is how they look for plants. The higher the information level, the more " +
+                    "accurate is the displayed quality for plants and soil.");
+                showExampleTiles('plantInfo');
+                break;
+
+            case 15:
+                // text
+                htmlPage.fullBox.style.display = 'none';
+                boxScreen.showText("Note: the quality of the soil and plants shown on the map does NOT reveal the true " +
+                    "value of the respective row or column.");
+                break;
+
+            case 16:
+                // text
+                boxScreen.showText("Instead, it is based on your previous success in that row or column as well as " +
+                    "the average expected quality of any row or column.");
+                break;
+
+            case 17:
+                // text
+                exampleScreen.clear();
+                boxScreen.showText("It is quite possible that plants are a better predictor better than soil, or " +
+                    "that soil is a better predictor than plants. You will have to find out.");
+                break;
+
+            case 18:
+                // show moves left
+                exampleScreen.highlightMovesLeft();
+                boxScreen.showText("Every time you move, you lose one movement point. You can always see how many " +
+                    "you have left here.");
+                break;
+
+            case 19:
+                // show potato count
+                exampleScreen.highlightPotatoCount();
+                boxScreen.showText("You can see how many potatoes you have found so far during the current level " +
+                    "here.");
+                break;
+
+            case 20:
+                // show potato price
+                exampleScreen.highlightPotatoPrice();
+                boxScreen.showText("However, the value you get for collecting a potato also decreases with every " +
+                    "move that you make.");
+                break;
+
+            case 21:
+                // show potato price
+                exampleScreen.highlightPotatoPrice();
+                boxScreen.showText("In other words: potatoes found at the beginning of a level are worth more than " +
+                    "potatoes found at the end.");
+                break;
+
+            case 22:
+                // show payoff total
+                exampleScreen.highlightPayoff();
+                boxScreen.showText('Your total reward for all the potatoes you have earned is shown here. It will ' +
+                    'increase with every potato you find, and be carried over to the next level.');
+                break;
+
+            case 23:
+                // show payoff total
+                exampleScreen.highlightPayoff();
+                boxScreen.showText('At the end of the experiment, this is your compensation. If you perform well, it ' +
+                    'can exceed the minimum amount, and this will be paid as a bonus.');
+                break;
+
+            case 24:
+                // show XY
+                exampleScreen.highlightXY();
+                boxScreen.showText("You can always see where you are in comparison with your starting " +
+                    "point here. X for column, and Y for row positions.");
+                break;
+
+            case 25:
+                // level start text
+                exampleScreen.clear();
+                boxScreen.showText('This is large level 1 out of ' + maxLevel +
+                '. On every large level, you have ' + curMapVar.movesLeft + ' moves.');
+                htmlPage.nextButton.style.display = 'none';
+                htmlPage.startButton.style.display = 'block';
+                break;
+
+            default:
+                // should never execute
+                alert("ERROR: instructions() in instructions.js fell through cases!");
+                break;
+        }
+    }
+};
+
+//******************************** INSTRUCTIONS AT FIRST TEST LEVEL ****************************************************
+
 var testInstructions = new function () {
     "use strict";
 
@@ -229,8 +479,9 @@ var testInstructions = new function () {
                 loadLevel(testMaps[experiment.testLevelKeys[0]]); // load first test map
 
                 htmlPage.fullBox.style.display = 'none';
-                boxScreen.showText('Unfortunately, the heavy rain has soaked parts of the field with water and you will not be able to ' +
-                    'move to those tiles. You will also not be able to move very far on the other tiles because of the muddy ground.');
+                boxScreen.showText('Unfortunately, the heavy rain has soaked parts of the field with water and you ' +
+                    'will not be able to move to those tiles. You will also not be able to move very far on the ' +
+                    'other tiles because of the muddy ground.');
                 htmlPage.backButton.style.display = 'none';
                 break;
 
@@ -243,14 +494,16 @@ var testInstructions = new function () {
 
             case 5:
                 htmlPage.fullBox.style.display = 'block';
-                boxScreen.showText('As a reminder: dark soil and large plants are better. Note: you cannot move to water tiles.');
+                boxScreen.showText('As a reminder: dark soil and large plants are better. Note: you cannot move ' +
+                    'to water tiles.');
                 showExampleTiles('both');
                 showExampleTiles('water');
                 break;
 
             case 6:
                 htmlPage.fullBox.style.display = 'none';
-                boxScreen.showText('This is small level 1 out of ' + maxLevel + '. On every small level, you have ' + curMapVar.movesLeft + ' moves, but potatoes are worth much more.');
+                boxScreen.showText('This is small level 1 out of ' + maxLevel + '. On every small level, ' +
+                    'you have ' + curMapVar.movesLeft + ' moves, but potatoes are worth much more.');
                 htmlPage.nextButton.style.display = 'none';
                 htmlPage.startButton.style.display = 'block';
                 break;
@@ -263,44 +516,7 @@ var testInstructions = new function () {
     }
 };
 
-var nextTestLevel = new function () {
-    this.index = 0;
-    this.maxIndex = 1;
-
-    this.show = function() {
-
-        stopBackgroundSound();
-        var index = this.index;
-        var curLevel = experiment.currentTestLevel+1;
-        var maxLevel = experiment.maxTestLevels+1;
-        switch (index) {
-
-            case 0:
-                htmlPage.nextButton.style.display = 'block';
-                htmlPage.backButton.style.display = 'none';
-
-                htmlPage.fullBox.style.display = 'block';
-                boxScreen.showText('Next level loaded. As a reminder: dark soil and large plants are better. Note: you cannot move to water tiles.');
-                showExampleTiles('both');
-                showExampleTiles('water');
-                break;
-
-            case 1:
-                htmlPage.fullBox.style.display = 'none';
-                htmlPage.gameBox.style.display = 'block';
-                htmlPage.nextButton.style.display = 'none';
-                htmlPage.startButton.style.display = 'block';
-                boxScreen.showText('This is small level ' + curLevel + ' out of ' + maxLevel +
-                    '. On every small level, you have ' + curMapVar.movesLeft + ' moves, but potatoes are worth much more.');
-                break;
-
-            default:
-                // should never execute
-                alert("ERROR: nextTestLevel() in instructions.js fell through cases!");
-                break;
-        }
-    }
-};
+//******************************** INSTRUCTIONS NEXT OPEN LEVEL ********************************************************
 
 var nextOpenLevel = new function () {
     this.index = 0;
@@ -318,14 +534,12 @@ var nextOpenLevel = new function () {
             case 0:
                 htmlPage.nextButton.style.display = 'block';
                 htmlPage.backButton.style.display = 'none';
-
                 htmlPage.fullBox.style.display = 'block';
                 boxScreen.showText('Next level loaded. As a reminder: dark soil and large plants are better.');
                 showExampleTiles('both');
                 break;
 
             case 1:
-
                 htmlPage.fullBox.style.display = 'none';
                 htmlPage.gameBox.style.display = 'block';
                 htmlPage.nextButton.style.display = 'none';
@@ -342,173 +556,49 @@ var nextOpenLevel = new function () {
     }
 };
 
-var instructions = new function() {
-    "use strict";
+//******************************** INSTRUCTIONS NEXT TEST LEVEL ********************************************************
 
+var nextTestLevel = new function () {
     this.index = 0;
-    this.maxIndex = 18;
+    this.maxIndex = 1;
 
-    this.show = function(){
+    this.show = function() {
 
+        stopBackgroundSound();
         var index = this.index;
-        var maxLevel = experiment.maxOpenLevels+1;
+        var curLevel = experiment.currentTestLevel+1;
+        var maxLevel = experiment.maxTestLevels+1;
         switch (index) {
 
             case 0:
-                // text intro etc.
-                exampleScreen.clear();
-                boxScreen.showText('In this task, you will be playing a web game where you control a farmer harvesting potatoes on a ' +
-                'large field. Your goal is to collect as many potatoes as possible.');
-                // show/ hide some buttons & boxes
                 htmlPage.nextButton.style.display = 'block';
                 htmlPage.backButton.style.display = 'none';
-                htmlPage.gameBox.style.display = 'block';
-                htmlPage.fullBox.style.display = 'none';
-                break;
-
-
-            case 0.5:
-                boxScreen.showText('Every potato that you earn is worth real money. Please pay careful attention to the following ' +
-                'information, so that you can earn as many potatoes as possible.');
-
+                htmlPage.fullBox.style.display = 'block';
+                boxScreen.showText('Next level loaded. As a reminder: dark soil and large plants are better. ' +
+                    'Note: you cannot move to water tiles.');
+                showExampleTiles('both');
+                showExampleTiles('water');
                 break;
 
             case 1:
-                // text intro etc. contd
-                boxScreen.showText('Every potato that you earn is worth real money. Please pay careful attention to the following ' +
-                    'information, so that you can earn as many potatoes as possible.');
-                // show back button as now one step to go back to
-                htmlPage.backButton.style.display = 'block';
-                break;
-
-            case 2:
-                // moving using arrow keys or buttons
-                exampleScreen.highlightFarmerMoves();
-                if (!isMobile){
-                    boxScreen.showText("Once the game starts, you will be able to control your farmer with the arrow keys on your keyboard.");
-                } else {
-                    boxScreen.showText("Once the game starts, you will be able to control your farmer with the touch buttons that will display below the screen.");
-                }
-
-                break;
-
-            case 3:
-                exampleScreen.highlightFarmer();
-                exampleScreen.highlightTile();
-                boxScreen.showText("everything here is made up of tiles!");
-                break;
-
-            case 4:
-                exampleScreen.highlightCenterCol();
-                boxScreen.showText("this is a column");
-                break;
-
-            case 5:
-                exampleScreen.highlightCenterRow();
-                boxScreen.showText("this is a row");
                 htmlPage.fullBox.style.display = 'none';
-                break;
-
-            case 6:
-                // show soil quality
-                htmlPage.fullBox.style.display = 'block';
-                boxScreen.showText('all the soil qualities');
-                exampleScreen.clear();
-                showExampleTiles('soil');
-                break;
-
-            case 7:
-                // show plant quality
-                htmlPage.fullBox.style.display = 'block';
-                boxScreen.showText('all the plant qualities');
-                exampleScreen.clear();
-                showExampleTiles('plant');
-                break;
-
-            case 8:
-                // text
-                boxScreen.showText('some explanation about you do not know soil column');
-                htmlPage.fullBox.style.display = 'none';
-                break;
-
-            case 9:
-                exampleScreen.highlightCenterCol();
-                boxScreen.showText("this is the center col");
-                break;
-
-            case 10:
-                exampleScreen.highlightCenterRow();
-                boxScreen.showText("this is the center row");
-                htmlPage.fullBox.style.display = 'none';
-                break;
-
-            case 11:
-                // show soil qual + info
-                htmlPage.fullBox.style.display = 'block';
-                boxScreen.showText("soil info and quality");
-                exampleScreen.clear();
-                showExampleTiles('soilInfo');
-                break;
-
-            case 12:
-                // show plant qual + info
-                exampleScreen.highlightXY();
-                htmlPage.fullBox.style.display = 'block';
-                boxScreen.showText("plant info and quality");
-                exampleScreen.clear();
-                showExampleTiles('plantInfo');
-                break;
-
-            case 13:
-                // show moves left
-                exampleScreen.highlightMovesLeft();
-                htmlPage.fullBox.style.display = 'none';
-                boxScreen.showText("how many moves you have left");
-                break;
-
-            case 14:
-                // show potato count
-                exampleScreen.highlightPotatoCount();
-                boxScreen.showText("how many potatoes you found this level");
-                break;
-
-            case 15:
-                // show potato price
-                exampleScreen.highlightPotatoPrice();
-                boxScreen.showText("this is the current potato price");
-                break;
-
-            case 16:
-                // show payoff total
-                exampleScreen.highlightPayoff();
-                boxScreen.showText('Your total reward for all the potatoes you have earned is shown here. It will increase with every ' +
-                    'potato you find, and be carried over to the next level. At the end of the experiment, this is your ' +
-                    'compensation.');
-                break;
-
-            case 17:
-                // show XY
-                exampleScreen.highlightXY();
-                boxScreen.showText("You can always see where you are in comparison with your starting " +
-                    "point here. X for column, and Y for row positions.");
-                break;
-
-            case 18:
-                // level start text
-                exampleScreen.clear();
-                boxScreen.showText('This is large level 1 out of ' + maxLevel +
-                '. On every large level, you have ' + curMapVar.movesLeft + ' moves.');
+                htmlPage.gameBox.style.display = 'block';
                 htmlPage.nextButton.style.display = 'none';
                 htmlPage.startButton.style.display = 'block';
+                boxScreen.showText('This is small level ' + curLevel + ' out of ' + maxLevel +
+                    '. On every small level, you have ' + curMapVar.movesLeft + ' moves, but potatoes are ' +
+                    'worth much more.');
                 break;
 
             default:
                 // should never execute
-                alert("ERROR: instructions() in instructions.js fell through cases!");
+                alert("ERROR: nextTestLevel() in instructions.js fell through cases!");
                 break;
         }
     }
 };
+
+//******************************** SHOWING INFO AND QUAL FOR EXAMPLE TILE ROWS AND COLS ********************************
 
 function showExampleTiles(whichTiles){
     "use strict";
@@ -601,6 +691,8 @@ function showExampleTiles(whichTiles){
     }
 }
 
+//******************************** HIGHLIGHTING UI AREAS WITH BOXES AND ARROWS *****************************************
+
 var exampleScreen = new function(){
     "use strict";
     var ctx = canvas.infoContext;
@@ -627,18 +719,6 @@ var exampleScreen = new function(){
         // example tile
         this.clear();
         canvasFrame(ctx, 100,350, 100, 100, 5, 'red');
-    };
-
-    this.highlightOtherCol = function(){
-        // example column
-        this.clear();
-        canvasFrame(ctx, 100,50, 100, 700, 5, 'red');
-    };
-
-    this.highlightOtherRow = function(){
-        // example row
-        this.clear();
-        canvasFrame(ctx, 0,150, 700, 100, 5, 'red');
     };
 
     this.highlightCenterCol = function(){
@@ -688,3 +768,5 @@ var exampleScreen = new function(){
         drawArrow(ctx, 350, 110, 350, 190, 1, 2, 20, 10, 'red', 5);
     };
 };
+
+//******************************** END INSTRUCTIONS PAGE ***************************************************************
