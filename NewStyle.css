@@ -31,28 +31,6 @@ body, .playButton, .continueButton {
     margin: 0 auto 0 auto;
 }
 
-#demographics {
-
-    width: 100%;
-    padding-top: 107.14%;
-
-    font-family: "Helvetica Neue", sans-serif;
-    font-size: 1.1em;
-    position: relative;
-    z-index: 3;'
-
-}
-
-.centeredOnCanvas{
-
-    position: absolute;
-    top: 0;
-    left: 5%;
-    bottom: 0;
-    right: 5%;
-
-}
-
 #gameCanvas {
     vertical-align: top;
     position: relative;
@@ -98,10 +76,59 @@ body, .playButton, .continueButton {
     background: transparent;
 }
 
+.centeredOnCanvas{
 
-.continueButton:hover{
-    background: #525b68;
-    text-decoration: none;
+    position: absolute;
+    top: 0;
+    left: 5%;
+    bottom: 0;
+    right: 5%;
+}
+
+#demographics, #debriefing {
+    width: 100%;
+    padding-top: 107.14%;
+
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 1.2em;
+    position: relative;
+    z-index: 3;'
+
+}
+
+#prolificId {
+    width: 45%;
+    height: 5%
+}
+
+#age, #gender {
+    width: 35%;
+    height: 5%
+}
+
+#comment {
+    position: absolute;
+    left: auto;
+    bottom: 5%;
+    width: 65%;
+    height: 25%;
+}
+
+#debriefButton {
+    position: absolute;
+    right: 5%;
+    bottom: 5%;
+    width: 30%;
+    height: 2.2em;
+}
+
+#goProlific {
+    position: absolute;
+    left: 5%;
+    bottom: 33%;
+    width: 90%;
+    height: 3em;
+    z-index: 4;
 }
 
 #startButton{
@@ -169,7 +196,6 @@ body, .playButton, .continueButton {
     background-color: #333d3f;
     background-image: linear-gradient(90deg, rgba(51,61,63,.07) 50%, transparent 50%);
     text-decoration: none;
-
 }
 
 .gameBox, .continueButton{
@@ -188,10 +214,9 @@ body, .playButton, .continueButton {
     z-index: 3;
 }
 
-.playButton:hover{
+.continueButton:hover, .playButton:hover{
     background: #525b68;
     text-decoration: none;
-
 }
 
 .playButton:active{

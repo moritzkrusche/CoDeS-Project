@@ -17,8 +17,8 @@ function canvasFrame(ctx, topLeftX,topLeftY, boxWidth,boxHeight, border, fillCol
     ctx.clearRect(topLeftX+border,topLeftY+border, boxWidth-2*border,boxHeight-2*border);
 }
 
-function canvasText(ctx, showWords, textX,textY, fillColor) {
-    ctx.fillStyle = fillColor;
+function canvasText(ctx, showWords, textX,textY, color) {
+    ctx.fillStyle = color;
     ctx.fillText(showWords, textX, textY);
 }
 

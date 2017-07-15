@@ -56,24 +56,24 @@ function updateInfo(callback) {
         var getPayoff = checkPayoff(curMapConst.columnParameters[posX], curMapConst.rowParameters[posY]);
 
         if (getPayoff === 0) {
-            if (devMode){
-                console.log('NONE');
-            }
+            if (devMode) console.log('NONE');
             curMapVar.payoffTracker.push(0);
             curMapVar.tileGrid[posY][posX] = 1;
 
         }
         else if (getPayoff === 1) {
+            if (devMode) console.log('POTATO');
             experiment.potatoAnim.show();
 
+            !isMobile ? assets.potatoSound.play() : assets.spriteSound.play('potato');
+
+            /*
             if (!isMobile) {
                 assets.potatoSound.play();
             } else {
                 assets.spriteSound.play('potato');
             }
-            if (devMode){
-                console.log('POTATO');
-            }
+            */
 
             curMapVar.payoffTracker.push(1);
             curMapVar.potatoCount += 1;

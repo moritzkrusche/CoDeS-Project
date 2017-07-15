@@ -11,9 +11,7 @@ var condition;
 
 
 (function(){
-
     condition = getRandomInt(1,4);
-
 })();
 
 
@@ -85,20 +83,16 @@ function trackerReset(char, anim) {
 	camera.centerY = char.Y;
     anim.resetStart(char.X, char.Y);
     anim.animate(char.X, char.Y);
-    // check potato etc. at starting position
 
+    // update tile and row/col info at starting position
     var posX = Math.floor(camera.centerX/TILE_W);
     var posY = Math.floor(camera.centerY/TILE_H);
     curMapVar.tileGrid[posY][posX] = 1;
     curMapVar.exploredRow[posY] += 1;
     curMapVar.exploredColumn[posX] += 1;
-    //updateInfo();
 
-    // init input and immediately set to false -> if key held
-    //initInput();
+    // set input immediately to false -> if key held
     buttonFalse();
-
-
 }
 
 
@@ -107,12 +101,9 @@ function startGame() {
 	var framesPerSecond = 10;
 
     loadLevel(experiment.openMaps.map1);
-    //instructions.show();
 
-    if (isMobile){
-        // wait to adjust for occasionally lagging audio load time on mobile, esp iOS;
-        sleep(500);
-    }
+    // wait to adjust for occasionally lagging audio load time on mobile, esp iOS;
+    if (isMobile) sleep(500);
 
 	setInterval(gameLoop, 1000/framesPerSecond);
 }
@@ -296,18 +287,19 @@ function nextLevel() {
         if (e.currentTestLevel > e.maxTestLevels) {
             logLevelKey = getLogLevelKey();
             logData(logLevelKey);
-
-            htmlPage.fullBox.style.display = 'block';
-            boxScreen.showText('CONGRATULATIONS! YOU HAVE FINISHED THE EXPERIMENT!!!');
+            killInput();
+            showDebriefPage();
 
             // shorthand would be:
-            //!isMobile ? assets.finishedSound.play() : assets.spriteSound.play('finished');
-
+            !isMobile ? assets.finishedSound.play() : assets.spriteSound.play('finished');
+            if (!isMobile) assets.backgroundSound.stop();
+            /*
             if (!isMobile){
                 assets.finishedSound.play();
+                assets.backgroundSound.stop();
             } else {
                 assets.spriteSound.play('finished');
-            }
+            }*/
         }
         else {
             var testLevelKey = e.testLevelKeys[e.currentTestLevel];

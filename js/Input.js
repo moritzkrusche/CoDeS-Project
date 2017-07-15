@@ -131,3 +131,113 @@ function buttonFalse() {
     'use strict';
     userInputStatus.holdLeft = userInputStatus.holdRight = userInputStatus.holdUp = userInputStatus.holdDown = false;
 }
+
+//******************************** BUTTON FUNCTIONS ********************************************************************
+
+htmlPage.demoForm.addEventListener('submit', function() {
+    var form = htmlPage.demoForm;
+    event.preventDefault();
+
+    //console.log('ID: ', form.prolificId.value);
+    //console.log('AGE: ', form.age.value);
+    //console.log('GENDER: ', form.gender.value);
+
+    loggedData.prolificId = form.prolificId.value;
+    loggedData.partAge = form.age.value;
+    loggedData.partGender = form.gender.value;
+
+    htmlPage.demoBox.style.display = 'none';
+
+    instructions.show();
+});
+
+htmlPage.debriefForm.addEventListener('submit', function() {
+    var form = htmlPage.debriefForm;
+    event.preventDefault();
+
+    console.log('FEEDBACK: ', form.comment.value);
+    //document.getElementById('debriefButton').disabled = true;
+    //document.getElementById('debriefButton').style.background = '#525b68';
+
+    document.getElementById('debriefButton').style.display = 'none';
+    document.getElementById('comment').style.display = 'none';
+    canvas.boxContext.font = 'italic 22pt "COMIC SANS MS"';
+    canvasText(canvas.boxContext, 'Many thanks for your feedback!',30 , 600, '#DAA520');
+
+});
+
+function buttonGoProlific(){
+    "use strict";
+    window.open('https://www.prolific.ac/submissions/complete/demo?','_blank');
+    document.getElementById('goProlific').style.display = 'none';
+    canvas.boxContext.font = 'italic 22pt "COMIC SANS MS"';
+    canvasText(canvas.boxContext, 'Thanks! You can close this page now.',30 , 480, '#DAA520');
+}
+
+function buttonNext() {
+    "use strict";
+
+    if (!experiment.testPhase){
+        if (experiment.currentOpenLevel === 0 && instructions.index < instructions.maxIndex){
+            instructions.index++;
+            instructions.show()
+        }
+        else {
+            nextOpenLevel.index++;
+            nextOpenLevel.show()
+        }
+    }
+
+    else if (experiment.testPhase){
+        if (experiment.currentTestLevel === 0 && testInstructions.index < testInstructions.maxIndex) {
+            testInstructions.index++;
+            testInstructions.show();
+        } else {
+            nextTestLevel.index++;
+            nextTestLevel.show()
+        }
+    }
+}
+
+function buttonBack() {
+    "use strict";
+    if (!experiment.testPhase){
+        if (instructions.index > 0){
+            instructions.index--;
+        }
+        instructions.show();
+    }
+    else if (experiment.testPhase){
+        if (testInstructions.index > 3){ // do not allow going back to rain animation
+            testInstructions.index--;
+        }
+        testInstructions.show();
+    }
+
+    htmlPage.nextButton.style.display = 'block';
+}
+
+function buttonStartLevel(){
+    "use strict";
+    boxScreen.hideAll();
+    initInput();
+    htmlPage.startButton.style.display = 'none';
+    nextTestLevel.index = 0;
+    nextOpenLevel.index = 0;
+
+    if (!isMobile) {
+        if (assets.backgroundSound.playing(curMapVar.backgroundId)){
+            assets.backgroundSound.stop(curMapVar.backgroundId)
+        }
+        curMapVar.backgroundId = assets.backgroundSound.play();
+    } else {
+        if (!curMapVar.mobileSoundUnlocked){
+            try {
+                assets.unlockIOSAudioPlayback()
+            }
+            catch(err) {
+                alert('Could not unlock sound!')
+            }
+        }
+    }
+}

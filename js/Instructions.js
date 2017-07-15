@@ -7,7 +7,8 @@ var htmlPage = {
     demoBox: document.getElementById('demoBox'),
     gameBox: document.getElementById('gameBox'),
     fullBox: document.getElementById('fullGameBox'),
-
+    debriefForm: document.getElementById('debriefing'),
+    debriefBox: document.getElementById('debriefBox'),
     nextButton: document.getElementById('nextButton'),
     backButton: document.getElementById('backButton'),
     startButton: document.getElementById('startButton')
@@ -72,92 +73,26 @@ var boxScreen = new function() {
     };
 };
 
-//******************************** BUTTON FUNCTIONS ********************************************************************
 
-htmlPage.demoForm.addEventListener('submit', function() {
-    var form = htmlPage.demoForm;
-    event.preventDefault();
-
-    //console.log('ID: ', form.prolificId.value);
-    //console.log('AGE: ', form.age.value);
-    //console.log('GENDER: ', form.gender.value);
-
-    loggedData.prolificId = form.prolificId.value;
-    loggedData.partAge = form.age.value;
-    loggedData.partGender = form.gender.value;
-
-    htmlPage.demoBox.style.display = 'none';
-
-    instructions.show();
-});
-
-function buttonNext() {
+function showDebriefPage(){
     "use strict";
+    htmlPage.debriefBox.style.display = 'block';
+    document.getElementById('goProlific').style.display = 'block';
 
-    if (!experiment.testPhase){
-        if (experiment.currentOpenLevel === 0 && instructions.index < instructions.maxIndex){
-            instructions.index++;
-            instructions.show()
-            }
-            else {
-            nextOpenLevel.index++;
-            nextOpenLevel.show()
-        }
-    }
+    canvas.boxContext.font = 'italic 24pt "COMIC SANS MS"';
+    canvasText(canvas.boxContext, 'Debriefing',30 , 50, '#DAA520');
 
-    else if (experiment.testPhase){
-        if (experiment.currentTestLevel === 0 && testInstructions.index < testInstructions.maxIndex) {
-            testInstructions.index++;
-            testInstructions.show();
-        } else {
-            nextTestLevel.index++;
-            nextTestLevel.show()
-        }
-    }
+    var payTotal = round(curMapVar.payoffCount, 2);
+    //if (curMapVar.payoffCount > loggedData.payoffCount) payTotal = curMapVar.payoffCount;
+
+    var textPay = 'Congratulations, you have reached the end of this experiment. You have earned ' + payTotal + '$ ' +
+        'over X minutes.';
+    var textDone = 'IMPORTANT: click on the button below to proof that you have completed the study. This will open a new tab.';
+
+    boxScreen.wrapText(textPay, 30, 120, 540, 25);
+    boxScreen.wrapText(textDone, 30, 260, 540, 25);
 }
 
-function buttonBack() {
-    "use strict";
-    if (!experiment.testPhase){
-        if (instructions.index > 0){
-            instructions.index--;
-        }
-        instructions.show();
-    }
-    else if (experiment.testPhase){
-        if (testInstructions.index > 3){ // do not allow going back to rain animation
-            testInstructions.index--;
-        }
-        testInstructions.show();
-    }
-
-    htmlPage.nextButton.style.display = 'block';
-}
-
-function buttonStartLevel(){
-    "use strict";
-    boxScreen.hideAll();
-    initInput();
-    htmlPage.startButton.style.display = 'none';
-    nextTestLevel.index = 0;
-    nextOpenLevel.index = 0;
-
-    if (!isMobile) {
-        if (assets.backgroundSound.playing(curMapVar.backgroundId)){
-            assets.backgroundSound.stop(curMapVar.backgroundId)
-        }
-        curMapVar.backgroundId = assets.backgroundSound.play();
-    } else {
-        if (!curMapVar.mobileSoundUnlocked){
-            try {
-                assets.unlockIOSAudioPlayback()
-            }
-            catch(err) {
-                alert('Could not unlock sound!')
-            }
-        }
-    }
-}
 
 function stopBackgroundSound(){
     "use strict";
@@ -314,7 +249,7 @@ var instructions = new function() {
                 exampleScreen.clear();
                 htmlPage.fullBox.style.display = 'block';
                 boxScreen.showText("There are 3 information levels, which are displayed by different shades of " +
-                    "grey. This is how the look for soil.");
+                    "grey. This is how they look for soil.");
                 showExampleTiles('soilInfo');
                 break;
 
@@ -342,7 +277,7 @@ var instructions = new function() {
             case 17:
                 // text
                 exampleScreen.clear();
-                boxScreen.showText("It is quite possible that plants are a better predictor better than soil, or " +
+                boxScreen.showText("It is quite possible that plants are a better predictor than soil, or " +
                     "that soil is a better predictor than plants. You will have to find out.");
                 break;
 
@@ -598,7 +533,7 @@ var nextTestLevel = new function () {
     }
 };
 
-//******************************** SHOWING INFO AND QUAL FOR EXAMPLE TILE ROWS AND COLS ********************************
+//******************************** SHOWING INFO AND QUALITY FOR EXAMPLE TILE ROWS AND COLS *****************************
 
 function showExampleTiles(whichTiles){
     "use strict";

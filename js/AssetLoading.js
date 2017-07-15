@@ -1,12 +1,12 @@
 
-// where the game is drawn; optionally multiple for UI, animations etc.
+// where the game is drawn; multiple for UI, animations etc. and with different z-levels
 var canvas = {
 
-    game: document.getElementById('gameCanvas'),
-    effect: document.getElementById('effectCanvas'),
-    ui: document.getElementById('uiCanvas'),
-    info: document.getElementById('infoCanvas'),
-    box: document.getElementById('boxCanvas'),
+    game: document.getElementById('gameCanvas'), // z-level -4
+    effect: document.getElementById('effectCanvas'), // z-level -3
+    ui: document.getElementById('uiCanvas'), // z-level -2
+    info: document.getElementById('infoCanvas'), // z-level -1
+    box: document.getElementById('boxCanvas'), // z-level 0
 
     gameContext: document.getElementById('gameCanvas').getContext('2d'),
     effectContext: document.getElementById('effectCanvas').getContext('2d'),
@@ -21,7 +21,7 @@ const CANVAS_H = 700;
 const CANVAS_W = 700;
 const uiHeight = 50;
 
-//******************************** FIRST CHECK IF MOBILE BROWSER *******************************************************
+//******************************** CHECK IF MOBILE BROWSER *************************************************************
 
 var isMobile = false; //initiate as false
 
@@ -57,6 +57,12 @@ function loadScreen() {
             buttonContainers[i].style.maxWidth = newMaxWidth;
         }
 
+    } else if (isMobile){
+        document.getElementById('demographics').style.fontSize = '0.9em';
+        document.getElementById('debriefing').style.fontSize = '0.9em';
+        document.getElementById('prolificId').style.width = '70%';
+        document.getElementById('age').style.width = '50%';
+        document.getElementById('gender').style.width = '50%';
     }
 
     var ctx = canvas.gameContext;
@@ -170,24 +176,20 @@ var assets = new function() {
         });
         this.normalRainSound = new Howl({src: ['audio/normalRain' + audioFormat], volume: 0.6, loop: true, onload: function() {
             soundLoaded();
-        }
+            }
         });
-
         this.strongRainSound = new Howl({src: ['audio/strongRain' + audioFormat], volume: 0.6, loop: true, onload: function() {
             soundLoaded();
-        }
+            }
         });
-
         this.strongestRainSound = new Howl({src: ['audio/strongestRain' + audioFormat], volume: 0.6, loop: true, onload: function() {
             soundLoaded();
-        }
+            }
         });
-
         this.finishedSound = new Howl({src: ['audio/finished' + audioFormat], volume: 0.6, onload: function() {
             soundLoaded();
-        }
+            }
         });
-
 
     } else {
 
@@ -212,5 +214,5 @@ var assets = new function() {
         });
 
     }
-}();
+};
 

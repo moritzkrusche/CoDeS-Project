@@ -19,9 +19,11 @@
 <button id = 'cheatButtonTest' onclick='nextLevelTestLevel()' >CHEAT TO TEST MAP 1</button>
 <button id = 'cheatButton' onclick='nextLevel()' >CHEAT TO NEXT MAP</button>
 
+<!-- GAME PAGE  -->
 <div class='gameWrapper'>
     <div class='gameContainer'>
 
+        <!-- GAME CANVASES & BOXES  -->
         <div id='canvasContainer'>
             <canvas class = 'responsive' id='gameCanvas' width='700' height='750' style='display:block'></canvas>
             <canvas class = 'responsive' id='effectCanvas' width='700' height='750' style='display:block'></canvas>
@@ -32,27 +34,30 @@
             <div class='gameBox' id='gameBox' style='display:none'> </div>
             <div class='gameBox' id='fullGameBox' style='display:none'> </div>
 
+            <!-- Buttons on canvas area -->
             <button class='continueButton' id='nextButton' style='display:none' onclick='buttonNext()' >Next</button>
             <button class='continueButton' id='backButton' style='display:none' onclick='buttonBack()' >Back</button>
             <button class='continueButton' id='startButton' style='display:none' onclick='buttonStartLevel()' >Start</button>
-
-            <button class='continueButton' id='finishButton' style='display:none' onclick='buttonStartLevel()' >Finish</button>
-
+            <button class="continueButton" id='goProlific' style='display:none' onclick="buttonGoProlific()">Proof
+                Completion to Prolific</button>
         </div>
+        <!-- END canvases & boxes -->
 
+        <!-- Buttons for mobile below canvas area -->
         <div class='buttonContainer' >
             <button class='playButton' id='pbUp' onmousedown='buttonUp()' onmouseup='buttonFalse()' > Up </button>
         </div>
         <div class='buttonContainer' >
-
             <button class='playButton' id='pbLeft' onmousedown='buttonLeft()' onmouseup='buttonFalse()' >Left</button>
             <button class='playButton' id='pbRight' onmousedown='buttonRight()' onmouseup='buttonFalse()' >Right</button>
         </div>
         <div class='buttonContainer' >
             <button class='playButton' id='pbDown' onmousedown='buttonDown()' onmouseup='buttonFalse()' >Down</button>
         </div>
+        <!-- END buttons for mobile -->
     </div>
 </div>
+<!-- END gamePage -->
 
 <!-- DEMOGRAPHICS PAGE -->
 <div class='gameWrapper'>
@@ -74,6 +79,7 @@
                         <h4>Prolific ID</h4>
                         <label for='prolificId'></label>
                         <input type="text" name='prolificId' id='prolificId' required
+                               placeholder="Please enter your Prolific ID"
                                oninvalid="setCustomValidity('Please enter your Prolific ID!')"
                                onchange="try{setCustomValidity('')}catch(e){}"> <!--pattern="[A-Z]{3}[0-9]{4}"-->
                     </div>
@@ -109,9 +115,7 @@
                         </select>
                     </div>
                 </div>
-
                 <input type="submit" class='continueButton' id='submitButton' />
-
             </form>
 
         </div>
@@ -120,10 +124,25 @@
 <!-- END demographicsPage -->
 
 <!-- DEBRIEFING PAGE -->
+<div class='gameWrapper'>
+    <div class='gameContainer'>
+        <div class = 'demoBox' id='debriefBox' style='display:none'>
 
+            <form novalidate id='debriefing' >
+                <div class = 'centeredOnCanvas'>
 
+                    <!-- Feedback-->
+                    <label for="comment"></label>
+                    <textarea rows="4" cols="50"
+                              placeholder="Please enter any comments that you may have here. This is optional and will be processed anonymously."
+                              name="comment" id="comment"></textarea>
+                </div>
+                <input type="submit" class='continueButton' id='debriefButton' />
+            </form>
 
-
+        </div>
+    </div>
+</div>
 <!-- END debriefingPage -->
 
 <!-- Initialising firebase to store data  -->
