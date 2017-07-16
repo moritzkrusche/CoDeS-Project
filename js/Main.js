@@ -124,7 +124,7 @@ function logStats(){
     var e = experiment;
 
     for (var eachMap=0; eachMap < e.openMaps.length; eachMap++) {
-        loggedData.allStats[keys[eachMap]] = {
+        loggedData.allStats[eachMap] = {
             mean: e.openMaps[eachMap].meanPayoff,
             sd: e.openMaps[eachMap].sdPayoff,
             skew: e.openMaps[eachMap].skewPayoff,
