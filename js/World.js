@@ -1,3 +1,6 @@
+
+//******************************** WORLD CREATION & RENDERING **********************************************************
+
 // changing any const would break the graphics
 const TILE_W = 100;
 const TILE_H = 100;
@@ -13,7 +16,6 @@ var curMapConst = {
     maxMoves: 0,
     potatoPrice: 0,
     discountFactor: 0,
-
     alpha1: 0,
     beta1: 0,
     alpha2: 0,
@@ -26,7 +28,6 @@ var curMapConst = {
 
     soilSheet: NaN,
     plantSheet: NaN
-
 };
 
 // keeps track of everything that is updated on a given map, and compares with static
@@ -46,6 +47,11 @@ var curMapVar = {
 
     movementTracker: [],
     payoffTracker: [],
+    timeTracker: [],
+    lastTime: "",
+    nextTime: "",
+    startMapTime: "",
+    endMapTime: "",
 
     loadId: NaN,
     walkId: NaN,
@@ -55,25 +61,26 @@ var curMapVar = {
     backgroundId: NaN,
 
     mobileSoundUnlocked: false
-
 };
 
-// condition in clear text; e.g "1221/soilCol" or 05050505/plantCol etc.
-
+// holds the data logged at the end of every level, gets send to firebase at the end
 var loggedData = {
     prolificId: "",
     condition: "",
     partAge: "",
     partGender: "",
-    dateTime: {},
+    startDateTime: "",
+    endDateTime: "",
 
     browserIsMobile: false,
+    allStartTimes: {},
+    allEndTimes: {},
+    allMoveTimes: {},
 
     allColParameters: {},
     allRowParameters: {},
-
     allAphaBetas: {},
-
+    allStats: {},
     allExploredCols: {},
     allPayoffCols: {},
     allExploredRows:  {},
@@ -86,7 +93,6 @@ var loggedData = {
 
     allMovementTrackers: {},
     allPayoffTrackers: {}
-
 };
 
 // MERGED LEVELS HAVE FORMAT DICT{ KEY: ARRAY[GRID, COL INFO, COL QUAL, COL PAYOFF, ROW INFO, ROW QUAL, ROW PAYOFF, MOVES ALLOWED etc.], KEY: ...}
@@ -113,7 +119,6 @@ function mergeLevels(lvlKeys, lvl1, lvl2, lvl3, lvl4, lvl5, lvl6, lvl7, lvl8, lv
 
     for (var eachLevel=0; eachLevel<levelList.length; eachLevel++){
         if (levelList[eachLevel]!== 0) {
-
             var levelDetails = [];
             var each = levelList[eachLevel];
 
@@ -132,10 +137,14 @@ function mergeLevels(lvlKeys, lvl1, lvl2, lvl3, lvl4, lvl5, lvl6, lvl7, lvl8, lv
             levelDetails.push(each.potatoPrice);
             levelDetails.push(each.discountFactor);
 
+            // Stats only done for open maps, not test maps! --> don't load in loadLevel()!!!
+            levelDetails.push(each.meanPayoff);
+            levelDetails.push(each.sdPayoff);
+            levelDetails.push(each.skewPayoff);
+            levelDetails.push(each.kurtPayoff);
+
             levelHolder[levelKeys[eachLevel]] = levelDetails;
-
         }
-
     }
     return levelHolder
 }
@@ -144,12 +153,10 @@ function mergeLevels(lvlKeys, lvl1, lvl2, lvl3, lvl4, lvl5, lvl6, lvl7, lvl8, lv
 function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2, potPrice, disFactor) {
     'use strict';
     this.maxMoves = maxMoves;
-
     this.alpha1 = alpha1;
     this.beta1 = beta1;
     this.alpha2 = alpha2;
     this.beta2 = beta2;
-
     this.potatoPrice = potPrice;
     this.discountFactor = disFactor;
 
@@ -157,17 +164,14 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
 
     // init arrays first to save memory vs. push()
     that.tileGrid = new Array(numCols);
-
     that.columnParameters = new Array(numCols);
     that.rowParameters = new Array(numRows);
-
     that.exploredColumn = new Array(numCols);
     that.exploredRow = new Array(numRows);
-
     that.payoffColumn = new Array(numCols);
     that.payoffRow = new Array(numRows);
 
-    // only filled when functions called
+    // basic stats that could also be done later, but why not?
     that.meanPayoff = 0;
     that.sdPayoff = 0;
     that.skewPayoff = 0;
@@ -274,6 +278,7 @@ function getInfoLevel(rowOrCol, parameters) {
     }
 }
 
+
 function getQualityLevel(fraction){
 
     if (fraction < curMapConst.minQuality1) {
@@ -312,28 +317,6 @@ function getQuality(whichCol, whichRow){
     return [qualLevelCol, qualLevelRow]
 }
 
-
-/*
- Tilesheet Soil 100px
-
- Column 0 1 2 --> Info 1,2,3
-
- Column 3 --> path (0: no, 1: payoff) + water (3)
-
- Row 0, 1, 2, 3, 4 --> Soil Quality 1,2,3,4,5
-
-Tilesheet Plants 60px
-
-Column 0 1 2 --> Info 1,2,3
-
-Column 3 --> path (0: no, 1: payoff) + water (3)
-
-Row 0, 1, 2, 3, 4 --> Soil Quality 1,2,3,4,5
-*/
-
-//curMapConst.soilSheet = new TileSheetClass(assets.soilSheetPic, 5*TILE_W, 5*TILE_H, 5, 5, 0, 0, TILE_W, TILE_H);
-//curMapConst.plantSheet = new TileSheetClass(assets.plantSheetPic, 5*PLANT_W, 5*PLANT_H, 5, 5, ((TILE_W-PLANT_W)/2), ((TILE_H-PLANT_H)/2), PLANT_W, PLANT_H);
-
 // universal class for drawing (static) tiles from a tile-sheet
 function TileSheetClass(image, sheetWidth, sheetHeight, rows, cols, offsetX, offsetY, drawWidth, drawHeight) {
     'use strict';
@@ -358,6 +341,27 @@ function TileSheetClass(image, sheetWidth, sheetHeight, rows, cols, offsetX, off
             drawWidth, drawHeight);
     };
 }
+/*
+ Tilesheet Soil 100px
+
+ Column 0 1 2 --> Info 1,2,3
+
+ Column 3 --> path (0: no, 1: payoff) + water (3)
+
+ Row 0, 1, 2, 3, 4 --> Soil Quality 1,2,3,4,5
+
+ Tilesheet Plants 60px
+
+ Column 0 1 2 --> Info 1,2,3
+
+ Column 3 --> path (0: no, 1: payoff) + water (3)
+
+ Row 0, 1, 2, 3, 4 --> Soil Quality 1,2,3,4,5
+ */
+
+// this definition requires that the appropriately sized tile-sheet is delivered
+curMapConst.soilSheet = new TileSheetClass(assets.soilSheetPic, 5*TILE_W, 5*TILE_H, 5, 5, 0, 0, TILE_W, TILE_H);
+curMapConst.plantSheet = new TileSheetClass(assets.plantSheetPic, 5*PLANT_W, 5*PLANT_H, 5, 5, ((TILE_W-PLANT_W)/2), ((TILE_H-PLANT_H)/2), PLANT_W, PLANT_H);
 
 //******************************** DRAWING TILES WITHIN VISIBLE AREA DEPENDING ON COND & GAME STATUS *******************
 
@@ -442,4 +446,4 @@ function drawVisibleTiles() {
     }
 }
 
-
+//******************************** END OF WORLD CREATION & RENDERING ***************************************************

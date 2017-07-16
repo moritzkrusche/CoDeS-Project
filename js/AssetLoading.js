@@ -1,4 +1,6 @@
 
+//******************************** LOADING ASSETS & ADJUSTING SCREEN ***************************************************
+
 // where the game is drawn; multiple for UI, animations etc. and with different z-levels
 var canvas = {
 
@@ -20,6 +22,29 @@ var canvas = {
 const CANVAS_H = 700;
 const CANVAS_W = 700;
 const uiHeight = 50;
+
+// Initialize Firebase
+var database = {
+    init: NaN,
+    game: NaN,
+    feedback: NaN
+};
+
+(function(){
+    "use strict";
+    var config = {
+        apiKey: 'AIzaSyDp7KeZVXhpaaryW-sPQZmXZYobouqecO0',
+        authDomain: 'pilot-farming-task.firebaseapp.com',
+        databaseURL: 'https://pilot-farming-task.firebaseio.com',
+        projectId: 'pilot-farming-task',
+        storageBucket: 'pilot-farming-task.appspot.com',
+        messagingSenderId: '768805606623'
+    };
+    firebase.initializeApp(config);
+    database.init = firebase.database();
+    database.game = database.init.ref('gameData');
+    database.feedback = database.init.ref('feedback');
+})();
 
 //******************************** CHECK IF MOBILE BROWSER *************************************************************
 
@@ -216,3 +241,4 @@ var assets = new function() {
     }
 };
 
+//******************************** END OF LOADING ASSETS & ADJUSTING SCREEN ********************************************

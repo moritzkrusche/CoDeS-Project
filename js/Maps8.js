@@ -1,4 +1,5 @@
 
+//******************************** 8 TEST MAPS PICKED BY HAND **********************************************************
 // these are the test maps that will be used in the second stage of the experiment
 // formatted to be (relatively!) easy to edit by hand without a map editor (would be overkill)
 // the start position (central) is marked as an octal integer ('00')
@@ -325,5 +326,4 @@ var testMaps = {
 
 };
 
-
-
+//******************************** END OF 8 TEST MAPS PICKED BY HAND **********************************************************

@@ -1,4 +1,6 @@
 
+//******************************** GRAPHICS & COMMON HELPER FUNCTIONS **************************************************
+
 function canvasCenteredBitmap(ctx, useBitmap, atX,atY, width, height) {
     ctx.save();
     ctx.translate(atX, atY);
@@ -22,6 +24,19 @@ function canvasText(ctx, showWords, textX,textY, color) {
     ctx.fillText(showWords, textX, textY);
 }
 
+function getDateTime(){
+    "use strict";
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var secondsTimer = today.getTime()/ 1000;
+    return [date, time, secondsTimer];
+}
+
+function round(value, decimals) {
+    return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+}
+
 function sleep(milliseconds) {
     var start = new Date().getTime();
     for (var i = 0; i < 1e7; i++) {
@@ -29,10 +44,6 @@ function sleep(milliseconds) {
             break;
         }
     }
-}
-
-function round(value, decimals) {
-    return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
 }
 
 function intervalTimer(func, wait, times){
@@ -81,7 +92,6 @@ function shuffleArray(array) {
 
     return array;
 }
-
 
 // adapted from https://codepen.io/ruigewaard/pen/JHDdF by Max Ruigewaard
 var rainAnimationClass = function(intensity) {
@@ -353,3 +363,5 @@ function drawArcedArrow(ctx, x, y, r, startAngle, endAngle, anticlockwise, style
     }
     ctx.restore();
 }
+
+//******************************** END OF GRAPHICS & COMMON HELPER FUNCTIONS *******************************************

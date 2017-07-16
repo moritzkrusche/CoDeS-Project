@@ -1,4 +1,9 @@
 
+//******************************** ANIMATION ***************************************************************************
+
+
+//******************************** DRAWING AND ANIMATING CHARACTER SPRITE **********************************************
+
 function CharClass(spritePic, sheetWidth, sheetHeight, rows, cols, width, height) {
     'use strict';
     this.moving = false;
@@ -30,7 +35,6 @@ function CharClass(spritePic, sheetWidth, sheetHeight, rows, cols, width, height
     this.moveFrames = function() {
         curFrame = ++curFrame % frameCount;
     };
-
     this.updateFrame = function(someDirection, someDelay) {
         this.col = curFrame * spriteWidth;
 
@@ -50,7 +54,6 @@ function CharClass(spritePic, sheetWidth, sheetHeight, rows, cols, width, height
             this.row = this.trackDown * spriteHeight;
         }
     };
-
     this.drawSprite = function(atX, atY) {
         this.updateFrame(this.currentDirection, 50);
         if (!this.moving) {
@@ -58,140 +61,122 @@ function CharClass(spritePic, sheetWidth, sheetHeight, rows, cols, width, height
         }
         canvas.gameContext.drawImage(spritePic, this.col, this.row, spriteWidth, spriteHeight, atX, atY, width, height);
     };
-
 }
 
+//******************************** ANIMATING UP TO THREE PAYOFF/ POTATOES **********************************************
 
 function AnimationClass(animPic, width, height) {
     'use strict';
     var ctx = canvas.gameContext;
 
-    var meX1 = 0;
-    var meY1 = 0;
-    var animY1 = 0;
+    var obj1X = 0;
+    var obj1Y = 0;
+    var obj1NewY = 0;
+    var obj2X = 0;
+    var obj2Y = 0;
+    var obj2NewY = 0;
+    var obj3X = 0;
+    var obj3Y = 0;
+    var obj3NewY = 0;
 
-    var meX2 = 0;
-    var meY2 = 0;
-    var animY2 = 0;
-
-    var meX3 = 0;
-    var meY3 = 0;
-    var animY3 = 0;
-
-    var animateMe = false;
+    var animObj1 = false;
+    var animObj2 = false;
+    var animObj3 = false;
+    var animAnyObj = false;
 
     this.show = function() {
-        animateMe = true;
+        animAnyObj = true;
     };
-
-    var animMe1 = false;
-    var animMe2 = false;
-    var animMe3 = false;
-
     this.resetStart = function(someX, someY){
-        meX1 = someX;
-        meY1 = someY;
-        animY1 = someY;
+        obj1X = someX;
+        obj1Y = someY;
+        obj1NewY = someY;
     };
-
     this.drawAnimation = function() {
 
-        if (animMe1) {
-            canvasCenteredBitmap(ctx, animPic, meX1, meY1, width, height);
-            //console.log('PAYOFF AT: ', meX1, meY1);
+        if (animObj1) {
+            canvasCenteredBitmap(ctx, animPic, obj1X, obj1Y, width, height);
         }
-
-        if (animMe2) {
-            canvasCenteredBitmap(ctx, animPic, meX2, meY2, width, height);
-            //console.log('PAYOFF AT: ', meX2, meY2);
+        if (animObj2) {
+            canvasCenteredBitmap(ctx, animPic, obj2X, obj2Y, width, height);
         }
-
-        if (animMe3) {
-            canvasCenteredBitmap(ctx, animPic, meX3, meY3, width, height);
-            //console.log('PAYOFF AT: ', meX3, meY3);
+        if (animObj3) {
+            canvasCenteredBitmap(ctx, animPic, obj3X, obj3Y, width, height);
         }
-
     };
-
     this.placeAnimation = function(atX, atY) {
 
-        if (!animateMe) {
+        if (!animAnyObj) {
 
-            if (!animMe1) {
-                meX1 = atX;
-                meY1 = atY - height;
-                animY1 = meY1
+            if (!animObj1) {
+                obj1X = atX;
+                obj1Y = atY - height;
+                obj1NewY = obj1Y
             }
-
-            if (!animMe2) {
-                meX2 = atX;
-                meY2 = atY - height;
-                animY2 = meY2
+            if (!animObj2) {
+                obj2X = atX;
+                obj2Y = atY - height;
+                obj2NewY = obj2Y
             }
-
-            if (!animMe3) {
-                meX3 = atX;
-                meY3 = atY - height;
-                animY3 = meY3
+            if (!animObj3) {
+                obj3X = atX;
+                obj3Y = atY - height;
+                obj3NewY = obj3Y
             }
         }
-
     };
-
     this.moveAnimation = function() {
 
-        if (animateMe) {
-            if (!animMe1) {
-                animateMe = false;
-                animMe1 = true;
+        if (animAnyObj) {
+            if (!animObj1) {
+                animAnyObj = false;
+                animObj1 = true;
                 var animPos1 = 0;
 
                 var frameAnim1 = function() {
                     if (animPos1 > 310) {
                         clearInterval(animId1);
-                        animMe1 = false;
-
-                    } else {
-                        animY1 -= 15;
-                        meY1 = animY1;
+                        animObj1 = false;
+                    }
+                    else {
+                        obj1NewY -= 15;
+                        obj1Y = obj1NewY;
                         animPos1 += 15;
                     }
                 };
                 var animId1 = setInterval(frameAnim1, 57);
             }
-
-            else if (!animMe2) {
-                animateMe = false;
-                animMe2 = true;
+            else if (!animObj2) {
+                animAnyObj = false;
+                animObj2 = true;
                 var animPos2 = 0;
 
                 var frameAnim2 = function() {
                     if (animPos2 > 330) {
                         clearInterval(animId2);
-                        animMe2 = false;
-
-                    } else {
-                        animY2 -= 15;
-                        meY2 = animY2;
+                        animObj2 = false;
+                    }
+                    else {
+                        obj2NewY -= 15;
+                        obj2Y = obj2NewY;
                         animPos2 += 15;
                     }
                 };
                 var animId2 = setInterval(frameAnim2, 59);
             }
-
-            else if (!animMe3) {
-                animateMe = false;
-                animMe3 = true;
+            else if (!animObj3) {
+                animAnyObj = false;
+                animObj3 = true;
                 var animPos3 = 0;
 
                 var frameAnim3 = function() {
                     if (animPos3 > 320) {
                         clearInterval(animId3);
-                        animMe3 = false;
-
-                    } else {
-                        animY3 -= 15;
-                        meY3 = animY3;
+                        animObj3 = false;
+                    }
+                    else {
+                        obj3NewY -= 15;
+                        obj3Y = obj3NewY;
                         animPos3 += 15;
                     }
                 };
@@ -199,10 +184,11 @@ function AnimationClass(animPic, width, height) {
             }
         }
     };
-
     this.animate = function(someX, someY) {
         this.placeAnimation(someX, someY);
         this.drawAnimation();
         this.moveAnimation();
     };
 }
+
+//******************************** END OF ANIMATION ********************************************************************

@@ -1,4 +1,6 @@
 
+//******************************** INPUT BUTTONS & KEYS ****************************************************************
+
 var userInputStatus = {
     holdLeft: false,
     holdRight: false,
@@ -8,6 +10,7 @@ var userInputStatus = {
     mousePosY: 0
 };
 
+// arrow key constants
 const KEY_LEFT_ARROW = 37;
 const KEY_UP_ARROW = 38;
 const KEY_RIGHT_ARROW = 39;
@@ -17,7 +20,7 @@ const KEY_DOWN_ARROW = 40;
 
 function initInput() {
     'use strict';
-    canvas.info.addEventListener('mousemove', updateMousePos);
+    canvas.box.addEventListener('mousemove', updateMousePos); // canvas with highest z-index
 
 	document.addEventListener('keydown', keyPressed);
 	document.addEventListener('keyup', keyReleased);
@@ -38,11 +41,12 @@ function initInput() {
             buttons[i].style.visibility = 'visible'
         }
     }
-
 }
 
 function killInput(){
     'use strict';
+    canvas.box.removeEventListener('mousemove', updateMousePos);
+
     document.removeEventListener('keydown', keyPressed);
     document.removeEventListener('keyup', keyReleased);
 
@@ -62,9 +66,7 @@ function killInput(){
             buttons[i].style.visibility = 'hidden'
         }
     }
-
 }
-
 
 function updateMousePos(evt) {
     'use strict';
@@ -74,7 +76,6 @@ function updateMousePos(evt) {
     userInputStatus.mousePosX = evt.clientX - rect.left - root.scrollLeft;
     userInputStatus.mousePosY = evt.clientY - rect.top - root.scrollTop;
 }
-
 
 function setKeyHoldState(thisKey, setTo) {
     'use strict';
@@ -134,45 +135,28 @@ function buttonFalse() {
 
 //******************************** BUTTON FUNCTIONS ********************************************************************
 
-htmlPage.demoForm.addEventListener('submit', function() {
+htmlPage.demoForm.addEventListener('submit', function(evt) {
+    evt.preventDefault();
     var form = htmlPage.demoForm;
-    event.preventDefault();
-
-    //console.log('ID: ', form.prolificId.value);
-    //console.log('AGE: ', form.age.value);
-    //console.log('GENDER: ', form.gender.value);
 
     loggedData.prolificId = form.prolificId.value;
     loggedData.partAge = form.age.value;
     loggedData.partGender = form.gender.value;
 
     htmlPage.demoBox.style.display = 'none';
-
     instructions.show();
 });
 
-htmlPage.debriefForm.addEventListener('submit', function() {
+htmlPage.debriefForm.addEventListener('submit', function(evt) {
+    evt.preventDefault();
     var form = htmlPage.debriefForm;
-    event.preventDefault();
-
-    console.log('FEEDBACK: ', form.comment.value);
-    //document.getElementById('debriefButton').disabled = true;
-    //document.getElementById('debriefButton').style.background = '#525b68';
+    database.feedback.push(form.comment.value); // send feedback to separate database for anonymity
 
     document.getElementById('debriefButton').style.display = 'none';
     document.getElementById('comment').style.display = 'none';
     canvas.boxContext.font = 'italic 22pt "COMIC SANS MS"';
     canvasText(canvas.boxContext, 'Many thanks for your feedback!',30 , 600, '#DAA520');
-
 });
-
-function buttonGoProlific(){
-    "use strict";
-    window.open('https://www.prolific.ac/submissions/complete/demo?','_blank');
-    document.getElementById('goProlific').style.display = 'none';
-    canvas.boxContext.font = 'italic 22pt "COMIC SANS MS"';
-    canvasText(canvas.boxContext, 'Thanks! You can close this page now.',30 , 480, '#DAA520');
-}
 
 function buttonNext() {
     "use strict";
@@ -187,7 +171,6 @@ function buttonNext() {
             nextOpenLevel.show()
         }
     }
-
     else if (experiment.testPhase){
         if (experiment.currentTestLevel === 0 && testInstructions.index < testInstructions.maxIndex) {
             testInstructions.index++;
@@ -230,7 +213,8 @@ function buttonStartLevel(){
             assets.backgroundSound.stop(curMapVar.backgroundId)
         }
         curMapVar.backgroundId = assets.backgroundSound.play();
-    } else {
+    }
+    else {
         if (!curMapVar.mobileSoundUnlocked){
             try {
                 assets.unlockIOSAudioPlayback()
@@ -241,3 +225,13 @@ function buttonStartLevel(){
         }
     }
 }
+
+function buttonGoProlific(){
+    "use strict";
+    window.open('https://www.prolific.ac/submissions/complete/demo?','_blank');
+    document.getElementById('goProlific').style.display = 'none';
+    canvas.boxContext.font = 'italic 22pt "COMIC SANS MS"';
+    canvasText(canvas.boxContext, 'Thanks! You can close this page now.',30 , 480, '#DAA520');
+}
+
+//******************************** END OF INPUT BUTTONS & KEYS *********************************************************

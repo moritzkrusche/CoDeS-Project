@@ -11,8 +11,8 @@ var htmlPage = {
     debriefBox: document.getElementById('debriefBox'),
     nextButton: document.getElementById('nextButton'),
     backButton: document.getElementById('backButton'),
-    startButton: document.getElementById('startButton')
-
+    startButton: document.getElementById('startButton'),
+    prolificButton: document.getElementById('goProlific')
 };
 
 var rainEffects = {
@@ -26,9 +26,7 @@ var rainEffects = {
 var boxScreen = new function() {
     "use strict";
 
-    var that = this;
-
-    that.wrapText = function(text, x, y, maxWidth, lineHeight, font, color) {
+    this.wrapText = function(text, x, y, maxWidth, lineHeight, font, color) {
         font = font || 'italic 16pt "COMIC SANS MS"';
         color = color || '#DAA520';
 
@@ -53,23 +51,19 @@ var boxScreen = new function() {
         }
         canvas.boxContext.fillText(line, x, y);
     };
-
     this.hideAll = function(){
 
         canvas.boxContext.clearRect(0,0, CANVAS_W,CANVAS_H+uiHeight);
         canvas.infoContext.clearRect(0,0, CANVAS_W,CANVAS_H+uiHeight);
         htmlPage.gameBox.style.display = 'none';
         htmlPage.fullBox.style.display = 'none';
-
         htmlPage.nextButton.style.display = 'none';
         htmlPage.backButton.style.display = 'none';
-
     };
-
     this.showText = function(words){
         "use strict";
         canvas.boxContext.clearRect(0,0, CANVAS_W,CANVAS_H+uiHeight);
-        that.wrapText(words, 80, 540, 540, 25);
+        this.wrapText(words, 80, 540, 540, 25);
     };
 };
 
@@ -77,20 +71,21 @@ var boxScreen = new function() {
 function showDebriefPage(){
     "use strict";
     htmlPage.debriefBox.style.display = 'block';
-    document.getElementById('goProlific').style.display = 'block';
-
-    canvas.boxContext.font = 'italic 24pt "COMIC SANS MS"';
+    htmlPage.prolificButton.style.display = 'block';
+    canvas.boxContext.font = '24pt "Helvetica Neue"';
     canvasText(canvas.boxContext, 'Debriefing',30 , 50, '#DAA520');
 
     var payTotal = round(curMapVar.payoffCount, 2);
-    //if (curMapVar.payoffCount > loggedData.payoffCount) payTotal = curMapVar.payoffCount;
+    var timeTotal = round((loggedData.endDateTime[2] - loggedData.startDateTime[2])/60, 2);
 
     var textPay = 'Congratulations, you have reached the end of this experiment. You have earned ' + payTotal + '$ ' +
-        'over X minutes.';
+        'over ' + timeTotal + ' minutes.';
+    var textProcedure = 'You will be paid the minimum amount of X$ for completing the study plus your bonus of X$ within one week.';
     var textDone = 'IMPORTANT: click on the button below to proof that you have completed the study. This will open a new tab.';
 
-    boxScreen.wrapText(textPay, 30, 120, 540, 25);
-    boxScreen.wrapText(textDone, 30, 260, 540, 25);
+    boxScreen.wrapText(textPay, 30, 120, 640, 30, '18pt "Helvetica Neue"');
+    boxScreen.wrapText(textProcedure, 30, 260, 640, 30, '18pt "Helvetica Neue"');
+    boxScreen.wrapText(textDone, 30, 380, 640, 30, '18pt "Helvetica Neue"');
 }
 
 
@@ -378,13 +373,14 @@ var testInstructions = new function () {
                 break;
 
             case 1:
-                boxScreen.showText('This rain is getting too strong... Let us hope that the potatoes survive.');
+                boxScreen.showText('This rain is getting too strong... let us hope that it stops soon.');
                 rainEffects.normal.stop();
                 rainEffects.strong.start();
                 if (!isMobile){
                     assets.normalRainSound.stop();
                     assets.strongRainSound.play();
-                }else {
+                }
+                else {
                     assets.spriteSound.stop();
                     assets.spriteSound.play('strongRain');
                 }
@@ -397,7 +393,8 @@ var testInstructions = new function () {
                 if (!isMobile){
                     assets.strongRainSound.stop();
                     assets.strongestRainSound.play();
-                }else {
+                }
+                else {
                     assets.spriteSound.stop();
                     assets.spriteSound.play('strongestRain');
                 }
@@ -407,10 +404,10 @@ var testInstructions = new function () {
                 rainEffects.strongest.stop();
                 if (!isMobile){
                     assets.strongestRainSound.stop();
-                } else {
+                }
+                else {
                     assets.spriteSound.stop();
                 }
-
                 loadLevel(testMaps[experiment.testLevelKeys[0]]); // load first test map
 
                 htmlPage.fullBox.style.display = 'none';
@@ -563,7 +560,6 @@ function showExampleTiles(whichTiles){
             canvasText(ctx, 'best plant type', 440,475, '#DAA520');
             break;
 
-
         case 'soilInfo': // show example soil tiles info level 1 - 3
             ctx.drawImage(assets.soilSheetPic, 0, 0, TILE_W, TILE_H*5, 270, 110, redWidth, redColHeight);
             ctx.drawImage(assets.soilSheetPic, TILE_W, 0, TILE_W, TILE_H*5, 160, 110, redWidth, redColHeight);
@@ -640,7 +636,6 @@ var exampleScreen = new function(){
         this.clear();
         canvasFrame(ctx, 300,350, 100, 100, 5, 'red');
     };
-
     this.highlightFarmerMoves = function(){
         // Show arrows for all directions (left, right, top, down) that farmer can walk
         this.clear();
@@ -649,53 +644,45 @@ var exampleScreen = new function(){
         drawArrow(ctx, 350, 320, 350, 350, 1, 2, 20, 10, 'red', 10);
         drawArrow(ctx, 350, 480, 350, 450, 1, 2, 20, 10, 'red', 10);
     };
-
     this.highlightTile = function(){
         // example tile
         this.clear();
         canvasFrame(ctx, 100,350, 100, 100, 5, 'red');
     };
-
     this.highlightCenterCol = function(){
         // example column
         this.clear();
         canvasFrame(ctx, 300,100, 100, 650, 5, 'red');
     };
-
     this.highlightCenterRow = function(){
         // example row
         this.clear();
         canvasFrame(ctx, 0,350, 700, 100, 5, 'red');
     };
-
     this.highlightXY = function(){
         // XY coordinates
         this.clear();
         canvasFrame(ctx, 10,0, 180, 50, 5, 'red');
         drawArrow(ctx, 100, 60, 100, 140, 1, 2, 20, 10, 'red', 5);
     };
-
     this.highlightMovesLeft = function(){
         // moves left
         this.clear();
         canvasFrame(ctx, 200,0, 170, 50, 5, 'red');
         drawArrow(ctx, 250, 60, 250, 140, 1, 2, 20, 10, 'red', 5);
     };
-
     this.highlightPotatoPrice = function(){
         // potato price
         this.clear();
         canvasFrame(ctx, 390,0, 195, 50, 5, 'red');
         drawArrow(ctx, 520, 60, 520, 140, 1, 2, 20, 10, 'red', 5);
     };
-
     this.highlightPotatoCount = function(){
         // potato count
         this.clear();
         canvasFrame(ctx, 580,0, 100, 50, 5, 'red');
         drawArrow(ctx, 640, 60, 640, 140, 1, 2, 20, 10, 'red', 5);
     };
-
     this.highlightPayoff = function(){
         // payoff total
         this.clear();

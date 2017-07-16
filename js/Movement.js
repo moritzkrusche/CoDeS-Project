@@ -1,6 +1,7 @@
 
-//******************************** CAMERA OBJECT USED FOR DRAWING CURRENT TILES AND MOVEMENT ***************************
+//******************************** MOVEMENT HANDLING & UPDATING ********************************************************
 
+// CAMERA OBJECT USED FOR DRAWING CURRENT TILES AND MOVEMENT
 var camera = new function(){
     'use strict';
     this.centerX = 0;
@@ -16,8 +17,7 @@ var camera = new function(){
     };
 };
 
-//******************************** RANDOMLY DRAWING PAYOFF BASED ON PARAMETERS *****************************************
-
+//RANDOMLY DRAWING PAYOFF BASED ON PARAMETERS
 function checkPayoff(colPar, rowPar) {
     'use strict';
     var draw = Math.random();
@@ -45,7 +45,6 @@ function updateInfo(callback) {
         console.log('SOIL PAR AT POS X: ', curMapConst.columnParameters[posX]);
         console.log('PLANT PAR AT POS Y: ', curMapConst.rowParameters[posY]);
     }
-
     curMapVar.tileGrid = curMapVar.tileGrid.slice();
 
     if (curMapVar.tileGrid[posY][posX] === 0) {
@@ -67,14 +66,6 @@ function updateInfo(callback) {
 
             !isMobile ? assets.potatoSound.play() : assets.spriteSound.play('potato');
 
-            /*
-            if (!isMobile) {
-                assets.potatoSound.play();
-            } else {
-                assets.spriteSound.play('potato');
-            }
-            */
-
             curMapVar.payoffTracker.push(1);
             curMapVar.potatoCount += 1;
             curMapVar.payoffCount += curMapVar.potatoPrice;
@@ -82,7 +73,6 @@ function updateInfo(callback) {
             curMapVar.tileGrid[posY][posX] = 3;
             curMapVar.payoffRow[posY] += 1;
             curMapVar.payoffColumn[posX] += 1;
-
         }
     }
     return callback;
@@ -96,10 +86,19 @@ function stepCounter(char) {
     char.moving = false;
     curMapVar.potatoPrice *= curMapConst.discountFactor;
     curMapVar.movesLeft -=1;
-
+    timeCounter(); // logging seconds since last tile visited (decision time)
     if (curMapVar.movesLeft === 0) {
         curMapVar.loadId = setTimeout(function () {nextLevel()}, 1250);
     }
+}
+
+// logs seconds passed since last time called
+function timeCounter() {
+    "use strict";
+    curMapVar.lastTime = curMapVar.nextTime;
+    curMapVar.nextTime = getDateTime()[2];
+    var seconds = curMapVar.nextTime - curMapVar.lastTime;
+    curMapVar.timeTracker.push(seconds);
 }
 
 //******************************** COLLISION HANDLING ON TEST MAPS INCL SOUND AND CROSSES ******************************
@@ -123,7 +122,6 @@ function checkCollision(atTrackerX, atTrackerY) {
             };
             setTimeout(resetTile, 750);
         }
-
         if (!isMobile) {
             if (!assets.errorSound.playing(curMapVar.errorId1) && !assets.errorSound.playing(curMapVar.errorId2)) {
                 curMapVar.errorId1 = assets.errorSound.play();
@@ -160,38 +158,38 @@ function trackerMove(char) {
     if (!char.moving && curMapVar.movesLeft > 0) {
 
         if (userInputStatus.holdLeft) {
+
             if (!checkCollision(nextX - TILE_W, nextY)) {
                 directionX = -5;
                 char.moving = true;
                 char.currentDirection = 'left';
-
                 curMapVar.movementTracker.push('left');
             }
         }
         else if (userInputStatus.holdRight) {
+
             if (!checkCollision(nextX + TILE_W, nextY)) {
                 directionX = 5;
                 char.moving = true;
                 char.currentDirection = 'right';
-
                 curMapVar.movementTracker.push('right');
             }
         }
         else if (userInputStatus.holdUp) {
+
             if (!checkCollision(nextX, nextY - TILE_H)) {
                 directionY = -5;
                 char.moving = true;
                 char.currentDirection = 'up';
-
                 curMapVar.movementTracker.push('up');
             }
         }
         else if (userInputStatus.holdDown) {
+
             if (!checkCollision(nextX, nextY + TILE_H)) {
                 directionY = 5;
                 char.moving = true;
                 char.currentDirection = 'down';
-
                 curMapVar.movementTracker.push('down');
             }
         }
@@ -199,6 +197,7 @@ function trackerMove(char) {
     if (char.moving && !char.animMove) {
 
         if (!isMobile) {
+
             if (assets.walkingSound.playing(curMapVar.walkId)) {
                 clearTimeout(curMapVar.pauseId);
             }
@@ -219,7 +218,6 @@ function trackerMove(char) {
                 curMapVar.walkId = assets.spriteSound.play('walking');
             }
         }
-
         char.animMove = true;
         var stepsMoved = 0;
 
@@ -250,3 +248,4 @@ function trackerMove(char) {
     }
 }
 
+//******************************** END OF MOVEMENT HANDLING & UPDATING *************************************************
