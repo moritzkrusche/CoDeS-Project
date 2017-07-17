@@ -327,7 +327,8 @@ var instructions = new function() {
                 // show XY
                 exampleScreen.highlightXY();
                 boxScreen.showText("You can always see where you are in comparison with your starting " +
-                    "point here. X for column, and Y for row positions.");
+                    "point here. X for column, and Y for row positions. " +
+                    "Moving up and right is coded as '+', down and left as '-'.");
                 break;
 
             case 25:
