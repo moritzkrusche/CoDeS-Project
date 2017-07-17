@@ -79,8 +79,7 @@ var loggedData = {
 
     allColParameters: {},
     allRowParameters: {},
-    allAphaBetas: {},
-    allStats: {},
+    allAlphaBetas: {},
     allExploredCols: {},
     allPayoffCols: {},
     allExploredRows:  {},
@@ -137,12 +136,6 @@ function mergeLevels(lvlKeys, lvl1, lvl2, lvl3, lvl4, lvl5, lvl6, lvl7, lvl8, lv
             levelDetails.push(each.potatoPrice);
             levelDetails.push(each.discountFactor);
 
-            // Stats only done for open maps, not test maps! --> don't load in loadLevel()!!!
-            levelDetails.push(each.meanPayoff);
-            levelDetails.push(each.sdPayoff);
-            levelDetails.push(each.skewPayoff);
-            levelDetails.push(each.kurtPayoff);
-
             levelHolder[levelKeys[eachLevel]] = levelDetails;
         }
     }
@@ -170,12 +163,6 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
     that.exploredRow = new Array(numRows);
     that.payoffColumn = new Array(numCols);
     that.payoffRow = new Array(numRows);
-
-    // basic stats that could also be done later, but why not?
-    that.meanPayoff = 0;
-    that.sdPayoff = 0;
-    that.skewPayoff = 0;
-    that.kurtPayoff = 0;
 
     (function () {
         'use strict';
@@ -211,25 +198,6 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
             that.rowParameters[eachRow] = jStat.beta.sample(alpha2, beta2);
         }
     })();
-
-    (function() {
-        'use strict';
-        var rowColPairs = numCols;
-        if (numCols > numRows){
-            rowColPairs = numRows
-        }
-        // This is like a diagonal across the grid, assuming that parameters are independent it suffices
-        var expectedPayoff = new Array(rowColPairs);
-
-        for (var i=0; i<rowColPairs; i++) {
-            expectedPayoff[i] = that.rowParameters[i] * that.columnParameters[i];
-        }
-        that.meanPayoff = jStat.mean(expectedPayoff);
-        // sample SD
-        that.sdPayoff = jStat.stdev(expectedPayoff,true);
-        that.skewPayoff = jStat.skewness(expectedPayoff);
-        that.kurtPayoff = jStat.kurtosis(expectedPayoff);
-    })()
 }
 
 

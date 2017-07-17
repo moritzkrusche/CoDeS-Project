@@ -90,7 +90,6 @@ function startGame() {
 	var framesPerSecond = 10;
     loadLevel(experiment.openMaps.map1);
     loggedData.startDateTime = getDateTime();
-    logStats();
 	setInterval(gameLoop, 1000/framesPerSecond);
 }
 
@@ -99,7 +98,7 @@ function logData(lvlKey){
     'use strict';
     loggedData.allStartTimes[lvlKey] = curMapVar.startMapTime;
     loggedData.allEndTimes[lvlKey] = curMapVar.endMapTime;
-    loggedData.allAphaBetas[lvlKey] = [curMapConst.alpha1, curMapConst.beta1, curMapConst.alpha2, curMapConst.beta2];
+    loggedData.allAlphaBetas[lvlKey] = [curMapConst.alpha1, curMapConst.beta1, curMapConst.alpha2, curMapConst.beta2];
 
     loggedData.allColParameters[lvlKey] = curMapConst.columnParameters.slice();
     loggedData.allRowParameters[lvlKey] = curMapConst.rowParameters.slice();
@@ -116,21 +115,6 @@ function logData(lvlKey){
     loggedData.allMovementTrackers[lvlKey] = curMapVar.movementTracker.slice();
     loggedData.allMoveTimes[lvlKey] = curMapVar.timeTracker.slice();
     loggedData.allPayoffTrackers[lvlKey] = curMapVar.payoffTracker.slice();
-}
-
-
-function logStats(){
-    "use strict";
-    var e = experiment;
-
-    for (var eachMap=0; eachMap < e.openMaps.length; eachMap++) {
-        loggedData.allStats[eachMap] = {
-            mean: e.openMaps[eachMap].meanPayoff,
-            sd: e.openMaps[eachMap].sdPayoff,
-            skew: e.openMaps[eachMap].skewPayoff,
-            kurt: e.openMaps[eachMap].kurtPayoff
-        }
-    }
 }
 
 
