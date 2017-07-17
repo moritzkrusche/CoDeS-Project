@@ -32,7 +32,6 @@ var database = {
 
 (function(){
     "use strict";
-
     var config = {
         apiKey: 'AIzaSyDp7KeZVXhpaaryW-sPQZmXZYobouqecO0',
         authDomain: 'pilot-farming-task.firebaseapp.com',
