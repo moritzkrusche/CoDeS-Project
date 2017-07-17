@@ -232,7 +232,7 @@ function nextLevel() {
 
 function sendData(){
     "use strict";
-    var textSendingData = 'Sending data to database. This may take a few seconds. ' +
+    var textSendingData = 'Sending data to database. This may take a few moments. ' +
         'Check your internet connection and DO NOT CLOSE THE GAME! ' +
         'As soon as all data is sent, this page will update.';
     htmlPage.fullBox.style.display = 'block';
