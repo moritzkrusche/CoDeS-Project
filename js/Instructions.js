@@ -27,12 +27,11 @@ var boxScreen = new function() {
     "use strict";
 
     this.wrapText = function(text, x, y, maxWidth, lineHeight, font, color) {
+
         font = font || 'italic 16pt "COMIC SANS MS"';
         color = color || '#DAA520';
-
         canvas.boxContext.font = font;
         canvas.boxContext.fillStyle = color;
-
         var words = text.split(' ');
         var line = '';
 

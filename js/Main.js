@@ -232,14 +232,18 @@ function nextLevel() {
 
 function sendData(){
     "use strict";
-    //database.game.push(loggedData);
-    database.game.push(loggedData, finished);
-
+    var textSendingData = 'Sending data to database. This may take a few seconds. ' +
+        'Check your internet connection and DO NOT CLOSE THE GAME! ' +
+        'As soon as all data is sent, this page will update.';
+    htmlPage.fullBox.style.display = 'block';
+    boxScreen.wrapText(textSendingData, 80, 260, 540, 30, '18pt "Helvetica Neue"');
+    gameDatabase.push(loggedData, finished);
     function finished(error) {
         if (error) {
-            alert('WARNING: COULD NOT SEND TO DATABASE! CHECK YOUR INTERNET CONNECTION, CLICK "OK" ' +
-                'AND DO NOT CLOSE THE GAME!');
+            alert('WARNING: COULD NOT SEND TO DATABASE! CHECK YOUR INTERNET CONNECTION! DO NOT CLOSE THE GAME!');
         } else {
+            htmlPage.fullBox.style.display = 'none';
+            canvas.boxContext.clearRect(0,0, CANVAS_W,CANVAS_H+uiHeight);
             showDebriefPage();
             !isMobile ? assets.finishedSound.play() : assets.spriteSound.play('finished');
         }

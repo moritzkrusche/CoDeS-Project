@@ -29,7 +29,7 @@ function getDateTime(){
     var today = new Date();
     var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    var secondsTimer = today.getTime()/ 1000;
+    var secondsTimer = round(today.getTime()/ 1000, 2);
     return [date, time, secondsTimer];
 }
 

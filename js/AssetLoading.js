@@ -24,11 +24,7 @@ const CANVAS_W = 700;
 const uiHeight = 50;
 
 // Initialize Firebase
-var database = {
-    init: NaN,
-    game: NaN,
-    feedback: NaN
-};
+var database, gameDatabase, feedbackDatabase;
 
 (function(){
     "use strict";
@@ -41,9 +37,9 @@ var database = {
         messagingSenderId: '768805606623'
     };
     firebase.initializeApp(config);
-    database.init = firebase.database();
-    database.game = database.init.ref('gameData');
-    database.feedback = database.init.ref('feedback');
+    database = firebase.database();
+    gameDatabase = database.ref('gameData');
+    feedbackDatabase = database.ref('feedback');
 })();
 
 //******************************** CHECK IF MOBILE BROWSER *************************************************************

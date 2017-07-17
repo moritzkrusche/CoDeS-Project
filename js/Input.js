@@ -150,7 +150,7 @@ htmlPage.demoForm.addEventListener('submit', function(evt) {
 htmlPage.debriefForm.addEventListener('submit', function(evt) {
     evt.preventDefault();
     var form = htmlPage.debriefForm;
-    database.feedback.push(form.comment.value); // send feedback to separate database for anonymity
+    feedbackDatabase.push(form.comment.value); // send feedback to separate database for anonymity
 
     document.getElementById('debriefButton').style.display = 'none';
     document.getElementById('comment').style.display = 'none';
