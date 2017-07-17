@@ -229,7 +229,6 @@ function getType(TileCol, TileRow) {
     var qualityColRow = getQuality(TileCol, TileRow);
 
     return [infoLevelCol, infoLevelRow, qualityColRow[0], qualityColRow[1]];
-
 }
 
 

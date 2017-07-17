@@ -71,7 +71,6 @@ function loadScreen() {
         if(window.screen.height <720) {
             newMaxWidth = '420px';
         }
-
         document.getElementById('canvasContainer').style.maxWidth = newMaxWidth;
         var buttonContainers = (document.getElementsByClassName('buttonContainer'));
         for (var i=0; i<buttonContainers.length; i++){
@@ -79,6 +78,7 @@ function loadScreen() {
         }
 
     } else if (isMobile){
+
         document.getElementById('demographics').style.fontSize = '0.9em';
         document.getElementById('debriefing').style.fontSize = '0.9em';
         document.getElementById('prolificId').style.width = '70%';
@@ -158,7 +158,6 @@ var assets = new function() {
             audioFormat = '.mp3';
         }
     })();
-
     this.unlockIOSAudioPlayback = function () {
         var context = Howler.ctx;
         var oscillator = context.createOscillator();
@@ -167,7 +166,6 @@ var assets = new function() {
         oscillator.start(0);
         oscillator.stop(0);
     };
-
     if (!isMobile) {
 
         var numSounds = 8;
@@ -178,7 +176,6 @@ var assets = new function() {
                 assetLoaded();
             }
         };
-
         this.potatoSound = new Howl({src: ['audio/potato' + audioFormat], volume: 0.6, onload: function() {
             soundLoaded();
             }
@@ -218,7 +215,6 @@ var assets = new function() {
 
             assetLoaded();
         };
-
         this.spriteSound = new Howl({
             src: ['audio/audioSprite.mp3'],
             sprite: {
@@ -233,7 +229,6 @@ var assets = new function() {
                 soundSpriteLoaded();
             }
         });
-
     }
 };
 

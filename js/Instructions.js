@@ -28,7 +28,7 @@ var boxScreen = new function() {
 
     this.wrapText = function(text, x, y, maxWidth, lineHeight, font, color) {
 
-        font = font || 'italic 16pt "COMIC SANS MS"';
+        font = font || '18pt "Helvetica Neue';
         color = color || '#DAA520';
         canvas.boxContext.font = font;
         canvas.boxContext.fillStyle = color;
@@ -62,7 +62,7 @@ var boxScreen = new function() {
     this.showText = function(words){
         "use strict";
         canvas.boxContext.clearRect(0,0, CANVAS_W,CANVAS_H+uiHeight);
-        this.wrapText(words, 80, 540, 540, 25);
+        this.wrapText(words, 80, 540, 540, 30);
     };
 };
 
@@ -75,16 +75,22 @@ function showDebriefPage(){
     canvasText(canvas.boxContext, 'Debriefing',30 , 50, '#DAA520');
 
     var payTotal = round(curMapVar.payoffCount, 2);
+    var bonus = payTotal - 2;
+    if (bonus <= 0) {
+        payTotal = 2;
+        bonus = 0;
+    }
     var timeTotal = round((loggedData.endDateTime[2] - loggedData.startDateTime[2])/60, 2);
-
-    var textPay = 'Congratulations, you have reached the end of this experiment. You have earned ' + payTotal + '$ ' +
-        'over ' + timeTotal + ' minutes.';
-    var textProcedure = 'You will be paid the minimum amount of X$ for completing the study plus your bonus of X$ within one week.';
-    var textDone = 'IMPORTANT: click on the button below to proof that you have completed the study. This will open a new tab.';
+    var textPay = 'Congratulations, you have reached the end of this experiment. You have earned ' + payTotal +
+        '£ over ' + timeTotal + ' minutes.';
+    var textProcedure = 'You will be paid the minimum amount of 2£ for completing the study plus your bonus of ' +
+        bonus + '£ within one week.';
+    var textDone = 'IMPORTANT: click on the button below to proof that you have completed the study. This will ' +
+        'open a new tab.';
 
     boxScreen.wrapText(textPay, 30, 120, 640, 30, '18pt "Helvetica Neue"');
-    boxScreen.wrapText(textProcedure, 30, 260, 640, 30, '18pt "Helvetica Neue"');
-    boxScreen.wrapText(textDone, 30, 380, 640, 30, '18pt "Helvetica Neue"');
+    boxScreen.wrapText(textProcedure, 30, 220, 640, 30, '18pt "Helvetica Neue"');
+    boxScreen.wrapText(textDone, 30, 320, 640, 30, '18pt "Helvetica Neue"');
 }
 
 
@@ -539,13 +545,13 @@ function showExampleTiles(whichTiles){
     var redColHeight = TILE_H*0.8*5;
 
     var ctx = canvas.boxContext;
+    ctx.font = '18pt "Helvetica Neue"';
 
     switch (whichTiles){
         case 'soil':
             ctx.drawImage(assets.soilSheetPic, 0, 0, TILE_W, TILE_H*5, 270, 110, redWidth, redColHeight);
             drawArrow(ctx, 360, 150, 420, 150, 1, 2, 20, 10, 'red', 5);
             drawArrow(ctx, 360, 470, 420, 470, 1, 2, 20, 10, 'red', 5);
-            ctx.font = 'italic 16pt "COMIC SANS MS"';
             canvasText(ctx, 'worst soil type', 440,155, '#DAA520');
             canvasText(ctx, 'best soil type', 440,475, '#DAA520');
             break;
@@ -554,7 +560,6 @@ function showExampleTiles(whichTiles){
             ctx.drawImage(assets.plantSheetPic, 0, 0, PLANT_W, PLANT_H*5, 270, 110, redWidth, redColHeight);
             drawArrow(ctx, 360, 150, 420, 150, 1, 2, 20, 10, 'red', 5);
             drawArrow(ctx, 360, 470, 420, 470, 1, 2, 20, 10, 'red', 5);
-            ctx.font = 'italic 16pt "COMIC SANS MS"';
             canvasText(ctx, 'worst plant type', 440,155, '#DAA520');
             canvasText(ctx, 'best plant type', 440,475, '#DAA520');
             break;
@@ -565,7 +570,6 @@ function showExampleTiles(whichTiles){
             ctx.drawImage(assets.soilSheetPic, TILE_W*2, 0, TILE_W, TILE_H*5, 50, 110, redWidth, redColHeight);
             drawArrow(ctx, 360, 150, 420, 150, 1, 2, 20, 10, 'red', 5);
             drawArrow(ctx, 360, 470, 420, 470, 1, 2, 20, 10, 'red', 5);
-            ctx.font = 'italic 16pt "COMIC SANS MS"';
             canvasText(ctx, 'worst soil type', 440,155, '#DAA520');
             canvasText(ctx, 'best soil type', 440,475, '#DAA520');
 
@@ -584,7 +588,6 @@ function showExampleTiles(whichTiles){
 
             drawArrow(ctx, 360, 150, 420, 150, 1, 2, 20, 10, 'red', 5);
             drawArrow(ctx, 360, 470, 420, 470, 1, 2, 20, 10, 'red', 5);
-            ctx.font = 'italic 16pt "COMIC SANS MS"';
             canvasText(ctx, 'worst plant type', 440,155, '#DAA520');
             canvasText(ctx, 'best plant type', 440,475, '#DAA520');
 
@@ -600,18 +603,17 @@ function showExampleTiles(whichTiles){
             ctx.drawImage(assets.plantSheetPic, 0, 0, PLANT_W, PLANT_H*5, 160, 110, redWidth, redColHeight);
             ctx.drawImage(assets.soilSheetPic, 0, 0, TILE_W, TILE_H*5, 270, 110, redWidth, redColHeight);
 
-            drawArrow(ctx, 360, 150, 420, 150, 1, 2, 20, 10, 'red', 5);
-            drawArrow(ctx, 360, 470, 420, 470, 1, 2, 20, 10, 'red', 5);
-            ctx.font = 'italic 16pt "COMIC SANS MS"';
-            canvasText(ctx, 'worst plant/ soil type', 440,155, '#DAA520');
-            canvasText(ctx, 'best plant/ soil type', 440,475, '#DAA520');
+            drawArrow(ctx, 360, 150, 410, 150, 1, 2, 20, 10, 'red', 5);
+            drawArrow(ctx, 360, 470, 410, 470, 1, 2, 20, 10, 'red', 5);
+            canvasText(ctx, 'worst plant/ soil type', 425,155, '#DAA520');
+            canvasText(ctx, 'best plant/ soil type', 425,475, '#DAA520');
             break;
 
         case 'water': // example water tile
             ctx.drawImage(assets.soilSheetPic, TILE_W*3, TILE_H*2, TILE_W, TILE_H, 380, 270, redWidth, redHeight);
             drawArrow(ctx, 470, 310, 530, 310, 1, 2, 20, 10, 'red', 5);
-            ctx.font = 'italic 16pt "COMIC SANS MS"';
-            canvasText(ctx, 'inaccessible', 480,345, '#DAA520');
+            //ctx.font = '18pt "Helvetica Neue"';
+            canvasText(ctx, 'inaccessible', 500,345, '#DAA520');
             break;
 
         default:

@@ -11,6 +11,7 @@ var condition;
 // 3: 05050505/soilCol
 // 4: 05050505/plantCol
 
+// fully random assignment
 (function(){
     condition = getRandomInt(1,4);
     loggedData.condition = condition;
@@ -32,18 +33,18 @@ var experiment = new function(){
     that.testLevelKeys = shuffleArray(that.openLevelKeys.slice());
 
     if (condition === 1 || condition === 2){
-        that.openLevel1 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.04, 0.985);
-        that.openLevel2 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.04, 0.985);
-        that.openLevel3 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.04, 0.985);
-        that.openLevel4 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.04, 0.985);
-        that.openLevel5 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.04, 0.985);
+        that.openLevel1 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.02, 0.985);
+        that.openLevel2 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.02, 0.985);
+        that.openLevel3 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.02, 0.985);
+        that.openLevel4 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.02, 0.985);
+        that.openLevel5 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.02, 0.985);
     }
     else if  (condition === 3 || condition === 4){
-        that.openLevel1 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.04, 0.985);
-        that.openLevel2 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.04, 0.985);
-        that.openLevel3 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.04, 0.985);
-        that.openLevel4 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.04, 0.985);
-        that.openLevel5 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.04, 0.985);
+        that.openLevel1 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.02, 0.985);
+        that.openLevel2 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.02, 0.985);
+        that.openLevel3 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.02, 0.985);
+        that.openLevel4 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.02, 0.985);
+        that.openLevel5 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.02, 0.985);
     } else {
         alert("WARNING: COULD NOT ASSIGN CONDITION!")
     }
@@ -279,9 +280,9 @@ function drawUI(char){
     ctx.font = 'italic 20pt "COMIC SANS MS"';
     canvasText(ctx, curMapVar.potatoCount,635,35, '#DAA520'); // potato count
     canvasText(ctx, movesLeft, 285,35, '#DAA520'); // moves left
-    canvasText(ctx, round(curMapVar.potatoPrice*100, 2) + ' ‎¢', 485,35, '#DAA520'); // potato price
+    canvasText(ctx, round(curMapVar.potatoPrice*100, 2) + ' ‎p', 485,35, '#DAA520'); // potato price
     ctx.font = 'italic 24pt "COMIC SANS MS"';
-    canvasText(ctx, round(curMapVar.payoffCount, 2) + ' $', 310,85, '#DAA520'); // payoff counter (on transparent rect)
+    canvasText(ctx, round(curMapVar.payoffCount, 2) + ' £', 310,85, '#DAA520'); // payoff counter (on transparent rect)
 }
 
 //******************************** Main Game Loop **********************************************************************
