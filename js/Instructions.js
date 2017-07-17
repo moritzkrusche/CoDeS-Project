@@ -320,7 +320,7 @@ var instructions = new function() {
                 // show payoff total
                 exampleScreen.highlightPayoff();
                 boxScreen.showText('At the end of the experiment, this is your compensation. If you perform well, it ' +
-                    'can exceed the minimum amount of 2£, and will be paid as a bonus.');
+                    'can exceed the minimum amount of 2£, and the difference will be paid as a bonus.');
                 break;
 
             case 24:
