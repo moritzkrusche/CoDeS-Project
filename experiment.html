@@ -2,9 +2,10 @@
 <html lang='en'>
 
 <head>
-    <!-- Meta / style / title-->
-    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <!-- META / STYLE / TITLE-->
+    <meta http-equiv='Content-Type' content='text/html, charset=UTF-8'>
+    <!-- prevents double-tab zoom on iOS -->
+    <meta name="viewport" content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
     <meta name='description' content=''>
     <meta name='author' content='Moritz Krusche'>
     <link rel='stylesheet' type='text/css' href='NewStyle.css'>
@@ -16,6 +17,7 @@
 </head>
 
 <body style='background-image: radial-gradient(ellipse farthest-corner at center, #F5F5DC 0%, #FAEBD7 100%) !important;'>
+<!-- one px high element prevents white body background-color from bootstrap -->
 <div id='overrideBootstrap'></div>
 
 <!-- GAME PAGE  -->
@@ -29,18 +31,19 @@
             <canvas class = 'responsive' id='uiCanvas' width='700' height='750' style='display:block'></canvas>
             <canvas class = 'responsive' id='infoCanvas' width='700' height='750' style='display:block'></canvas>
             <canvas class = 'responsive' id='boxCanvas' width='700' height='750' style='display:block'></canvas>
-
+            <!-- pop-up boxes for instructions in-game -->
             <div class='gameBox' id='gameBox' style='display:none'> </div>
             <div class='gameBox' id='fullGameBox' style='display:none'> </div>
 
             <!-- Buttons on canvas area -->
-            <button id ='cheatTestButton' style='display:none' onclick='nextLevelTestLevel()' >CHEAT TO TEST MAP 1</button>
-            <button id ='cheatNextButton' style='display:none' onclick='nextLevel()' >CHEAT TO NEXT MAP</button>
             <button class='continueButton' id='nextButton' style='display:none' onclick='buttonNext()' >Next</button>
             <button class='continueButton' id='backButton' style='display:none' onclick='buttonBack()' >Back</button>
             <button class='continueButton' id='startButton' style='display:none' onclick='buttonStartLevel()' >Start</button>
             <button class='continueButton' id='goProlific' style='display:none' onclick='buttonGoProlific()'>Proof
                 Completion to Prolific</button>
+            <!-- cheat buttons -->
+            <button id ='cheatTestButton' style='display:none' onclick='nextLevelTestLevel()' >CHEAT TO TEST MAP 1</button>
+            <button id ='cheatNextButton' style='display:none' onclick='nextLevel()' >CHEAT TO NEXT MAP</button>
         </div>
         <!-- END canvases & boxes -->
 
@@ -85,7 +88,7 @@
                                onchange="try{setCustomValidity('')}catch(e){}">
                     </div>
 
-                    <!-- Age -->
+                    <!-- age -->
                     <div class='input'>
                         <h4>Age</h4>
                         <label for='age'></label>
@@ -102,7 +105,7 @@
                         </select>
                     </div>
 
-                    <!-- Gender -->
+                    <!-- gender -->
                     <div class='input'>
                         <h4>Gender</h4>
                         <label for='gender'></label>
@@ -132,7 +135,7 @@
             <form novalidate id='debriefing' >
                 <div class = 'centeredOnCanvas'>
 
-                    <!-- Feedback-->
+                    <!-- feedback-->
                     <label for='comment'></label>
                     <textarea rows='4' cols='50'
                               placeholder='Please enter any comments that you may have here. This is optional and will be processed anonymously.'
@@ -148,13 +151,14 @@
 
 <!-- JavaScript files -->
 
-<!-- Libaries-->
+<!-- LIBRARIES -->
 <script src='js/jstat.min.js'></script>
 <script src='js/howler.core.min.js'></script>
-<!-- Initialising firebase to store data  -->
-<script src='https://www.gstatic.com/firebasejs/4.1.2/firebase.js'></script>
+<!-- initialising firebase to store data  -->
+<script src="https://www.gstatic.com/firebasejs/3.5.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.5.2/firebase-database.js"></script>
 
-<!-- Main Experiment JS files-->
+<!-- MAIN EXPERIMENT JS FILES -->
 <script src='js/GraphicsCommon.js'></script>
 <script src='js/AssetLoading.js'></script>
 <script src='js/Instructions.js'></script>

@@ -51,25 +51,23 @@ function updateInfo(callback) {
 
         curMapVar.exploredRow[posY] += 1;
         curMapVar.exploredColumn[posX] += 1;
-
         var getPayoff = checkPayoff(curMapConst.columnParameters[posX], curMapConst.rowParameters[posY]);
 
         if (getPayoff === 0) {
+
             if (devMode) console.log('NONE');
             curMapVar.payoffTracker.push(0);
             curMapVar.tileGrid[posY][posX] = 1;
-
         }
         else if (getPayoff === 1) {
+
             if (devMode) console.log('POTATO');
             experiment.potatoAnim.show();
-
             !isMobile ? assets.potatoSound.play() : assets.spriteSound.play('potato');
 
             curMapVar.payoffTracker.push(1);
             curMapVar.potatoCount += 1;
             curMapVar.payoffCount += curMapVar.potatoPrice;
-
             curMapVar.tileGrid[posY][posX] = 3;
             curMapVar.payoffRow[posY] += 1;
             curMapVar.payoffColumn[posX] += 1;

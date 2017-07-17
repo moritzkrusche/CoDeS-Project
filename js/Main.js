@@ -50,7 +50,7 @@ var experiment = new function(){
     this.openMaps = mergeLevels(that.openLevelKeys, that.openLevel1, that.openLevel2, that.openLevel3, that.openLevel4, that.openLevel5);
     this.farmerChar = new CharClass(assets.charSprite, 240, 360, 4, 4, 0.6 * TILE_W, 0.9 * TILE_H);
     this.potatoAnim = new AnimationClass(assets.potato, 0.5 * TILE_W, 0.32 * TILE_H)
-}();
+};
 
 
 function getStartPos() {
@@ -90,6 +90,7 @@ function startGame() {
 	var framesPerSecond = 10;
     loadLevel(experiment.openMaps.map1);
     loggedData.startDateTime = getDateTime();
+    loggedData.browserIsMobile = isMobile;
 	setInterval(gameLoop, 1000/framesPerSecond);
 }
 
@@ -118,15 +119,8 @@ function logData(lvlKey){
 }
 
 
-function sendData(){
-    "use strict";
-    database.game.push(loggedData);
-}
-
-
 function getLogLevelKey(){
     "use strict";
-
     var curLevel = NaN;
     var logLevelKey = NaN;
 
@@ -221,10 +215,8 @@ function nextLevel() {
             loggedData.endDateTime = getDateTime();
             logLevelKey = getLogLevelKey();
             logData(logLevelKey);
-            database.game.push(loggedData); // sending data to the database!
             stopBackgroundSound();
-            showDebriefPage();
-            !isMobile ? assets.finishedSound.play() : assets.spriteSound.play('finished');
+            sendData(); // sending data to the database!
         }
         else {
             killInput();
@@ -233,6 +225,23 @@ function nextLevel() {
             logData(logLevelKey);
             loadLevel(testMaps[testLevelKey]);
             nextTestLevel.show();
+        }
+    }
+}
+
+
+function sendData(){
+    "use strict";
+    //database.game.push(loggedData);
+    database.game.push(loggedData, finished);
+
+    function finished(error) {
+        if (error) {
+            alert('WARNING: COULD NOT SEND TO DATABASE! CHECK YOUR INTERNET CONNECTION, CLICK "OK" ' +
+                'AND DO NOT CLOSE THE GAME!');
+        } else {
+            showDebriefPage();
+            !isMobile ? assets.finishedSound.play() : assets.spriteSound.play('finished');
         }
     }
 }
