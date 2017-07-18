@@ -104,6 +104,8 @@ body, .playButton, .continueButton {
 }
 
 #comment {
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 1.2em;
     position: absolute;
     left: auto;
     bottom: 5%;
@@ -113,7 +115,7 @@ body, .playButton, .continueButton {
 
 #debriefButton {
     position: absolute;
-    right: 5%;
+    left: 65%;
     bottom: 5%;
     width: 30%;
     height: 2.2em;

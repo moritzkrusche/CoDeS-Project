@@ -28,6 +28,7 @@ var database, gameDatabase, feedbackDatabase;
 
 (function(){
     "use strict";
+    // pilot database
     var config = {
         apiKey: 'AIzaSyDp7KeZVXhpaaryW-sPQZmXZYobouqecO0',
         authDomain: 'pilot-farming-task.firebaseapp.com',
@@ -36,6 +37,18 @@ var database, gameDatabase, feedbackDatabase;
         storageBucket: 'pilot-farming-task.appspot.com',
         messagingSenderId: '768805606623'
     };
+
+    // test database
+    /*
+    var config = {
+        apiKey: "AIzaSyBQ9J87IOwA_XdQxhAVpgKHbvnaFoylbRM",
+        authDomain: "test-farming-game.firebaseapp.com",
+        databaseURL: "https://test-farming-game.firebaseio.com",
+        projectId: "test-farming-game",
+        storageBucket: "test-farming-game.appspot.com",
+        messagingSenderId: "628927613302"
+    };
+    */
     firebase.initializeApp(config);
     database = firebase.database();
     gameDatabase = database.ref('gameData');
@@ -81,6 +94,7 @@ function loadScreen() {
 
         document.getElementById('demographics').style.fontSize = '0.9em';
         document.getElementById('debriefing').style.fontSize = '0.9em';
+        document.getElementById('comment').style.fontSize = '0.9em';
         document.getElementById('prolificId').style.width = '70%';
         document.getElementById('age').style.width = '50%';
         document.getElementById('gender').style.width = '50%';
