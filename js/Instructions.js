@@ -81,11 +81,11 @@ function showDebriefPage(){
         bonus = 0;
     }
     var timeTotal = round((loggedData.endDateTime[2] - loggedData.startDateTime[2])/60, 2);
-    var textPay = 'Congratulations, you have reached the end of this experiment. You have earned ' + payTotal +
-        '£ over ' + timeTotal + ' minutes.';
-    var textProcedure = 'You will be paid the minimum amount of 2£ for completing the study plus your bonus of ' +
-        bonus + '£ within one week.';
-    var textDone = 'IMPORTANT: click on the button below to proof that you have completed the study. This will ' +
+    var textPay = 'Congratulations, you have reached the end of this experiment. You have earned £' + payTotal +
+        ' in ' + timeTotal + ' minutes.';
+    var textProcedure = 'You will be paid the minimum amount of £2 for completing the study plus your bonus of £' +
+        bonus + ' within one week.';
+    var textDone = 'IMPORTANT: click on the button below to prove that you have completed the study. This will ' +
         'open a new tab.';
 
     boxScreen.wrapText(textPay, 30, 120, 640, 30, '18pt "Helvetica Neue"');
@@ -120,7 +120,7 @@ var instructions = new function() {
             case 0:
                 // text intro etc.
                 exampleScreen.clear();
-                boxScreen.showText('In this task, you will be playing a web game where you control a farmer ' +
+                boxScreen.showText('In this task, you will play a web game where you control a farmer ' +
                     'harvesting potatoes on a large field. Your goal is to collect as many potatoes as possible.');
                 // show/ hide some buttons & boxes
                 htmlPage.nextButton.style.display = 'block';
@@ -132,8 +132,8 @@ var instructions = new function() {
             case 1:
                 // text intro etc. contd
                 exampleScreen.clear();
-                boxScreen.showText('Every potato that you earn is worth real money. Please pay careful attention to ' +
-                    'the following information, so that you can earn as many potatoes as possible.');
+                boxScreen.showText('Every potato that you collect is worth real money. Please pay careful attention to ' +
+                    'the following information, so that you can harvest as many potatoes as possible.');
                 // show back button as now one step to go back to
                 htmlPage.backButton.style.display = 'block';
                 break;
@@ -152,13 +152,13 @@ var instructions = new function() {
 
             case 3:
                 exampleScreen.highlightFarmer();
-                boxScreen.showText("There are 7 x 7 tiles visible on the screen at any time. Every tile may or may " +
+                boxScreen.showText("There are 7 x 7 potato plots (tiles) visible on the screen at any time. Every plot may or may " +
                     "not yield a potato when you visit it.");
                 break;
 
             case 4:
                 exampleScreen.highlightTile();
-                boxScreen.showText("You do not know for sure on which tiles there are potatoes, but you can use a " +
+                boxScreen.showText("You do not know for sure on which plots will deliver a potato, but you can use a " +
                     "number of cues to find out.");
                 break;
 
@@ -166,10 +166,10 @@ var instructions = new function() {
                 exampleScreen.highlightCenterCol();
                 // condition 1 & 3 soil in col, plant row
                 if (condition === 1 || condition === 3){
-                    boxScreen.showText("The better the fertilizer for a column, the richer the soil will be " +
+                    boxScreen.showText("Every column in the field has been treated with a different soil fertilizer. The better the soil fertilizer for a column, the richer the soil will be " +
                         "in that column.");
                 } else {
-                    boxScreen.showText("The better the fertilizer for a column, the better the plants will grow " +
+                    boxScreen.showText("Every column in the field has been treated with a different plant fertilizer. The better the plant fertilizer for a column, the better the plants will grow " +
                         "in that column.");
                 }
                 break;
@@ -178,10 +178,10 @@ var instructions = new function() {
                 exampleScreen.highlightCenterRow();
                 // condition 1 & 3 soil in col, plant row
                 if (condition === 1 || condition === 3){
-                    boxScreen.showText("The better the fertilizer for a row, the better the plants will grow " +
+                    boxScreen.showText("Every row in the field has been treated with a different plant fertilizer. The better the plant fertilizer for a row, the better the plants will grow " +
                         "in that row.");
                 } else {
-                    boxScreen.showText("The better the fertilizer for a row, the richer the soil will be " +
+                    boxScreen.showText("Every row in the field has been treated with a different soil fertilizer. The better the soil fertilizer for a row, the richer the soil will be " +
                         "in that row.");
                 }
                 htmlPage.fullBox.style.display = 'none';
@@ -200,7 +200,7 @@ var instructions = new function() {
                 // show plant quality
                 htmlPage.fullBox.style.display = 'block';
                 boxScreen.showText('There are also 5 different qualities of plant fertilizer used. Larger plants ' +
-                    'will always be richer than smaller plants.');
+                    'will always be of higher quality than smaller plants.');
                 exampleScreen.clear();
                 showExampleTiles('plant');
                 break;
@@ -208,14 +208,13 @@ var instructions = new function() {
             case 9:
                 // text
                 htmlPage.fullBox.style.display = 'none';
-                boxScreen.showText('Your chance of collecting a potato depends on BOTH the plant and soil quality. ' +
-                    'Their values are completely unrelated to each other.');
+                boxScreen.showText('Your chance of collecting a potato in a plot depends on BOTH the plant and soil quality.');
                 break;
 
             case 10:
                 // text
                 exampleScreen.clear();
-                boxScreen.showText("As you can see, most of the tiles around you are greyed out, because you have " +
+                boxScreen.showText("As you can see, most of the plots around you are greyed out, because you have " +
                     "not explored the area yet.");
                 break;
 
@@ -223,11 +222,11 @@ var instructions = new function() {
                 // text
                 exampleScreen.highlightCenterCol();
                 if (condition === 1 || condition === 3){
-                    boxScreen.showText("Every time that you move within a given column, your information about " +
-                        "the soil quality increases.");
+                    boxScreen.showText("Every time that you move within a given column, you obtain more information about " +
+                        "the soil quality in that column.");
                 } else {
-                    boxScreen.showText("Every time that you move within a given column, your information about " +
-                        "the plant quality increases.");
+                    boxScreen.showText("Every time that you move within a given column, you obtain more information about " +
+                        "the plant quality in that column.");
                 }
                 break;
 
@@ -236,11 +235,11 @@ var instructions = new function() {
                 exampleScreen.highlightCenterRow();
                 htmlPage.fullBox.style.display = 'none';
                 if (condition === 1 || condition === 3){
-                    boxScreen.showText("And every time that you move within a given row, your information about " +
-                        "the plant quality increases.");
+                    boxScreen.showText("And every time that you move within a given row, you obtain more information about " +
+                        "the plant quality in that row.");
                 } else {
-                    boxScreen.showText("And every time that you move within a given row, your information about " +
-                        "the soil quality increases.");
+                    boxScreen.showText("And every time that you move within a given row, you obtain more information about " +
+                        "the soil quality in that row.");
                 }
                 break;
 
@@ -248,8 +247,8 @@ var instructions = new function() {
                 // show soil quality + info
                 exampleScreen.clear();
                 htmlPage.fullBox.style.display = 'block';
-                boxScreen.showText("There are 3 information levels, which are displayed by different shades of " +
-                    "grey. This is how they look for soil.");
+                boxScreen.showText("There are 3 information levels, which are indicated by different levels of colour saturation. " +
+                    "This is how they look for soil.");
                 showExampleTiles('soilInfo');
                 break;
 
@@ -257,7 +256,7 @@ var instructions = new function() {
                 // show plant quality + info
                 htmlPage.fullBox.style.display = 'block';
                 boxScreen.showText("And this is how they look for plants. The higher the information level, the more " +
-                    "accurate is the displayed quality for plants and soil.");
+                    "accurate the displayed indication of the quality of plants and soil.");
                 showExampleTiles('plantInfo');
                 break;
 
@@ -277,8 +276,9 @@ var instructions = new function() {
             case 17:
                 // text
                 exampleScreen.clear();
-                boxScreen.showText("It is quite possible that plants are a better predictor than soil, or " +
-                    "that soil is a better predictor than plants. You will have to find out.");
+                boxScreen.showText("It is possible that plant quality is a better predictor of whether you will collect " +
+                    "a potato than soil quality, or " +
+                    "that soil quality is a better predictor than plant quality. You will have to find out.");
                 break;
 
             case 18:
@@ -320,7 +320,7 @@ var instructions = new function() {
                 // show payoff total
                 exampleScreen.highlightPayoff();
                 boxScreen.showText('At the end of the experiment, this is your compensation. If you perform well, it ' +
-                    'can exceed the minimum amount of 2£, and the difference will be paid as a bonus.');
+                    'will exceed the minimum amount of £2, and the difference will be paid as a bonus.');
                 break;
 
             case 24:
@@ -335,7 +335,7 @@ var instructions = new function() {
                 // level start text
                 exampleScreen.clear();
                 boxScreen.showText('This is large level 1 out of ' + maxLevel +
-                '. On every large level, you have ' + curMapVar.movesLeft + ' moves.');
+                    '. On every large level, you have ' + curMapVar.movesLeft + ' moves.');
                 htmlPage.nextButton.style.display = 'none';
                 htmlPage.startButton.style.display = 'block';
                 break;
@@ -379,7 +379,7 @@ var testInstructions = new function () {
                 break;
 
             case 1:
-                boxScreen.showText('This rain is getting too strong... let us hope that it stops soon.');
+                boxScreen.showText('The rain is getting too heavy... let\'s hope it stops soon!');
                 rainEffects.normal.stop();
                 rainEffects.strong.start();
                 if (!isMobile){
@@ -393,7 +393,7 @@ var testInstructions = new function () {
                 break;
 
             case 2:
-                boxScreen.showText('Oh dear! It looks as if this is a monsoon! The field will not go undamaged!');
+                boxScreen.showText('Oh dear! It looks like a monsoon! The field will not go undamaged!');
                 rainEffects.strong.stop();
                 rainEffects.strongest.start();
                 if (!isMobile){
@@ -418,8 +418,8 @@ var testInstructions = new function () {
 
                 htmlPage.fullBox.style.display = 'none';
                 boxScreen.showText('Unfortunately, the heavy rain has soaked parts of the field with water and you ' +
-                    'will not be able to move to those tiles. You will also not be able to move very far on the ' +
-                    'other tiles because of the muddy ground.');
+                    'will not be able to move to the flooded plots. You will also not be able to move very far on the ' +
+                    'other plots because of the muddy ground.');
                 htmlPage.backButton.style.display = 'none';
                 break;
 
@@ -513,7 +513,7 @@ var nextTestLevel = new function () {
                 htmlPage.backButton.style.display = 'none';
                 htmlPage.fullBox.style.display = 'block';
                 boxScreen.showText('Next level loaded. As a reminder: dark soil and large plants are better. ' +
-                    'Note: you cannot move to water tiles.');
+                    'Note: you cannot move to flooded plots.');
                 showExampleTiles('both');
                 showExampleTiles('water');
                 break;
