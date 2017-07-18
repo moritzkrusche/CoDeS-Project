@@ -75,7 +75,7 @@ function showDebriefPage(){
     canvasText(canvas.boxContext, 'Debriefing',30 , 50, '#DAA520');
 
     var payTotal = round(curMapVar.payoffCount, 2);
-    var bonus = payTotal - 2;
+    var bonus = round((payTotal - 2),2);
     if (bonus <= 0) {
         payTotal = 2;
         bonus = 0;
