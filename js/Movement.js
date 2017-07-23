@@ -25,17 +25,12 @@ function checkPayoff(colPar, rowPar) {
     if (devMode){
         console.log('CHECK', check, 'DRAW', draw);
     }
-    if (draw <= check) {
-        return 1;
-    }
-    else {
-        return 0;
-    }
+    return draw <= check;
 }
 
 //******************************** UPDATES COLLISION GRID AND LOGGERS AFTER TILE VISITED *******************************
 
-function updateInfo(callback) {
+function updateInfo() {
     'use strict';
     var posX = Math.floor(camera.centerX/TILE_W);
     var posY = Math.floor(camera.centerY/TILE_H);
@@ -53,19 +48,19 @@ function updateInfo(callback) {
         curMapVar.exploredColumn[posX] += 1;
         var getPayoff = checkPayoff(curMapConst.columnParameters[posX], curMapConst.rowParameters[posY]);
 
-        if (getPayoff === 0) {
+        if (!getPayoff) {
 
             if (devMode) console.log('NONE');
-            curMapVar.payoffTracker.push(0);
+            curMapVar.payoffTracker[curMapVar.moveCount-1] = 0;
             curMapVar.tileGrid[posY][posX] = 1;
         }
-        else if (getPayoff === 1) {
+        else if (getPayoff) {
 
             if (devMode) console.log('POTATO');
             experiment.potatoAnim.show();
             !isMobile ? assets.potatoSound.play() : assets.spriteSound.play('potato');
 
-            curMapVar.payoffTracker.push(1);
+            curMapVar.payoffTracker[curMapVar.moveCount-1] = 1;
             curMapVar.potatoCount += 1;
             curMapVar.payoffCount += curMapVar.potatoPrice;
             curMapVar.tileGrid[posY][posX] = 3;
@@ -73,7 +68,6 @@ function updateInfo(callback) {
             curMapVar.payoffColumn[posX] += 1;
         }
     }
-    return callback;
 }
 
 //******************************** COUNTS STEPS LEFT; LOADS NEXT LEVEL *************************************************
@@ -84,6 +78,7 @@ function stepCounter(char) {
     char.moving = false;
     curMapVar.potatoPrice *= curMapConst.discountFactor;
     curMapVar.movesLeft -=1;
+    curMapVar.moveCount +=1;
     timeCounter(); // logging seconds since last tile visited (decision time)
     if (curMapVar.movesLeft === 0) {
         curMapVar.loadId = setTimeout(function () {nextLevel()}, 1250);
@@ -95,8 +90,7 @@ function timeCounter() {
     "use strict";
     curMapVar.lastTime = curMapVar.nextTime;
     curMapVar.nextTime = getDateTime()[2];
-    var seconds = curMapVar.nextTime - curMapVar.lastTime;
-    curMapVar.timeTracker.push(seconds);
+    curMapVar.timeTracker[curMapVar.moveCount-1] = curMapVar.nextTime - curMapVar.lastTime;
 }
 
 //******************************** COLLISION HANDLING ON TEST MAPS INCL SOUND AND CROSSES ******************************
@@ -161,7 +155,7 @@ function trackerMove(char) {
                 directionX = -5;
                 char.moving = true;
                 char.currentDirection = 'left';
-                curMapVar.movementTracker.push('left');
+                curMapVar.movementTracker[curMapVar.moveCount-1] = 'left';
             }
         }
         else if (userInputStatus.holdRight) {
@@ -170,7 +164,7 @@ function trackerMove(char) {
                 directionX = 5;
                 char.moving = true;
                 char.currentDirection = 'right';
-                curMapVar.movementTracker.push('right');
+                curMapVar.movementTracker[curMapVar.moveCount-1] = 'right';
             }
         }
         else if (userInputStatus.holdUp) {
@@ -179,7 +173,7 @@ function trackerMove(char) {
                 directionY = -5;
                 char.moving = true;
                 char.currentDirection = 'up';
-                curMapVar.movementTracker.push('up');
+                curMapVar.movementTracker[curMapVar.moveCount-1] = 'up';
             }
         }
         else if (userInputStatus.holdDown) {
@@ -188,7 +182,7 @@ function trackerMove(char) {
                 directionY = 5;
                 char.moving = true;
                 char.currentDirection = 'down';
-                curMapVar.movementTracker.push('down');
+                curMapVar.movementTracker[curMapVar.moveCount-1] = 'down';
             }
         }
     }
@@ -222,7 +216,8 @@ function trackerMove(char) {
         var frameMove = function () {
             if (stepsMoved === 100) {
                 clearInterval(moveId);
-                updateInfo(stepCounter(char));
+                updateInfo();
+                stepCounter(char);
 
                 if (!isMobile) {
                     curMapVar.pauseId = setTimeout(function () {

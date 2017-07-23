@@ -40,6 +40,7 @@ var curMapVar = {
     exploredRow: [],
     payoffRow: [],
     movesLeft: 0,
+    moveCount: 0,
     potatoCount: 0,
     potatoPrice: 0,
     // payoffcount gets only added and never overwritten; how much $ part made in the game so far

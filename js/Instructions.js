@@ -88,9 +88,9 @@ function showDebriefPage(){
     var textDone = 'IMPORTANT: click on the button below to prove that you have completed the study. This will ' +
         'open a new tab.';
 
-    boxScreen.wrapText(textPay, 30, 120, 640, 30, '18pt "Helvetica Neue"');
-    boxScreen.wrapText(textProcedure, 30, 220, 640, 30, '18pt "Helvetica Neue"');
-    boxScreen.wrapText(textDone, 30, 320, 640, 30, '18pt "Helvetica Neue"');
+    boxScreen.wrapText(textPay, 30, 120, 640, 30);
+    boxScreen.wrapText(textProcedure, 30, 220, 640, 30);
+    boxScreen.wrapText(textDone, 30, 320, 640, 30);
 }
 
 
@@ -132,8 +132,8 @@ var instructions = new function() {
             case 1:
                 // text intro etc. contd
                 exampleScreen.clear();
-                boxScreen.showText('Every potato that you collect is worth real money. Please pay careful attention to ' +
-                    'the following information, so that you can harvest as many potatoes as possible.');
+                boxScreen.showText('Every potato that you collect is worth real money. Please pay careful attention ' +
+                    'to the following information, so that you can harvest as many potatoes as possible.');
                 // show back button as now one step to go back to
                 htmlPage.backButton.style.display = 'block';
                 break;
@@ -152,8 +152,8 @@ var instructions = new function() {
 
             case 3:
                 exampleScreen.highlightFarmer();
-                boxScreen.showText("There are 7 x 7 potato plots (tiles) visible on the screen at any time. Every plot may or may " +
-                    "not yield a potato when you visit it.");
+                boxScreen.showText("There are 7 x 7 potato plots (tiles) visible on the screen at any time. " +
+                    "Every plot may or may not yield a potato when you visit it.");
                 break;
 
             case 4:
@@ -166,10 +166,12 @@ var instructions = new function() {
                 exampleScreen.highlightCenterCol();
                 // condition 1 & 3 soil in col, plant row
                 if (condition === 1 || condition === 3){
-                    boxScreen.showText("Every column in the field has been treated with a different soil fertilizer. The better the soil fertilizer for a column, the richer the soil will be " +
+                    boxScreen.showText("Every column in the field has been treated with a different soil fertilizer. " +
+                        "The better the soil fertilizer for a column, the richer the soil will be " +
                         "in that column.");
                 } else {
-                    boxScreen.showText("Every column in the field has been treated with a different plant fertilizer. The better the plant fertilizer for a column, the better the plants will grow " +
+                    boxScreen.showText("Every column in the field has been treated with a different plant " +
+                        "fertilizer. The better the plant fertilizer for a column, the better the plants will grow " +
                         "in that column.");
                 }
                 break;
@@ -178,10 +180,12 @@ var instructions = new function() {
                 exampleScreen.highlightCenterRow();
                 // condition 1 & 3 soil in col, plant row
                 if (condition === 1 || condition === 3){
-                    boxScreen.showText("Every row in the field has been treated with a different plant fertilizer. The better the plant fertilizer for a row, the better the plants will grow " +
+                    boxScreen.showText("Every row in the field has been treated with a different plant fertilizer. " +
+                        "The better the plant fertilizer for a row, the better the plants will grow " +
                         "in that row.");
                 } else {
-                    boxScreen.showText("Every row in the field has been treated with a different soil fertilizer. The better the soil fertilizer for a row, the richer the soil will be " +
+                    boxScreen.showText("Every row in the field has been treated with a different soil fertilizer. " +
+                        "The better the soil fertilizer for a row, the richer the soil will be " +
                         "in that row.");
                 }
                 htmlPage.fullBox.style.display = 'none';
@@ -208,7 +212,8 @@ var instructions = new function() {
             case 9:
                 // text
                 htmlPage.fullBox.style.display = 'none';
-                boxScreen.showText('Your chance of collecting a potato in a plot depends on BOTH the plant and soil quality.');
+                boxScreen.showText('Your chance of collecting a potato in a plot depends on BOTH the plant and ' +
+                    'soil quality.');
                 break;
 
             case 10:
@@ -222,11 +227,11 @@ var instructions = new function() {
                 // text
                 exampleScreen.highlightCenterCol();
                 if (condition === 1 || condition === 3){
-                    boxScreen.showText("Every time that you move within a given column, you obtain more information about " +
-                        "the soil quality in that column.");
+                    boxScreen.showText("Every time that you move within a given column, you obtain more information " +
+                        "about the soil quality in that column.");
                 } else {
-                    boxScreen.showText("Every time that you move within a given column, you obtain more information about " +
-                        "the plant quality in that column.");
+                    boxScreen.showText("Every time that you move within a given column, you obtain more information " +
+                        "about the plant quality in that column.");
                 }
                 break;
 
@@ -235,11 +240,11 @@ var instructions = new function() {
                 exampleScreen.highlightCenterRow();
                 htmlPage.fullBox.style.display = 'none';
                 if (condition === 1 || condition === 3){
-                    boxScreen.showText("And every time that you move within a given row, you obtain more information about " +
-                        "the plant quality in that row.");
+                    boxScreen.showText("And every time that you move within a given row, you obtain more information " +
+                        "about the plant quality in that row.");
                 } else {
-                    boxScreen.showText("And every time that you move within a given row, you obtain more information about " +
-                        "the soil quality in that row.");
+                    boxScreen.showText("And every time that you move within a given row, you obtain more information " +
+                        "about the soil quality in that row.");
                 }
                 break;
 
@@ -247,8 +252,8 @@ var instructions = new function() {
                 // show soil quality + info
                 exampleScreen.clear();
                 htmlPage.fullBox.style.display = 'block';
-                boxScreen.showText("There are 3 information levels, which are indicated by different levels of colour saturation. " +
-                    "This is how they look for soil.");
+                boxScreen.showText("There are 3 information levels, which are indicated by different levels of " +
+                    "colour saturation. This is how they look for soil.");
                 showExampleTiles('soilInfo');
                 break;
 
@@ -263,8 +268,8 @@ var instructions = new function() {
             case 15:
                 // text
                 htmlPage.fullBox.style.display = 'none';
-                boxScreen.showText("Note: the quality of the soil and plants shown on the map does NOT reveal the true " +
-                    "value of the respective row or column.");
+                boxScreen.showText("Note: the quality of the soil and plants shown on the map does NOT reveal the " +
+                    "true value of the respective row or column.");
                 break;
 
             case 16:
@@ -276,9 +281,9 @@ var instructions = new function() {
             case 17:
                 // text
                 exampleScreen.clear();
-                boxScreen.showText("It is possible that plant quality is a better predictor of whether you will collect " +
-                    "a potato than soil quality, or " +
-                    "that soil quality is a better predictor than plant quality. You will have to find out.");
+                boxScreen.showText("It is possible that plant quality is a better predictor of whether you will " +
+                    "collect a potato than soil quality, or that soil quality is a better predictor than plant " +
+                    "quality. You will have to find out.");
                 break;
 
             case 18:
@@ -418,8 +423,8 @@ var testInstructions = new function () {
 
                 htmlPage.fullBox.style.display = 'none';
                 boxScreen.showText('Unfortunately, the heavy rain has soaked parts of the field with water and you ' +
-                    'will not be able to move to the flooded plots. You will also not be able to move very far on the ' +
-                    'other plots because of the muddy ground.');
+                    'will not be able to move to the flooded plots. You will also not be able to move very far on ' +
+                    'the other plots because of the muddy ground.');
                 htmlPage.backButton.style.display = 'none';
                 break;
 

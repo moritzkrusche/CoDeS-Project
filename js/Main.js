@@ -48,7 +48,8 @@ var experiment = new function(){
     } else {
         alert("WARNING: COULD NOT ASSIGN CONDITION!")
     }
-    this.openMaps = mergeLevels(that.openLevelKeys, that.openLevel1, that.openLevel2, that.openLevel3, that.openLevel4, that.openLevel5);
+    this.openMaps = mergeLevels(that.openLevelKeys, that.openLevel1, that.openLevel2, that.openLevel3, that.openLevel4,
+        that.openLevel5);
     this.farmerChar = new CharClass(assets.charSprite, 240, 360, 4, 4, 0.6 * TILE_W, 0.9 * TILE_H);
     this.potatoAnim = new AnimationClass(assets.potato, 0.5 * TILE_W, 0.32 * TILE_H)
 };
@@ -168,6 +169,7 @@ function loadLevel(whichLevel) {
 
     //resetting trackers
     curMapVar.potatoCount = 0;
+    curMapVar.moveCount = 0;
     curMapVar.movementTracker = [];
     curMapVar.payoffTracker = [];
     curMapVar.timeTracker = [];

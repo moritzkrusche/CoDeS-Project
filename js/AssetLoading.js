@@ -190,35 +190,43 @@ var assets = new function() {
                 assetLoaded();
             }
         };
-        this.potatoSound = new Howl({src: ['audio/potato' + audioFormat], volume: 0.6, onload: function() {
+        this.potatoSound = new Howl({src: ['audio/potato' + audioFormat], volume: 0.6,
+            onload: function() {
             soundLoaded();
             }
         });
-        this.walkingSound = new Howl({src: ['audio/walking' + audioFormat], volume: 0.3, loop: true, onload: function() {
+        this.walkingSound = new Howl({src: ['audio/walking' + audioFormat], volume: 0.3, loop: true,
+            onload: function() {
             soundLoaded();
             }
         });
-        this.errorSound = new Howl({src: ['audio/error' + audioFormat], volume: 0.6, onload: function() {
+        this.errorSound = new Howl({src: ['audio/error' + audioFormat], volume: 0.6,
+            onload: function() {
             soundLoaded();
             }
         });
-        this.backgroundSound = new Howl({src: ['audio/background' + audioFormat], volume: 0.6, loop: true, onload: function() {
+        this.backgroundSound = new Howl({src: ['audio/background' + audioFormat], volume: 0.6, loop: true,
+            onload: function() {
             soundLoaded();
             }
         });
-        this.normalRainSound = new Howl({src: ['audio/normalRain' + audioFormat], volume: 0.6, loop: true, onload: function() {
+        this.normalRainSound = new Howl({src: ['audio/normalRain' + audioFormat], volume: 0.6, loop: true,
+            onload: function() {
             soundLoaded();
             }
         });
-        this.strongRainSound = new Howl({src: ['audio/strongRain' + audioFormat], volume: 0.6, loop: true, onload: function() {
+        this.strongRainSound = new Howl({src: ['audio/strongRain' + audioFormat], volume: 0.6, loop: true,
+            onload: function() {
             soundLoaded();
             }
         });
-        this.strongestRainSound = new Howl({src: ['audio/strongestRain' + audioFormat], volume: 0.6, loop: true, onload: function() {
+        this.strongestRainSound = new Howl({src: ['audio/strongestRain' + audioFormat], volume: 0.6, loop: true,
+            onload: function() {
             soundLoaded();
             }
         });
-        this.finishedSound = new Howl({src: ['audio/finished' + audioFormat], volume: 0.6, onload: function() {
+        this.finishedSound = new Howl({src: ['audio/finished' + audioFormat], volume: 0.6,
+            onload: function() {
             soundLoaded();
             }
         });
