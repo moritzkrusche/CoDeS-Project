@@ -116,6 +116,9 @@ function logData(lvlKey){
     // but this is what is was at the end of each level
     loggedData.allPayoffCounts[lvlKey] = curMapVar.payoffCount;
     loggedData.allMovementTrackers[lvlKey] = curMapVar.movementTracker.slice();
+    loggedData.allXPos[lvlKey] = curMapVar.XPos.slice();
+    loggedData.allYPos[lvlKey] = curMapVar.YPos.slice();
+
     loggedData.allMoveTimes[lvlKey] = curMapVar.timeTracker.slice();
     loggedData.allPayoffTrackers[lvlKey] = curMapVar.payoffTracker.slice();
 }
@@ -170,9 +173,12 @@ function loadLevel(whichLevel) {
     //resetting trackers
     curMapVar.potatoCount = 0;
     curMapVar.moveCount = 0;
-    curMapVar.movementTracker = [];
-    curMapVar.payoffTracker = [];
-    curMapVar.timeTracker = [];
+    //not necessary when not push()
+    //curMapVar.movementTracker = [];
+    //curMapVar.XPos = [];
+    //curMapVar.YPos = [];
+    //curMapVar.payoffTracker = [];
+    //curMapVar.timeTracker = [];
     trackerReset(experiment.farmerChar, experiment.potatoAnim);
 }
 
@@ -262,6 +268,7 @@ function drawUI(char){
     'use strict';
     var ctx = canvas.uiContext;
 
+    //TODO: proper coordinates everywhere!!!
     var currentX = round((camera.centerX - char.X)/TILE_W, 0);
     var currentY = round((camera.centerY - char.Y)/TILE_H, 0) * -1;
     var propMovesLeft = curMapVar.movesLeft/curMapConst.maxMoves;

@@ -28,27 +28,16 @@ var database, gameDatabase, feedbackDatabase;
 
 (function(){
     "use strict";
-    // pilot database
+    // Initialize Firebase
     var config = {
-        apiKey: 'AIzaSyDp7KeZVXhpaaryW-sPQZmXZYobouqecO0',
-        authDomain: 'pilot-farming-task.firebaseapp.com',
-        databaseURL: 'https://pilot-farming-task.firebaseio.com',
-        projectId: 'pilot-farming-task',
-        storageBucket: 'pilot-farming-task.appspot.com',
-        messagingSenderId: '768805606623'
+        apiKey: "AIzaSyD6SHzl4jpCLVQ0YnvKRSP2N3CH2jdW0iQ",
+        authDomain: "potatogametest.firebaseapp.com",
+        databaseURL: "https://potatogametest.firebaseio.com",
+        projectId: "potatogametest",
+        storageBucket: "potatogametest.appspot.com",
+        messagingSenderId: "325487980019"
     };
 
-    // test database
-    /*
-    var config = {
-        apiKey: "AIzaSyBQ9J87IOwA_XdQxhAVpgKHbvnaFoylbRM",
-        authDomain: "test-farming-game.firebaseapp.com",
-        databaseURL: "https://test-farming-game.firebaseio.com",
-        projectId: "test-farming-game",
-        storageBucket: "test-farming-game.appspot.com",
-        messagingSenderId: "628927613302"
-    };
-    */
     firebase.initializeApp(config);
     database = firebase.database();
     gameDatabase = database.ref('gameData');

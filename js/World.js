@@ -35,10 +35,7 @@ var curMapConst = {
 var curMapVar = {
 
     tileGrid:[],
-    exploredColumn: [],
-    payoffColumn: [],
-    exploredRow: [],
-    payoffRow: [],
+
     movesLeft: 0,
     moveCount: 0,
     potatoCount: 0,
@@ -46,9 +43,24 @@ var curMapVar = {
     // payoffcount gets only added and never overwritten; how much $ part made in the game so far
     payoffCount: 0,
 
+
+    XPositions: [],
+    YPositions: [],
+    XProbabilities : [],
+    YProbabilities: [],
     movementTracker: [],
+    probTracker: [],
     payoffTracker: [],
+
+    ColPositions: [],
+    RowPositions: [],
+    exploredColumn: [],
+    payoffColumn: [],
+    exploredRow: [],
+    payoffRow: [],
+
     timeTracker: [],
+
     lastTime: "",
     nextTime: "",
     startMapTime: "",
@@ -66,33 +78,50 @@ var curMapVar = {
 
 // holds the data logged at the end of every level, gets send to firebase at the end
 var loggedData = {
+
+    // over entire experiment
     prolificId: "",
     condition: "",
     partAge: "",
     partGender: "",
     startDateTime: "",
     endDateTime: "",
-
     browserIsMobile: false,
+    // payoffcount gets only added and never overwritten; how much $ part made in the game so far
+    payoffCount: 0,
+
+    // buttons & times PROVISIONAL ONLY!
+    allButtonsClicked: {},
+    allButtonsTimes: {},
     allStartTimes: {},
     allEndTimes: {},
     allMoveTimes: {},
 
+    // per level
     allColParameters: {},
     allRowParameters: {},
     allAlphaBetas: {},
+    allPotatoCounts: {},
+    allPayoffCounts: {},
+
+    // TODO: pos in internal terms and in math terms (starting pos 105,105 and 0,0)
+    // Col/ Row starts at 105,105
+    allColPositions: {},
+    allRowPositions: {},
     allExploredCols: {},
     allPayoffCols: {},
     allExploredRows:  {},
     allPayoffRows: {},
 
-    allPotatoCounts: {},
-    // payoffcount gets only added and never overwritten; how much $ part made in the game so far
-    payoffCount: 0,
-    allPayoffCounts: {},
-
+    // X / Y starts at 0,0
+    allXPositions: {},
+    allYPositions: {},
+    allXProbabilities: {},
+    allYProbabilities: {},
     allMovementTrackers: {},
+    allProbTrackers: {},
     allPayoffTrackers: {}
+
 };
 
 // MERGED LEVELS HAVE FORMAT DICT{ KEY: ARRAY[GRID, COL INFO, COL QUAL, COL PAYOFF, ROW INFO, ROW QUAL, ROW PAYOFF, MOVES ALLOWED etc.], KEY: ...}
@@ -156,6 +185,7 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
 
     var that = this;
 
+    // TODO: add a XPos way for payoffs + probs!
     // init arrays first to save memory vs. push()
     that.tileGrid = new Array(numCols);
     that.columnParameters = new Array(numCols);

@@ -30,16 +30,20 @@ function checkPayoff(colPar, rowPar) {
 
 //******************************** UPDATES COLLISION GRID AND LOGGERS AFTER TILE VISITED *******************************
 
-function updateInfo() {
+function updateInfo(then) {
     'use strict';
     var posX = Math.floor(camera.centerX/TILE_W);
     var posY = Math.floor(camera.centerY/TILE_H);
+    // var posYMath =
 
     if (devMode){
         console.log('POS X, Y: ', posX, posY);
         console.log('SOIL PAR AT POS X: ', curMapConst.columnParameters[posX]);
         console.log('PLANT PAR AT POS Y: ', curMapConst.rowParameters[posY]);
     }
+    curMapVar.XPos[curMapVar.moveCount] = posX;
+    curMapVar.YPos[curMapVar.moveCount] = posY;
+
     curMapVar.tileGrid = curMapVar.tileGrid.slice();
 
     if (curMapVar.tileGrid[posY][posX] === 0) {
@@ -51,7 +55,7 @@ function updateInfo() {
         if (!getPayoff) {
 
             if (devMode) console.log('NONE');
-            curMapVar.payoffTracker[curMapVar.moveCount-1] = 0;
+            curMapVar.payoffTracker[curMapVar.moveCount] = 0;
             curMapVar.tileGrid[posY][posX] = 1;
         }
         else if (getPayoff) {
@@ -60,7 +64,7 @@ function updateInfo() {
             experiment.potatoAnim.show();
             !isMobile ? assets.potatoSound.play() : assets.spriteSound.play('potato');
 
-            curMapVar.payoffTracker[curMapVar.moveCount-1] = 1;
+            curMapVar.payoffTracker[curMapVar.moveCount] = 1;
             curMapVar.potatoCount += 1;
             curMapVar.payoffCount += curMapVar.potatoPrice;
             curMapVar.tileGrid[posY][posX] = 3;
@@ -68,6 +72,7 @@ function updateInfo() {
             curMapVar.payoffColumn[posX] += 1;
         }
     }
+    then();
 }
 
 //******************************** COUNTS STEPS LEFT; LOADS NEXT LEVEL *************************************************
@@ -90,7 +95,7 @@ function timeCounter() {
     "use strict";
     curMapVar.lastTime = curMapVar.nextTime;
     curMapVar.nextTime = getDateTime()[2];
-    curMapVar.timeTracker[curMapVar.moveCount-1] = curMapVar.nextTime - curMapVar.lastTime;
+    curMapVar.timeTracker[curMapVar.moveCount] = curMapVar.nextTime - curMapVar.lastTime;
 }
 
 //******************************** COLLISION HANDLING ON TEST MAPS INCL SOUND AND CROSSES ******************************
@@ -155,7 +160,7 @@ function trackerMove(char) {
                 directionX = -5;
                 char.moving = true;
                 char.currentDirection = 'left';
-                curMapVar.movementTracker[curMapVar.moveCount-1] = 'left';
+                curMapVar.movementTracker[curMapVar.moveCount] = 'left';
             }
         }
         else if (userInputStatus.holdRight) {
@@ -164,7 +169,7 @@ function trackerMove(char) {
                 directionX = 5;
                 char.moving = true;
                 char.currentDirection = 'right';
-                curMapVar.movementTracker[curMapVar.moveCount-1] = 'right';
+                curMapVar.movementTracker[curMapVar.moveCount] = 'right';
             }
         }
         else if (userInputStatus.holdUp) {
@@ -173,7 +178,7 @@ function trackerMove(char) {
                 directionY = -5;
                 char.moving = true;
                 char.currentDirection = 'up';
-                curMapVar.movementTracker[curMapVar.moveCount-1] = 'up';
+                curMapVar.movementTracker[curMapVar.moveCount] = 'up';
             }
         }
         else if (userInputStatus.holdDown) {
@@ -182,7 +187,7 @@ function trackerMove(char) {
                 directionY = 5;
                 char.moving = true;
                 char.currentDirection = 'down';
-                curMapVar.movementTracker[curMapVar.moveCount-1] = 'down';
+                curMapVar.movementTracker[curMapVar.moveCount] = 'down';
             }
         }
     }
@@ -216,8 +221,7 @@ function trackerMove(char) {
         var frameMove = function () {
             if (stepsMoved === 100) {
                 clearInterval(moveId);
-                updateInfo();
-                stepCounter(char);
+                updateInfo(stepCounter.bind(this,char));
 
                 if (!isMobile) {
                     curMapVar.pauseId = setTimeout(function () {
