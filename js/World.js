@@ -59,6 +59,7 @@ var curMapVar = {
     exploredRow: [],
     payoffRow: [],
 
+    // TODO: add other times!
     timeTracker: [],
 
     lastTime: "",
@@ -104,7 +105,6 @@ var loggedData = {
     allPotatoCounts: {},
     allPayoffCounts: {},
 
-    // TODO: pos in internal terms and in math terms (starting pos 105,105 and 0,0)
     // Col/ Row starts at 105,105
     allColPositions: {},
     allRowPositions: {},

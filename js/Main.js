@@ -64,7 +64,7 @@ function getStartPos() {
 }
 
 
-function trackerReset(char, anim) {
+function trackerReset(char, obj) {
     'use strict';
     char.currentDirection = 'down';
 	// centers tracker on start position in the center of the map
@@ -72,8 +72,8 @@ function trackerReset(char, anim) {
 	camera.centerX = char.X;
     char.Y = (getStartPos()[1]) * TILE_H - TILE_H/2;
 	camera.centerY = char.Y;
-    anim.resetStart(char.X, char.Y);
-    anim.animate(char.X, char.Y);
+    obj.resetStart(char.X, char.Y);
+    obj.animate(char.X, char.Y);
 
     // update tile and row/col info at starting position
     var posX = Math.floor(camera.centerX/TILE_W);
@@ -116,8 +116,12 @@ function logData(lvlKey){
     // but this is what is was at the end of each level
     loggedData.allPayoffCounts[lvlKey] = curMapVar.payoffCount;
     loggedData.allMovementTrackers[lvlKey] = curMapVar.movementTracker.slice();
-    loggedData.allXPos[lvlKey] = curMapVar.XPos.slice();
-    loggedData.allYPos[lvlKey] = curMapVar.YPos.slice();
+
+    loggedData.allXPositions[lvlKey] = curMapVar.XPositions.slice();
+    loggedData.allYPositions[lvlKey] = curMapVar.YPositions.slice();
+    loggedData.allXProbabilities[lvlKey] = curMapVar.XProbabilities.slice();
+    loggedData.allYProbabilities[lvlKey] = curMapVar.YProbabilities.slice();
+    loggedData.allProbTrackers[lvlKey] = curMapVar.probTracker.slice();
 
     loggedData.allMoveTimes[lvlKey] = curMapVar.timeTracker.slice();
     loggedData.allPayoffTrackers[lvlKey] = curMapVar.payoffTracker.slice();
@@ -268,7 +272,6 @@ function drawUI(char){
     'use strict';
     var ctx = canvas.uiContext;
 
-    //TODO: proper coordinates everywhere!!!
     var currentX = round((camera.centerX - char.X)/TILE_W, 0);
     var currentY = round((camera.centerY - char.Y)/TILE_H, 0) * -1;
     var propMovesLeft = curMapVar.movesLeft/curMapConst.maxMoves;
@@ -299,6 +302,45 @@ function drawUI(char){
 
 //******************************** Main Game Loop **********************************************************************
 
+
+function getMousePayoff() {
+    'use strict';
+
+    var pointerX = (camera.centerX - 350 + userInputStatus.mousePosX);
+    var pointerY = (camera.centerY - 400 + userInputStatus.mousePosY);
+    var mousePayoffX = round(curMapConst.columnParameters[Math.floor(pointerX / TILE_W)], 2);
+    var mousePayoffY = round(curMapConst.rowParameters[Math.floor(pointerY / TILE_H)], 2);
+    return [mousePayoffX, mousePayoffY];
+}
+
+
+function getXY(char) {
+    'use strict';
+
+    var currentX = round((camera.centerX - char.X)/TILE_W, 0);
+    var currentY = round((camera.centerY - char.Y)/TILE_H, 0) * -1;
+    var probX = round(curMapConst.columnParameters[Math.floor(camera.centerX / TILE_W)], 2);
+    var probY = round(curMapConst.rowParameters[Math.floor(camera.centerY / TILE_H)], 2);
+
+    return [currentX, currentY, probX, probY]
+}
+
+
+function showCheats(probs){
+    "use strict";
+
+    canvas.infoContext.font = '14pt "COMIC SANS MS"';
+    exampleScreen.clear();// clear info canvas
+    canvasText(canvas.infoContext, probs, userInputStatus.mousePosX, userInputStatus.mousePosY, 'white');
+
+    if (document.getElementById('cheatNextButton').style.display === 'none'){
+        document.getElementById('cheatNextButton').style.display = 'block';
+        document.getElementById('cheatTestButton').style.display = 'block';
+    }
+
+}
+
+
 function gameLoop() {
     'use strict';
     var ctx = canvas.gameContext;
@@ -312,13 +354,9 @@ function gameLoop() {
 	// subtracting camPanX and camPanY from every draw operation up until restore()
     ctx.translate(-camera.panX,-camera.panY+uiHeight);
 
-	// this bit of code brings the true soil (X), or plant (Y) parameter on the screen at the mouse cursor for devMode
+	// brings the true soil (X), or plant (Y) parameter on the screen at the mouse cursor for devMode
     if (devMode) {
-        var pointerX = (camera.centerX - 350 + userInputStatus.mousePosX);
-        var pointerY = (camera.centerY - 400 + userInputStatus.mousePosY);
-        var mousePayoffX = round(curMapConst.columnParameters[Math.floor(pointerX / TILE_W)], 2);
-        var mousePayoffY = round(curMapConst.rowParameters[Math.floor(pointerY / TILE_H)], 2);
-        var payoff = [mousePayoffX, mousePayoffY];
+        var payoff = getMousePayoff();
     }
 
     drawVisibleTiles(); // rendering everything
@@ -334,14 +372,7 @@ function gameLoop() {
 
     // drawing parameters to screen AFTER restore() on mouse position; showing cheat buttons if devMode
     if (devMode){
-        canvas.infoContext.font = '14pt "COMIC SANS MS"';
-        exampleScreen.clear();// clear info canvas
-        canvasText(canvas.infoContext, payoff, userInputStatus.mousePosX, userInputStatus.mousePosY, 'white');
-
-        if (document.getElementById('cheatNextButton').style.display === 'none'){
-            document.getElementById('cheatNextButton').style.display = 'block';
-            document.getElementById('cheatTestButton').style.display = 'block';
-        }
+        showCheats(payoff)
     }
 }
 

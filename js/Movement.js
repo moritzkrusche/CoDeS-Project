@@ -30,33 +30,43 @@ function checkPayoff(colPar, rowPar) {
 
 //******************************** UPDATES COLLISION GRID AND LOGGERS AFTER TILE VISITED *******************************
 
-function updateInfo(then) {
+function updateInfo(then, someChar) {
     'use strict';
-    var posX = Math.floor(camera.centerX/TILE_W);
-    var posY = Math.floor(camera.centerY/TILE_H);
-    // var posYMath =
+    var currentCol = Math.floor(camera.centerX/TILE_W);
+    var currentRow = Math.floor(camera.centerY/TILE_H);
+
+    curMapVar.ColPositions[curMapVar.moveCount] = currentCol;
+    curMapVar.RowPositions[curMapVar.moveCount] = currentRow;
+
+    // Logging XY Positions
+    var XYPos = getXY(someChar);
+    curMapVar.XPositions[curMapVar.moveCount] = XYPos[0];
+    curMapVar.YPositions[curMapVar.moveCount] = XYPos[1];
+    curMapVar.XProbabilities[curMapVar.moveCount] = XYPos[2];
+    curMapVar.YProbabilities[curMapVar.moveCount] = XYPos[3];
+    curMapVar.probTracker[curMapVar.moveCount] = XYPos[2] * XYPos[3];
 
     if (devMode){
-        console.log('POS X, Y: ', posX, posY);
-        console.log('SOIL PAR AT POS X: ', curMapConst.columnParameters[posX]);
-        console.log('PLANT PAR AT POS Y: ', curMapConst.rowParameters[posY]);
+        console.log('POS Col, Row: ', currentCol, currentRow);
+        console.log('PAR @ Col Pos: ', curMapConst.columnParameters[currentCol]);
+        console.log('PAR @ ROW Pos: ', curMapConst.rowParameters[currentRow]);
     }
-    curMapVar.XPos[curMapVar.moveCount] = posX;
-    curMapVar.YPos[curMapVar.moveCount] = posY;
+    curMapVar.ColPositions[curMapVar.moveCount] = currentCol;
+    curMapVar.RowPositions[curMapVar.moveCount] = currentRow;
 
     curMapVar.tileGrid = curMapVar.tileGrid.slice();
 
-    if (curMapVar.tileGrid[posY][posX] === 0) {
+    if (curMapVar.tileGrid[currentRow][currentCol] === 0) {
 
-        curMapVar.exploredRow[posY] += 1;
-        curMapVar.exploredColumn[posX] += 1;
-        var getPayoff = checkPayoff(curMapConst.columnParameters[posX], curMapConst.rowParameters[posY]);
+        curMapVar.exploredRow[currentRow] += 1;
+        curMapVar.exploredColumn[currentCol] += 1;
+        var getPayoff = checkPayoff(curMapConst.columnParameters[currentCol], curMapConst.rowParameters[currentRow]);
 
         if (!getPayoff) {
 
             if (devMode) console.log('NONE');
             curMapVar.payoffTracker[curMapVar.moveCount] = 0;
-            curMapVar.tileGrid[posY][posX] = 1;
+            curMapVar.tileGrid[currentRow][currentCol] = 1;
         }
         else if (getPayoff) {
 
@@ -67,9 +77,9 @@ function updateInfo(then) {
             curMapVar.payoffTracker[curMapVar.moveCount] = 1;
             curMapVar.potatoCount += 1;
             curMapVar.payoffCount += curMapVar.potatoPrice;
-            curMapVar.tileGrid[posY][posX] = 3;
-            curMapVar.payoffRow[posY] += 1;
-            curMapVar.payoffColumn[posX] += 1;
+            curMapVar.tileGrid[currentRow][currentCol] = 3;
+            curMapVar.payoffRow[currentRow] += 1;
+            curMapVar.payoffColumn[currentCol] += 1;
         }
     }
     then();
@@ -221,7 +231,7 @@ function trackerMove(char) {
         var frameMove = function () {
             if (stepsMoved === 100) {
                 clearInterval(moveId);
-                updateInfo(stepCounter.bind(this,char));
+                updateInfo(stepCounter.bind(this,char), char);
 
                 if (!isMobile) {
                     curMapVar.pauseId = setTimeout(function () {
