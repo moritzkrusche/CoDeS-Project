@@ -182,6 +182,10 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
     this.discountFactor = disFactor;
 
     var that = this;
+    var colSuccess = this.alpha1;
+    var rowSuccess = this.alpha2;
+    var colCount = this.alpha1 + this.beta1;
+    var rowCount = this.alpha2 + this.beta2;
 
     // init arrays first to save memory vs. push()
     that.tileGrid = new Array(numCols);
@@ -194,6 +198,7 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
 
     (function () {
         'use strict';
+
         for (var eachCol=0; eachCol<numCols; eachCol++) {
             that.exploredColumn[eachCol] = 0;
             that.payoffColumn[eachCol] = 0;
@@ -301,10 +306,9 @@ function getQuality(whichCol, whichRow){
     var alpha2 = curMapConst.alpha2;
     var beta2 = curMapConst.beta2;
 
-    // Pseudo-Bayesian estimation that neglects the corresponding row/ col parameter in the grid.
-    // Then again, they are to be independently estimated
-    var qualCol = ((alpha1+curMapVar.payoffColumn[whichCol])/(alpha1+beta1+curMapVar.exploredColumn[whichCol]));
-    var qualRow = ((alpha2+curMapVar.payoffRow[whichRow])/(alpha2+beta2+curMapVar.exploredRow[whichRow]));
+    // Bayesian estimation that assumes average values for the corresponding row/ col parameter in the grid.
+    var qualCol = ((alpha1+curMapVar.payoffColumn[whichCol])/(alpha1+beta1+curMapVar.exploredColumn[whichCol])) / (alpha2/(alpha2+beta2));
+    var qualRow = ((alpha2+curMapVar.payoffRow[whichRow])/(alpha2+beta2+curMapVar.exploredRow[whichRow])) / (alpha1/(alpha1+beta1));
 
     var qualLevelCol = getQualityLevel(qualCol);
     var qualLevelRow = getQualityLevel(qualRow);
