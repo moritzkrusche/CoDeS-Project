@@ -83,7 +83,7 @@
                         <h4>Prolific ID</h4>
                         <label for='prolificId'></label>
                         <input type='text' name='prolificId' id='prolificId' required
-                               placeholder='Please enter your Prolific ID'
+                               placeholder='Enter your Prolific ID'
                                oninvalid="setCustomValidity('Please enter your Prolific ID!')"
                                onchange="try{setCustomValidity('')}catch(e){}">
                     </div>
@@ -92,17 +92,10 @@
                     <div class='input'>
                         <h4>Age</h4>
                         <label for='age'></label>
-                        <select name='age' required id = 'age'
-                                oninvalid="setCustomValidity('Please select your age!')"
+                        <input type="number" name='age' id='age' min="18" max="99" step="1" required
+                               placeholder='Enter your age'
+                                oninvalid="setCustomValidity('Please enter your age. You must be at least 18 to participate!')"
                                 onchange="try{setCustomValidity('')}catch(e){}">
-                            <option value = ''>Please select your age</option>
-                            <option value = '18-25'>18-25</option>
-                            <option value = '26-35'>26-35</option>
-                            <option value = '36-45'>36-45</option>
-                            <option value = '46-55'>46-55</option>
-                            <option value = '56-65'>56-65</option>
-                            <option value = '65+'>65+</option>
-                        </select>
                     </div>
 
                     <!-- gender -->
@@ -112,7 +105,7 @@
                         <select name='gender' required id = 'gender'
                                 oninvalid="setCustomValidity('Please select your gender!')"
                                 onchange="try{setCustomValidity('')}catch(e){}">
-                            <option value = ''>Please select your gender</option>
+                            <option value = ''>Select your gender</option>
                             <option value = 'female'>female</option>
                             <option value = 'male'>male</option>
                             <option value = 'other'>other</option>
