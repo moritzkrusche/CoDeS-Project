@@ -105,6 +105,7 @@ function logData(lvlKey){
 
     loggedData.allColParameters[lvlKey] = curMapConst.columnParameters.slice();
     loggedData.allRowParameters[lvlKey] = curMapConst.rowParameters.slice();
+
     loggedData.allExploredCols[lvlKey] = curMapVar.exploredColumn.slice();
     loggedData.allExploredRows[lvlKey] = curMapVar.exploredRow.slice();
     loggedData.allPayoffCols[lvlKey] = curMapVar.payoffColumn.slice();
@@ -177,10 +178,8 @@ function loadLevel(whichLevel) {
     //resetting trackers
     curMapVar.potatoCount = 0;
     curMapVar.moveCount = 0;
-    //not necessary when not push()
+    //not necessary when not using push()
     //curMapVar.movementTracker = [];
-    //curMapVar.XPos = [];
-    //curMapVar.YPos = [];
     //curMapVar.payoffTracker = [];
     //curMapVar.timeTracker = [];
     trackerReset(experiment.farmerChar, experiment.potatoAnim);

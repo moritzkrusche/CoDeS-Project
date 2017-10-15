@@ -59,9 +59,7 @@ var curMapVar = {
     exploredRow: [],
     payoffRow: [],
 
-    // TODO: add other times!
     timeTracker: [],
-
     lastTime: "",
     nextTime: "",
     startMapTime: "",
@@ -91,9 +89,9 @@ var loggedData = {
     // payoffcount gets only added and never overwritten; how much $ part made in the game so far
     payoffCount: 0,
 
-    // buttons & times PROVISIONAL ONLY!
-    allButtonsClicked: {},
-    allButtonsTimes: {},
+    // buttons & times
+    buttonsClicked: [],
+    buttonTimes: [],
     allStartTimes: {},
     allEndTimes: {},
     allMoveTimes: {},
@@ -185,7 +183,6 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
 
     var that = this;
 
-    // TODO: add a XPos way for payoffs + probs!
     // init arrays first to save memory vs. push()
     that.tileGrid = new Array(numCols);
     that.columnParameters = new Array(numCols);

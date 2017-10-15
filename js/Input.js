@@ -160,6 +160,7 @@ htmlPage.debriefForm.addEventListener('submit', function(evt) {
 
 function buttonNext() {
     "use strict";
+    buttonTimer('next');
 
     if (!experiment.testPhase){
         if (experiment.currentOpenLevel === 0 && instructions.index < instructions.maxIndex){
@@ -184,6 +185,8 @@ function buttonNext() {
 
 function buttonBack() {
     "use strict";
+    buttonTimer('back');
+
     if (!experiment.testPhase){
         if (instructions.index > 0){
             instructions.index--;
@@ -202,6 +205,8 @@ function buttonBack() {
 
 function buttonStartLevel(){
     "use strict";
+    buttonTimer('start');
+
     boxScreen.hideAll();
     initInput();
     htmlPage.startButton.style.display = 'none';

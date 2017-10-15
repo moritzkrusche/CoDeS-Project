@@ -108,6 +108,15 @@ function timeCounter() {
     curMapVar.timeTracker[curMapVar.moveCount] = curMapVar.nextTime - curMapVar.lastTime;
 }
 
+
+function buttonTimer(stringButton) {
+    "use strict";
+    curMapVar.lastTime = curMapVar.nextTime;
+    curMapVar.nextTime = getDateTime()[2];
+    loggedData.buttonsClicked.push(stringButton);
+    loggedData.buttonTimes.push(curMapVar.nextTime - curMapVar.lastTime);
+}
+
 //******************************** COLLISION HANDLING ON TEST MAPS INCL SOUND AND CROSSES ******************************
 
 function checkCollision(atTrackerX, atTrackerY) {
