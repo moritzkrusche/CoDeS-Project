@@ -194,8 +194,8 @@ var instructions = new function() {
             case 7:
                 // show soil quality
                 htmlPage.fullBox.style.display = 'block';
-                boxScreen.showText('There are 5 different qualities of soil fertilizer used. Darker soil will ' +
-                    'always be richer than lighter soil.');
+                boxScreen.showText('There are 5 different qualities of soil fertilizer used. Richer soil will ' +
+                    'always be of higher quality than lighter soil.');
                 exampleScreen.clear();
                 showExampleTiles('soil');
                 break;
@@ -437,7 +437,7 @@ var testInstructions = new function () {
 
             case 5:
                 htmlPage.fullBox.style.display = 'block';
-                boxScreen.showText('As a reminder: dark soil and large plants are better. Note: you cannot move ' +
+                boxScreen.showText('As a reminder: rich soil and large plants are better. Note: you cannot move ' +
                     'to water tiles.');
                 showExampleTiles('both');
                 showExampleTiles('water');
@@ -478,7 +478,7 @@ var nextOpenLevel = new function () {
                 htmlPage.nextButton.style.display = 'block';
                 htmlPage.backButton.style.display = 'none';
                 htmlPage.fullBox.style.display = 'block';
-                boxScreen.showText('Next level loaded. As a reminder: dark soil and large plants are better.');
+                boxScreen.showText('Next level loaded. As a reminder: rich soil and large plants are better.');
                 showExampleTiles('both');
                 break;
 
@@ -517,7 +517,7 @@ var nextTestLevel = new function () {
                 htmlPage.nextButton.style.display = 'block';
                 htmlPage.backButton.style.display = 'none';
                 htmlPage.fullBox.style.display = 'block';
-                boxScreen.showText('Next level loaded. As a reminder: dark soil and large plants are better. ' +
+                boxScreen.showText('Next level loaded. As a reminder: rich soil and large plants are better. ' +
                     'Note: you cannot move to flooded plots.');
                 showExampleTiles('both');
                 showExampleTiles('water');
