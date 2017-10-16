@@ -198,7 +198,6 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
 
     (function () {
         'use strict';
-
         for (var eachCol=0; eachCol<numCols; eachCol++) {
             that.exploredColumn[eachCol] = 0;
             that.payoffColumn[eachCol] = 0;
@@ -307,8 +306,11 @@ function getQuality(whichCol, whichRow){
     var beta2 = curMapConst.beta2;
 
     // Bayesian estimation that assumes average values for the corresponding row/ col parameter in the grid.
-    var qualCol = ((alpha1+curMapVar.payoffColumn[whichCol])/(alpha1+beta1+curMapVar.exploredColumn[whichCol])) / (alpha2/(alpha2+beta2));
-    var qualRow = ((alpha2+curMapVar.payoffRow[whichRow])/(alpha2+beta2+curMapVar.exploredRow[whichRow])) / (alpha1/(alpha1+beta1));
+    //var qualCol = ((alpha1+curMapVar.payoffColumn[whichCol])/(alpha1+beta1+curMapVar.exploredColumn[whichCol])) / (alpha2/(alpha2+beta2));
+    //var qualRow = ((alpha2+curMapVar.payoffRow[whichRow])/(alpha2+beta2+curMapVar.exploredRow[whichRow])) / (alpha1/(alpha1+beta1));
+
+    var qualCol = ((alpha1+curMapVar.payoffColumn[whichCol])/(alpha1+beta1+curMapVar.exploredColumn[whichCol])) / (alpha1/(alpha1+beta1));
+    var qualRow = ((alpha2+curMapVar.payoffRow[whichRow])/(alpha2+beta2+curMapVar.exploredRow[whichRow])) / (alpha2/(alpha2+beta2));
 
     var qualLevelCol = getQualityLevel(qualCol);
     var qualLevelRow = getQualityLevel(qualRow);
