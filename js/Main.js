@@ -11,11 +11,15 @@ var condition;
 // 3: 05050505/soilCol
 // 4: 05050505/plantCol
 
+/*
 // fully random assignment
 (function(){
     condition = getRandomInt(1,4);
     loggedData.condition = condition;
 })();
+*/
+
+condition = 1;
 
 // 5 * new map; 8* test maps
 var experiment = new function(){

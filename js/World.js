@@ -196,6 +196,27 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
     that.payoffColumn = new Array(numCols);
     that.payoffRow = new Array(numRows);
 
+    that.XProbabilities = new Array(maxMoves);
+    that.YProbabilities = new Array(maxMoves);
+    that.XPositions = new Array(maxMoves);
+    that.YPositions  = new Array(maxMoves);
+    that.probTracker = new Array(maxMoves);
+    that.movementTracker  = new Array(maxMoves);
+    that.payoffTracker = new Array(maxMoves);
+
+    (function () {
+        'use strict';
+        for (var eachMove=0; eachMove<maxMoves; eachMove++) {
+            that.XProbabilities[eachMove] = 0;
+            that.YProbabilities[eachMove] = 0;
+            that.XPositions[eachMove] = 0;
+            that.YPositions[eachMove] = 0;
+            that.probTracker[eachMove] = 0;
+            that.movementTracker[eachMove] = 0;
+            that.payoffTracker[eachMove] = 0;
+        }
+    })
+
     (function () {
         'use strict';
         for (var eachCol=0; eachCol<numCols; eachCol++) {
@@ -305,12 +326,15 @@ function getQuality(whichCol, whichRow){
     var alpha2 = curMapConst.alpha2;
     var beta2 = curMapConst.beta2;
 
+    var alphaP = Math.sqrt((alpha1 / (alpha1 + beta1)) * (alpha2 / (alpha2 + beta2)));
+    var betaP = 1 - alphaP;
+
     // Bayesian estimation that assumes average values for the corresponding row/ col parameter in the grid.
     //var qualCol = ((alpha1+curMapVar.payoffColumn[whichCol])/(alpha1+beta1+curMapVar.exploredColumn[whichCol])) / (alpha2/(alpha2+beta2));
     //var qualRow = ((alpha2+curMapVar.payoffRow[whichRow])/(alpha2+beta2+curMapVar.exploredRow[whichRow])) / (alpha1/(alpha1+beta1));
 
-    var qualCol = ((alpha1+curMapVar.payoffColumn[whichCol])/(alpha1+beta1+curMapVar.exploredColumn[whichCol])) / (alpha1/(alpha1+beta1));
-    var qualRow = ((alpha2+curMapVar.payoffRow[whichRow])/(alpha2+beta2+curMapVar.exploredRow[whichRow])) / (alpha2/(alpha2+beta2));
+    var qualCol = ((alphaP+curMapVar.payoffColumn[whichCol])/(alphaP+betaP+curMapVar.exploredColumn[whichCol])) / (alphaP/(alphaP+betaP));
+    var qualRow = ((alphaP+curMapVar.payoffRow[whichRow])/(alphaP+betaP+curMapVar.exploredRow[whichRow])) / (alphaP/(alphaP+betaP));
 
     var qualLevelCol = getQualityLevel(qualCol);
     var qualLevelRow = getQualityLevel(qualRow);
