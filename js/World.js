@@ -215,7 +215,7 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
             that.movementTracker[eachMove] = 0;
             that.payoffTracker[eachMove] = 0;
         }
-    })
+    })();
 
     (function () {
         'use strict';
