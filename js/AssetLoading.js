@@ -24,7 +24,7 @@ const CANVAS_W = 700;
 const uiHeight = 50;
 
 // Initialize Firebase
-var database, gameDatabase, feedbackDatabase;
+var database;
 
 (function(){
     "use strict";
@@ -40,9 +40,6 @@ var database, gameDatabase, feedbackDatabase;
 
     firebase.initializeApp(config);
     database = firebase.database();
-    gameDatabase = database.ref('gameData');
-
-    feedbackDatabase = database.ref('feedback');
 })();
 
 //******************************** CHECK IF MOBILE BROWSER *************************************************************

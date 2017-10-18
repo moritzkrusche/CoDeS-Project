@@ -35,13 +35,16 @@ function updateInfo(then, someChar) {
     var currentCol = Math.floor(camera.centerX/TILE_W);
     var currentRow = Math.floor(camera.centerY/TILE_H);
 
-    curMapVar.colPositions[curMapVar.moveCount] = currentCol;
-    curMapVar.rowPositions[curMapVar.moveCount] = currentRow;
+    // Note that these arrays are 101 in length because the starting position is also logged.
+    var posIndex = curMapVar.moveCount+1;
+
+    curMapVar.colPositions[posIndex] = currentCol;
+    curMapVar.rowPositions[posIndex] = currentRow;
 
     // Logging XY Positions
     var XYPos = getXY(someChar);
-    curMapVar.XPositions[curMapVar.moveCount] = XYPos[0];
-    curMapVar.YPositions[curMapVar.moveCount] = XYPos[1];
+    curMapVar.XPositions[posIndex] = XYPos[0];
+    curMapVar.YPositions[posIndex] = XYPos[1];
     curMapVar.XProbabilities[curMapVar.moveCount] = XYPos[2];
     curMapVar.YProbabilities[curMapVar.moveCount] = XYPos[3];
     curMapVar.probTracker[curMapVar.moveCount] = round((XYPos[2] * XYPos[3]), 2);
@@ -104,8 +107,9 @@ function stepCounter(char) {
 function timeCounter() {
     "use strict";
     curMapVar.lastTime = curMapVar.nextTime;
-    curMapVar.nextTime = getDateTime()[2];
-    curMapVar.timeTracker[curMapVar.moveCount] = round((curMapVar.nextTime - curMapVar.lastTime), 2);
+    curMapVar.nextTime = getDateTime()[1];
+    // -1 to avoid null in index 0
+    curMapVar.timeTracker[curMapVar.moveCount-1] = round((curMapVar.nextTime - curMapVar.lastTime), 2);
 }
 
 
@@ -113,7 +117,7 @@ function timeCounter() {
 function buttonTimer(stringButton) {
     "use strict";
     curMapVar.lastTime = curMapVar.nextTime;
-    curMapVar.nextTime = getDateTime()[2];
+    curMapVar.nextTime = getDateTime()[1];
     loggedData.buttonsClicked.push(stringButton);
     loggedData.buttonTimes.push(round((curMapVar.nextTime - curMapVar.lastTime), 2));
 }

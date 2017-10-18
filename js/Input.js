@@ -138,20 +138,26 @@ function buttonFalse() {
 htmlPage.demoForm.addEventListener('submit', function(evt) {
     evt.preventDefault();
     var form = htmlPage.demoForm;
-
     loggedData.prolificId = form.prolificId.value;
     loggedData.partAge = form.age.value;
     loggedData.partGender = form.gender.value;
 
+    // Start timestamp on submit button
+    loggedData.startDateTime = getDateTime();
+    curMapVar.lastTime = curMapVar.nextTime = getDateTime()[1];
+
+    // reveal game + instructions
     htmlPage.demoBox.style.display = 'none';
     instructions.show();
+
+    // create entry on firebase
     sendFirstData();
 });
 
 htmlPage.debriefForm.addEventListener('submit', function(evt) {
     evt.preventDefault();
     var form = htmlPage.debriefForm;
-    feedbackDatabase.push(form.comment.value); // send feedback to separate database for anonymity
+    database.ref('feedback').push(form.comment.value); // send feedback to separate database for anonymity
 
     document.getElementById('debriefButton').style.display = 'none';
     document.getElementById('comment').style.display = 'none';

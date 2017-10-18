@@ -80,7 +80,7 @@ function showDebriefPage(){
         payTotal = 2;
         bonus = 0;
     }
-    var timeTotal = round((loggedData.endDateTime[2] - loggedData.startDateTime[2])/60, 2);
+    var timeTotal = round((loggedData.endDateTime[1] - loggedData.startDateTime[1])/60, 2);
     var textPay = 'Congratulations, you have reached the end of this experiment. You have earned £' + payTotal +
         ' in ' + timeTotal + ' minutes.';
     var textProcedure = 'You will be paid the minimum amount of £2 for completing the study plus your bonus of £' +

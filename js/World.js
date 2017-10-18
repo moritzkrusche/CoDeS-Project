@@ -219,11 +219,11 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
     (function() {
         'use strict';
         for (var eachCol = 0; eachCol < numCols; eachCol++) {
-            that.columnParameters[eachCol] = jStat.beta.sample(alpha1, beta1);
+            that.columnParameters[eachCol] = round(jStat.beta.sample(alpha1, beta1), 2);
         }
 
         for (var eachRow = 0; eachRow < numRows; eachRow++) {
-            that.rowParameters[eachRow] = jStat.beta.sample(alpha2, beta2);
+            that.rowParameters[eachRow] = round(jStat.beta.sample(alpha2, beta2), 2);
         }
     })();
 }

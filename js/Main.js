@@ -22,6 +22,13 @@ var condition;
 condition = 1;
 loggedData.condition = condition;
 
+var settings = {
+    showInstructions: true,
+    playBackgroundSound: false,
+    devMode: false
+
+};
+
 // 5 * new map; 8* test maps
 var experiment = new function(){
     'use strict';
@@ -82,11 +89,18 @@ function trackerReset(char, obj) {
     obj.animate(char.X, char.Y);
 
     // update tile and row/col info at starting position
-    var posX = Math.floor(camera.centerX/TILE_W);
-    var posY = Math.floor(camera.centerY/TILE_H);
-    curMapVar.tileGrid[posY][posX] = 1;
-    curMapVar.exploredRow[posY] += 1;
-    curMapVar.exploredColumn[posX] += 1;
+    var currentCol = Math.floor(camera.centerX/TILE_W);
+    var currentRow = Math.floor(camera.centerY/TILE_H);
+    curMapVar.tileGrid[currentRow][currentCol] = 1;
+    curMapVar.exploredRow[currentRow] += 1;
+    curMapVar.exploredColumn[currentCol] += 1;
+
+    // Logging starting positions
+    curMapVar.colPositions[0] = currentCol;
+    curMapVar.rowPositions[0] = currentRow;
+    var XYPos = getXY(char);
+    curMapVar.XPositions[0] = XYPos[0];
+    curMapVar.YPositions[0] = XYPos[1];
 
     // set input immediately to false -> if key held
     buttonFalse();
@@ -97,7 +111,6 @@ function startGame() {
     'use strict';
 	var framesPerSecond = 10;
     loadLevel(experiment.openMaps.map1);
-    loggedData.startDateTime = getDateTime();
     loggedData.browserIsMobile = isMobile;
 	setInterval(gameLoop, 1000/framesPerSecond);
 }
@@ -105,7 +118,6 @@ function startGame() {
 // logging all variable level-like information at the end of each level; sending to firebase at the end
 function logData(lvlKey){
     'use strict';
-    //TODO: fix times in readable format!
     loggedData.allStartTimes[lvlKey] = curMapVar.startMapTime;
     loggedData.allEndTimes[lvlKey] = curMapVar.endMapTime;
     loggedData.allAlphaBetas[lvlKey] = [curMapConst.alpha1, curMapConst.beta1, curMapConst.alpha2, curMapConst.beta2];
@@ -158,10 +170,8 @@ function getLogLevelKey(){
 function loadLevel(whichLevel) {
     'use strict';
 
-    //TODO: fix times here to be more readable!
-    var timeNow = getDateTime()[2]; // seconds when level starts
-    curMapVar.startMapTime = timeNow;
-    curMapVar.nextTime = curMapVar.lastTime= timeNow;
+    curMapVar.startMapTime = getDateTime()[0];
+    curMapVar.nextTime = curMapVar.lastTime = getDateTime()[1]; // seconds when level starts
 
     curMapVar.tileGrid = whichLevel[0].slice();
     curMapConst.columnParameters = whichLevel[1].slice();
@@ -213,7 +223,7 @@ function nextLevelTestLevel(){
 
 function nextLevel() {
     'use strict';
-    curMapVar.endMapTime = getDateTime()[2]; // seconds when level ends
+    curMapVar.endMapTime = getDateTime()[0]; // seconds when level ends
 
     var e = experiment;
     // This key is for the old level, not the new one
@@ -266,13 +276,13 @@ function nextLevel() {
 
 function sendFirstData(){
     "use strict";
-    var userId = 'gameData' + '/' + loggedData.prolificId + '|' + loggedData.startDateTime[0] + '|' + loggedData.startDateTime[1];
+    var userId = 'gameData' + '/' + loggedData.prolificId + '|' + loggedData.startDateTime[0];
     database.ref(userId).set(loggedData);
 }
 
 function sendUpdateData(){
     "use strict";
-    var userId = 'gameData' + '/' + loggedData.prolificId + '|' + loggedData.startDateTime[0] + '|' + loggedData.startDateTime[1];
+    var userId = 'gameData' + '/' + loggedData.prolificId + '|' + loggedData.startDateTime[0];
     database.ref(userId).update(loggedData);
 
 }
@@ -288,7 +298,7 @@ function sendData(){
     htmlPage.fullBox.style.display = 'block';
     boxScreen.wrapText(textSendingData, 80, 220, 540, 30, '18pt "Helvetica Neue"');
     boxScreen.wrapText(textSafariDelay, 80, 420, 540, 30, '18pt "Helvetica Neue"');
-    gameDatabase.push(loggedData, finished);
+    database.ref('backupData').push(loggedData, finished);
     function finished(error) {
         if (error) {
             alert('WARNING: COULD NOT SEND TO DATABASE! CHECK YOUR INTERNET CONNECTION! DO NOT CLOSE THE GAME!');
