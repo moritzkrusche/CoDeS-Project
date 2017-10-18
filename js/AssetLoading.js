@@ -41,6 +41,7 @@ var database, gameDatabase, feedbackDatabase;
     firebase.initializeApp(config);
     database = firebase.database();
     gameDatabase = database.ref('gameData');
+
     feedbackDatabase = database.ref('feedback');
 })();
 
@@ -57,9 +58,6 @@ var isMobile = false; //initiate as false
     //isMobile = true;
 
 })();
-
-// Tiles supplied by Arthur Guez and modified
-// Sprite modified from https://otland.net/threads/damons-thread.215668/
 
 //******************************** SHOW LOAD SCREEN WHILE LOADING ******************************************************
 

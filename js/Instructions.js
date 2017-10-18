@@ -467,7 +467,7 @@ var nextOpenLevel = new function () {
 
     this.show = function() {
 
-        stopBackgroundSound();
+        //stopBackgroundSound();
         var index = this.index;
         var curLevel = experiment.currentOpenLevel+1;
         var maxLevel = experiment.maxOpenLevels+1;
@@ -507,7 +507,7 @@ var nextTestLevel = new function () {
 
     this.show = function() {
 
-        stopBackgroundSound();
+        //stopBackgroundSound();
         var index = this.index;
         var curLevel = experiment.currentTestLevel+1;
         var maxLevel = experiment.maxTestLevels+1;

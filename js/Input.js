@@ -145,6 +145,7 @@ htmlPage.demoForm.addEventListener('submit', function(evt) {
 
     htmlPage.demoBox.style.display = 'none';
     instructions.show();
+    sendFirstData();
 });
 
 htmlPage.debriefForm.addEventListener('submit', function(evt) {
@@ -213,6 +214,7 @@ function buttonStartLevel(){
     nextTestLevel.index = 0;
     nextOpenLevel.index = 0;
 
+    /*
     if (!isMobile) {
         if (assets.backgroundSound.playing(curMapVar.backgroundId)){
             assets.backgroundSound.stop(curMapVar.backgroundId)
@@ -229,6 +231,7 @@ function buttonStartLevel(){
             }
         }
     }
+    */
 }
 
 function buttonGoProlific(){

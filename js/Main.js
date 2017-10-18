@@ -36,6 +36,7 @@ var experiment = new function(){
     var that = this;
     that.openLevelKeys = ['map1', 'map2', 'map3', 'map4', 'map5', 'map6', 'map7', 'map8'];
     that.testLevelKeys = shuffleArray(that.openLevelKeys.slice());
+    loggedData.testMapOrder = that.testLevelKeys;
 
     if (condition === 1 || condition === 2){
         that.openLevel1 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.02, 0.985);
@@ -104,6 +105,7 @@ function startGame() {
 // logging all variable level-like information at the end of each level; sending to firebase at the end
 function logData(lvlKey){
     'use strict';
+    //TODO: fix times in readable format!
     loggedData.allStartTimes[lvlKey] = curMapVar.startMapTime;
     loggedData.allEndTimes[lvlKey] = curMapVar.endMapTime;
     loggedData.allAlphaBetas[lvlKey] = [curMapConst.alpha1, curMapConst.beta1, curMapConst.alpha2, curMapConst.beta2];
@@ -119,8 +121,8 @@ function logData(lvlKey){
     loggedData.allPayoffRows[lvlKey] = curMapVar.payoffRow.slice();
     loggedData.allPotatoCounts[lvlKey] = curMapVar.potatoCount;
 
-    loggedData.payoffCount = curMapVar.payoffCount; // always updated anyway
-    loggedData.allPayoffCounts[lvlKey] = curMapVar.payoffCount;
+    loggedData.payoffCount = round(curMapVar.payoffCount, 2); // always updated anyway
+    loggedData.allPayoffCounts[lvlKey] = round(curMapVar.payoffCount, 2);
     loggedData.allMovementTrackers[lvlKey] = curMapVar.movementTracker.slice();
 
     loggedData.allXPositions[lvlKey] = curMapVar.XPositions.slice();
@@ -155,6 +157,8 @@ function getLogLevelKey(){
 
 function loadLevel(whichLevel) {
     'use strict';
+
+    //TODO: fix times here to be more readable!
     var timeNow = getDateTime()[2]; // seconds when level starts
     curMapVar.startMapTime = timeNow;
     curMapVar.nextTime = curMapVar.lastTime= timeNow;
@@ -223,6 +227,7 @@ function nextLevel() {
             e.testPhase = true; // first test map
             logLevelKey = getLogLevelKey();
             logData(logLevelKey);
+            sendUpdateData();
             testInstructions.show();
         }
         else {
@@ -230,6 +235,7 @@ function nextLevel() {
             var openLevelKey = e.openLevelKeys[e.currentOpenLevel];
             logLevelKey = getLogLevelKey();
             logData(logLevelKey);
+            sendUpdateData();
             loadLevel(e.openMaps[openLevelKey]);
             nextOpenLevel.show();
         }
@@ -241,7 +247,8 @@ function nextLevel() {
             loggedData.endDateTime = getDateTime();
             logLevelKey = getLogLevelKey();
             logData(logLevelKey);
-            stopBackgroundSound();
+            sendUpdateData();
+            //stopBackgroundSound();
             sendData(); // sending data to the database!
         }
         else {
@@ -249,10 +256,25 @@ function nextLevel() {
             var testLevelKey = e.testLevelKeys[e.currentTestLevel];
             logLevelKey = getLogLevelKey();
             logData(logLevelKey);
+            sendUpdateData();
             loadLevel(testMaps[testLevelKey]);
             nextTestLevel.show();
         }
     }
+}
+
+
+function sendFirstData(){
+    "use strict";
+    var userId = 'gameData' + '/' + loggedData.prolificId + '|' + loggedData.startDateTime[0] + '|' + loggedData.startDateTime[1];
+    database.ref(userId).set(loggedData);
+}
+
+function sendUpdateData(){
+    "use strict";
+    var userId = 'gameData' + '/' + loggedData.prolificId + '|' + loggedData.startDateTime[0] + '|' + loggedData.startDateTime[1];
+    database.ref(userId).update(loggedData);
+
 }
 
 

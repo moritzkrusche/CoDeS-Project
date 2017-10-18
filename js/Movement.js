@@ -105,16 +105,17 @@ function timeCounter() {
     "use strict";
     curMapVar.lastTime = curMapVar.nextTime;
     curMapVar.nextTime = getDateTime()[2];
-    curMapVar.timeTracker[curMapVar.moveCount] = curMapVar.nextTime - curMapVar.lastTime;
+    curMapVar.timeTracker[curMapVar.moveCount] = round((curMapVar.nextTime - curMapVar.lastTime), 2);
 }
 
 
+// TODO: use full date time
 function buttonTimer(stringButton) {
     "use strict";
     curMapVar.lastTime = curMapVar.nextTime;
     curMapVar.nextTime = getDateTime()[2];
     loggedData.buttonsClicked.push(stringButton);
-    loggedData.buttonTimes.push(curMapVar.nextTime - curMapVar.lastTime);
+    loggedData.buttonTimes.push(round((curMapVar.nextTime - curMapVar.lastTime), 2));
 }
 
 //******************************** COLLISION HANDLING ON TEST MAPS INCL SOUND AND CROSSES ******************************

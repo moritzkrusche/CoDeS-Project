@@ -27,7 +27,8 @@ var curMapConst = {
     minQuality4: 0.8,
 
     soilSheet: NaN,
-    plantSheet: NaN
+    plantSheet: NaN,
+    firebaseKey: ""
 };
 
 // keeps track of everything that is updated on a given map, and compares with static
@@ -70,7 +71,6 @@ var curMapVar = {
     errorId1: NaN,
     errorId2: NaN,
     backgroundId: NaN,
-
     mobileSoundUnlocked: false
 };
 
@@ -85,6 +85,7 @@ var loggedData = {
     startDateTime: "",
     endDateTime: "",
     browserIsMobile: false,
+    testMapOrder: [],
     // payoffcount gets only added and never overwritten; how much $ part made in the game so far
     payoffCount: 0,
 
@@ -181,12 +182,6 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
     this.discountFactor = disFactor;
 
     var that = this;
-    /*
-    var colSuccess = this.alpha1;
-    var rowSuccess = this.alpha2;
-    var colCount = this.alpha1 + this.beta1;
-    var rowCount = this.alpha2 + this.beta2;
-    */
 
     // init arrays first to save memory vs. push()
     that.tileGrid = new Array(numCols);
@@ -196,30 +191,6 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
     that.exploredRow = new Array(numRows);
     that.payoffColumn = new Array(numCols);
     that.payoffRow = new Array(numRows);
-
-    /*
-    that.XProbabilities = new Array(maxMoves);
-    that.YProbabilities = new Array(maxMoves);
-    that.XPositions = new Array(maxMoves);
-    that.YPositions  = new Array(maxMoves);
-    that.probTracker = new Array(maxMoves);
-    that.movementTracker  = new Array(maxMoves);
-    that.payoffTracker = new Array(maxMoves);
-
-    (function () {
-        'use strict';
-        for (var eachMove=0; eachMove<maxMoves; eachMove++) {
-            that.XProbabilities[eachMove] = 0;
-            that.YProbabilities[eachMove] = 0;
-            that.XPositions[eachMove] = 0;
-            that.YPositions[eachMove] = 0;
-            that.probTracker[eachMove] = 0;
-            that.movementTracker[eachMove] = 0;
-            that.payoffTracker[eachMove] = 0;
-        }
-    })();
-    */
-
 
     (function () {
         'use strict';
