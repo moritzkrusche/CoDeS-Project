@@ -43,7 +43,6 @@ var curMapVar = {
     // payoffcount gets only added and never overwritten; how much $ part made in the game so far
     payoffCount: 0,
 
-
     XPositions: [],
     YPositions: [],
     XProbabilities : [],
@@ -52,8 +51,8 @@ var curMapVar = {
     probTracker: [],
     payoffTracker: [],
 
-    ColPositions: [],
-    RowPositions: [],
+    colPositions: [],
+    rowPositions: [],
     exploredColumn: [],
     payoffColumn: [],
     exploredRow: [],
@@ -182,10 +181,12 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
     this.discountFactor = disFactor;
 
     var that = this;
+    /*
     var colSuccess = this.alpha1;
     var rowSuccess = this.alpha2;
     var colCount = this.alpha1 + this.beta1;
     var rowCount = this.alpha2 + this.beta2;
+    */
 
     // init arrays first to save memory vs. push()
     that.tileGrid = new Array(numCols);
@@ -196,6 +197,7 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
     that.payoffColumn = new Array(numCols);
     that.payoffRow = new Array(numRows);
 
+    /*
     that.XProbabilities = new Array(maxMoves);
     that.YProbabilities = new Array(maxMoves);
     that.XPositions = new Array(maxMoves);
@@ -216,6 +218,8 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
             that.payoffTracker[eachMove] = 0;
         }
     })();
+    */
+
 
     (function () {
         'use strict';

@@ -20,6 +20,7 @@ var condition;
 */
 
 condition = 1;
+loggedData.condition = condition;
 
 // 5 * new map; 8* test maps
 var experiment = new function(){
@@ -107,6 +108,8 @@ function logData(lvlKey){
     loggedData.allEndTimes[lvlKey] = curMapVar.endMapTime;
     loggedData.allAlphaBetas[lvlKey] = [curMapConst.alpha1, curMapConst.beta1, curMapConst.alpha2, curMapConst.beta2];
 
+    loggedData.allColPositions[lvlKey] = curMapVar.colPositions.slice();
+    loggedData.allRowPositions[lvlKey] = curMapVar.rowPositions.slice();
     loggedData.allColParameters[lvlKey] = curMapConst.columnParameters.slice();
     loggedData.allRowParameters[lvlKey] = curMapConst.rowParameters.slice();
 
@@ -116,9 +119,7 @@ function logData(lvlKey){
     loggedData.allPayoffRows[lvlKey] = curMapVar.payoffRow.slice();
     loggedData.allPotatoCounts[lvlKey] = curMapVar.potatoCount;
 
-    // always updated anyway
-    loggedData.payoffCount = curMapVar.payoffCount;
-    // but this is what is was at the end of each level
+    loggedData.payoffCount = curMapVar.payoffCount; // always updated anyway
     loggedData.allPayoffCounts[lvlKey] = curMapVar.payoffCount;
     loggedData.allMovementTrackers[lvlKey] = curMapVar.movementTracker.slice();
 
@@ -183,9 +184,18 @@ function loadLevel(whichLevel) {
     curMapVar.potatoCount = 0;
     curMapVar.moveCount = 0;
     //not necessary when not using push()
-    //curMapVar.movementTracker = [];
-    //curMapVar.payoffTracker = [];
-    //curMapVar.timeTracker = [];
+    curMapVar.RowPositions = [];
+    curMapVar.ColPositions = [];
+    curMapVar.movementTracker = [];
+    curMapVar.payoffTracker = [];
+    curMapVar.timeTracker = [];
+
+    curMapVar.XPositions = [];
+    curMapVar.YPositions = [];
+    curMapVar.XProbabilities = [];
+    curMapVar.YProbabilities = [];
+    curMapVar.probTracker = [];
+
     trackerReset(experiment.farmerChar, experiment.potatoAnim);
 }
 

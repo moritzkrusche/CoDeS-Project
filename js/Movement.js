@@ -35,8 +35,8 @@ function updateInfo(then, someChar) {
     var currentCol = Math.floor(camera.centerX/TILE_W);
     var currentRow = Math.floor(camera.centerY/TILE_H);
 
-    curMapVar.ColPositions[curMapVar.moveCount] = currentCol;
-    curMapVar.RowPositions[curMapVar.moveCount] = currentRow;
+    curMapVar.colPositions[curMapVar.moveCount] = currentCol;
+    curMapVar.rowPositions[curMapVar.moveCount] = currentRow;
 
     // Logging XY Positions
     var XYPos = getXY(someChar);
@@ -44,7 +44,7 @@ function updateInfo(then, someChar) {
     curMapVar.YPositions[curMapVar.moveCount] = XYPos[1];
     curMapVar.XProbabilities[curMapVar.moveCount] = XYPos[2];
     curMapVar.YProbabilities[curMapVar.moveCount] = XYPos[3];
-    curMapVar.probTracker[curMapVar.moveCount] = XYPos[2] * XYPos[3];
+    curMapVar.probTracker[curMapVar.moveCount] = round((XYPos[2] * XYPos[3]), 2);
 
     if (devMode){
         console.log('POS Col, Row: ', currentCol, currentRow);
