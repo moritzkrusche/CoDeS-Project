@@ -20,8 +20,8 @@ var camera = new function(){
 //RANDOMLY DRAWING PAYOFF BASED ON PARAMETERS
 function checkPayoff(colPar, rowPar) {
     'use strict';
-    var draw = Math.random();
-    var check = colPar * rowPar;
+    var draw = round(Math.random(), 2);
+    var check = round((colPar * rowPar), 2);
     if (devMode){
         console.log('CHECK', check, 'DRAW', draw);
     }
