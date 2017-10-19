@@ -93,16 +93,6 @@ function showDebriefPage(){
     boxScreen.wrapText(textDone, 30, 320, 640, 30);
 }
 
-
-function stopBackgroundSound(){
-    "use strict";
-    if (!isMobile){
-        if (assets.backgroundSound.playing(curMapVar.backgroundId)){
-            assets.backgroundSound.stop(curMapVar.backgroundId)
-        }
-    }
-}
-
 //******************************** INITIAL INSTRUCTIONS AT START *******************************************************
 
 var instructions = new function() {
@@ -363,7 +353,6 @@ var testInstructions = new function () {
 
     this.show = function() {
 
-        stopBackgroundSound();
         var index = this.index;
         var maxLevel = experiment.maxTestLevels+1;
 
@@ -467,7 +456,6 @@ var nextOpenLevel = new function () {
 
     this.show = function() {
 
-        //stopBackgroundSound();
         var index = this.index;
         var curLevel = experiment.currentOpenLevel+1;
         var maxLevel = experiment.maxOpenLevels+1;
@@ -507,7 +495,6 @@ var nextTestLevel = new function () {
 
     this.show = function() {
 
-        //stopBackgroundSound();
         var index = this.index;
         var curLevel = experiment.currentTestLevel+1;
         var maxLevel = experiment.maxTestLevels+1;

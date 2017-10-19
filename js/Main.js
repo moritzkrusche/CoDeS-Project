@@ -258,8 +258,7 @@ function nextLevel() {
             logLevelKey = getLogLevelKey();
             logData(logLevelKey);
             sendUpdateData();
-            //stopBackgroundSound();
-            sendData(); // sending data to the database!
+            sendAllData(); // sending all data to the database!
         }
         else {
             killInput();
@@ -288,16 +287,13 @@ function sendUpdateData(){
 }
 
 
-function sendData(){
+function sendAllData(){
     "use strict";
     var textSendingData = 'Sending data to database. This may take a few moments. ' +
         'Check your internet connection and DO NOT CLOSE THE GAME! ' +
         'As soon as all data is sent, this page will update.';
-    var textSafariDelay = 'There is a known issue in some versions of Safari that can delay ' +
-        'this process by up to 1 minute. Please be patient, it should still work!';
     htmlPage.fullBox.style.display = 'block';
-    boxScreen.wrapText(textSendingData, 80, 220, 540, 30, '18pt "Helvetica Neue"');
-    boxScreen.wrapText(textSafariDelay, 80, 420, 540, 30, '18pt "Helvetica Neue"');
+    boxScreen.wrapText(textSendingData, 80, 320, 540, 30, '18pt "Helvetica Neue"');
     database.ref('backupData').push(loggedData, finished);
     function finished(error) {
         if (error) {
@@ -366,7 +362,6 @@ function getXY(char) {
     var currentY = round((camera.centerY - char.Y)/TILE_H, 0) * -1;
     var probX = round(curMapConst.columnParameters[Math.floor(camera.centerX / TILE_W)], 2);
     var probY = round(curMapConst.rowParameters[Math.floor(camera.centerY / TILE_H)], 2);
-
     return [currentX, currentY, probX, probY]
 }
 

@@ -34,9 +34,12 @@ function updateInfo(then, someChar) {
     'use strict';
     var currentCol = Math.floor(camera.centerX/TILE_W);
     var currentRow = Math.floor(camera.centerY/TILE_H);
+    var columnPar = curMapConst.columnParameters[currentCol];
+    var rowPar = curMapConst.rowParameters[currentRow];
 
     // Note that these arrays are 101 in length because the starting position is also logged.
     var posIndex = curMapVar.moveCount+1;
+    var drawIndex = curMapVar.moveCount;
 
     curMapVar.colPositions[posIndex] = currentCol;
     curMapVar.rowPositions[posIndex] = currentRow;
@@ -45,44 +48,42 @@ function updateInfo(then, someChar) {
     var XYPos = getXY(someChar);
     curMapVar.XPositions[posIndex] = XYPos[0];
     curMapVar.YPositions[posIndex] = XYPos[1];
-    curMapVar.XProbabilities[curMapVar.moveCount] = XYPos[2];
-    curMapVar.YProbabilities[curMapVar.moveCount] = XYPos[3];
-    curMapVar.probTracker[curMapVar.moveCount] = round((XYPos[2] * XYPos[3]), 2);
+    curMapVar.XProbabilities[drawIndex] = XYPos[2];
+    curMapVar.YProbabilities[drawIndex] = XYPos[3];
+    curMapVar.probTracker[drawIndex] = round((XYPos[2] * XYPos[3]), 2);
 
     if (devMode){
         console.log('POS Col, Row: ', currentCol, currentRow);
         console.log('PAR @ Col Pos: ', curMapConst.columnParameters[currentCol]);
         console.log('PAR @ ROW Pos: ', curMapConst.rowParameters[currentRow]);
     }
-    curMapVar.ColPositions[curMapVar.moveCount] = currentCol;
-    curMapVar.RowPositions[curMapVar.moveCount] = currentRow;
-
-    curMapVar.tileGrid = curMapVar.tileGrid.slice();
+    curMapVar.ColPositions[drawIndex] = currentCol;
+    curMapVar.RowPositions[drawIndex] = currentRow;
 
     if (curMapVar.tileGrid[currentRow][currentCol] === 0) {
 
         curMapVar.exploredRow[currentRow] += 1;
         curMapVar.exploredColumn[currentCol] += 1;
-        var getPayoff = checkPayoff(curMapConst.columnParameters[currentCol], curMapConst.rowParameters[currentRow]);
+        var getPayoff = checkPayoff(columnPar, rowPar);
 
-        if (!getPayoff) {
-
-            if (devMode) console.log('NONE');
-            curMapVar.payoffTracker[curMapVar.moveCount] = 0;
-            curMapVar.tileGrid[currentRow][currentCol] = 1;
-        }
-        else if (getPayoff) {
+        if (getPayoff) {
 
             if (devMode) console.log('POTATO');
             experiment.potatoAnim.show();
             !isMobile ? assets.potatoSound.play() : assets.spriteSound.play('potato');
 
-            curMapVar.payoffTracker[curMapVar.moveCount] = 1;
+            curMapVar.payoffTracker[drawIndex] = 1;
             curMapVar.potatoCount += 1;
             curMapVar.payoffCount += curMapVar.potatoPrice;
             curMapVar.tileGrid[currentRow][currentCol] = 3;
             curMapVar.payoffRow[currentRow] += 1;
             curMapVar.payoffColumn[currentCol] += 1;
+        }
+        else {
+
+            if (devMode) console.log('NONE');
+            curMapVar.payoffTracker[drawIndex] = 0;
+            curMapVar.tileGrid[currentRow][currentCol] = 1;
         }
     }
     then();
@@ -94,26 +95,25 @@ function stepCounter(char) {
     'use strict';
     char.animMove = false;
     char.moving = false;
+    timeCounter(); // logging seconds since last tile visited (decision time)
     curMapVar.potatoPrice *= curMapConst.discountFactor;
     curMapVar.movesLeft -=1;
     curMapVar.moveCount +=1;
-    timeCounter(); // logging seconds since last tile visited (decision time)
     if (curMapVar.movesLeft === 0) {
         curMapVar.loadId = setTimeout(function () {nextLevel()}, 1250);
     }
 }
+
 
 // logs seconds passed since last time called
 function timeCounter() {
     "use strict";
     curMapVar.lastTime = curMapVar.nextTime;
     curMapVar.nextTime = getDateTime()[1];
-    // -1 to avoid null in index 0
-    curMapVar.timeTracker[curMapVar.moveCount-1] = round((curMapVar.nextTime - curMapVar.lastTime), 2);
+    curMapVar.timeTracker[curMapVar.moveCount] = round((curMapVar.nextTime - curMapVar.lastTime), 2);
 }
 
 
-// TODO: use full date time
 function buttonTimer(stringButton) {
     "use strict";
     curMapVar.lastTime = curMapVar.nextTime;
