@@ -166,7 +166,7 @@ var assets = new function() {
     };
     if (!isMobile) {
 
-        var numSounds = 8;
+        var numSounds = 7;
         var numSoundsLoaded = 0;
         var soundLoaded = function() {
             numSoundsLoaded++;
@@ -185,11 +185,6 @@ var assets = new function() {
             }
         });
         this.errorSound = new Howl({src: ['audio/error' + audioFormat], volume: 0.6,
-            onload: function() {
-            soundLoaded();
-            }
-        });
-        this.backgroundSound = new Howl({src: ['audio/background' + audioFormat], volume: 0.6, loop: true,
             onload: function() {
             soundLoaded();
             }
@@ -225,7 +220,7 @@ var assets = new function() {
             src: ['audio/audioSprite.mp3'],
             sprite: {
                 walking: [0, 5500, true],
-                potato: [7000, 500],
+                potato: [7000, 1000],
                 error: [8500, 500],
                 finished: [10000, 4000],
                 normalRain: [15000, 10000, true],

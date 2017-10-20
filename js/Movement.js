@@ -30,6 +30,7 @@ function checkPayoff(colPar, rowPar) {
 
 //******************************** UPDATES COLLISION GRID AND LOGGERS AFTER TILE VISITED *******************************
 
+// TODO: delete curmapvar col + row positions after open map phase!
 function updateInfo(then, someChar) {
     'use strict';
     var currentCol = Math.floor(camera.centerX/TILE_W);
@@ -57,8 +58,6 @@ function updateInfo(then, someChar) {
         console.log('PAR @ Col Pos: ', curMapConst.columnParameters[currentCol]);
         console.log('PAR @ ROW Pos: ', curMapConst.rowParameters[currentRow]);
     }
-    curMapVar.ColPositions[drawIndex] = currentCol;
-    curMapVar.RowPositions[drawIndex] = currentRow;
 
     if (curMapVar.tileGrid[currentRow][currentCol] === 0) {
 

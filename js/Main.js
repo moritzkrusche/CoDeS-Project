@@ -194,21 +194,24 @@ function loadLevel(whichLevel) {
     curMapVar.potatoPrice = potPrice;
     curMapConst.discountFactor = whichLevel[13];
 
-    //resetting trackers
+    //resetting counters
     curMapVar.potatoCount = 0;
     curMapVar.moveCount = 0;
-    //not necessary when not using push()
-    curMapVar.RowPositions = [];
-    curMapVar.ColPositions = [];
-    curMapVar.movementTracker = [];
-    curMapVar.payoffTracker = [];
-    curMapVar.timeTracker = [];
 
-    curMapVar.XPositions = [];
-    curMapVar.YPositions = [];
-    curMapVar.XProbabilities = [];
-    curMapVar.YProbabilities = [];
-    curMapVar.probTracker = [];
+    // initialising trackers to length
+    var cols = whichLevel[1].length;
+    var rows = whichLevel[4].length;
+    curMapVar.colPositions = [cols];
+    curMapVar.rowPositions = [rows];
+
+    curMapVar.timeTracker = new Array(moves);
+    curMapVar.movementTracker = new Array(moves);
+    curMapVar.payoffTracker = new Array(moves);
+    curMapVar.XPositions = new Array(moves);
+    curMapVar.YPositions = new Array(moves);
+    curMapVar.XProbabilities = new Array(moves);
+    curMapVar.YProbabilities = new Array(moves);
+    curMapVar.probTracker = new Array(moves);
 
     trackerReset(experiment.farmerChar, experiment.potatoAnim);
 }
@@ -354,7 +357,7 @@ function getMousePayoff() {
     return [mousePayoffX, mousePayoffY];
 }
 
-
+// TODO: put in movement!
 function getXY(char) {
     'use strict';
 
