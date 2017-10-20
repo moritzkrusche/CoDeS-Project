@@ -17,7 +17,18 @@ var camera = new function(){
     };
 };
 
-//RANDOMLY DRAWING PAYOFF BASED ON PARAMETERS
+
+function getXY(char) {
+    'use strict';
+
+    var currentX = round((camera.centerX - char.X)/TILE_W, 0);
+    var currentY = round((camera.centerY - char.Y)/TILE_H, 0) * -1;
+    var probX = round(curMapConst.columnParameters[Math.floor(camera.centerX / TILE_W)], 2);
+    var probY = round(curMapConst.rowParameters[Math.floor(camera.centerY / TILE_H)], 2);
+    return [currentX, currentY, probX, probY]
+}
+
+//RANDOMLY DRAWING FOR PAYOFF BASED ON PARAMETERS
 function checkPayoff(colPar, rowPar) {
     'use strict';
     var draw = round(Math.random(), 2);
@@ -30,28 +41,33 @@ function checkPayoff(colPar, rowPar) {
 
 //******************************** UPDATES COLLISION GRID AND LOGGERS AFTER TILE VISITED *******************************
 
-// TODO: delete curmapvar col + row positions after open map phase!
+
 function updateInfo(then, someChar) {
     'use strict';
     var currentCol = Math.floor(camera.centerX/TILE_W);
     var currentRow = Math.floor(camera.centerY/TILE_H);
     var columnPar = curMapConst.columnParameters[currentCol];
     var rowPar = curMapConst.rowParameters[currentRow];
+    // check payoff and XY positions here
+    var getPayoff = checkPayoff(columnPar, rowPar);
+    var XYPos = getXY(someChar);
 
-    // Note that these arrays are 101 in length because the starting position is also logged.
-    var posIndex = curMapVar.moveCount+1;
+    // Note that these arrays are 101 in length because the starting position is also logged
+    var posIndex = curMapVar.moveCount + 1;
     var drawIndex = curMapVar.moveCount;
 
+    // col/row positions
     curMapVar.colPositions[posIndex] = currentCol;
     curMapVar.rowPositions[posIndex] = currentRow;
 
     // Logging XY Positions
-    var XYPos = getXY(someChar);
     curMapVar.XPositions[posIndex] = XYPos[0];
     curMapVar.YPositions[posIndex] = XYPos[1];
+
     curMapVar.XProbabilities[drawIndex] = XYPos[2];
     curMapVar.YProbabilities[drawIndex] = XYPos[3];
     curMapVar.probTracker[drawIndex] = round((XYPos[2] * XYPos[3]), 2);
+    curMapVar.payoffTracker[drawIndex] = 2; // in case a person walks back on previously visited tiles
 
     if (devMode){
         console.log('POS Col, Row: ', currentCol, currentRow);
@@ -59,11 +75,11 @@ function updateInfo(then, someChar) {
         console.log('PAR @ ROW Pos: ', curMapConst.rowParameters[currentRow]);
     }
 
+    // only allow payoff if not previously visited
     if (curMapVar.tileGrid[currentRow][currentCol] === 0) {
 
         curMapVar.exploredRow[currentRow] += 1;
         curMapVar.exploredColumn[currentCol] += 1;
-        var getPayoff = checkPayoff(columnPar, rowPar);
 
         if (getPayoff) {
 
@@ -71,18 +87,18 @@ function updateInfo(then, someChar) {
             experiment.potatoAnim.show();
             !isMobile ? assets.potatoSound.play() : assets.spriteSound.play('potato');
 
-            curMapVar.payoffTracker[drawIndex] = 1;
+            curMapVar.payoffTracker[drawIndex] = 1; // got a potato
             curMapVar.potatoCount += 1;
             curMapVar.payoffCount += curMapVar.potatoPrice;
-            curMapVar.tileGrid[currentRow][currentCol] = 3;
+            curMapVar.tileGrid[currentRow][currentCol] = 3; // exploited soil with hole
             curMapVar.payoffRow[currentRow] += 1;
             curMapVar.payoffColumn[currentCol] += 1;
         }
         else {
 
             if (devMode) console.log('NONE');
-            curMapVar.payoffTracker[drawIndex] = 0;
-            curMapVar.tileGrid[currentRow][currentCol] = 1;
+            curMapVar.payoffTracker[drawIndex] = 0; // no potato by drawing
+            curMapVar.tileGrid[currentRow][currentCol] = 1; // exploited soil w/o hole
         }
     }
     then();
@@ -96,8 +112,8 @@ function stepCounter(char) {
     char.moving = false;
     timeCounter(); // logging seconds since last tile visited (decision time)
     curMapVar.potatoPrice *= curMapConst.discountFactor;
-    curMapVar.movesLeft -=1;
-    curMapVar.moveCount +=1;
+    curMapVar.movesLeft -= 1;
+    curMapVar.moveCount += 1;
     if (curMapVar.movesLeft === 0) {
         curMapVar.loadId = setTimeout(function () {nextLevel()}, 1250);
     }
