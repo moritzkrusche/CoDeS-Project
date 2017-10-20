@@ -22,12 +22,14 @@ var condition;
 condition = 1;
 loggedData.condition = condition;
 
+/*
 var settings = {
     showInstructions: true,
     playBackgroundSound: false,
     devMode: false
 
 };
+*/
 
 // 5 * new map; 8* test maps
 var experiment = new function(){
@@ -112,6 +114,7 @@ function startGame() {
 	var framesPerSecond = 10;
     loadLevel(experiment.openMaps.map1);
     loggedData.browserIsMobile = isMobile;
+    loggedData.timeZoneDiff = getTimeZone();
 	setInterval(gameLoop, 1000/framesPerSecond);
 }
 
@@ -355,17 +358,6 @@ function getMousePayoff() {
     var mousePayoffX = round(curMapConst.columnParameters[Math.floor(pointerX / TILE_W)], 2);
     var mousePayoffY = round(curMapConst.rowParameters[Math.floor(pointerY / TILE_H)], 2);
     return [mousePayoffX, mousePayoffY];
-}
-
-// TODO: put in movement!
-function getXY(char) {
-    'use strict';
-
-    var currentX = round((camera.centerX - char.X)/TILE_W, 0);
-    var currentY = round((camera.centerY - char.Y)/TILE_H, 0) * -1;
-    var probX = round(curMapConst.columnParameters[Math.floor(camera.centerX / TILE_W)], 2);
-    var probY = round(curMapConst.rowParameters[Math.floor(camera.centerY / TILE_H)], 2);
-    return [currentX, currentY, probX, probY]
 }
 
 

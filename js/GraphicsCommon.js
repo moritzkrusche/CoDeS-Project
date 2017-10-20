@@ -35,6 +35,12 @@ function getDateTime(){
     return [dateTime, secondsTimer];
 }
 
+function getTimeZone() {
+
+    var today = new Date();
+    return ((today.getTimezoneOffset() / 60) * -1);
+}
+
 function round(value, decimals) {
     return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
 }
