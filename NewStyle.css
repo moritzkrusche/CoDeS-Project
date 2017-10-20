@@ -209,7 +209,7 @@ body, .playButton, .continueButton {
     z-index: 3;
 }
 
-.continueButton:hover, .playButton:hover{
+.continueButton:hover{
     background: #525b68;
     text-decoration: none;
 }
