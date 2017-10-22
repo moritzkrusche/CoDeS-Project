@@ -84,6 +84,7 @@ var loggedData = {
     partGender: "",
     startDateTime: "",
     endDateTime: "",
+    timeZoneDiff: "",
     browserIsMobile: false,
     testMapOrder: [],
     // payoffcount gets only added and never overwritten; how much $ part made in the game so far

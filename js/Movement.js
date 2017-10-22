@@ -67,7 +67,7 @@ function updateInfo(then, someChar) {
     curMapVar.XProbabilities[drawIndex] = XYPos[2];
     curMapVar.YProbabilities[drawIndex] = XYPos[3];
     curMapVar.probTracker[drawIndex] = round((XYPos[2] * XYPos[3]), 2);
-    curMapVar.payoffTracker[drawIndex] = 2; // in case a person walks back on previously visited tiles
+    curMapVar.payoffTracker[drawIndex] = 0; // also in case a person walks back on previously visited tiles
 
     if (devMode){
         console.log('POS Col, Row: ', currentCol, currentRow);
@@ -97,7 +97,7 @@ function updateInfo(then, someChar) {
         else {
 
             if (devMode) console.log('NONE');
-            curMapVar.payoffTracker[drawIndex] = 0; // no potato by drawing
+            // curMapVar.payoffTracker[drawIndex] = 0; // put earlier in code to avoid null bug when going back
             curMapVar.tileGrid[currentRow][currentCol] = 1; // exploited soil w/o hole
         }
     }
