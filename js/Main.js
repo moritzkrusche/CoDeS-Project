@@ -65,7 +65,7 @@ var experiment = new function(){
     }
     this.openMaps = mergeLevels(that.openLevelKeys, that.openLevel1, that.openLevel2, that.openLevel3, that.openLevel4,
         that.openLevel5);
-    this.farmerChar = new CharClass(assets.charSprite, 240, 360, 4, 4, 0.6 * TILE_W, 0.9 * TILE_H);
+    this.farmerChar = new CharClass(assets.charSprite, 1920, 320, 4, 16, 1.2 * TILE_W, 0.8 * TILE_H);
     this.potatoAnim = new AnimationClass(assets.potato, 0.5 * TILE_W, 0.32 * TILE_H)
 };
 
@@ -111,7 +111,7 @@ function trackerReset(char, obj) {
 
 function startGame() {
     'use strict';
-	var framesPerSecond = 10;
+	var framesPerSecond = 20;
     loadLevel(experiment.openMaps.map1);
     loggedData.browserIsMobile = isMobile;
     loggedData.timeZoneDiff = getTimeZone();
@@ -400,7 +400,7 @@ function gameLoop() {
     var centreX = CANVAS_W/2 +camera.panX;
     var centreY = CANVAS_H/2 +camera.panY;
     experiment.farmerChar.drawSprite(centreX - 30, centreY - 35);
-    experiment.potatoAnim.animate(centreX, centreY);
+    experiment.potatoAnim.animate(centreX, centreY - 60);
 
     ctx.restore(); // undoes the .translate()
     drawUI(experiment.farmerChar); // UI on top

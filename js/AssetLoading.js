@@ -140,7 +140,7 @@ var assets = new function() {
     };
 
     // Set images src
-    this.charSprite.src = 'images/farmerSprite240px.png';
+    this.charSprite.src = 'images/farmerSprite320px.png';
     this.potato.src = 'images/potato50px.png';
     this.uiPic.src = 'images/uiPanel.png';
     this.soilSheetPic.src = 'images/soilSheet100px.png';

@@ -57,9 +57,9 @@ function CharClass(spritePic, sheetWidth, sheetHeight, rows, cols, width, height
     this.drawSprite = function(atX, atY) {
         this.updateFrame(this.currentDirection, 50);
         if (!this.moving) {
-            curFrame = 0;
+            curFrame = this.sheetCols-1;
         }
-        canvas.gameContext.drawImage(spritePic, this.col, this.row, spriteWidth, spriteHeight, atX, atY, width, height);
+        canvas.gameContext.drawImage(spritePic, this.col, this.row, spriteWidth, spriteHeight, atX-65, atY-10, width, height);
     };
 }
 
@@ -134,7 +134,7 @@ function AnimationClass(animPic, width, height) {
                 var animPos1 = 0;
 
                 var frameAnim1 = function() {
-                    if (animPos1 > 310) {
+                    if (animPos1 > 250) {
                         clearInterval(animId1);
                         animObj1 = false;
                     }
@@ -152,7 +152,7 @@ function AnimationClass(animPic, width, height) {
                 var animPos2 = 0;
 
                 var frameAnim2 = function() {
-                    if (animPos2 > 330) {
+                    if (animPos2 > 270) {
                         clearInterval(animId2);
                         animObj2 = false;
                     }
@@ -170,7 +170,7 @@ function AnimationClass(animPic, width, height) {
                 var animPos3 = 0;
 
                 var frameAnim3 = function() {
-                    if (animPos3 > 320) {
+                    if (animPos3 > 260) {
                         clearInterval(animId3);
                         animObj3 = false;
                     }
