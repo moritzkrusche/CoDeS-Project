@@ -37,17 +37,18 @@ var experiment = new function(){
 
     // start at zero for array index 'levelKeys'
     this.currentOpenLevel = 0;
-    this.maxOpenLevels = 4;
+    this.maxOpenLevels = 5;
     this.currentTestLevel = 0;
     this.maxTestLevels = 7;
     this.testPhase = false;
 
     var that = this;
-    that.openLevelKeys = ['map1', 'map2', 'map3', 'map4', 'map5', 'map6', 'map7', 'map8'];
-    that.testLevelKeys = shuffleArray(that.openLevelKeys.slice());
+    that.openLevelKeys = ['map0', 'map1', 'map2', 'map3', 'map4', 'map5'];
+    that.testLevelKeys = shuffleArray(['map1', 'map2', 'map3', 'map4', 'map5', 'map6', 'map7', 'map8']);
     loggedData.testMapOrder = that.testLevelKeys;
 
     if (condition === 1 || condition === 2){
+        that.openLevel0 = new OpenLevelClass(30, 30, 10, 1, 2, 2, 1, 0.02, 0.985);
         that.openLevel1 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.02, 0.985);
         that.openLevel2 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.02, 0.985);
         that.openLevel3 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.02, 0.985);
@@ -55,6 +56,7 @@ var experiment = new function(){
         that.openLevel5 = new OpenLevelClass(210, 210, 100, 1, 2, 2, 1, 0.02, 0.985);
     }
     else if  (condition === 3 || condition === 4){
+        that.openLevel0 = new OpenLevelClass(30, 30, 10, 1, 2, 2, 1, 0.02, 0.985);
         that.openLevel1 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.02, 0.985);
         that.openLevel2 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.02, 0.985);
         that.openLevel3 = new OpenLevelClass(210, 210, 100, 0.5, 0.5, 0.5, 0.5, 0.02, 0.985);
@@ -63,8 +65,8 @@ var experiment = new function(){
     } else {
         alert("WARNING: COULD NOT ASSIGN CONDITION!")
     }
-    this.openMaps = mergeLevels(that.openLevelKeys, that.openLevel1, that.openLevel2, that.openLevel3, that.openLevel4,
-        that.openLevel5);
+    this.openMaps = mergeLevels(that.openLevelKeys, that.openLevel0, that.openLevel1, that.openLevel2, that.openLevel3,
+        that.openLevel4, that.openLevel5);
     this.farmerChar = new CharClass(assets.charSprite, 1920, 320, 4, 16, 1.2 * TILE_W, 0.8 * TILE_H);
     this.potatoAnim = new AnimationClass(assets.potato, 0.5 * TILE_W, 0.32 * TILE_H)
 };
@@ -112,7 +114,7 @@ function trackerReset(char, obj) {
 function startGame() {
     'use strict';
 	var framesPerSecond = 20;
-    loadLevel(experiment.openMaps.map1);
+    loadLevel(experiment.openMaps.map0);
     loggedData.browserIsMobile = isMobile;
     loggedData.timeZoneDiff = getTimeZone();
 	setInterval(gameLoop, 1000/framesPerSecond);

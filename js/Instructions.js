@@ -210,11 +210,15 @@ var instructions = new function() {
                 // text
                 exampleScreen.clear();
                 boxScreen.showText("As you can see, most of the plots around you are greyed out, because you have " +
-                    "not explored the area yet.");
+                    "not explored the area yet."); // move here
                 break;
 
             case 11:
                 // text
+                curMapVar.potatoCount = 0;
+                curMapVar.payoffCount = 0;
+                loadLevel(experiment.openMaps.map1);
+                experiment.currentOpenLevel =+ 1;
                 exampleScreen.highlightCenterCol();
                 if (condition === 1 || condition === 3){
                     boxScreen.showText("Every time that you move within a given column, you obtain more information " +
@@ -457,7 +461,7 @@ var nextOpenLevel = new function () {
     this.show = function() {
 
         var index = this.index;
-        var curLevel = experiment.currentOpenLevel+1;
+        var curLevel = experiment.currentOpenLevel; //+1;
         var maxLevel = experiment.maxOpenLevels+1;
 
         switch (index) {

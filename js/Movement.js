@@ -48,8 +48,6 @@ function updateInfo(then, someChar) {
     var currentRow = Math.floor(camera.centerY/TILE_H);
     var columnPar = curMapConst.columnParameters[currentCol];
     var rowPar = curMapConst.rowParameters[currentRow];
-    // check payoff and XY positions here
-    var getPayoff = checkPayoff(columnPar, rowPar);
     var XYPos = getXY(someChar);
 
     // Note that these arrays are 101 in length because the starting position is also logged
@@ -74,10 +72,10 @@ function updateInfo(then, someChar) {
         console.log('PAR @ Col Pos: ', curMapConst.columnParameters[currentCol]);
         console.log('PAR @ ROW Pos: ', curMapConst.rowParameters[currentRow]);
     }
-
     // only allow payoff if not previously visited
     if (curMapVar.tileGrid[currentRow][currentCol] === 0) {
 
+        var getPayoff = checkPayoff(columnPar, rowPar);
         curMapVar.exploredRow[currentRow] += 1;
         curMapVar.exploredColumn[currentCol] += 1;
 

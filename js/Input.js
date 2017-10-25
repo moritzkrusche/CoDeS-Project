@@ -165,8 +165,9 @@ htmlPage.debriefForm.addEventListener('submit', function(evt) {
     canvasText(canvas.boxContext, 'Many thanks for your feedback!',30 , 600, '#DAA520');
 });
 
-function buttonNext() {
+function buttonNext(e) {
     "use strict";
+    e.preventDefault();
     buttonTimer('next');
 
     if (!experiment.testPhase){
@@ -190,8 +191,9 @@ function buttonNext() {
     }
 }
 
-function buttonBack() {
+function buttonBack(e) {
     "use strict";
+    e.preventDefault();
     buttonTimer('back');
 
     if (!experiment.testPhase){
@@ -210,8 +212,9 @@ function buttonBack() {
     htmlPage.nextButton.style.display = 'block';
 }
 
-function buttonStartLevel(){
+function buttonStartLevel(e){
     "use strict";
+    e.preventDefault();
     buttonTimer('start');
 
     boxScreen.hideAll();
@@ -240,8 +243,9 @@ function buttonStartLevel(){
     */
 }
 
-function buttonGoProlific(){
+function buttonGoProlific(e){
     "use strict";
+    e.preventDefault();
     window.open('https://www.prolific.ac/submissions/complete/demo?','_blank');
     document.getElementById('goProlific').style.display = 'none';
     canvas.boxContext.font = 'italic 22pt "COMIC SANS MS"';
