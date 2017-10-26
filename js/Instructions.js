@@ -2,7 +2,7 @@
 
 //******************************** INSTRUCTIONS PAGE *******************************************************************
 
-var htmlPage = {
+let htmlPage = {
     demoForm: document.getElementById('demographics'),
     demoBox: document.getElementById('demoBox'),
     gameBox: document.getElementById('gameBox'),
@@ -15,7 +15,7 @@ var htmlPage = {
     prolificButton: document.getElementById('goProlific')
 };
 
-var rainEffects = {
+let rainEffects = {
     normal: new rainAnimationClass(1),
     strong: new rainAnimationClass(5),
     strongest: new rainAnimationClass(15)
@@ -23,7 +23,7 @@ var rainEffects = {
 
 //******************************** SHOWS TWO SIZES OF POP-UP SCREENS FOR INSTRUCTIONS **********************************
 
-var boxScreen = new function() {
+let boxScreen = new function() {
     "use strict";
 
     this.wrapText = function(text, x, y, maxWidth, lineHeight, font, color) {
@@ -32,13 +32,13 @@ var boxScreen = new function() {
         color = color || '#DAA520';
         canvas.boxContext.font = font;
         canvas.boxContext.fillStyle = color;
-        var words = text.split(' ');
-        var line = '';
+        let words = text.split(' ');
+        let line = '';
 
-        for(var n = 0; n < words.length; n++) {
-            var testLine = line + words[n] + ' ';
-            var metrics = canvas.boxContext.measureText(testLine);
-            var testWidth = Math.floor(metrics.width);
+        for(let n = 0; n < words.length; n++) {
+            let testLine = line + words[n] + ' ';
+            let metrics = canvas.boxContext.measureText(testLine);
+            let testWidth = Math.floor(metrics.width);
             if (testWidth > maxWidth && n > 0) {
                 canvas.boxContext.fillText(line, x, y);
                 line = words[n] + ' ';
@@ -74,18 +74,18 @@ function showDebriefPage(){
     canvas.boxContext.font = '24pt "Helvetica Neue"';
     canvasText(canvas.boxContext, 'Debriefing',30 , 50, '#DAA520');
 
-    var payTotal = round(curMapVar.payoffCount, 2);
-    var bonus = round((payTotal - 2),2);
+    let payTotal = round(curMapVar.payoffCount, 2);
+    let bonus = round((payTotal - 2),2);
     if (bonus <= 0) {
         payTotal = 2;
         bonus = 0;
     }
-    var timeTotal = round((loggedData.endDateTime[1] - loggedData.startDateTime[1])/60, 2);
-    var textPay = 'Congratulations, you have reached the end of this experiment. You have earned £' + payTotal +
+    let timeTotal = round((loggedData.endDateTime[1] - loggedData.startDateTime[1])/60, 2);
+    let textPay = 'Congratulations, you have reached the end of this experiment. You have earned £' + payTotal +
         ' in ' + timeTotal + ' minutes.';
-    var textProcedure = 'You will be paid the minimum amount of £2 for completing the study plus your bonus of £' +
+    let textProcedure = 'You will be paid the minimum amount of £2 for completing the study plus your bonus of £' +
         bonus + ' within one week.';
-    var textDone = 'IMPORTANT: click on the button below to prove that you have completed the study. This will ' +
+    let textDone = 'IMPORTANT: click on the button below to prove that you have completed the study. This will ' +
         'open a new tab.';
 
     boxScreen.wrapText(textPay, 30, 120, 640, 30);
@@ -95,7 +95,7 @@ function showDebriefPage(){
 
 //******************************** INITIAL INSTRUCTIONS AT START *******************************************************
 
-var instructions = new function() {
+let instructions = new function() {
     "use strict";
 
     this.index = 0;
@@ -103,8 +103,8 @@ var instructions = new function() {
 
     this.show = function(){
 
-        var index = this.index;
-        var maxLevel = experiment.maxOpenLevels+1;
+        let index = this.index;
+        let maxLevel = experiment.maxOpenLevels; //+1;
         switch (index) {
 
             case 0:
@@ -331,6 +331,14 @@ var instructions = new function() {
                 break;
 
             case 25:
+                // first tut then comprehension question?
+
+                // plugin comprehension questions here
+
+
+                // potato prime after comprehension questions
+
+
                 // level start text
                 exampleScreen.clear();
                 boxScreen.showText('This is large level 1 out of ' + maxLevel +
@@ -349,7 +357,7 @@ var instructions = new function() {
 
 //******************************** INSTRUCTIONS AT FIRST TEST LEVEL ****************************************************
 
-var testInstructions = new function () {
+let testInstructions = new function () {
     "use strict";
 
     this.index = 0;
@@ -357,8 +365,8 @@ var testInstructions = new function () {
 
     this.show = function() {
 
-        var index = this.index;
-        var maxLevel = experiment.maxTestLevels+1;
+        let index = this.index;
+        let maxLevel = experiment.maxTestLevels+1;
 
         switch (index) {
 
@@ -454,15 +462,15 @@ var testInstructions = new function () {
 
 //******************************** INSTRUCTIONS NEXT OPEN LEVEL ********************************************************
 
-var nextOpenLevel = new function () {
+let nextOpenLevel = new function () {
     this.index = 0;
     this.maxIndex = 1;
 
     this.show = function() {
 
-        var index = this.index;
-        var curLevel = experiment.currentOpenLevel; //+1;
-        var maxLevel = experiment.maxOpenLevels+1;
+        let index = this.index;
+        let curLevel = experiment.currentOpenLevel; //+1;
+        let maxLevel = experiment.maxOpenLevels+1;
 
         switch (index) {
 
@@ -493,15 +501,15 @@ var nextOpenLevel = new function () {
 
 //******************************** INSTRUCTIONS NEXT TEST LEVEL ********************************************************
 
-var nextTestLevel = new function () {
+let nextTestLevel = new function () {
     this.index = 0;
     this.maxIndex = 1;
 
     this.show = function() {
 
-        var index = this.index;
-        var curLevel = experiment.currentTestLevel+1;
-        var maxLevel = experiment.maxTestLevels+1;
+        let index = this.index;
+        let curLevel = experiment.currentTestLevel+1;
+        let maxLevel = experiment.maxTestLevels+1;
         switch (index) {
 
             case 0:
@@ -537,11 +545,11 @@ var nextTestLevel = new function () {
 function showExampleTiles(whichTiles){
     "use strict";
 
-    var redWidth = TILE_W*0.8;
-    var redHeight = TILE_H*0.8;
-    var redColHeight = TILE_H*0.8*5;
+    let redWidth = TILE_W*0.8;
+    let redHeight = TILE_H*0.8;
+    let redColHeight = TILE_H*0.8*5;
 
-    var ctx = canvas.boxContext;
+    let ctx = canvas.boxContext;
     ctx.font = '18pt "Helvetica Neue"';
 
     switch (whichTiles){
@@ -622,9 +630,9 @@ function showExampleTiles(whichTiles){
 
 //******************************** HIGHLIGHTING UI AREAS WITH BOXES AND ARROWS *****************************************
 
-var exampleScreen = new function(){
+let exampleScreen = new function(){
     "use strict";
-    var ctx = canvas.infoContext;
+    let ctx = canvas.infoContext;
 
     this.clear = function(){
         ctx.clearRect(0,0, CANVAS_W,CANVAS_H+uiHeight);

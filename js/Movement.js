@@ -2,12 +2,12 @@
 //******************************** MOVEMENT HANDLING & UPDATING ********************************************************
 
 // CAMERA OBJECT USED FOR DRAWING CURRENT TILES AND MOVEMENT
-var camera = new function(){
+let camera = new function(){
     'use strict';
     this.centerX = 0;
     this.centerY = 0;
-    var camPanX = 0;
-    var	camPanY = 0;
+    let camPanX = 0;
+    let	camPanY = 0;
 
     this.instantFollow =  function () {
         camPanX = this.centerX - CANVAS_W/2;
@@ -21,18 +21,18 @@ var camera = new function(){
 function getXY(char) {
     'use strict';
 
-    var currentX = round((camera.centerX - char.X)/TILE_W, 0);
-    var currentY = round((camera.centerY - char.Y)/TILE_H, 0) * -1;
-    var probX = round(curMapConst.columnParameters[Math.floor(camera.centerX / TILE_W)], 2);
-    var probY = round(curMapConst.rowParameters[Math.floor(camera.centerY / TILE_H)], 2);
+    let currentX = round((camera.centerX - char.X)/TILE_W, 0);
+    let currentY = round((camera.centerY - char.Y)/TILE_H, 0) * -1;
+    let probX = round(curMapConst.columnParameters[Math.floor(camera.centerX / TILE_W)], 2);
+    let probY = round(curMapConst.rowParameters[Math.floor(camera.centerY / TILE_H)], 2);
     return [currentX, currentY, probX, probY]
 }
 
 //RANDOMLY DRAWING FOR PAYOFF BASED ON PARAMETERS
 function checkPayoff(colPar, rowPar) {
     'use strict';
-    var draw = round(Math.random(), 2);
-    var check = round((colPar * rowPar), 2);
+    let draw = round(Math.random(), 2);
+    let check = round((colPar * rowPar), 2);
     if (devMode){
         console.log('CHECK', check, 'DRAW', draw);
     }
@@ -44,15 +44,15 @@ function checkPayoff(colPar, rowPar) {
 
 function updateInfo(then, someChar) {
     'use strict';
-    var currentCol = Math.floor(camera.centerX/TILE_W);
-    var currentRow = Math.floor(camera.centerY/TILE_H);
-    var columnPar = curMapConst.columnParameters[currentCol];
-    var rowPar = curMapConst.rowParameters[currentRow];
-    var XYPos = getXY(someChar);
+    let currentCol = Math.floor(camera.centerX/TILE_W);
+    let currentRow = Math.floor(camera.centerY/TILE_H);
+    let columnPar = curMapConst.columnParameters[currentCol];
+    let rowPar = curMapConst.rowParameters[currentRow];
+    let XYPos = getXY(someChar);
 
     // Note that these arrays are 101 in length because the starting position is also logged
-    var posIndex = curMapVar.moveCount + 1;
-    var drawIndex = curMapVar.moveCount;
+    let posIndex = curMapVar.moveCount + 1;
+    let drawIndex = curMapVar.moveCount;
 
     // col/row positions
     curMapVar.colPositions[posIndex] = currentCol;
@@ -65,7 +65,7 @@ function updateInfo(then, someChar) {
     curMapVar.XProbabilities[drawIndex] = XYPos[2];
     curMapVar.YProbabilities[drawIndex] = XYPos[3];
     curMapVar.probTracker[drawIndex] = round((XYPos[2] * XYPos[3]), 2);
-    curMapVar.payoffTracker[drawIndex] = 0; // also in case a person walks back on previously visited tiles
+    curMapVar.payoffTracker[drawIndex] = 99; // in case a person walks back on previously visited tiles
 
     if (devMode){
         console.log('POS Col, Row: ', currentCol, currentRow);
@@ -75,7 +75,7 @@ function updateInfo(then, someChar) {
     // only allow payoff if not previously visited
     if (curMapVar.tileGrid[currentRow][currentCol] === 0) {
 
-        var getPayoff = checkPayoff(columnPar, rowPar);
+        let getPayoff = checkPayoff(columnPar, rowPar);
         curMapVar.exploredRow[currentRow] += 1;
         curMapVar.exploredColumn[currentCol] += 1;
 
@@ -95,7 +95,7 @@ function updateInfo(then, someChar) {
         else {
 
             if (devMode) console.log('NONE');
-            // curMapVar.payoffTracker[drawIndex] = 0; // put earlier in code to avoid null bug when going back
+            curMapVar.payoffTracker[drawIndex] = 0; // put earlier in code to avoid null bug when going back
             curMapVar.tileGrid[currentRow][currentCol] = 1; // exploited soil w/o hole
         }
     }
@@ -139,11 +139,11 @@ function buttonTimer(stringButton) {
 
 function checkCollision(atTrackerX, atTrackerY) {
     'use strict';
-    var someX = Math.floor(atTrackerX/TILE_W);
-    var someY = Math.floor(atTrackerY/TILE_H);
+    let someX = Math.floor(atTrackerX/TILE_W);
+    let someY = Math.floor(atTrackerY/TILE_H);
 
     curMapVar.tileGrid = curMapVar.tileGrid.slice();
-    var nextPos = curMapVar.tileGrid[someY][someX];
+    let nextPos = curMapVar.tileGrid[someY][someX];
 
     if (nextPos >= 5) {
 
@@ -151,7 +151,7 @@ function checkCollision(atTrackerX, atTrackerY) {
         if (nextPos === 5){
             curMapVar.tileGrid[someY][someX] = 6;
 
-            var resetTile = function() {
+            let resetTile = function() {
                 curMapVar.tileGrid[someY][someX] = 5;
             };
             setTimeout(resetTile, 750);
@@ -183,11 +183,12 @@ function checkCollision(atTrackerX, atTrackerY) {
 
 function trackerMove(char) {
     'use strict';
-    var nextX = camera.centerX;
-    var nextY = camera.centerY;
+    let nextX = camera.centerX;
+    let nextY = camera.centerY;
 
-    var directionX = 0;
-    var directionY = 0;
+    let directionX = 0;
+    let directionY = 0;
+    let moveId;
 
     if (!char.moving && curMapVar.movesLeft > 0) {
 
@@ -253,9 +254,9 @@ function trackerMove(char) {
             }
         }
         char.animMove = true;
-        var stepsMoved = 0;
+        let stepsMoved = 0;
 
-        var frameMove = function () {
+        let frameMove = function () {
             if (stepsMoved === 100) {
                 clearInterval(moveId);
                 updateInfo(stepCounter.bind(this,char), char);
@@ -278,7 +279,7 @@ function trackerMove(char) {
                 stepsMoved += 5;
             }
         };
-        var moveId = setInterval(frameMove, 30);
+        moveId = setInterval(frameMove, 30);
     }
 }
 

@@ -1,7 +1,7 @@
 
 //******************************** INPUT BUTTONS & KEYS ****************************************************************
 
-var userInputStatus = {
+let userInputStatus = {
     holdLeft: false,
     holdRight: false,
     holdUp: false,
@@ -36,8 +36,8 @@ function initInput() {
     document.getElementById('pbDown').addEventListener('touchend', buttonFalse);
 
     if (isMobile) {
-        var buttons = document.getElementsByClassName('playButton');
-        for (var i=0; i<buttons.length; i++){
+        let buttons = document.getElementsByClassName('playButton');
+        for (let i=0; i<buttons.length; i++){
             buttons[i].style.visibility = 'visible'
         }
     }
@@ -61,8 +61,8 @@ function killInput(){
     document.getElementById('pbDown').removeEventListener('touchend', buttonFalse);
 
     if (isMobile) {
-        var buttons = document.getElementsByClassName('playButton');
-        for (var i=0; i<buttons.length; i++){
+        let buttons = document.getElementsByClassName('playButton');
+        for (let i=0; i<buttons.length; i++){
             buttons[i].style.visibility = 'hidden'
         }
     }
@@ -70,8 +70,8 @@ function killInput(){
 
 function updateMousePos(evt) {
     'use strict';
-    var rect = canvas.info.getBoundingClientRect();
-    var root = document.documentElement;
+    let rect = canvas.info.getBoundingClientRect();
+    let root = document.documentElement;
 
     userInputStatus.mousePosX = evt.clientX - rect.left - root.scrollLeft;
     userInputStatus.mousePosY = evt.clientY - rect.top - root.scrollTop;
@@ -137,7 +137,7 @@ function buttonFalse() {
 
 htmlPage.demoForm.addEventListener('submit', function(evt) {
     evt.preventDefault();
-    var form = htmlPage.demoForm;
+    let form = htmlPage.demoForm;
     loggedData.prolificId = form.prolificId.value;
     loggedData.partAge = form.age.value;
     loggedData.partGender = form.gender.value;
@@ -156,7 +156,7 @@ htmlPage.demoForm.addEventListener('submit', function(evt) {
 
 htmlPage.debriefForm.addEventListener('submit', function(evt) {
     evt.preventDefault();
-    var form = htmlPage.debriefForm;
+    let form = htmlPage.debriefForm;
     database.ref('feedback').push(form.comment.value); // send feedback to separate database for anonymity
 
     document.getElementById('debriefButton').style.display = 'none';
@@ -170,7 +170,7 @@ function buttonNext() {
     buttonTimer('next');
 
     if (!experiment.testPhase){
-        if (experiment.currentOpenLevel === 0 && instructions.index < instructions.maxIndex){
+        if (experiment.currentOpenLevel <= 1 && instructions.index < instructions.maxIndex){
             instructions.index++;
             instructions.show()
         }

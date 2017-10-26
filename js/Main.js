@@ -2,8 +2,8 @@
 //******************************** MAIN: GAME CREATION, LEVELS AND LOOP ************************************************
 
 // when testing the programme, we can use a cheat mode
-var devMode = false;
-var condition;
+let devMode = false;
+let condition;
 
 // These 4 conditions are tested:
 // 1: "1221/soilCol" -> alpha, beta parameters (1,2) for cols & (2,1) for rows; soil for col exploration
@@ -23,7 +23,7 @@ condition = 1;
 loggedData.condition = condition;
 
 /*
-var settings = {
+let settings = {
     showInstructions: true,
     playBackgroundSound: false,
     devMode: false
@@ -32,7 +32,7 @@ var settings = {
 */
 
 // 5 * new map; 8* test maps
-var experiment = new function(){
+let experiment = new function(){
     'use strict';
 
     // start at zero for array index 'levelKeys'
@@ -42,7 +42,7 @@ var experiment = new function(){
     this.maxTestLevels = 7;
     this.testPhase = false;
 
-    var that = this;
+    let that = this;
     that.openLevelKeys = ['map0', 'map1', 'map2', 'map3', 'map4', 'map5'];
     that.testLevelKeys = shuffleArray(['map1', 'map2', 'map3', 'map4', 'map5', 'map6', 'map7', 'map8']);
     loggedData.testMapOrder = that.testLevelKeys;
@@ -75,8 +75,8 @@ var experiment = new function(){
 function getStartPos() {
     'use strict';
     // add + 1 because array index starts at 0
-    var startCol = Math.floor(curMapVar.tileGrid[0].length/2)+1;
-    var startRow = Math.floor(curMapVar.tileGrid.length/2)+1;
+    let startCol = Math.floor(curMapVar.tileGrid[0].length/2)+1;
+    let startRow = Math.floor(curMapVar.tileGrid.length/2)+1;
 	return [startCol, startRow];
 }
 
@@ -93,8 +93,8 @@ function trackerReset(char, obj) {
     obj.animate(char.X, char.Y);
 
     // update tile and row/col info at starting position
-    var currentCol = Math.floor(camera.centerX/TILE_W);
-    var currentRow = Math.floor(camera.centerY/TILE_H);
+    let currentCol = Math.floor(camera.centerX/TILE_W);
+    let currentRow = Math.floor(camera.centerY/TILE_H);
     curMapVar.tileGrid[currentRow][currentCol] = 1;
     curMapVar.exploredRow[currentRow] += 1;
     curMapVar.exploredColumn[currentCol] += 1;
@@ -102,7 +102,7 @@ function trackerReset(char, obj) {
     // Logging starting positions
     curMapVar.colPositions[0] = currentCol;
     curMapVar.rowPositions[0] = currentRow;
-    var XYPos = getXY(char);
+    let XYPos = getXY(char);
     curMapVar.XPositions[0] = XYPos[0];
     curMapVar.YPositions[0] = XYPos[1];
 
@@ -113,14 +113,14 @@ function trackerReset(char, obj) {
 
 function startGame() {
     'use strict';
-	var framesPerSecond = 20;
+	let framesPerSecond = 20;
     loadLevel(experiment.openMaps.map0);
     loggedData.browserIsMobile = isMobile;
     loggedData.timeZoneDiff = getTimeZone();
 	setInterval(gameLoop, 1000/framesPerSecond);
 }
 
-// logging all variable level-like information at the end of each level; sending to firebase at the end
+// logging all letiable level-like information at the end of each level; sending to firebase at the end
 function logData(lvlKey){
     'use strict';
     loggedData.allStartTimes[lvlKey] = curMapVar.startMapTime;
@@ -155,8 +155,8 @@ function logData(lvlKey){
 
 function getLogLevelKey(){
     "use strict";
-    var curLevel = NaN;
-    var logLevelKey = NaN;
+    let curLevel = NaN;
+    let logLevelKey = NaN;
 
     if (experiment.currentTestLevel > 0){
         // increment by one for readability;
@@ -186,7 +186,7 @@ function loadLevel(whichLevel) {
     curMapVar.payoffRow = whichLevel[5].slice();
     curMapVar.exploredRow = whichLevel[6].slice();
 
-    var moves = whichLevel[7];
+    let moves = whichLevel[7];
     curMapConst.maxMoves = moves;
     curMapVar.movesLeft = moves;
     curMapConst.alpha1 = whichLevel[8];
@@ -194,7 +194,7 @@ function loadLevel(whichLevel) {
     curMapConst.alpha2 = whichLevel[10];
     curMapConst.beta2 = whichLevel[11];
 
-    var potPrice = whichLevel[12];
+    let potPrice = whichLevel[12];
     curMapConst.potatoPrice = potPrice;
     curMapVar.potatoPrice = potPrice;
     curMapConst.discountFactor = whichLevel[13];
@@ -204,8 +204,8 @@ function loadLevel(whichLevel) {
     curMapVar.moveCount = 0;
 
     // initialising trackers to length
-    var cols = whichLevel[1].length;
-    var rows = whichLevel[4].length;
+    let cols = whichLevel[1].length;
+    let rows = whichLevel[4].length;
     curMapVar.colPositions = [cols];
     curMapVar.rowPositions = [rows];
 
@@ -233,9 +233,9 @@ function nextLevel() {
     'use strict';
     curMapVar.endMapTime = getDateTime()[0]; // seconds when level ends
 
-    var e = experiment;
+    let e = experiment;
     // This key is for the old level, not the new one
-    var logLevelKey = NaN;
+    let logLevelKey = NaN;
     canvas.infoContext.clearRect(0,0, CANVAS_W,CANVAS_H+uiHeight);
 
     if (!e.testPhase){
@@ -250,7 +250,7 @@ function nextLevel() {
         }
         else {
             killInput();
-            var openLevelKey = e.openLevelKeys[e.currentOpenLevel];
+            let openLevelKey = e.openLevelKeys[e.currentOpenLevel];
             logLevelKey = getLogLevelKey();
             logData(logLevelKey);
             sendUpdateData();
@@ -270,7 +270,7 @@ function nextLevel() {
         }
         else {
             killInput();
-            var testLevelKey = e.testLevelKeys[e.currentTestLevel];
+            let testLevelKey = e.testLevelKeys[e.currentTestLevel];
             logLevelKey = getLogLevelKey();
             logData(logLevelKey);
             sendUpdateData();
@@ -283,13 +283,13 @@ function nextLevel() {
 
 function sendFirstData(){
     "use strict";
-    var userId = 'gameData' + '/' + loggedData.prolificId + '|' + loggedData.startDateTime[0];
+    let userId = 'gameData' + '/' + loggedData.prolificId + '|' + loggedData.startDateTime[0];
     database.ref(userId).set(loggedData);
 }
 
 function sendUpdateData(){
     "use strict";
-    var userId = 'gameData' + '/' + loggedData.prolificId + '|' + loggedData.startDateTime[0];
+    let userId = 'gameData' + '/' + loggedData.prolificId + '|' + loggedData.startDateTime[0];
     database.ref(userId).update(loggedData);
 
 }
@@ -297,7 +297,7 @@ function sendUpdateData(){
 
 function sendAllData(){
     "use strict";
-    var textSendingData = 'Sending data to database. This may take a few moments. ' +
+    let textSendingData = 'Sending data to database. This may take a few moments. ' +
         'Check your internet connection and DO NOT CLOSE THE GAME! ' +
         'As soon as all data is sent, this page will update.';
     htmlPage.fullBox.style.display = 'block';
@@ -319,13 +319,13 @@ function sendAllData(){
 
 function drawUI(char){
     'use strict';
-    var ctx = canvas.uiContext;
+    let ctx = canvas.uiContext;
 
-    var currentX = round((camera.centerX - char.X)/TILE_W, 0);
-    var currentY = round((camera.centerY - char.Y)/TILE_H, 0) * -1;
-    var propMovesLeft = curMapVar.movesLeft/curMapConst.maxMoves;
-    var movesLeft = Math.round(propMovesLeft * curMapConst.maxMoves);
-    var propPotatoPrice = curMapVar.potatoPrice/curMapConst.potatoPrice;
+    let currentX = round((camera.centerX - char.X)/TILE_W, 0);
+    let currentY = round((camera.centerY - char.Y)/TILE_H, 0) * -1;
+    let propMovesLeft = curMapVar.movesLeft/curMapConst.maxMoves;
+    let movesLeft = Math.round(propMovesLeft * curMapConst.maxMoves);
+    let propPotatoPrice = curMapVar.potatoPrice/curMapConst.potatoPrice;
 
     ctx.clearRect(0,0,CANVAS_W,100); //clear for transparent rect
     ctx.globalAlpha = 0.6;
@@ -355,10 +355,10 @@ function drawUI(char){
 function getMousePayoff() {
     'use strict';
 
-    var pointerX = (camera.centerX - 350 + userInputStatus.mousePosX);
-    var pointerY = (camera.centerY - 400 + userInputStatus.mousePosY);
-    var mousePayoffX = round(curMapConst.columnParameters[Math.floor(pointerX / TILE_W)], 2);
-    var mousePayoffY = round(curMapConst.rowParameters[Math.floor(pointerY / TILE_H)], 2);
+    let pointerX = (camera.centerX - 350 + userInputStatus.mousePosX);
+    let pointerY = (camera.centerY - 400 + userInputStatus.mousePosY);
+    let mousePayoffX = round(curMapConst.columnParameters[Math.floor(pointerX / TILE_W)], 2);
+    let mousePayoffY = round(curMapConst.rowParameters[Math.floor(pointerY / TILE_H)], 2);
     return [mousePayoffX, mousePayoffY];
 }
 
@@ -380,7 +380,8 @@ function showCheats(probs){
 
 function gameLoop() {
     'use strict';
-    var ctx = canvas.gameContext;
+    let ctx = canvas.gameContext;
+    let payoff;
 
     // move pointer and follow with camera
     trackerMove(experiment.farmerChar);
@@ -393,14 +394,14 @@ function gameLoop() {
 
 	// brings the true soil (X), or plant (Y) parameter on the screen at the mouse cursor for devMode
     if (devMode) {
-        var payoff = getMousePayoff();
+        payoff = getMousePayoff();
     }
 
     drawVisibleTiles(); // rendering everything
 
     // render farmer Sprite and potato Animation
-    var centreX = CANVAS_W/2 +camera.panX;
-    var centreY = CANVAS_H/2 +camera.panY;
+    let centreX = CANVAS_W/2 +camera.panX;
+    let centreY = CANVAS_H/2 +camera.panY;
     experiment.farmerChar.drawSprite(centreX - 30, centreY - 35);
     experiment.potatoAnim.animate(centreX, centreY - 60);
 

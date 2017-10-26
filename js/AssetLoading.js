@@ -2,7 +2,7 @@
 //******************************** LOADING ASSETS & ADJUSTING SCREEN ***************************************************
 
 // where the game is drawn; multiple for UI, animations etc. and with different z-levels
-var canvas = {
+let canvas = {
 
     game: document.getElementById('gameCanvas'), // z-level -4
     effect: document.getElementById('effectCanvas'), // z-level -3
@@ -15,7 +15,6 @@ var canvas = {
     uiContext: document.getElementById('uiCanvas').getContext('2d'),
     infoContext: document.getElementById('infoCanvas').getContext('2d'),
     boxContext: document.getElementById('boxCanvas').getContext('2d')
-
 };
 
 // changing any const would break the graphics
@@ -24,12 +23,12 @@ const CANVAS_W = 700;
 const uiHeight = 50;
 
 // Initialize Firebase
-var database;
+let database;
 
 (function(){
     "use strict";
     // Initialize Firebase
-    var config = {
+    let config = {
         apiKey: "AIzaSyD6SHzl4jpCLVQ0YnvKRSP2N3CH2jdW0iQ",
         authDomain: "potatogametest.firebaseapp.com",
         databaseURL: "https://potatogametest.firebaseio.com",
@@ -44,7 +43,7 @@ var database;
 
 //******************************** CHECK IF MOBILE BROWSER *************************************************************
 
-var isMobile = false; //initiate as false
+let isMobile = false; //initiate as false
 
 (function(){
     // device detection
@@ -64,13 +63,13 @@ function loadScreen() {
     // ensures that the lower part of the canvas is not cut out on small laptops etc.
     if (!isMobile && window.screen.height <850){
 
-        var newMaxWidth = '580px';
+        let newMaxWidth = '580px';
         if(window.screen.height <720) {
             newMaxWidth = '420px';
         }
         document.getElementById('canvasContainer').style.maxWidth = newMaxWidth;
-        var buttonContainers = (document.getElementsByClassName('buttonContainer'));
-        for (var i=0; i<buttonContainers.length; i++){
+        let buttonContainers = (document.getElementsByClassName('buttonContainer'));
+        for (let i=0; i<buttonContainers.length; i++){
             buttonContainers[i].style.maxWidth = newMaxWidth;
         }
 
@@ -84,20 +83,19 @@ function loadScreen() {
         document.getElementById('gender').style.width = '50%';
     }
 
-    var ctx = canvas.gameContext;
+    let ctx = canvas.gameContext;
     canvasRect(ctx, 0,0, CANVAS_W,CANVAS_H+uiHeight, 'black');
     ctx.font = 'italic 20pt "COMIC SANS MS"';
     canvasText(ctx, 'LOADING', CANVAS_W/2-70, CANVAS_H/2+uiHeight, 'white');
-
 }
 
 
 //******************************** INIT OBJECT TO HOLD ALL ASSETS; LAUNCH IF LOADED  ***********************************
 
-var assets = new function() {
+let assets = new function() {
     'use strict';
     loadScreen();
-    var checkReady = 0;
+    let checkReady = 0;
     function assetLoaded() {
         checkReady++;
         if (checkReady === 2) {
@@ -115,8 +113,8 @@ var assets = new function() {
     this.plantSheetPic = document.createElement('img');
 
     // Check if all images have loaded
-    var numImages = 5;
-    var numImagesLoaded = 0;
+    let numImages = 5;
+    let numImagesLoaded = 0;
     function imageLoaded() {
         numImagesLoaded++;
         if (numImagesLoaded === numImages) {
@@ -148,17 +146,17 @@ var assets = new function() {
 
     //******************************** LOADING AUDIO *******************************************************************
 
-    var audioFormat = '.ogg';
+    let audioFormat = '.ogg';
 
     (function() {
-        var audio = new Audio();
+        let audio = new Audio();
         if (audio.canPlayType('audio/mp3')) {
             audioFormat = '.mp3';
         }
     })();
     this.unlockIOSAudioPlayback = function () {
-        var context = Howler.ctx;
-        var oscillator = context.createOscillator();
+        let context = Howler.ctx;
+        let oscillator = context.createOscillator();
         oscillator.frequency.value = 200;
         oscillator.connect(context.destination);
         oscillator.start(0);
@@ -166,9 +164,9 @@ var assets = new function() {
     };
     if (!isMobile) {
 
-        var numSounds = 7;
-        var numSoundsLoaded = 0;
-        var soundLoaded = function() {
+        let numSounds = 7;
+        let numSoundsLoaded = 0;
+        let soundLoaded = function() {
             numSoundsLoaded++;
             if (numSoundsLoaded === numSounds) {
                 assetLoaded();
@@ -212,7 +210,7 @@ var assets = new function() {
 
     } else {
 
-        var soundSpriteLoaded = function() {
+        let soundSpriteLoaded = function() {
 
             assetLoaded();
         };
