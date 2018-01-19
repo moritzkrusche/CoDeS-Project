@@ -26,19 +26,11 @@ function canvasText(ctx, showWords, textX,textY, color) {
 
 function getDateTime(){
     "use strict";
-    let today = new Date();
-    let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-    let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    let dateTime = date +'|'+ time;
-    let secondsTimer = round(today.getTime()/ 1000, 2);
-    //return [date, time, secondsTimer];
-    return [dateTime, secondsTimer];
-}
-
-function getTimeZone() {
-
-    let today = new Date();
-    return ((today.getTimezoneOffset() / 60) * -1);
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var secondsTimer = round(today.getTime()/ 1000, 2);
+    return [date, time, secondsTimer];
 }
 
 function round(value, decimals) {
@@ -46,8 +38,8 @@ function round(value, decimals) {
 }
 
 function sleep(milliseconds) {
-    let start = new Date().getTime();
-    for (let i = 0; i < 1e7; i++) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
         if ((new Date().getTime() - start) > milliseconds){
             break;
         }
@@ -55,7 +47,7 @@ function sleep(milliseconds) {
 }
 
 function intervalTimer(func, wait, times){
-    let interv = function(w, t){
+    var interv = function(w, t){
         return function(){
             if(typeof t === 'undefined' || t-- > 0){
                 setTimeout(interv, w);
@@ -83,7 +75,7 @@ function selectRandomInArray(array) {
 
 // From here: http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 function shuffleArray(array) {
-    let currentIndex = array.length, temporaryValue, randomIndex;
+    var currentIndex = array.length, temporaryValue, randomIndex;
 
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
@@ -102,18 +94,18 @@ function shuffleArray(array) {
 }
 
 // adapted from https://codepen.io/ruigewaard/pen/JHDdF by Max Ruigewaard
-let rainAnimationClass = function(intensity) {
+var rainAnimationClass = function(intensity) {
 
-    let ctx = canvas.effectContext;
-    let w = canvas.effect.width;
-    let h = canvas.effect.height;
+    var ctx = canvas.effectContext;
+    var w = canvas.effect.width;
+    var h = canvas.effect.height;
     ctx.strokeStyle = 'rgba(174,194,224,0.8)';
     ctx.lineWidth = 1;
     ctx.lineCap = 'round';
 
-    let init = [];
-    let maxParts = 1000*intensity;
-    for(let a = 0; a < maxParts; a++) {
+    var init = [];
+    var maxParts = 1000*intensity;
+    for(var a = 0; a < maxParts; a++) {
         init.push({
             x: Math.random() * w,
             y: Math.random() * h,
@@ -123,15 +115,15 @@ let rainAnimationClass = function(intensity) {
         })
     }
 
-    let particles = [];
-    for(let b = 0; b < maxParts; b++) {
+    var particles = [];
+    for(var b = 0; b < maxParts; b++) {
         particles[b] = init[b];
     }
 
     function draw() {
         ctx.clearRect(0, 0, w, h);
-        for(let c = 0; c < particles.length; c++) {
-            let p = particles[c];
+        for(var c = 0; c < particles.length; c++) {
+            var p = particles[c];
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p.x + p.l * p.xs, p.y + p.l * p.ys);
@@ -141,8 +133,8 @@ let rainAnimationClass = function(intensity) {
     }
 
     function move() {
-        for(let b = 0; b < particles.length; b++) {
-            let p = particles[b];
+        for(var b = 0; b < particles.length; b++) {
+            var p = particles[b];
             p.x += p.xs;
             p.y += p.ys;
             if(p.x > w || p.y > h) {
@@ -152,7 +144,7 @@ let rainAnimationClass = function(intensity) {
         }
     }
 
-    let that = this;
+    var that = this;
     that.rainId = NaN;
 
     this.start = function(){
@@ -189,7 +181,7 @@ function drawHead (ctx, x0, y0, x1, y1, x2, y2, style, color, width) {
         y2 = parseInt(y2);
     }
 
-    let backDist;
+    var backDist;
 
     ctx.save();
     ctx.beginPath();
@@ -218,14 +210,14 @@ function drawHead (ctx, x0, y0, x1, y1, x2, y2, style, color, width) {
             ctx.stroke();
             break;
         case 3:
-            let cpx = (x0 + x1 + x2) / 3;
-            let cpy = (y0 + y1 + y2) / 3;
+            var cpx = (x0 + x1 + x2) / 3;
+            var cpy = (y0 + y1 + y2) / 3;
             ctx.quadraticCurveTo(cpx, cpy, x0, y0);
             ctx.fill();
             break;
         case 4:
-            let cp1x, cp1y, cp2x, cp2y;
-            let shiftAmt = 5;
+            var cp1x, cp1y, cp2x, cp2y;
+            var shiftAmt = 5;
             if (x2 === x0) {
                 backDist = y2 - y0;
                 cp1x = (x1 + x0) / 2;
@@ -234,13 +226,13 @@ function drawHead (ctx, x0, y0, x1, y1, x2, y2, style, color, width) {
                 cp2y = y1 - backDist / shiftAmt;
             } else {
                 backDist = Math.sqrt(((x2 - x0) * (x2 - x0)) + ((y2 - y0) * (y2 - y0)));
-                let xback = (x0 + x2) / 2;
-                let yback = (y0 + y2) / 2;
-                let xmid = (xback + x1) / 2;
-                let ymid = (yback + y1) / 2;
-                let m = (y2 - y0) / (x2 - x0);
-                let dx = (backDist / (2 * Math.sqrt(m * m + 1))) / shiftAmt;
-                let dy = m * dx;
+                var xback = (x0 + x2) / 2;
+                var yback = (y0 + y2) / 2;
+                var xmid = (xback + x1) / 2;
+                var ymid = (yback + y1) / 2;
+                var m = (y2 - y0) / (x2 - x0);
+                var dx = (backDist / (2 * Math.sqrt(m * m + 1))) / shiftAmt;
+                var dy = m * dx;
                 cp1x = xmid - dx;
                 cp1y = ymid - dy;
                 cp2x = xmid + dx;
@@ -273,10 +265,10 @@ function drawArrow(ctx, x1, y1, x2, y2, style, which, angle, d, color, width) {
     d = typeof(d) !== 'undefined' ? d : 10;
     color = typeof(color) !== 'undefined' ? color : '#000';
     width = typeof(width) !== 'undefined' ? width : 1;
-    let toDrawHead = typeof(style) !== 'function' ? drawHead : style;
-    let dist = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
-    let ratio = (dist - d / 3) / dist;
-    let toX, toY, fromX, fromY;
+    var toDrawHead = typeof(style) !== 'function' ? drawHead : style;
+    var dist = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+    var ratio = (dist - d / 3) / dist;
+    var toX, toY, fromX, fromY;
     if (which === 1) {
         toX = Math.round(x1 + (x2 - x1) * ratio);
         toY = Math.round(y1 + (y2 - y1) * ratio);
@@ -300,10 +292,10 @@ function drawArrow(ctx, x1, y1, x2, y2, style, which, angle, d, color, width) {
     ctx.lineTo(toX, toY);
     ctx.stroke();
 
-    let angle1, topX, topY, angle2, botX, botY;
+    var angle1, topX, topY, angle2, botX, botY;
 
-    let lineAngle = Math.atan2(y2 - y1, x2 - x1);
-    let h = Math.abs(d / Math.cos(angle));
+    var lineAngle = Math.atan2(y2 - y1, x2 - x1);
+    var h = Math.abs(d / Math.cos(angle));
     if (which === 1) {
         angle1 = lineAngle + Math.PI + angle;
         topX = x2 + Math.cos(angle1) * h;
@@ -340,7 +332,7 @@ function drawArcedArrow(ctx, x, y, r, startAngle, endAngle, anticlockwise, style
     ctx.strokeStyle = color;
     ctx.arc(x, y, r, startAngle, endAngle, anticlockwise);
     ctx.stroke();
-    let sourceX, sourceY, lineAngle, destX, destY;
+    var sourceX, sourceY, lineAngle, destX, destY;
     ctx.strokeStyle = 'rgba(0,0,0,0)';
     if (which === 1) {
         sourceX = Math.cos(startAngle) * r + x;

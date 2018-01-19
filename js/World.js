@@ -9,7 +9,7 @@ const PLANT_H = 60;
 
 // keeps track of everything that stays the same on a given map
 // for minQual and tilesheets: same on all maps atm
-let curMapConst = {
+var curMapConst = {
     columnParameters: [],
     rowParameters: [],
 
@@ -27,16 +27,18 @@ let curMapConst = {
     minQuality4: 0.8,
 
     soilSheet: NaN,
-    plantSheet: NaN,
-    firebaseKey: ""
+    plantSheet: NaN
 };
 
 // keeps track of everything that is updated on a given map, and compares with static
 // loadNext --> load next lvl upon key input
-let curMapVar = {
+var curMapVar = {
 
     tileGrid:[],
-
+    exploredColumn: [],
+    payoffColumn: [],
+    exploredRow: [],
+    payoffRow: [],
     movesLeft: 0,
     moveCount: 0,
     potatoCount: 0,
@@ -44,21 +46,8 @@ let curMapVar = {
     // payoffcount gets only added and never overwritten; how much $ part made in the game so far
     payoffCount: 0,
 
-    XPositions: [],
-    YPositions: [],
-    XProbabilities : [],
-    YProbabilities: [],
     movementTracker: [],
-    probTracker: [],
     payoffTracker: [],
-
-    colPositions: [],
-    rowPositions: [],
-    exploredColumn: [],
-    payoffColumn: [],
-    exploredRow: [],
-    payoffRow: [],
-
     timeTracker: [],
     lastTime: "",
     nextTime: "",
@@ -71,56 +60,39 @@ let curMapVar = {
     errorId1: NaN,
     errorId2: NaN,
     backgroundId: NaN,
+
     mobileSoundUnlocked: false
 };
 
 // holds the data logged at the end of every level, gets send to firebase at the end
-let loggedData = {
-
-    // over entire experiment
+var loggedData = {
     prolificId: "",
     condition: "",
     partAge: "",
     partGender: "",
     startDateTime: "",
     endDateTime: "",
-    timeZoneDiff: "",
-    browserIsMobile: false,
-    testMapOrder: [],
-    // payoffcount gets only added and never overwritten; how much $ part made in the game so far
-    payoffCount: 0,
 
-    // buttons & times
-    buttonsClicked: [],
-    buttonTimes: [],
+    browserIsMobile: false,
     allStartTimes: {},
     allEndTimes: {},
     allMoveTimes: {},
 
-    // per level
     allColParameters: {},
     allRowParameters: {},
     allAlphaBetas: {},
-    allPotatoCounts: {},
-    allPayoffCounts: {},
-
-    // Col/ Row starts at 105,105
-    allColPositions: {},
-    allRowPositions: {},
     allExploredCols: {},
     allPayoffCols: {},
     allExploredRows:  {},
     allPayoffRows: {},
 
-    // X / Y starts at 0,0
-    allXPositions: {},
-    allYPositions: {},
-    allXProbabilities: {},
-    allYProbabilities: {},
-    allMovementTrackers: {},
-    allProbTrackers: {},
-    allPayoffTrackers: {}
+    allPotatoCounts: {},
+    // payoffcount gets only added and never overwritten; how much $ part made in the game so far
+    payoffCount: 0,
+    allPayoffCounts: {},
 
+    allMovementTrackers: {},
+    allPayoffTrackers: {}
 };
 
 // MERGED LEVELS HAVE FORMAT DICT{ KEY: ARRAY[GRID, COL INFO, COL QUAL, COL PAYOFF, ROW INFO, ROW QUAL, ROW PAYOFF, MOVES ALLOWED etc.], KEY: ...}
@@ -140,15 +112,15 @@ function mergeLevels(lvlKeys, lvl1, lvl2, lvl3, lvl4, lvl5, lvl6, lvl7, lvl8, lv
     lvl9 = lvl9 || 0;
     lvl10 = lvl10 || 0;
 
-    let levelList = [lvl1, lvl2, lvl3, lvl4, lvl5, lvl6, lvl7, lvl8, lvl9, lvl10];
-    let levelKeys = lvlKeys;
+    var levelList = [lvl1, lvl2, lvl3, lvl4, lvl5, lvl6, lvl7, lvl8, lvl9, lvl10];
+    var levelKeys = lvlKeys;
 
-    let levelHolder = {};
+    var levelHolder = {};
 
-    for (let eachLevel=0; eachLevel<levelList.length; eachLevel++){
+    for (var eachLevel=0; eachLevel<levelList.length; eachLevel++){
         if (levelList[eachLevel]!== 0) {
-            let levelDetails = [];
-            let each = levelList[eachLevel];
+            var levelDetails = [];
+            var each = levelList[eachLevel];
 
             levelDetails.push(each.tileGrid);
             levelDetails.push(each.columnParameters);
@@ -182,7 +154,7 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
     this.potatoPrice = potPrice;
     this.discountFactor = disFactor;
 
-    let that = this;
+    var that = this;
 
     // init arrays first to save memory vs. push()
     that.tileGrid = new Array(numCols);
@@ -195,12 +167,12 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
 
     (function () {
         'use strict';
-        for (let eachCol=0; eachCol<numCols; eachCol++) {
+        for (var eachCol=0; eachCol<numCols; eachCol++) {
             that.exploredColumn[eachCol] = 0;
             that.payoffColumn[eachCol] = 0;
         }
 
-        for (let eachRow=0; eachRow<numRows; eachRow++) {
+        for (var eachRow=0; eachRow<numRows; eachRow++) {
             that.exploredRow[eachRow] = 0;
             that.payoffRow[eachRow] = 0;
         }
@@ -208,9 +180,9 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
 
     (function () {
         'use strict';
-        for (let eachRow=0; eachRow<numRows; eachRow++) {
-            let newRow = new Array(numCols);
-            for (let eachCol=0; eachCol<numCols; eachCol++) {
+        for (var eachRow=0; eachRow<numRows; eachRow++) {
+            var newRow = new Array(numCols);
+            for (var eachCol=0; eachCol<numCols; eachCol++) {
                 newRow[eachCol] = 0;
             }
             that.tileGrid[eachRow] = newRow
@@ -219,12 +191,12 @@ function OpenLevelClass(numCols, numRows, maxMoves, alpha1, beta1, alpha2, beta2
 
     (function() {
         'use strict';
-        for (let eachCol = 0; eachCol < numCols; eachCol++) {
-            that.columnParameters[eachCol] = round(jStat.beta.sample(alpha1, beta1), 2);
+        for (var eachCol = 0; eachCol < numCols; eachCol++) {
+            that.columnParameters[eachCol] = jStat.beta.sample(alpha1, beta1);
         }
 
-        for (let eachRow = 0; eachRow < numRows; eachRow++) {
-            that.rowParameters[eachRow] = round(jStat.beta.sample(alpha2, beta2), 2);
+        for (var eachRow = 0; eachRow < numRows; eachRow++) {
+            that.rowParameters[eachRow] = jStat.beta.sample(alpha2, beta2);
         }
     })();
 }
@@ -243,19 +215,19 @@ function isTileAtCoord(TileRow, TileCol) {
 
 function getType(TileCol, TileRow) {
     'use strict';
-    let alpha1 = curMapConst.alpha1;
-    let beta1 = curMapConst.beta1;
-    let alpha2 = curMapConst.alpha2;
-    let beta2 = curMapConst.beta2;
+    var alpha1 = curMapConst.alpha1;
+    var beta1 = curMapConst.beta1;
+    var alpha2 = curMapConst.alpha2;
+    var beta2 = curMapConst.beta2;
 
     //Maarten: add sum of alpha and beta parameters to explored count
-    let infoCol = curMapVar.exploredColumn[TileCol]+alpha1+beta1;
-    let infoRow = curMapVar.exploredRow[TileRow]+alpha2+beta2;
+    var infoCol = curMapVar.exploredColumn[TileCol]+alpha1+beta1;
+    var infoRow = curMapVar.exploredRow[TileRow]+alpha2+beta2;
 
-    let infoLevelCol = getInfoLevel(infoCol, (alpha1+beta1));
-    let infoLevelRow = getInfoLevel(infoRow, (alpha2+beta2));
+    var infoLevelCol = getInfoLevel(infoCol, (alpha1+beta1));
+    var infoLevelRow = getInfoLevel(infoRow, (alpha2+beta2));
 
-    let qualityColRow = getQuality(TileCol, TileRow);
+    var qualityColRow = getQuality(TileCol, TileRow);
 
     return [infoLevelCol, infoLevelRow, qualityColRow[0], qualityColRow[1]];
 }
@@ -297,23 +269,18 @@ function getQualityLevel(fraction){
 
 function getQuality(whichCol, whichRow){
     "use strict";
-    let alpha1 = curMapConst.alpha1;
-    let beta1 = curMapConst.beta1;
-    let alpha2 = curMapConst.alpha2;
-    let beta2 = curMapConst.beta2;
+    var alpha1 = curMapConst.alpha1;
+    var beta1 = curMapConst.beta1;
+    var alpha2 = curMapConst.alpha2;
+    var beta2 = curMapConst.beta2;
 
-    let alphaP = Math.sqrt((alpha1 / (alpha1 + beta1)) * (alpha2 / (alpha2 + beta2)));
-    let betaP = 1 - alphaP;
+    // Pseudo-Bayesian estimation that neglects the corresponding row/ col parameter in the grid.
+    // Then again, they are to be independently estimated
+    var qualCol = ((alpha1+curMapVar.payoffColumn[whichCol])/(alpha1+beta1+curMapVar.exploredColumn[whichCol]));
+    var qualRow = ((alpha2+curMapVar.payoffRow[whichRow])/(alpha2+beta2+curMapVar.exploredRow[whichRow]));
 
-    // Bayesian estimation that assumes average values for the corresponding row/ col parameter in the grid.
-    //let qualCol = ((alpha1+curMapVar.payoffColumn[whichCol])/(alpha1+beta1+curMapVar.exploredColumn[whichCol])) / (alpha2/(alpha2+beta2));
-    //let qualRow = ((alpha2+curMapVar.payoffRow[whichRow])/(alpha2+beta2+curMapVar.exploredRow[whichRow])) / (alpha1/(alpha1+beta1));
-
-    let qualCol = ((alphaP+curMapVar.payoffColumn[whichCol])/(alphaP+betaP+curMapVar.exploredColumn[whichCol])) / (alphaP/(alphaP+betaP));
-    let qualRow = ((alphaP+curMapVar.payoffRow[whichRow])/(alphaP+betaP+curMapVar.exploredRow[whichRow])) / (alphaP/(alphaP+betaP));
-
-    let qualLevelCol = getQualityLevel(qualCol);
-    let qualLevelRow = getQualityLevel(qualRow);
+    var qualLevelCol = getQualityLevel(qualCol);
+    var qualLevelRow = getQualityLevel(qualRow);
 
     return [qualLevelCol, qualLevelRow]
 }
@@ -326,8 +293,8 @@ function TileSheetClass(image, sheetWidth, sheetHeight, rows, cols, offsetX, off
     this.SheetRows = rows;
     this.SheetCols = cols;
 
-    let imageWidth = this.SheetWidth/this.SheetCols;
-    let imageHeight = this.SheetHeight/this.SheetRows;
+    var imageWidth = this.SheetWidth/this.SheetCols;
+    var imageHeight = this.SheetHeight/this.SheetRows;
 
     // centers relatively smaller pictures, e.g. plants or rocks, on relatively larger tiles
     this.offSetX = offsetX;
@@ -335,8 +302,8 @@ function TileSheetClass(image, sheetWidth, sheetHeight, rows, cols, offsetX, off
 
     this.draw = function(x, y, whichCol, whichRow) {
 
-        let sheetCol = imageHeight * whichCol;
-        let sheetRow = imageWidth * whichRow;
+        var sheetCol = imageHeight * whichCol;
+        var sheetRow = imageWidth * whichRow;
 
         canvas.gameContext.drawImage(image, sheetCol, sheetRow, imageWidth, imageHeight, x+this.offSetX, y+this.offSetY,
             drawWidth, drawHeight);
@@ -369,33 +336,33 @@ curMapConst.plantSheet = new TileSheetClass(assets.plantSheetPic, 5*PLANT_W, 5*P
 function drawVisibleTiles() {
     'use strict';
     // what are the top-left most row and col visible on canvas?
-    let cameraTopMostRow = Math.floor(camera.panY / TILE_H);
-    let cameraLeftMostCol = Math.floor(camera.panX / TILE_W);
+    var cameraTopMostRow = Math.floor(camera.panY / TILE_H);
+    var cameraLeftMostCol = Math.floor(camera.panX / TILE_W);
     // how many rows and columns of tiles fit on the canvas?
-    let colsThatFitOnScreen = Math.floor(CANVAS_W / TILE_W);
-    let rowsThatFitOnScreen = Math.floor(CANVAS_H / TILE_H);
+    var colsThatFitOnScreen = Math.floor(CANVAS_W / TILE_W);
+    var rowsThatFitOnScreen = Math.floor(CANVAS_H / TILE_H);
 
     // finding the rightmost and bottommost tiles to draw + 1 on the side
-    let cameraBottomMostRow = cameraTopMostRow + rowsThatFitOnScreen + 1;
-    let cameraRightMostCol = cameraLeftMostCol + colsThatFitOnScreen + 1;
+    var cameraBottomMostRow = cameraTopMostRow + rowsThatFitOnScreen + 1;
+    var cameraRightMostCol = cameraLeftMostCol + colsThatFitOnScreen + 1;
 
-    for(let eachRow=cameraTopMostRow; eachRow<cameraBottomMostRow; eachRow++) {
-        for(let eachCol=cameraLeftMostCol; eachCol<cameraRightMostCol; eachCol++) {
+    for(var eachRow=cameraTopMostRow; eachRow<cameraBottomMostRow; eachRow++) {
+        for(var eachCol=cameraLeftMostCol; eachCol<cameraRightMostCol; eachCol++) {
 
-            let drawX = eachCol * TILE_W;
-            let drawY = eachRow * TILE_H;
+            var drawX = eachCol * TILE_W;
+            var drawY = eachRow * TILE_H;
 
 			if (isTileAtCoord(eachRow, eachCol)) {
 
-                let tilePos = curMapVar.tileGrid[eachRow][eachCol];
+                var tilePos = curMapVar.tileGrid[eachRow][eachCol];
 
                 // Col/ Row is correct with respect to parameters and X/ Y; Row/ Col necessary due to JS Rows[Cols]
-                let type = getType(eachCol, eachRow);
+                var type = getType(eachCol, eachRow);
 
-                let soilParameter = type[2];
-                let plantParameter = type[3];
-                let soilInfo = type[0];
-                let plantInfo = type[1];
+                var soilParameter = type[2];
+                var plantParameter = type[3];
+                var soilInfo = type[0];
+                var plantInfo = type[1];
 
                 // condition 2 & 4 invert the mapping of soil/ plant to row/ col (was col/ row in condition 1 & 2)
                 if (condition === 2 || condition === 4) {

@@ -19,12 +19,12 @@ function CharClass(spritePic, sheetWidth, sheetHeight, rows, cols, width, height
     this.trackUp = 3;
     this.trackDown = 0;
 
-    let spriteWidth = this.sheetWidth / this.sheetCols;
-    let spriteHeight = this.sheetHeight / this.sheetRows;
+    var spriteWidth = this.sheetWidth / this.sheetCols;
+    var spriteHeight = this.sheetHeight / this.sheetRows;
 
     this.frames = cols;
-    let curFrame = 0;
-    let frameCount = this.frames;
+    var curFrame = 0;
+    var frameCount = this.frames;
     this.col = 0;
     this.row = 0;
 
@@ -57,9 +57,9 @@ function CharClass(spritePic, sheetWidth, sheetHeight, rows, cols, width, height
     this.drawSprite = function(atX, atY) {
         this.updateFrame(this.currentDirection, 50);
         if (!this.moving) {
-            curFrame = this.sheetCols-1;
+            curFrame = 0;
         }
-        canvas.gameContext.drawImage(spritePic, this.col, this.row, spriteWidth, spriteHeight, atX-65, atY-10, width, height);
+        canvas.gameContext.drawImage(spritePic, this.col, this.row, spriteWidth, spriteHeight, atX, atY, width, height);
     };
 }
 
@@ -67,22 +67,22 @@ function CharClass(spritePic, sheetWidth, sheetHeight, rows, cols, width, height
 
 function AnimationClass(animPic, width, height) {
     'use strict';
-    let ctx = canvas.gameContext;
+    var ctx = canvas.gameContext;
 
-    let obj1X = 0;
-    let obj1Y = 0;
-    let obj1NewY = 0;
-    let obj2X = 0;
-    let obj2Y = 0;
-    let obj2NewY = 0;
-    let obj3X = 0;
-    let obj3Y = 0;
-    let obj3NewY = 0;
+    var obj1X = 0;
+    var obj1Y = 0;
+    var obj1NewY = 0;
+    var obj2X = 0;
+    var obj2Y = 0;
+    var obj2NewY = 0;
+    var obj3X = 0;
+    var obj3Y = 0;
+    var obj3NewY = 0;
 
-    let animObj1 = false;
-    let animObj2 = false;
-    let animObj3 = false;
-    let animAnyObj = false;
+    var animObj1 = false;
+    var animObj2 = false;
+    var animObj3 = false;
+    var animAnyObj = false;
 
     this.show = function() {
         animAnyObj = true;
@@ -127,16 +127,14 @@ function AnimationClass(animPic, width, height) {
     };
     this.moveAnimation = function() {
 
-        let animId1, animId2, animId3;
-
         if (animAnyObj) {
             if (!animObj1) {
                 animAnyObj = false;
                 animObj1 = true;
-                let animPos1 = 0;
+                var animPos1 = 0;
 
-                let frameAnim1 = function() {
-                    if (animPos1 > 250) {
+                var frameAnim1 = function() {
+                    if (animPos1 > 310) {
                         clearInterval(animId1);
                         animObj1 = false;
                     }
@@ -146,15 +144,15 @@ function AnimationClass(animPic, width, height) {
                         animPos1 += 15;
                     }
                 };
-                animId1 = setInterval(frameAnim1, 57);
+                var animId1 = setInterval(frameAnim1, 57);
             }
             else if (!animObj2) {
                 animAnyObj = false;
                 animObj2 = true;
-                let animPos2 = 0;
+                var animPos2 = 0;
 
-                let frameAnim2 = function() {
-                    if (animPos2 > 270) {
+                var frameAnim2 = function() {
+                    if (animPos2 > 330) {
                         clearInterval(animId2);
                         animObj2 = false;
                     }
@@ -164,15 +162,15 @@ function AnimationClass(animPic, width, height) {
                         animPos2 += 15;
                     }
                 };
-                animId2 = setInterval(frameAnim2, 59);
+                var animId2 = setInterval(frameAnim2, 59);
             }
             else if (!animObj3) {
                 animAnyObj = false;
                 animObj3 = true;
-                let animPos3 = 0;
+                var animPos3 = 0;
 
-                let frameAnim3 = function() {
-                    if (animPos3 > 260) {
+                var frameAnim3 = function() {
+                    if (animPos3 > 320) {
                         clearInterval(animId3);
                         animObj3 = false;
                     }
@@ -182,7 +180,7 @@ function AnimationClass(animPic, width, height) {
                         animPos3 += 15;
                     }
                 };
-                animId3 = setInterval(frameAnim3, 58);
+                var animId3 = setInterval(frameAnim3, 58);
             }
         }
     };

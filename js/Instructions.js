@@ -2,7 +2,7 @@
 
 //******************************** INSTRUCTIONS PAGE *******************************************************************
 
-let htmlPage = {
+var htmlPage = {
     demoForm: document.getElementById('demographics'),
     demoBox: document.getElementById('demoBox'),
     gameBox: document.getElementById('gameBox'),
@@ -15,7 +15,7 @@ let htmlPage = {
     prolificButton: document.getElementById('goProlific')
 };
 
-let rainEffects = {
+var rainEffects = {
     normal: new rainAnimationClass(1),
     strong: new rainAnimationClass(5),
     strongest: new rainAnimationClass(15)
@@ -23,7 +23,7 @@ let rainEffects = {
 
 //******************************** SHOWS TWO SIZES OF POP-UP SCREENS FOR INSTRUCTIONS **********************************
 
-let boxScreen = new function() {
+var boxScreen = new function() {
     "use strict";
 
     this.wrapText = function(text, x, y, maxWidth, lineHeight, font, color) {
@@ -32,13 +32,13 @@ let boxScreen = new function() {
         color = color || '#DAA520';
         canvas.boxContext.font = font;
         canvas.boxContext.fillStyle = color;
-        let words = text.split(' ');
-        let line = '';
+        var words = text.split(' ');
+        var line = '';
 
-        for(let n = 0; n < words.length; n++) {
-            let testLine = line + words[n] + ' ';
-            let metrics = canvas.boxContext.measureText(testLine);
-            let testWidth = Math.floor(metrics.width);
+        for(var n = 0; n < words.length; n++) {
+            var testLine = line + words[n] + ' ';
+            var metrics = canvas.boxContext.measureText(testLine);
+            var testWidth = Math.floor(metrics.width);
             if (testWidth > maxWidth && n > 0) {
                 canvas.boxContext.fillText(line, x, y);
                 line = words[n] + ' ';
@@ -74,18 +74,18 @@ function showDebriefPage(){
     canvas.boxContext.font = '24pt "Helvetica Neue"';
     canvasText(canvas.boxContext, 'Debriefing',30 , 50, '#DAA520');
 
-    let payTotal = round(curMapVar.payoffCount, 2);
-    let bonus = round((payTotal - 2),2);
+    var payTotal = round(curMapVar.payoffCount, 2);
+    var bonus = round((payTotal - 2),2);
     if (bonus <= 0) {
         payTotal = 2;
         bonus = 0;
     }
-    let timeTotal = round((loggedData.endDateTime[1] - loggedData.startDateTime[1])/60, 2);
-    let textPay = 'Congratulations, you have reached the end of this experiment. You have earned £' + payTotal +
+    var timeTotal = round((loggedData.endDateTime[2] - loggedData.startDateTime[2])/60, 2);
+    var textPay = 'Congratulations, you have reached the end of this experiment. You have earned £' + payTotal +
         ' in ' + timeTotal + ' minutes.';
-    let textProcedure = 'You will be paid the minimum amount of £2 for completing the study plus your bonus of £' +
+    var textProcedure = 'You will be paid the minimum amount of £2 for completing the study plus your bonus of £' +
         bonus + ' within one week.';
-    let textDone = 'IMPORTANT: click on the button below to prove that you have completed the study. This will ' +
+    var textDone = 'IMPORTANT: click on the button below to prove that you have completed the study. This will ' +
         'open a new tab.';
 
     boxScreen.wrapText(textPay, 30, 120, 640, 30);
@@ -93,9 +93,19 @@ function showDebriefPage(){
     boxScreen.wrapText(textDone, 30, 320, 640, 30);
 }
 
+
+function stopBackgroundSound(){
+    "use strict";
+    if (!isMobile){
+        if (assets.backgroundSound.playing(curMapVar.backgroundId)){
+            assets.backgroundSound.stop(curMapVar.backgroundId)
+        }
+    }
+}
+
 //******************************** INITIAL INSTRUCTIONS AT START *******************************************************
 
-let instructions = new function() {
+var instructions = new function() {
     "use strict";
 
     this.index = 0;
@@ -103,8 +113,8 @@ let instructions = new function() {
 
     this.show = function(){
 
-        let index = this.index;
-        let maxLevel = experiment.maxOpenLevels; //+1;
+        var index = this.index;
+        var maxLevel = experiment.maxOpenLevels+1;
         switch (index) {
 
             case 0:
@@ -184,8 +194,8 @@ let instructions = new function() {
             case 7:
                 // show soil quality
                 htmlPage.fullBox.style.display = 'block';
-                boxScreen.showText('There are 5 different qualities of soil fertilizer used. Richer soil will ' +
-                    'always be of higher quality than lighter soil.');
+                boxScreen.showText('There are 5 different qualities of soil fertilizer used. Darker soil will ' +
+                    'always be richer than lighter soil.');
                 exampleScreen.clear();
                 showExampleTiles('soil');
                 break;
@@ -210,15 +220,11 @@ let instructions = new function() {
                 // text
                 exampleScreen.clear();
                 boxScreen.showText("As you can see, most of the plots around you are greyed out, because you have " +
-                    "not explored the area yet."); // move here
+                    "not explored the area yet.");
                 break;
 
             case 11:
                 // text
-                curMapVar.potatoCount = 0;
-                curMapVar.payoffCount = 0;
-                loadLevel(experiment.openMaps.map1);
-                experiment.currentOpenLevel =+ 1;
                 exampleScreen.highlightCenterCol();
                 if (condition === 1 || condition === 3){
                     boxScreen.showText("Every time that you move within a given column, you obtain more information " +
@@ -331,14 +337,6 @@ let instructions = new function() {
                 break;
 
             case 25:
-                // first tut then comprehension question?
-
-                // plugin comprehension questions here
-
-
-                // potato prime after comprehension questions
-
-
                 // level start text
                 exampleScreen.clear();
                 boxScreen.showText('This is large level 1 out of ' + maxLevel +
@@ -357,7 +355,7 @@ let instructions = new function() {
 
 //******************************** INSTRUCTIONS AT FIRST TEST LEVEL ****************************************************
 
-let testInstructions = new function () {
+var testInstructions = new function () {
     "use strict";
 
     this.index = 0;
@@ -365,8 +363,9 @@ let testInstructions = new function () {
 
     this.show = function() {
 
-        let index = this.index;
-        let maxLevel = experiment.maxTestLevels+1;
+        stopBackgroundSound();
+        var index = this.index;
+        var maxLevel = experiment.maxTestLevels+1;
 
         switch (index) {
 
@@ -438,7 +437,7 @@ let testInstructions = new function () {
 
             case 5:
                 htmlPage.fullBox.style.display = 'block';
-                boxScreen.showText('As a reminder: rich soil and large plants are better. Note: you cannot move ' +
+                boxScreen.showText('As a reminder: dark soil and large plants are better. Note: you cannot move ' +
                     'to water tiles.');
                 showExampleTiles('both');
                 showExampleTiles('water');
@@ -462,15 +461,16 @@ let testInstructions = new function () {
 
 //******************************** INSTRUCTIONS NEXT OPEN LEVEL ********************************************************
 
-let nextOpenLevel = new function () {
+var nextOpenLevel = new function () {
     this.index = 0;
     this.maxIndex = 1;
 
     this.show = function() {
 
-        let index = this.index;
-        let curLevel = experiment.currentOpenLevel; //+1;
-        let maxLevel = experiment.maxOpenLevels+1;
+        stopBackgroundSound();
+        var index = this.index;
+        var curLevel = experiment.currentOpenLevel+1;
+        var maxLevel = experiment.maxOpenLevels+1;
 
         switch (index) {
 
@@ -478,7 +478,7 @@ let nextOpenLevel = new function () {
                 htmlPage.nextButton.style.display = 'block';
                 htmlPage.backButton.style.display = 'none';
                 htmlPage.fullBox.style.display = 'block';
-                boxScreen.showText('Next level loaded. As a reminder: rich soil and large plants are better.');
+                boxScreen.showText('Next level loaded. As a reminder: dark soil and large plants are better.');
                 showExampleTiles('both');
                 break;
 
@@ -501,22 +501,23 @@ let nextOpenLevel = new function () {
 
 //******************************** INSTRUCTIONS NEXT TEST LEVEL ********************************************************
 
-let nextTestLevel = new function () {
+var nextTestLevel = new function () {
     this.index = 0;
     this.maxIndex = 1;
 
     this.show = function() {
 
-        let index = this.index;
-        let curLevel = experiment.currentTestLevel+1;
-        let maxLevel = experiment.maxTestLevels+1;
+        stopBackgroundSound();
+        var index = this.index;
+        var curLevel = experiment.currentTestLevel+1;
+        var maxLevel = experiment.maxTestLevels+1;
         switch (index) {
 
             case 0:
                 htmlPage.nextButton.style.display = 'block';
                 htmlPage.backButton.style.display = 'none';
                 htmlPage.fullBox.style.display = 'block';
-                boxScreen.showText('Next level loaded. As a reminder: rich soil and large plants are better. ' +
+                boxScreen.showText('Next level loaded. As a reminder: dark soil and large plants are better. ' +
                     'Note: you cannot move to flooded plots.');
                 showExampleTiles('both');
                 showExampleTiles('water');
@@ -545,11 +546,11 @@ let nextTestLevel = new function () {
 function showExampleTiles(whichTiles){
     "use strict";
 
-    let redWidth = TILE_W*0.8;
-    let redHeight = TILE_H*0.8;
-    let redColHeight = TILE_H*0.8*5;
+    var redWidth = TILE_W*0.8;
+    var redHeight = TILE_H*0.8;
+    var redColHeight = TILE_H*0.8*5;
 
-    let ctx = canvas.boxContext;
+    var ctx = canvas.boxContext;
     ctx.font = '18pt "Helvetica Neue"';
 
     switch (whichTiles){
@@ -630,9 +631,9 @@ function showExampleTiles(whichTiles){
 
 //******************************** HIGHLIGHTING UI AREAS WITH BOXES AND ARROWS *****************************************
 
-let exampleScreen = new function(){
+var exampleScreen = new function(){
     "use strict";
-    let ctx = canvas.infoContext;
+    var ctx = canvas.infoContext;
 
     this.clear = function(){
         ctx.clearRect(0,0, CANVAS_W,CANVAS_H+uiHeight);

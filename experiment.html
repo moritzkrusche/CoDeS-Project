@@ -5,7 +5,7 @@
     <!-- META / STYLE / TITLE-->
     <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
     <!-- prevents double-tab zoom on iOS -->
-    <meta name="viewport" content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'>
+    <meta name="viewport" content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
     <meta name='description' content=''>
     <meta name='author' content='Moritz Krusche'>
     <link rel='stylesheet' type='text/css' href='NewStyle.css'>
@@ -16,8 +16,7 @@
     <title>The Potato Game</title>
 </head>
 
-<body class = 'responsive'
-      style='background-image: radial-gradient(ellipse farthest-corner at center, #F5F5DC 0%, #FAEBD7 100%) !important;'>
+<body style='background-image: radial-gradient(ellipse farthest-corner at center, #F5F5DC 0%, #FAEBD7 100%) !important;'>
 <!-- one px high element prevents white body background-color from bootstrap -->
 <div id='overrideBootstrap'></div>
 
@@ -84,7 +83,7 @@
                         <h4>Prolific ID</h4>
                         <label for='prolificId'></label>
                         <input type='text' name='prolificId' id='prolificId' required
-                               placeholder='Enter your Prolific ID'
+                               placeholder='Please enter your Prolific ID'
                                oninvalid="setCustomValidity('Please enter your Prolific ID!')"
                                onchange="try{setCustomValidity('')}catch(e){}">
                     </div>
@@ -93,10 +92,17 @@
                     <div class='input'>
                         <h4>Age</h4>
                         <label for='age'></label>
-                        <input type="number" name='age' id='age' min="18" max="99" step="1" required
-                               placeholder='Enter your age'
-                                oninvalid="setCustomValidity('Please enter your age. You must be at least 18 to participate!')"
+                        <select name='age' required id = 'age'
+                                oninvalid="setCustomValidity('Please select your age!')"
                                 onchange="try{setCustomValidity('')}catch(e){}">
+                            <option value = ''>Please select your age</option>
+                            <option value = '18-25'>18-25</option>
+                            <option value = '26-35'>26-35</option>
+                            <option value = '36-45'>36-45</option>
+                            <option value = '46-55'>46-55</option>
+                            <option value = '56-65'>56-65</option>
+                            <option value = '65+'>65+</option>
+                        </select>
                     </div>
 
                     <!-- gender -->
@@ -106,7 +112,7 @@
                         <select name='gender' required id = 'gender'
                                 oninvalid="setCustomValidity('Please select your gender!')"
                                 onchange="try{setCustomValidity('')}catch(e){}">
-                            <option value = ''>Select your gender</option>
+                            <option value = ''>Please select your gender</option>
                             <option value = 'female'>female</option>
                             <option value = 'male'>male</option>
                             <option value = 'other'>other</option>

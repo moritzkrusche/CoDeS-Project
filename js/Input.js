@@ -1,7 +1,7 @@
 
 //******************************** INPUT BUTTONS & KEYS ****************************************************************
 
-let userInputStatus = {
+var userInputStatus = {
     holdLeft: false,
     holdRight: false,
     holdUp: false,
@@ -36,8 +36,8 @@ function initInput() {
     document.getElementById('pbDown').addEventListener('touchend', buttonFalse);
 
     if (isMobile) {
-        let buttons = document.getElementsByClassName('playButton');
-        for (let i=0; i<buttons.length; i++){
+        var buttons = document.getElementsByClassName('playButton');
+        for (var i=0; i<buttons.length; i++){
             buttons[i].style.visibility = 'visible'
         }
     }
@@ -61,8 +61,8 @@ function killInput(){
     document.getElementById('pbDown').removeEventListener('touchend', buttonFalse);
 
     if (isMobile) {
-        let buttons = document.getElementsByClassName('playButton');
-        for (let i=0; i<buttons.length; i++){
+        var buttons = document.getElementsByClassName('playButton');
+        for (var i=0; i<buttons.length; i++){
             buttons[i].style.visibility = 'hidden'
         }
     }
@@ -70,8 +70,8 @@ function killInput(){
 
 function updateMousePos(evt) {
     'use strict';
-    let rect = canvas.info.getBoundingClientRect();
-    let root = document.documentElement;
+    var rect = canvas.info.getBoundingClientRect();
+    var root = document.documentElement;
 
     userInputStatus.mousePosX = evt.clientX - rect.left - root.scrollLeft;
     userInputStatus.mousePosY = evt.clientY - rect.top - root.scrollTop;
@@ -137,27 +137,20 @@ function buttonFalse() {
 
 htmlPage.demoForm.addEventListener('submit', function(evt) {
     evt.preventDefault();
-    let form = htmlPage.demoForm;
+    var form = htmlPage.demoForm;
+
     loggedData.prolificId = form.prolificId.value;
     loggedData.partAge = form.age.value;
     loggedData.partGender = form.gender.value;
 
-    // Start timestamp on submit button
-    loggedData.startDateTime = getDateTime();
-    curMapVar.lastTime = curMapVar.nextTime = getDateTime()[1];
-
-    // reveal game + instructions
     htmlPage.demoBox.style.display = 'none';
     instructions.show();
-
-    // create entry on firebase
-    sendFirstData();
 });
 
 htmlPage.debriefForm.addEventListener('submit', function(evt) {
     evt.preventDefault();
-    let form = htmlPage.debriefForm;
-    database.ref('feedback').push(form.comment.value); // send feedback to separate database for anonymity
+    var form = htmlPage.debriefForm;
+    feedbackDatabase.push(form.comment.value); // send feedback to separate database for anonymity
 
     document.getElementById('debriefButton').style.display = 'none';
     document.getElementById('comment').style.display = 'none';
@@ -167,10 +160,9 @@ htmlPage.debriefForm.addEventListener('submit', function(evt) {
 
 function buttonNext() {
     "use strict";
-    buttonTimer('next');
 
     if (!experiment.testPhase){
-        if (experiment.currentOpenLevel <= 1 && instructions.index < instructions.maxIndex){
+        if (experiment.currentOpenLevel === 0 && instructions.index < instructions.maxIndex){
             instructions.index++;
             instructions.show()
         }
@@ -192,8 +184,6 @@ function buttonNext() {
 
 function buttonBack() {
     "use strict";
-    buttonTimer('back');
-
     if (!experiment.testPhase){
         if (instructions.index > 0){
             instructions.index--;
@@ -212,15 +202,12 @@ function buttonBack() {
 
 function buttonStartLevel(){
     "use strict";
-    buttonTimer('start');
-
     boxScreen.hideAll();
     initInput();
     htmlPage.startButton.style.display = 'none';
     nextTestLevel.index = 0;
     nextOpenLevel.index = 0;
 
-    /*
     if (!isMobile) {
         if (assets.backgroundSound.playing(curMapVar.backgroundId)){
             assets.backgroundSound.stop(curMapVar.backgroundId)
@@ -237,7 +224,6 @@ function buttonStartLevel(){
             }
         }
     }
-    */
 }
 
 function buttonGoProlific(){
